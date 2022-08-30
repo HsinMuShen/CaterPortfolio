@@ -3,10 +3,10 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 
-import Input from "./pages/Input";
-import Portfolio from "./pages/Portfolio";
+import Input from "./pages/Profile/Input";
+import Portfolio from "./pages/Portfolio/Portfolio";
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const root = ReactDOM.createRoot(document.getElementById("root")as HTMLElement);
 root.render(
   <BrowserRouter>
     <Routes>
