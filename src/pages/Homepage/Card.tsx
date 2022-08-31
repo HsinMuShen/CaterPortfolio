@@ -1,6 +1,8 @@
-import { Link } from "react-router-dom";
+
 import React from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
+import { portfolio } from "../Portfolio/Portfolio";
 
 const Wrapper = styled(Link)`
   text-decoration: none;
@@ -19,7 +21,11 @@ const SingleCard = styled.p`
   font-weight: 550;
 `;
 
-const Card = ({ card }) => {
+type CardProps = {
+  card:portfolio,
+}
+
+const Card: React.FC<CardProps> = ({ card }) => {
   return (
     <Wrapper to={`/portfolio/${card.id}`}>
       <SingleCard>{card.title}</SingleCard>

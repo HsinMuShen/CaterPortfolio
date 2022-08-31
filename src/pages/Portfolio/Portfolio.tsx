@@ -1,7 +1,9 @@
-import React, { useContext, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { collection, query, where, getDocs, Timestamp } from "firebase/firestore";
+import { db } from "../../firebaseConfig";
 import styled from "styled-components";
-import ContentContext from "../contexts/ContentContext";
+import firebase from "../../utilis/firebase";
 
 const Wrapper = styled.div`
   display: flex;
@@ -33,21 +35,39 @@ const TextContent = styled.p`
 `;
 const Img = styled.img``;
 
-const Portfolio = () => {
+export interface portfolio{
+  id: string,
+  title: string,
+  text: string,
+  author: string,
+  image: string,
+  created_time?: Timestamp,
+}
+
+
+const Portfolio: React.FC = () => {
+  const [portfolio, setPortfolio] = useState<portfolio|undefined>({
+    id: "",
+    title: "",
+    text: "",
+    author: "",
+    image: "",
+  });
   const { id } = useParams();
-  const { portfolio, getFireStoreData } = useContext(ContentContext);
 
   useEffect(() => {
-    getFireStoreData(id);
+    if(id){
+      firebase.getProfile(id).then(res=>setPortfolio(res));
+    }
   }, [id]);
   return (
     <Wrapper>
       <TextArea>
         <TextTitle>{portfolio?.title}</TextTitle>
         <TextAuthor>{portfolio?.author}</TextAuthor>
-        <TextContent>{portfolio?.content}</TextContent>
+        <TextContent>{portfolio?.text}</TextContent>
       </TextArea>
-      <Img src={`https://picsum.photos/440/300.jpg`} />
+      <Img src={portfolio?.image} />
     </Wrapper>
   );
 };
