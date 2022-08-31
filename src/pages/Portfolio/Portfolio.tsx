@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { collection, query, where, getDocs, Timestamp } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
 import styled from "styled-components";
-import { content } from "../Profile/Input";
+import firebase from "../../utilis/firebase";
 
 const Wrapper = styled.div`
   display: flex;
@@ -46,7 +46,7 @@ export interface portfolio{
 
 
 const Portfolio: React.FC = () => {
-  const [portfolio, setPortfolio] = useState<portfolio>({
+  const [portfolio, setPortfolio] = useState<portfolio|undefined>({
     id: "",
     title: "",
     text: "",
@@ -55,18 +55,10 @@ const Portfolio: React.FC = () => {
   });
   const { id } = useParams();
 
-  const getFireStoreData = async (id: string|undefined) => {
-    const searchProfile = collection(db, "posts");
-    const q = query(searchProfile, where("id", "==", id));
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-      setPortfolio(doc.data() as portfolio);
-      return doc.data();
-    });
-  };
   useEffect(() => {
-    getFireStoreData(id);
-    // setPortfolio(firebase.getFireStoreData(id));
+    if(id){
+      firebase.getProfile(id).then(res=>setPortfolio(res));
+    }
   }, [id]);
   return (
     <Wrapper>

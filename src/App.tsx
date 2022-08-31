@@ -13,11 +13,7 @@ const GlobalStyle = createGlobalStyle`
     font-family: NotoSansTC;
   }
 
-  #root {
-    min-height: 100vh;
-    position: relative;
 
-  }
 `;
 
 const App: React.FC = () => {
