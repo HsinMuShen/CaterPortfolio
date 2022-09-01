@@ -1,8 +1,13 @@
 import React from 'react'
+import WebsiteComponent from './WebsiteComponent'
 
 const Website = () => {
+  
+  
   return (
-    <div>Website</div>
+    <div>
+      <WebsiteComponent/>
+    </div>
   )
 }
 

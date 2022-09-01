@@ -1,18 +1,21 @@
-import { db } from "../firebaseConfig";
+import { db, storage } from "../firebaseConfig";
 import {
   doc,
   setDoc,
   collection,
   serverTimestamp,
-  onSnapshot,
   query,
   where,
   getDocs,
 } from "firebase/firestore";
+import {  ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { content } from "../pages/Homepage/Input";
+import {  ResumeReducer } from '../reducers'
 
 const firebase = {
   post: doc(collection(db, `posts`)),
+  
+
   writeFireStore(content: content) {
     const Data = {
       id: this.post.id,
@@ -38,6 +41,26 @@ const firebase = {
       temp = doc.data()
     });
     return temp ;
+  },
+
+  async getImageUrl (imagefile: File)  {
+    const imageRef = ref(
+      storage,
+      `images/${Date.now() + imagefile.name}`
+    );
+    await uploadBytes(imageRef, imagefile);
+    const imageUrl = await getDownloadURL(imageRef);
+    return imageUrl;
+  },
+
+  resumes: doc(db,`resumes`, "Xvbmt52vwx9R"),
+
+  async upLoadResume (data: ResumeReducer){
+    setDoc(this.resumes, data)
+      .then(() => alert("成功上架頁面!"))
+      .catch((error) => {
+        console.log(error);
+      });
   }
 };
 
