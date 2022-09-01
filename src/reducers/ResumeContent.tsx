@@ -1,15 +1,7 @@
 import { AnyAction } from "redux";
 import firebase from "../utilis/firebase";
+import { ActionType } from ".";
 
-export const ActionType:{
-  FILL_CONTENT: string|undefined,
-  ADD_IMAGE: string|undefined,
-  UPLOAD_RESUME: string|undefined,
-} = { 
-  FILL_CONTENT: "FILL_CONTENT",
-  ADD_IMAGE: "ADD_IMAGE",
-  UPLOAD_RESUME: "UPLOAD_RESUME",
-};
 
 const ResumeReducer = (
   resumeData = {
@@ -24,7 +16,7 @@ const ResumeReducer = (
   action: AnyAction
 ) => {
   switch (action.type) {
-    case ActionType.FILL_CONTENT: {
+    case ActionType.RESUME.FILL_CONTENT: {
       const tempContentArr =  resumeData.content;
       const index = action.payload.index;
       tempContentArr[index] = {...resumeData.content[index],text:action.payload.html};

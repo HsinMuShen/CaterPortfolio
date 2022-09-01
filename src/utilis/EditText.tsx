@@ -2,7 +2,7 @@ import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React, {useState} from 'react'
 import { useDispatch } from 'react-redux'
-import { resumeFillContent } from '../action'
+import { resumeFillContent,websiteFillContent } from '../action'
 
 const MenuBar: React.FC<any> = ({ editor, isShowBtn }) => {
   if (!editor) {
@@ -81,9 +81,10 @@ console.log(props.type)
     onUpdate: ({ editor }) => {
         const html = editor.getHTML()
         if(props.type==="resume"){
-          dispatch(resumeFillContent(0,html))
+          dispatch(resumeFillContent(0,html));
+        }else if(props.type==="website"){
+          dispatch(websiteFillContent(0,html));
         }
-        
       },
   })
 
