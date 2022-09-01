@@ -91,7 +91,7 @@ const Resume:React.FC = () => {
         if(imageFile === null){
             alert("請上傳照片")
             return
-        } 
+        }
         const imageUrl = await firebase.getImageUrl(imageFile);
         const tempResumeData = resumeData;
         tempResumeData.content[0]={...tempResumeData.content[0],image:[imageUrl]}
