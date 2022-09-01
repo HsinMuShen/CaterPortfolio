@@ -8,7 +8,7 @@ import firebase from '../../utilis/firebase'
 
 
 import cater from "./cater.png"
-import EditText from './EditText'
+import EditText from '../../utilis/EditText'
 
 const Wrapper = styled.div`
     display:flex ;
@@ -106,7 +106,7 @@ const Resume:React.FC = () => {
                 <ImagePreview previewUrl={previewUrl}><ImageLabel htmlFor='postImage'>+</ImageLabel></ImagePreview>
                 <ImageInput type="file" id='postImage' onChange={(e)=>{setImageFile(e.target.files![0])}}/>
             </ImageContainer>
-            <EditText />
+            <EditText type={"resume"}/>
         </ResumeHeader>
         <ResumeBody></ResumeBody>
         <ResumeFooter></ResumeFooter>

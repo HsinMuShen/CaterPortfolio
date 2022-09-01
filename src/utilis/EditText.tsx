@@ -2,13 +2,12 @@ import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import React, {useState} from 'react'
 import { useDispatch } from 'react-redux'
-import { fillContent } from '../../action'
+import { resumeFillContent } from '../action'
 
 const MenuBar: React.FC<any> = ({ editor, isShowBtn }) => {
   if (!editor) {
     return null
   }
-  
   
   return (
     <div style={{display: isShowBtn? "block" :"none"}}>
@@ -59,10 +58,14 @@ const MenuBar: React.FC<any> = ({ editor, isShowBtn }) => {
   )
 }
 
-export default () => {
+interface props {
+  type: string,
+}
+
+export default (props:props) => {
 const [isShowBtn, setIsShowBtn] =useState<boolean>(false);
 const dispatch = useDispatch();
-
+console.log(props.type)
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -77,7 +80,10 @@ const dispatch = useDispatch();
     `,
     onUpdate: ({ editor }) => {
         const html = editor.getHTML()
-        dispatch(fillContent(0,html))
+        if(props.type==="resume"){
+          dispatch(resumeFillContent(0,html))
+        }
+        
       },
   })
 
