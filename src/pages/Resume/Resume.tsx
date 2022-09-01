@@ -1,9 +1,22 @@
-import React, {useState} from 'react'
+import React, {useState,useEffect} from 'react'
 import styled from 'styled-components'
+import { RootState } from '../../reducers'
+import { useSelector,useDispatch } from 'react-redux'
+
+
+import firebase from '../../utilis/firebase'
+
 
 import cater from "./cater.png"
+import EditText from '../../utilis/EditText'
 
 const Wrapper = styled.div`
+    display:flex ;
+    flex-direction:column ;
+    align-items: center;
+`
+
+const ResumeEditor = styled.div`
     width: 960px;
     margin: 60px auto;
     border: 1px solid;
@@ -11,7 +24,9 @@ const Wrapper = styled.div`
     padding: 20px 40px;
 `
 const ResumeHeader = styled.div`
-
+    display:flex ;
+    justify-content:center ;
+    align-items:center ;
 `
 
 const ImageContainer =styled.div`
@@ -40,7 +55,12 @@ const ImageInput = styled.input`
 `
 
 const ResumeBody = styled.div``
+
 const ResumeFooter = styled.div``
+
+const ResumeBtn = styled.button`
+    width: 200px ;
+`
 
 const HeaderForm = [
     {
@@ -61,20 +81,39 @@ const HeaderForm = [
     },
 ]
 
-const Resume = () => {
-    const [file, setFile] = useState<File|null>(null);
-    const previewUrl = file? URL.createObjectURL(file): cater
+const Resume:React.FC = () => {
+    const [imageFile, setImageFile] = useState<File|null>(null);
+    const resumeData = useSelector((state: RootState) =>state.ResumeReducer)
+    const previewUrl = imageFile? URL.createObjectURL(imageFile): cater;
+    const dispatch = useDispatch();
+    
+    const uploadResume = async() => {
+        if(imageFile === null){
+            alert("請上傳照片")
+            return
+        }
+        const imageUrl = await firebase.getImageUrl(imageFile);
+        const tempResumeData = resumeData;
+        tempResumeData.content[0]={...tempResumeData.content[0],image:[imageUrl]}
+        firebase.upLoadResume(tempResumeData);
+    }
+    
   return (
-    <Wrapper>
-        <ResumeHeader>
+    <Wrapper >
+        <ResumeEditor>        
+            <ResumeHeader>
             <ImageContainer>
                 <ImagePreview previewUrl={previewUrl}><ImageLabel htmlFor='postImage'>+</ImageLabel></ImagePreview>
-                <ImageInput type="file" id='postImage' onChange={(e)=>{setFile(e.target.files![0])}}/>
+                <ImageInput type="file" id='postImage' onChange={(e)=>{setImageFile(e.target.files![0])}}/>
             </ImageContainer>
-            <></>
+            <EditText type={"resume"}/>
         </ResumeHeader>
         <ResumeBody></ResumeBody>
         <ResumeFooter></ResumeFooter>
+        </ResumeEditor>
+        <ResumeBtn onClick={uploadResume}>送出!</ResumeBtn>
+        <div dangerouslySetInnerHTML={{__html: resumeData.content[0].text}} />
+        
     </Wrapper>
   )
 }

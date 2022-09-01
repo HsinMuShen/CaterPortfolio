@@ -74,15 +74,12 @@ const Input:React.FC = () => {
       storage,
       `images/${Date.now() + uploadImage[0].name}`
     );
-    // const imageListRef = ref(storage, "images/");
+    
     await uploadBytes(imageRef, uploadImage[0]);
     const imageUrl = await getDownloadURL(imageRef);
     const data = content;
     data.image = imageUrl;
-    // setContent(prev => ({
-    //   ...prev,
-    //   image: imageUrl,
-    // }));
+    
     firebase.writeFireStore(data);
   }
 
