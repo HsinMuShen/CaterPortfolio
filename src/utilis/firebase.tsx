@@ -10,7 +10,7 @@ import {
 } from "firebase/firestore";
 import {  ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { content } from "../pages/Homepage/Input";
-import {  ResumeReducer } from '../reducers'
+import {  ResumeReducer,WebsiteReducer } from '../reducers'
 
 const firebase = {
   post: doc(collection(db, `posts`)),
@@ -53,10 +53,10 @@ const firebase = {
     return imageUrl;
   },
 
-  resumes: doc(db,`resumes`, "Xvbmt52vwx9R"),
 
-  async upLoadResume (data: ResumeReducer){
-    setDoc(this.resumes, data)
+  async uploadDoc(collection:string, data: ResumeReducer|WebsiteReducer){
+    const collectionDoc = doc(db,collection, "Xvbmt52vwx9RzFaXE17L")
+    setDoc(collectionDoc, data)
       .then(() => alert("成功上架頁面!"))
       .catch((error) => {
         console.log(error);

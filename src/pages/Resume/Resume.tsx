@@ -95,7 +95,7 @@ const Resume:React.FC = () => {
         const imageUrl = await firebase.getImageUrl(imageFile);
         const tempResumeData = resumeData;
         tempResumeData.content[0]={...tempResumeData.content[0],image:[imageUrl]}
-        firebase.upLoadResume(tempResumeData);
+        firebase.uploadDoc("resumes",tempResumeData);
     }
     
   return (

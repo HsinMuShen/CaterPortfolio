@@ -1,5 +1,7 @@
 import React, {useEffect,useRef} from 'react'
 import { fabric } from 'fabric';
+import { useDispatch } from 'react-redux'
+import { websiteAddImage } from '../../action';
 
 import styled from 'styled-components'
 import cater from "../Resume/commute.jpg"
@@ -7,12 +9,14 @@ import firebase from "../../utilis/firebase"
 
 const ImageInput = styled.input``
 
+interface canvasProps { 
+  canvas: any,
+  storageJson: {current:string},
+}
 
+const Canves = ({canvas,storageJson}:canvasProps) => {    
 
-const Canves = () => {
-    const storageJson = useRef("");
-    const canvas: any = useRef();
-
+  const dispatch = useDispatch();
     const addImage = async(file: File) => {
       const imageurl = await firebase.getImageUrl(file)
       const img = new Image();
@@ -53,6 +57,9 @@ const Canves = () => {
         width: 800,
         height: 800,
         backgroundColor: '#ffffff',
+      })
+      canvas.current.on('object:modified', () => {
+        dispatch(websiteAddImage(0,JSON.stringify(canvas.current)))
       })
     }, [])
 
