@@ -111,6 +111,7 @@ const Resume:React.FC = () => {
         <ResumeBody></ResumeBody>
         <ResumeFooter></ResumeFooter>
         </ResumeEditor>
+        <p>新增圖文內容</p>
         <ResumeBtn onClick={uploadResume}>送出!</ResumeBtn>
         <div dangerouslySetInnerHTML={{__html: resumeData.content[0].text}} />
         
