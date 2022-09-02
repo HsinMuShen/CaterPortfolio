@@ -55,7 +55,7 @@ const firebase = {
 
 
   async uploadDoc(collection:string, data: ResumeReducer|WebsiteReducer){
-    const collectionDoc = doc(db,collection, "Xvbmt52vwx9R")
+    const collectionDoc = doc(db,collection, "Xvbmt52vwx9RzFaXE17L")
     setDoc(collectionDoc, data)
       .then(() => alert("成功上架頁面!"))
       .catch((error) => {

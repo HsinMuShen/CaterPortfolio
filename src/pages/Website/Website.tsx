@@ -3,13 +3,16 @@ import Canves from './Canves'
 import EditText from '../../utilis/EditText'
 import firebase from '../../utilis/firebase'
 import { RootState } from '../../reducers'
-import { useSelector } from 'react-redux'
+import { useSelector,useDispatch } from 'react-redux'
+import { websiteAddTime } from '../../action'
 
 const Website = () => {
   const canvas: any = useRef();
   const storageJson = useRef("");
+  const dispatch = useDispatch();
   const websiteData = useSelector((state: RootState) =>state.WebsiteReducer)
   const uploadWebsite = () => {
+    dispatch(websiteAddTime());
     firebase.uploadDoc("websites",websiteData);
   }
 

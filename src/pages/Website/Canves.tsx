@@ -58,9 +58,9 @@ const Canves = ({canvas,storageJson}:canvasProps) => {
         height: 800,
         backgroundColor: '#ffffff',
       })
-      // canvas.current.on('object:modified', () => {
-      //   dispatch(websiteAddImage(0,JSON.stringify(canvas.current)))
-      // })
+      canvas.current.on('object:modified', () => {
+        dispatch(websiteAddImage(0,JSON.stringify(canvas.current)))
+      })
     }, [])
 
 

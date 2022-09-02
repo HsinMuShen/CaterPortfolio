@@ -29,3 +29,8 @@ export const websiteAddImage = (index:number,JSONstring: string) => {
   };
 };
 
+export const websiteAddTime = () => {
+  return {
+    type: ActionType.WEBSITE.ADD_TIME,
+  };
+};

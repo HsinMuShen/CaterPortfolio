@@ -10,6 +10,7 @@ export const ActionType:{
       WEBSITE:{
         FILL_CONTENT: string|undefined,
         ADD_IMAGE: string|undefined,
+        ADD_TIME:string|undefined,
     },
   } = { 
     RESUME:{
@@ -18,6 +19,7 @@ export const ActionType:{
     WEBSITE:{
         FILL_CONTENT: "FILL_CONTENT",
         ADD_IMAGE: "ADD_IMAGE",
+        ADD_TIME: "ADD_TIME",
     }
   };
 
