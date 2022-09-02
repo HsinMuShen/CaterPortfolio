@@ -2,11 +2,13 @@ import { AnyAction } from "redux";
 import firebase from "../utilis/firebase";
 import { ActionType } from ".";
 
-
 const ResumeReducer = (
   resumeData = {
     title: "Michael",
-    content: [{image:[''],text:''}],
+    content: [
+      { image: [""], text: "" },
+      { image: [""], text: "" },
+    ],
     name: "Michael",
     followers: [],
     tags: ["design"],
@@ -17,19 +19,25 @@ const ResumeReducer = (
 ) => {
   switch (action.type) {
     case ActionType.RESUME.FILL_CONTENT: {
-      const tempContentArr =  resumeData.content;
+      const tempContentArr = resumeData.content;
       const index = action.payload.index;
-      tempContentArr[index] = {...resumeData.content[index],text:action.payload.html};
-      const newResumeData =  {...resumeData, content: tempContentArr};
+      tempContentArr[index] = {
+        ...resumeData.content[index],
+        text: action.payload.html,
+      };
+      const newResumeData = { ...resumeData, content: tempContentArr };
       return newResumeData;
     }
-    // case ActionType.ADD_IMAGE: {
-    //   const tempContentArr =  resumeData.content;
-    //   const index = action.payload.index;
-    //   tempContentArr[index] = {...resumeData.content[index],image:[action.payload.url]};
-    //   const newResumeData =  {...resumeData, content: tempContentArr};
-    //   return newResumeData;
-    // }
+    case ActionType.RESUME.ADD_IMAGE: {
+      const tempContentArr = resumeData.content;
+      const index = action.payload.index;
+      tempContentArr[index] = {
+        ...resumeData.content[index],
+        image: action.payload.imageArr,
+      };
+      const newResumeData = { ...resumeData, content: tempContentArr };
+      return newResumeData;
+    }
     default:
       return resumeData;
   }

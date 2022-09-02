@@ -1,39 +1,38 @@
-import React, {useState,useEffect} from 'react'
-import styled from 'styled-components'
-import { RootState } from '../../reducers'
-import { useSelector,useDispatch } from 'react-redux'
+import React, { useState } from "react";
+import styled from "styled-components";
+import { RootState } from "../../reducers";
+import { useSelector, useDispatch } from "react-redux";
 
+import firebase from "../../utilis/firebase";
 
-import firebase from '../../utilis/firebase'
-
-
-import cater from "./cater.png"
-import EditText from '../../utilis/EditText'
+import ResumeCom1 from "./ResumeComponents/ResumeCom1";
+import ResumeCom2 from "./ResumeComponents/ResumeCom2";
 
 const Wrapper = styled.div`
-    display:flex ;
-    flex-direction:column ;
-    align-items: center;
-`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
 const ResumeEditor = styled.div`
-    width: 960px;
-    margin: 60px auto;
-    border: 1px solid;
-    border-radius: 15px;
-    padding: 20px 40px;
-`
+  width: 960px;
+  margin: 60px auto;
+  border: 1px solid;
+  border-radius: 15px;
+  padding: 20px 40px;
+`;
 const ResumeHeader = styled.div`
-    display:flex ;
-    justify-content:center ;
-    align-items:center ;
-`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
 
-const ImageContainer =styled.div`
-    display: flex;
+const ImageContainer = styled.div`
+  display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-`
+`;
 const ImagePreview = styled.div<{ previewUrl: string }>`
   display: flex;
   justify-content: center;
@@ -45,78 +44,68 @@ const ImagePreview = styled.div<{ previewUrl: string }>`
   background-position: center;
   background-image: url(${(props) => props.previewUrl});
   background-size: cover;
-`
-const ImageLabel =styled.label`
+`;
+const ImageLabel = styled.label`
   font-size: 150%;
   cursor: pointer;
-`
+`;
 const ImageInput = styled.input`
-    display: none;
-`
+  display: none;
+`;
 
-const ResumeBody = styled.div``
+const ResumeBody = styled.div``;
 
-const ResumeFooter = styled.div``
+const ResumeFooter = styled.div``;
 
 const ResumeBtn = styled.button`
-    width: 200px ;
-`
+  width: 200px;
+`;
 
 const HeaderForm = [
-    {
-        placeholder: "姓名",
-        key: "name",
-    },
-    {
-        placeholder: "職業",
-        key: "profession",
-    },
-    {
-        placeholder: "地區",
-        key: "region",
-    },
-    {
-        placeholder: "email",
-        key: "電子郵件",
-    },
-]
+  {
+    placeholder: "姓名",
+    key: "name",
+  },
+  {
+    placeholder: "職業",
+    key: "profession",
+  },
+  {
+    placeholder: "地區",
+    key: "region",
+  },
+  {
+    placeholder: "email",
+    key: "電子郵件",
+  },
+];
 
-const Resume:React.FC = () => {
-    const [imageFile, setImageFile] = useState<File|null>(null);
-    const resumeData = useSelector((state: RootState) =>state.ResumeReducer)
-    const previewUrl = imageFile? URL.createObjectURL(imageFile): cater;
-    const dispatch = useDispatch();
-    
-    const uploadResume = async() => {
-        if(imageFile === null){
-            alert("請上傳照片")
-            return
-        }
-        const imageUrl = await firebase.getImageUrl(imageFile);
-        const tempResumeData = resumeData;
-        tempResumeData.content[0]={...tempResumeData.content[0],image:[imageUrl]}
-        firebase.uploadDoc("resumes",tempResumeData);
-    }
-    
+const Resume: React.FC = () => {
+  const resumeData = useSelector((state: RootState) => state.ResumeReducer);
+
+  const uploadResume = async () => {
+    firebase.uploadDoc("resumes", resumeData);
+  };
+
   return (
-    <Wrapper >
-        <ResumeEditor>        
-            <ResumeHeader>
-            <ImageContainer>
-                <ImagePreview previewUrl={previewUrl}><ImageLabel htmlFor='postImage'>+</ImageLabel></ImagePreview>
-                <ImageInput type="file" id='postImage' onChange={(e)=>{setImageFile(e.target.files![0])}}/>
-            </ImageContainer>
-            <EditText type={"resume"}/>
+    <Wrapper>
+      <ResumeEditor>
+        <ResumeHeader>
+          <ResumeCom1 index={0} />
+          <ResumeCom2 index={1} />
         </ResumeHeader>
         <ResumeBody></ResumeBody>
         <ResumeFooter></ResumeFooter>
-        </ResumeEditor>
-        <p>新增圖文內容</p>
-        <ResumeBtn onClick={uploadResume}>送出!</ResumeBtn>
-        <div dangerouslySetInnerHTML={{__html: resumeData.content[0].text}} />
-        
+      </ResumeEditor>
+      <p>新增圖文內容</p>
+      <div>
+        <button>1</button>
+        <button>2</button>
+      </div>
+      <ResumeBtn onClick={uploadResume}>送出!</ResumeBtn>
+      <div dangerouslySetInnerHTML={{ __html: resumeData.content[0].text }} />
     </Wrapper>
-  )
-}
+  );
+};
 
-export default Resume
+export default Resume;
