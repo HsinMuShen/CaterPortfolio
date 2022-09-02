@@ -21,14 +21,14 @@ const ResumeCom2 = ({ index }: { index: number }) => {
 
   return (
     <div style={{ display: "flex" }}>
-      {imageFileList.map((_, index) => {
+      {imageFileList.map((_, listIndex) => {
         return (
           <PreviewImageInput
-            key={index}
+            key={listIndex}
             imageFileList={imageFileList}
             setImageFileList={setImageFileList}
             setResumeReducerImage={setResumeReducerImage}
-            listIndex={index}
+            listIndex={listIndex}
           />
         );
       })}

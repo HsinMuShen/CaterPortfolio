@@ -61,23 +61,23 @@ const MenuBar: React.FC<any> = ({ editor, isShowBtn }) => {
 interface props {
   type: string;
   text: string;
+  index: number;
 }
 
-export default (props: props) => {
+export default ({ type, text, index }: props) => {
   const [isShowBtn, setIsShowBtn] = useState<boolean>(false);
   const dispatch = useDispatch();
-  console.log(props.type);
   const editor = useEditor({
     extensions: [StarterKit],
     content: `
-      ${props.text}
+      ${text}
     `,
     onUpdate: ({ editor }) => {
       const html = editor.getHTML();
-      if (props.type === "resume") {
-        dispatch(resumeFillContent(0, html));
-      } else if (props.type === "website") {
-        dispatch(websiteFillContent(0, html));
+      if (type === "resume") {
+        dispatch(resumeFillContent(index, html));
+      } else if (type === "website") {
+        dispatch(websiteFillContent(index, html));
       }
     },
   });

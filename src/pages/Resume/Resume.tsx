@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { RootState } from "../../reducers";
 import { useSelector, useDispatch } from "react-redux";
+import { resumeAddCom, resumeDeleteCom } from "../../action";
 
 import firebase from "../../utilis/firebase";
 
 import ResumeCom1 from "./ResumeComponents/ResumeCom1";
 import ResumeCom2 from "./ResumeComponents/ResumeCom2";
+import ResumeCom3 from "./ResumeComponents/ResumeCom3";
 
 const Wrapper = styled.div`
   display: flex;
@@ -28,29 +30,8 @@ const ResumeHeader = styled.div`
   align-items: center;
 `;
 
-const ImageContainer = styled.div`
+const SineleComponent = styled.div`
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-`;
-const ImagePreview = styled.div<{ previewUrl: string }>`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100px;
-  height: 100px;
-  border: solid 1px black;
-  border-radius: 90px;
-  background-position: center;
-  background-image: url(${(props) => props.previewUrl});
-  background-size: cover;
-`;
-const ImageLabel = styled.label`
-  font-size: 150%;
-  cursor: pointer;
-`;
-const ImageInput = styled.input`
-  display: none;
 `;
 
 const ResumeBody = styled.div``;
@@ -61,28 +42,35 @@ const ResumeBtn = styled.button`
   width: 200px;
 `;
 
-const HeaderForm = [
+const resumeChoice = [
   {
-    placeholder: "姓名",
-    key: "name",
+    name: 0,
+    comIndex: 0,
   },
   {
-    placeholder: "職業",
-    key: "profession",
+    name: 1,
+    comIndex: 1,
   },
-  {
-    placeholder: "地區",
-    key: "region",
-  },
-  {
-    placeholder: "email",
-    key: "電子郵件",
-  },
+  { name: 2, comIndex: 2 },
 ];
 
 const Resume: React.FC = () => {
+  const [resumeCom, setResumeCom] = useState<number[]>([0, 1, 2]);
   const resumeData = useSelector((state: RootState) => state.ResumeReducer);
+  const dispatch = useDispatch();
 
+  const addResumeCom = (conIndex: number) => {
+    dispatch(resumeAddCom());
+    setResumeCom([...resumeCom, conIndex]);
+  };
+
+  const addDeleteCom = (deleteIndex: number) => {
+    dispatch(resumeDeleteCom(deleteIndex));
+    const tempArr = [...resumeCom];
+    tempArr.splice(deleteIndex, 1);
+    console.log(tempArr);
+    setResumeCom(tempArr);
+  };
   const uploadResume = async () => {
     firebase.uploadDoc("resumes", resumeData);
   };
@@ -91,16 +79,72 @@ const Resume: React.FC = () => {
     <Wrapper>
       <ResumeEditor>
         <ResumeHeader>
-          <ResumeCom1 index={0} />
-          <ResumeCom2 index={1} />
+          {resumeCom.map((num, index) => {
+            switch (num) {
+              case 0: {
+                return (
+                  <SineleComponent key={index}>
+                    <ResumeCom1 index={index} />
+                    <button
+                      onClick={() => {
+                        addDeleteCom(index);
+                      }}
+                    >
+                      delete
+                    </button>
+                  </SineleComponent>
+                );
+              }
+              case 1: {
+                return (
+                  <SineleComponent key={index}>
+                    <ResumeCom2 index={index} />
+                    <button
+                      onClick={() => {
+                        addDeleteCom(index);
+                      }}
+                    >
+                      delete
+                    </button>
+                  </SineleComponent>
+                );
+              }
+              case 2: {
+                return (
+                  <SineleComponent key={index}>
+                    <ResumeCom3 index={index} />
+                    <button
+                      onClick={() => {
+                        addDeleteCom(index);
+                      }}
+                    >
+                      delete
+                    </button>
+                  </SineleComponent>
+                );
+              }
+              default:
+                return null;
+            }
+          })}
         </ResumeHeader>
         <ResumeBody></ResumeBody>
         <ResumeFooter></ResumeFooter>
       </ResumeEditor>
       <p>新增圖文內容</p>
       <div>
-        <button>1</button>
-        <button>2</button>
+        {resumeChoice.map((item) => {
+          return (
+            <button
+              key={item.name}
+              onClick={() => {
+                addResumeCom(item.comIndex);
+              }}
+            >
+              {item.name}
+            </button>
+          );
+        })}
       </div>
       <ResumeBtn onClick={uploadResume}>送出!</ResumeBtn>
       <div dangerouslySetInnerHTML={{ __html: resumeData.content[0].text }} />

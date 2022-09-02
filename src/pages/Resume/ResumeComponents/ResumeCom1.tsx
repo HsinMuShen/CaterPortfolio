@@ -16,21 +16,22 @@ const ResumeCom1 = ({ index }: { index: number }) => {
     diapatch(resumeAddImage(index, tempArr));
   };
   return (
-    <div>
-      {imageFileList.map((_, index) => {
+    <div style={{ display: "flex" }}>
+      {imageFileList.map((_, listIndex) => {
         return (
           <PreviewImageInput
-            key={index}
+            key={listIndex}
             imageFileList={imageFileList}
             setImageFileList={setImageFileList}
             setResumeReducerImage={setResumeReducerImage}
-            listIndex={index}
+            listIndex={listIndex}
           />
         );
       })}
       <EditText
         type={"resume"}
         text={"<h2>姓名</h2><p>Email</p><p>聯絡資訊</p>"}
+        index={index}
       />
     </div>
   );

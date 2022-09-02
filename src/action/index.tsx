@@ -1,5 +1,18 @@
 import { ActionType } from "../reducers";
 
+export const resumeAddCom = () => {
+  return {
+    type: ActionType.RESUME.ADD_COMPONENT,
+  };
+};
+
+export const resumeDeleteCom = (index: number) => {
+  return {
+    type: ActionType.RESUME.DELETE_COMPONENT,
+    payload: { index },
+  };
+};
+
 export const resumeFillContent = (index: number, html: string) => {
   return {
     type: ActionType.RESUME.FILL_CONTENT,

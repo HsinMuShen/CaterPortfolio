@@ -8,6 +8,7 @@ const ResumeReducer = (
     content: [
       { image: [""], text: "" },
       { image: [""], text: "" },
+      { image: [""], text: "" },
     ],
     name: "Michael",
     followers: [],
@@ -18,6 +19,19 @@ const ResumeReducer = (
   action: AnyAction
 ) => {
   switch (action.type) {
+    case ActionType.RESUME.ADD_COMPONENT: {
+      const tempContentArr = resumeData.content;
+      tempContentArr.push({ image: [""], text: "" });
+      const newResumeData = { ...resumeData, content: tempContentArr };
+      return newResumeData;
+    }
+    case ActionType.RESUME.DELETE_COMPONENT: {
+      const tempContentArr = resumeData.content;
+      const index = action.payload.index;
+      tempContentArr.splice(index, 1);
+      const newResumeData = { ...resumeData, content: tempContentArr };
+      return newResumeData;
+    }
     case ActionType.RESUME.FILL_CONTENT: {
       const tempContentArr = resumeData.content;
       const index = action.payload.index;

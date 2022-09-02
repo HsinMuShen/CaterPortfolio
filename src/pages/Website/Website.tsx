@@ -20,7 +20,7 @@ const Website = () => {
     <>
       <div style={{ display: "flex" }}>
         <Canves canvas={canvas} storageJson={storageJson} />
-        <EditText type={"website"} text={"<p>請填入說明</p>"} />
+        <EditText type={"website"} text={"<p>請填入說明</p>"} index={1} />
       </div>
       <button onClick={uploadWebsite}>上架網站!</button>
     </>
