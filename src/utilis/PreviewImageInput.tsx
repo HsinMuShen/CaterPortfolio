@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-
-import preImage from "./cat.jpg";
+import { RootState } from "../reducers";
+import { useSelector } from "react-redux";
 
 const ImageContainer = styled.div`
   display: flex;
@@ -41,15 +41,20 @@ const PreviewImageInput = ({
   image,
 }: PreviewImageInputProps) => {
   const [imageFile, setImageFile] = useState<File | null>(null);
+  const isPreview = useSelector(
+    (state: RootState) => state.IsPreviewReducer.resume
+  );
   const previewUrl = imageFile ? URL.createObjectURL(imageFile) : image;
   return (
     <ImageContainer>
       <ImagePreview previewUrl={previewUrl}>
         <ImageLabel>
-          +
+          {isPreview ? null : "+"}
+
           <ImageInput
             type="file"
             id="postImage"
+            disabled={isPreview}
             onChange={(e) => {
               setImageFile(e.target.files![0]);
               setResumeReducerImage(e.target.files![0], listIndex);

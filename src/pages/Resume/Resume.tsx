@@ -129,6 +129,12 @@ const Resume: React.FC = () => {
     loadResume();
   }, []);
 
+  useEffect(() => {
+    document.body.addEventListener("click", (e: MouseEvent) => {
+      return e.preventDefault;
+    });
+  }, []);
+
   return (
     <Wrapper>
       <button

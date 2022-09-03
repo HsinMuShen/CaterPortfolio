@@ -3,6 +3,8 @@ import StarterKit from "@tiptap/starter-kit";
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { resumeFillContent, websiteFillContent } from "../action";
+import { RootState } from "../reducers";
+import { useSelector } from "react-redux";
 
 const MenuBar: React.FC<any> = ({ editor, isShowBtn }) => {
   if (!editor) {
@@ -84,6 +86,9 @@ interface props {
 
 export default ({ type, text, index }: props) => {
   const [isShowBtn, setIsShowBtn] = useState<boolean>(false);
+  const isPreview = useSelector(
+    (state: RootState) => state.IsPreviewReducer.resume
+  );
   const dispatch = useDispatch();
   const editor = useEditor({
     extensions: [StarterKit],
