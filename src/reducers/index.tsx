@@ -8,6 +8,7 @@ export const ActionType: {
     DELETE_COMPONENT: string | undefined;
     FILL_CONTENT: string | undefined;
     ADD_IMAGE: string | undefined;
+    LOADING: string | undefined;
   };
   WEBSITE: {
     FILL_CONTENT: string | undefined;
@@ -20,6 +21,7 @@ export const ActionType: {
     DELETE_COMPONENT: "DELETE_COMPONENT",
     FILL_CONTENT: "FILL_CONTENT",
     ADD_IMAGE: "ADD_IMAGE",
+    LOADING: "LOADING",
   },
   WEBSITE: {
     FILL_CONTENT: "FILL_CONTENT",

@@ -1,8 +1,15 @@
+import { DocumentData } from "firebase/firestore";
 import { ActionType } from "../reducers";
+import ResumeReducer from "../reducers/ResumeContent";
 
-export const resumeAddCom = () => {
+export const resumeAddCom = (content: {
+  image: string[];
+  text: string;
+  type: number;
+}) => {
   return {
     type: ActionType.RESUME.ADD_COMPONENT,
+    payload: { content },
   };
 };
 
@@ -24,6 +31,13 @@ export const resumeAddImage = (index: number, imageArr: string[] | null[]) => {
   return {
     type: ActionType.RESUME.ADD_IMAGE,
     payload: { index, imageArr },
+  };
+};
+
+export const resumeLoading = (data: DocumentData) => {
+  return {
+    type: ActionType.RESUME.LOADING,
+    payload: { data },
   };
 };
 

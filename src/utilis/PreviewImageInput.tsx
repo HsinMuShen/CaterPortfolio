@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-import cater from "./cater.png";
+import preImage from "./cat.jpg";
 
 const ImageContainer = styled.div`
   display: flex;
@@ -30,20 +30,18 @@ const ImageInput = styled.input`
 `;
 
 interface PreviewImageInputProps {
-  imageFileList: string[] | null[];
-  setImageFileList: any;
   setResumeReducerImage: (file: File, listIndex: number) => void;
   listIndex: number;
+  image: string;
 }
 
 const PreviewImageInput = ({
-  imageFileList,
-  setImageFileList,
   setResumeReducerImage,
   listIndex,
+  image,
 }: PreviewImageInputProps) => {
   const [imageFile, setImageFile] = useState<File | null>(null);
-  const previewUrl = imageFile ? URL.createObjectURL(imageFile) : cater;
+  const previewUrl = imageFile ? URL.createObjectURL(imageFile) : image;
   return (
     <ImageContainer>
       <ImagePreview previewUrl={previewUrl}>

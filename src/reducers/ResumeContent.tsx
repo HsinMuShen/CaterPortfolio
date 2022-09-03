@@ -1,15 +1,22 @@
 import { AnyAction } from "redux";
-import firebase from "../utilis/firebase";
 import { ActionType } from ".";
+import { Timestamp } from "firebase/firestore";
+import firebase from "../utilis/firebase";
+
+interface resumeReducer {
+  title: string;
+  content: { image: string[]; text: string; type: number }[];
+  name: string;
+  followers: string[];
+  tags: string[];
+  time: null | Timestamp;
+  userID: string;
+}
 
 const ResumeReducer = (
-  resumeData = {
+  resumeData: resumeReducer = {
     title: "Michael",
-    content: [
-      { image: [""], text: "" },
-      { image: [""], text: "" },
-      { image: [""], text: "" },
-    ],
+    content: [],
     name: "Michael",
     followers: [],
     tags: ["design"],
@@ -21,7 +28,7 @@ const ResumeReducer = (
   switch (action.type) {
     case ActionType.RESUME.ADD_COMPONENT: {
       const tempContentArr = resumeData.content;
-      tempContentArr.push({ image: [""], text: "" });
+      tempContentArr.push(action.payload.content);
       const newResumeData = { ...resumeData, content: tempContentArr };
       return newResumeData;
     }
@@ -51,6 +58,10 @@ const ResumeReducer = (
       };
       const newResumeData = { ...resumeData, content: tempContentArr };
       return newResumeData;
+    }
+    case ActionType.RESUME.LOADING: {
+      const tempResumeData = action.payload.data;
+      return tempResumeData;
     }
     default:
       return resumeData;

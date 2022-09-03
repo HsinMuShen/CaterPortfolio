@@ -1,6 +1,6 @@
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { resumeFillContent, websiteFillContent } from "../action";
 
@@ -10,7 +10,7 @@ const MenuBar: React.FC<any> = ({ editor, isShowBtn }) => {
   }
 
   return (
-    <div style={{ display: isShowBtn ? "block" : "none" }}>
+    <div className="btns" style={{ display: isShowBtn ? "block" : "none" }}>
       <button
         onClick={() => editor.chain().focus().toggleBold().run()}
         className={editor.isActive("bold") ? "is-active" : ""}
@@ -54,6 +54,24 @@ const MenuBar: React.FC<any> = ({ editor, isShowBtn }) => {
       >
         h3
       </button>
+      <button
+        onClick={() => editor.chain().focus().toggleBulletList().run()}
+        className={editor.isActive("bulletList") ? "is-active" : ""}
+      >
+        bullet list
+      </button>
+      <button
+        onClick={() => editor.chain().focus().toggleOrderedList().run()}
+        className={editor.isActive("orderedList") ? "is-active" : ""}
+      >
+        ordered list
+      </button>
+      <button onClick={() => editor.chain().focus().setHorizontalRule().run()}>
+        horizontal rule
+      </button>
+      <button onClick={() => editor.chain().focus().setHardBreak().run()}>
+        hard break
+      </button>
     </div>
   );
 };
@@ -82,10 +100,31 @@ export default ({ type, text, index }: props) => {
     },
   });
 
+  useEffect(() => {
+    const closeBtn = (e: any) => {
+      // console.log(e.path[0].parentElement);
+      if (
+        e.path[0].parentElement.className ===
+          "ProseMirror ProseMirror-focused" ||
+        e.path[0].parentElement.className === "btns"
+      ) {
+        return;
+      }
+      setIsShowBtn(false);
+    };
+    document.body.addEventListener("click", closeBtn);
+  }, []);
+
   return (
-    <div className="text">
-      <MenuBar editor={editor} isShowBtn={isShowBtn} />
+    <div
+      className="text"
+      onBlur={() => {
+        setIsShowBtn(false);
+      }}
+    >
+      <MenuBar editor={editor} isShowBtn={isShowBtn} className="tex2" />
       <EditorContent
+        style={{ padding: "20px" }}
         editor={editor}
         onClick={() => {
           setIsShowBtn(true);

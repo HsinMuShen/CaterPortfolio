@@ -3,8 +3,15 @@ import PreviewImageInput from "../../../utilis/PreviewImageInput";
 import firebase from "../../../utilis/firebase";
 import { useDispatch } from "react-redux";
 import { resumeAddImage } from "../../../action";
+import { resumeComContent } from "../Resume";
 
-const ResumeCom2 = ({ index }: { index: number }) => {
+const ResumeCom2 = ({
+  index,
+  content,
+}: {
+  index: number;
+  content: resumeComContent;
+}) => {
   const [imageFileList, setImageFileList] = useState<string[] | null[]>([
     null,
     null,
@@ -25,10 +32,9 @@ const ResumeCom2 = ({ index }: { index: number }) => {
         return (
           <PreviewImageInput
             key={listIndex}
-            imageFileList={imageFileList}
-            setImageFileList={setImageFileList}
             setResumeReducerImage={setResumeReducerImage}
             listIndex={listIndex}
+            image={content.image[listIndex]}
           />
         );
       })}

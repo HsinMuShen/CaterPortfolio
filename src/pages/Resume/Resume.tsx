@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { RootState } from "../../reducers";
 import { useSelector, useDispatch } from "react-redux";
-import { resumeAddCom, resumeDeleteCom } from "../../action";
+import { resumeAddCom, resumeDeleteCom, resumeLoading } from "../../action";
 
 import firebase from "../../utilis/firebase";
-
 import ResumeCom1 from "./ResumeComponents/ResumeCom1";
 import ResumeCom2 from "./ResumeComponents/ResumeCom2";
 import ResumeCom3 from "./ResumeComponents/ResumeCom3";
+import preImage from "../../utilis/cat.jpg";
 
 const Wrapper = styled.div`
   display: flex;
@@ -42,26 +42,50 @@ const ResumeBtn = styled.button`
   width: 200px;
 `;
 
+export interface resumeComContent {
+  image: string[];
+  text: string;
+  type: number;
+}
+
 const resumeChoice = [
   {
     name: 0,
     comIndex: 0,
+    comContent: {
+      image: [preImage],
+      text: "<h2>姓名</h2><p>Email</p><p>聯絡資訊</p>",
+      type: 0,
+    },
   },
   {
     name: 1,
     comIndex: 1,
+    comContent: {
+      image: [preImage, preImage, preImage],
+      text: "",
+      type: 1,
+    },
   },
-  { name: 2, comIndex: 2 },
+  {
+    name: 2,
+    comIndex: 2,
+    comContent: {
+      image: [],
+      text: "<h3>標題</h3><p>您的英勇事蹟</p><p>您的英勇事蹟</p>",
+      type: 2,
+    },
+  },
 ];
 
 const Resume: React.FC = () => {
-  const [resumeCom, setResumeCom] = useState<number[]>([0, 1, 2]);
+  const [resumeCom, setResumeCom] = useState<resumeComContent[]>([]);
   const resumeData = useSelector((state: RootState) => state.ResumeReducer);
   const dispatch = useDispatch();
 
   const addResumeCom = (conIndex: number) => {
-    dispatch(resumeAddCom());
-    setResumeCom([...resumeCom, conIndex]);
+    dispatch(resumeAddCom(resumeChoice[conIndex].comContent));
+    setResumeCom([...resumeCom, resumeChoice[conIndex].comContent]);
   };
 
   const addDeleteCom = (deleteIndex: number) => {
@@ -75,16 +99,37 @@ const Resume: React.FC = () => {
     firebase.uploadDoc("resumes", resumeData);
   };
 
+  useEffect(() => {
+    const loadResume = async () => {
+      const resumeData = await firebase.readData(
+        "resumes",
+        "Xvbmt52vwx9RzFaXE17L"
+      );
+      if (resumeData) {
+        console.log(resumeData);
+        dispatch(resumeLoading(resumeData));
+        const tempArr: resumeComContent[] = [];
+        resumeData.content.forEach(
+          (content: { image: string[]; text: ""; type: number }) => {
+            tempArr.push(content);
+          }
+        );
+        setResumeCom(tempArr);
+      }
+    };
+    loadResume();
+  }, []);
+
   return (
     <Wrapper>
       <ResumeEditor>
         <ResumeHeader>
-          {resumeCom.map((num, index) => {
-            switch (num) {
+          {resumeCom.map((content, index) => {
+            switch (content.type) {
               case 0: {
                 return (
                   <SineleComponent key={index}>
-                    <ResumeCom1 index={index} />
+                    <ResumeCom1 index={index} content={content} />
                     <button
                       onClick={() => {
                         addDeleteCom(index);
@@ -98,7 +143,7 @@ const Resume: React.FC = () => {
               case 1: {
                 return (
                   <SineleComponent key={index}>
-                    <ResumeCom2 index={index} />
+                    <ResumeCom2 index={index} content={content} />
                     <button
                       onClick={() => {
                         addDeleteCom(index);
@@ -112,7 +157,7 @@ const Resume: React.FC = () => {
               case 2: {
                 return (
                   <SineleComponent key={index}>
-                    <ResumeCom3 index={index} />
+                    <ResumeCom3 index={index} content={content} />
                     <button
                       onClick={() => {
                         addDeleteCom(index);
@@ -147,7 +192,7 @@ const Resume: React.FC = () => {
         })}
       </div>
       <ResumeBtn onClick={uploadResume}>送出!</ResumeBtn>
-      <div dangerouslySetInnerHTML={{ __html: resumeData.content[0].text }} />
+      {/* <div dangerouslySetInnerHTML={{ __html: resumeData.content[0]?.text }} /> */}
     </Wrapper>
   );
 };

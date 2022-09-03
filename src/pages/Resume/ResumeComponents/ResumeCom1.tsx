@@ -4,8 +4,15 @@ import EditText from "../../../utilis/EditText";
 import firebase from "../../../utilis/firebase";
 import { useDispatch } from "react-redux";
 import { resumeAddImage } from "../../../action";
+import { resumeComContent } from "../Resume";
 
-const ResumeCom1 = ({ index }: { index: number }) => {
+const ResumeCom1 = ({
+  index,
+  content,
+}: {
+  index: number;
+  content: resumeComContent;
+}) => {
   const [imageFileList, setImageFileList] = useState<string[] | null[]>([null]);
   const diapatch = useDispatch();
   const setResumeReducerImage = async (file: File, listIndex: number) => {
@@ -21,18 +28,13 @@ const ResumeCom1 = ({ index }: { index: number }) => {
         return (
           <PreviewImageInput
             key={listIndex}
-            imageFileList={imageFileList}
-            setImageFileList={setImageFileList}
             setResumeReducerImage={setResumeReducerImage}
             listIndex={listIndex}
+            image={content.image[listIndex]}
           />
         );
       })}
-      <EditText
-        type={"resume"}
-        text={"<h2>姓名</h2><p>Email</p><p>聯絡資訊</p>"}
-        index={index}
-      />
+      <EditText type={"resume"} text={content.text} index={index} />
     </div>
   );
 };

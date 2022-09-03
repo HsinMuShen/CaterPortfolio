@@ -13,6 +13,10 @@ const GlobalStyle = createGlobalStyle`
     font-family: NotoSansTC;
   }
 
+  ul,
+  ol {
+    padding: 0 1rem;
+  }
 
 `;
 
@@ -23,6 +27,6 @@ const App: React.FC = () => {
       <Outlet />
     </>
   );
-}
+};
 
 export default App;
