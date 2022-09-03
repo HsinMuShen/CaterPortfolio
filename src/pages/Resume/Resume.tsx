@@ -1,13 +1,21 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 import { RootState } from "../../reducers";
 import { useSelector, useDispatch } from "react-redux";
-import { resumeAddCom, resumeDeleteCom, resumeLoading } from "../../action";
+import {
+  resumeAddCom,
+  resumeDeleteCom,
+  resumeLoading,
+  isPreviewResume,
+} from "../../action";
 
 import firebase from "../../utilis/firebase";
 import ResumeCom1 from "./ResumeComponents/ResumeCom1";
 import ResumeCom2 from "./ResumeComponents/ResumeCom2";
 import ResumeCom3 from "./ResumeComponents/ResumeCom3";
+import Delete from "./Delete";
+import AddComArea from "./AddComArea";
 import preImage from "../../utilis/cat.jpg";
 
 const Wrapper = styled.div`
@@ -38,9 +46,7 @@ const ResumeBody = styled.div``;
 
 const ResumeFooter = styled.div``;
 
-const ResumeBtn = styled.button`
-  width: 200px;
-`;
+const ToProfileLink = styled(Link)``;
 
 export interface resumeComContent {
   image: string[];
@@ -48,7 +54,7 @@ export interface resumeComContent {
   type: number;
 }
 
-const resumeChoice = [
+export const resumeChoice = [
   {
     name: 0,
     comIndex: 0,
@@ -81,6 +87,10 @@ const resumeChoice = [
 const Resume: React.FC = () => {
   const [resumeCom, setResumeCom] = useState<resumeComContent[]>([]);
   const resumeData = useSelector((state: RootState) => state.ResumeReducer);
+  const isPreview = useSelector(
+    (state: RootState) => state.IsPreviewReducer.resume
+  );
+
   const dispatch = useDispatch();
 
   const addResumeCom = (conIndex: number) => {
@@ -106,7 +116,6 @@ const Resume: React.FC = () => {
         "Xvbmt52vwx9RzFaXE17L"
       );
       if (resumeData) {
-        console.log(resumeData);
         dispatch(resumeLoading(resumeData));
         const tempArr: resumeComContent[] = [];
         resumeData.content.forEach(
@@ -122,6 +131,13 @@ const Resume: React.FC = () => {
 
   return (
     <Wrapper>
+      <button
+        onClick={() => {
+          dispatch(isPreviewResume());
+        }}
+      >
+        編輯/預覽
+      </button>
       <ResumeEditor>
         <ResumeHeader>
           {resumeCom.map((content, index) => {
@@ -130,13 +146,7 @@ const Resume: React.FC = () => {
                 return (
                   <SineleComponent key={index}>
                     <ResumeCom1 index={index} content={content} />
-                    <button
-                      onClick={() => {
-                        addDeleteCom(index);
-                      }}
-                    >
-                      delete
-                    </button>
+                    <Delete addDeleteCom={addDeleteCom} index={index} />
                   </SineleComponent>
                 );
               }
@@ -144,13 +154,7 @@ const Resume: React.FC = () => {
                 return (
                   <SineleComponent key={index}>
                     <ResumeCom2 index={index} content={content} />
-                    <button
-                      onClick={() => {
-                        addDeleteCom(index);
-                      }}
-                    >
-                      delete
-                    </button>
+                    <Delete addDeleteCom={addDeleteCom} index={index} />
                   </SineleComponent>
                 );
               }
@@ -158,13 +162,7 @@ const Resume: React.FC = () => {
                 return (
                   <SineleComponent key={index}>
                     <ResumeCom3 index={index} content={content} />
-                    <button
-                      onClick={() => {
-                        addDeleteCom(index);
-                      }}
-                    >
-                      delete
-                    </button>
+                    <Delete addDeleteCom={addDeleteCom} index={index} />
                   </SineleComponent>
                 );
               }
@@ -176,22 +174,9 @@ const Resume: React.FC = () => {
         <ResumeBody></ResumeBody>
         <ResumeFooter></ResumeFooter>
       </ResumeEditor>
-      <p>新增圖文內容</p>
-      <div>
-        {resumeChoice.map((item) => {
-          return (
-            <button
-              key={item.name}
-              onClick={() => {
-                addResumeCom(item.comIndex);
-              }}
-            >
-              {item.name}
-            </button>
-          );
-        })}
-      </div>
-      <ResumeBtn onClick={uploadResume}>送出!</ResumeBtn>
+      <AddComArea addResumeCom={addResumeCom} uploadResume={uploadResume} />
+
+      <ToProfileLink to={`/profile`}>profile</ToProfileLink>
       {/* <div dangerouslySetInnerHTML={{ __html: resumeData.content[0]?.text }} /> */}
     </Wrapper>
   );

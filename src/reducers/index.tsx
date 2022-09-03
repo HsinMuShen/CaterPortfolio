@@ -1,5 +1,6 @@
 import ResumeReducer from "./ResumeContent";
 import WebsiteReducer from "./WebsiteContent";
+import IsPreviewReducer from "./IsPreviewContent";
 import { combineReducers } from "redux";
 
 export const ActionType: {
@@ -15,6 +16,11 @@ export const ActionType: {
     ADD_IMAGE: string | undefined;
     ADD_TIME: string | undefined;
   };
+  ISPREVIEW: {
+    RESUME: string | undefined;
+    WEBSITE: string | undefined;
+    PORTFOLIO: string | undefined;
+  };
 } = {
   RESUME: {
     ADD_COMPONENT: "ADD_COMPONENT",
@@ -28,11 +34,17 @@ export const ActionType: {
     ADD_IMAGE: "ADD_IMAGE",
     ADD_TIME: "ADD_TIME",
   },
+  ISPREVIEW: {
+    RESUME: "RESUME",
+    WEBSITE: "WEBSITE",
+    PORTFOLIO: "PORTFOLIO",
+  },
 };
 
 const allReducers = combineReducers({
   ResumeReducer,
   WebsiteReducer,
+  IsPreviewReducer,
 });
 
 export type RootState = ReturnType<typeof allReducers>;

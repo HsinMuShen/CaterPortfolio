@@ -1,7 +1,6 @@
 import { AnyAction } from "redux";
 import { ActionType } from ".";
 import { Timestamp } from "firebase/firestore";
-import firebase from "../utilis/firebase";
 
 interface resumeReducer {
   title: string;

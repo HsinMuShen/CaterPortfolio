@@ -60,3 +60,21 @@ export const websiteAddTime = () => {
     type: ActionType.WEBSITE.ADD_TIME,
   };
 };
+
+export const isPreviewResume = () => {
+  return {
+    type: ActionType.ISPREVIEW.RESUME,
+  };
+};
+
+export const isPreviewWebsite = () => {
+  return {
+    type: ActionType.ISPREVIEW.WEBSITE,
+  };
+};
+
+export const isPreviewPortfolio = () => {
+  return {
+    type: ActionType.ISPREVIEW.PORTFOLIO,
+  };
+};
