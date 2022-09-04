@@ -28,6 +28,8 @@ const WebsiteCom1 = ({
       {imageFileList.map((_, listIndex) => {
         return (
           <Canves
+            key={listIndex}
+            content={content}
             name={index.toString()}
             size={{ height: 200, width: 200 }}
             setResumeReducerImage={setResumeReducerImage}
@@ -36,7 +38,7 @@ const WebsiteCom1 = ({
         );
       })}
 
-      <EditText type={"website"} text={content.text} index={1} />
+      <EditText type={"website"} text={content.text} index={index} />
     </div>
   );
 };

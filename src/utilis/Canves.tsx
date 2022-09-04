@@ -4,10 +4,12 @@ import { useDispatch } from "react-redux";
 
 import styled from "styled-components";
 import firebase from "./firebase";
+import { websiteComContent } from "../pages/Website/Website";
 
 const ImageInput = styled.input``;
 
 interface canvasProps {
+  content: websiteComContent;
   name: string;
   size: { height: number; width: number };
   setResumeReducerImage: (JSONstring: string, listIndex: number) => void;
@@ -15,6 +17,7 @@ interface canvasProps {
 }
 
 const Canves = ({
+  content,
   name,
   size,
   setResumeReducerImage,
@@ -74,6 +77,7 @@ const Canves = ({
       height: size.height,
       backgroundColor: "#ffffff",
     });
+    canvas.current.loadFromJSON(content.image[listIndex]);
     canvas.current.on("object:modified", () => {
       setResumeReducerImage(JSON.stringify(canvas.current), listIndex);
     });

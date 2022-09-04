@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import WebsiteCom1 from "./WebsiteComponents/WebsiteCom1";
 import WebsiteCom2 from "./WebsiteComponents/WebsiteCom2";
@@ -9,7 +9,7 @@ import Delete from "../Resume/Delete";
 import firebase from "../../utilis/firebase";
 import { RootState } from "../../reducers";
 import { useSelector, useDispatch } from "react-redux";
-import { websiteAddCom, websiteDeleteCom, websiteAddTime } from "../../action";
+import { websiteAddCom, websiteDeleteCom, websiteLoading } from "../../action";
 
 const SineleComponent = styled.div`
   display: flex;
@@ -55,7 +55,7 @@ const Website = () => {
   const [websiteCom, setWebsiteCom] = useState<websiteComContent[]>([]);
   const dispatch = useDispatch();
   const websiteData = useSelector((state: RootState) => state.WebsiteReducer);
-
+  console.log(websiteData);
   const addWebsiteCom = (conIndex: number) => {
     dispatch(websiteAddCom(websiteChoice[conIndex].comContent));
     setWebsiteCom([...websiteCom, websiteChoice[conIndex].comContent]);
@@ -69,9 +69,30 @@ const Website = () => {
   };
 
   const uploadWebsite = () => {
-    dispatch(websiteAddTime());
+    const tempWebsiteData = websiteData;
+    tempWebsiteData.time = Date.now();
     firebase.uploadDoc("websites", websiteData);
   };
+
+  useEffect(() => {
+    const loadResume = async () => {
+      const websiteData = await firebase.readData(
+        "websites",
+        "Xvbmt52vwx9RzFaXE17L"
+      );
+      if (websiteData) {
+        dispatch(websiteLoading(websiteData));
+        const tempArr: websiteComContent[] = [];
+        websiteData.content.forEach(
+          (content: { image: string[]; text: ""; type: number }) => {
+            tempArr.push(content);
+          }
+        );
+        setWebsiteCom(tempArr);
+      }
+    };
+    loadResume();
+  }, []);
 
   return (
     <>

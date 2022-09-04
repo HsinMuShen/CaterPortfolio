@@ -79,6 +79,13 @@ export const websiteAddTime = () => {
   };
 };
 
+export const websiteLoading = (data: DocumentData) => {
+  return {
+    type: ActionType.RESUME.LOADING,
+    payload: { data },
+  };
+};
+
 export const isPreviewResume = () => {
   return {
     type: ActionType.ISPREVIEW.RESUME,

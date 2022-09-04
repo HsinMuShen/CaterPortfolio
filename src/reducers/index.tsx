@@ -17,6 +17,7 @@ export const ActionType: {
     FILL_CONTENT: string | undefined;
     ADD_IMAGE: string | undefined;
     ADD_TIME: string | undefined;
+    LOADING: string | undefined;
   };
   ISPREVIEW: {
     RESUME: string | undefined;
@@ -37,6 +38,7 @@ export const ActionType: {
     FILL_CONTENT: "FILL_CONTENT",
     ADD_IMAGE: "ADD_IMAGE",
     ADD_TIME: "ADD_TIME",
+    LOADING: "LOADING",
   },
   ISPREVIEW: {
     RESUME: "RESUME",

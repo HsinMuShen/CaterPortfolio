@@ -8,7 +8,7 @@ interface websiteReducer {
   name: string;
   followers: string[];
   tags: string[];
-  time: null | Timestamp;
+  time: null | number;
   userID: string;
 }
 
@@ -61,6 +61,10 @@ const WebsiteReducer = (
     case ActionType.WEBSITE.ADD_TIME: {
       const tempObj = { ...websiteData, time: Date.now() };
       return tempObj;
+    }
+    case ActionType.RESUME.LOADING: {
+      const tempWebsiteData = action.payload.data;
+      return tempWebsiteData;
     }
     default:
       return websiteData;
