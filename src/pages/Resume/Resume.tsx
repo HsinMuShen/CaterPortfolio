@@ -129,12 +129,6 @@ const Resume: React.FC = () => {
     loadResume();
   }, []);
 
-  useEffect(() => {
-    document.body.addEventListener("click", (e: MouseEvent) => {
-      return e.preventDefault;
-    });
-  }, []);
-
   return (
     <Wrapper>
       <button
@@ -183,7 +177,6 @@ const Resume: React.FC = () => {
       <AddComArea addResumeCom={addResumeCom} uploadResume={uploadResume} />
 
       <ToProfileLink to={`/profile`}>profile</ToProfileLink>
-      {/* <div dangerouslySetInnerHTML={{ __html: resumeData.content[0]?.text }} /> */}
     </Wrapper>
   );
 };

@@ -41,6 +41,24 @@ export const resumeLoading = (data: DocumentData) => {
   };
 };
 
+export const websiteAddCom = (content: {
+  image: string[];
+  text: string;
+  type: number;
+}) => {
+  return {
+    type: ActionType.WEBSITE.ADD_COMPONENT,
+    payload: { content },
+  };
+};
+
+export const websiteDeleteCom = (index: number) => {
+  return {
+    type: ActionType.RESUME.DELETE_COMPONENT,
+    payload: { index },
+  };
+};
+
 export const websiteFillContent = (index: number, html: string) => {
   return {
     type: ActionType.WEBSITE.FILL_CONTENT,
@@ -48,10 +66,10 @@ export const websiteFillContent = (index: number, html: string) => {
   };
 };
 
-export const websiteAddImage = (index: number, JSONstring: string) => {
+export const websiteAddImage = (index: number, imageArr: string[] | null[]) => {
   return {
     type: ActionType.WEBSITE.ADD_IMAGE,
-    payload: { index, JSONstring },
+    payload: { index, imageArr },
   };
 };
 

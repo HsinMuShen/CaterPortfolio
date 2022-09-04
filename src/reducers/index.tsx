@@ -12,6 +12,8 @@ export const ActionType: {
     LOADING: string | undefined;
   };
   WEBSITE: {
+    ADD_COMPONENT: string | undefined;
+    DELETE_COMPONENT: string | undefined;
     FILL_CONTENT: string | undefined;
     ADD_IMAGE: string | undefined;
     ADD_TIME: string | undefined;
@@ -30,6 +32,8 @@ export const ActionType: {
     LOADING: "LOADING",
   },
   WEBSITE: {
+    ADD_COMPONENT: "ADD_COMPONENT",
+    DELETE_COMPONENT: "DELETE_COMPONENT",
     FILL_CONTENT: "FILL_CONTENT",
     ADD_IMAGE: "ADD_IMAGE",
     ADD_TIME: "ADD_TIME",

@@ -121,12 +121,7 @@ export default ({ type, text, index }: props) => {
   }, []);
 
   return (
-    <div
-      className="text"
-      onBlur={() => {
-        setIsShowBtn(false);
-      }}
-    >
+    <div className="text">
       <MenuBar editor={editor} isShowBtn={isShowBtn} className="tex2" />
       <EditorContent
         style={{ padding: "20px" }}
