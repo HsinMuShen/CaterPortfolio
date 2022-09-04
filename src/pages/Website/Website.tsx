@@ -10,6 +10,9 @@ import firebase from "../../utilis/firebase";
 import { RootState } from "../../reducers";
 import { useSelector, useDispatch } from "react-redux";
 import { websiteAddCom, websiteDeleteCom, websiteLoading } from "../../action";
+import { Link } from "react-router-dom";
+
+const Preview = styled(Link)``;
 
 const SineleComponent = styled.div`
   display: flex;
@@ -19,6 +22,7 @@ export interface websiteComContent {
   image: string[];
   text: string;
   type: number;
+  previewImage: string[];
 }
 
 export const websiteChoice = [
@@ -29,6 +33,7 @@ export const websiteChoice = [
       image: [""],
       text: "<h2>標題</h2><p>令人眼睛一亮的介紹</p><p>令人眼睛一亮的介紹</p>",
       type: 0,
+      previewImage: [],
     },
   },
   {
@@ -38,6 +43,7 @@ export const websiteChoice = [
       image: ["", ""],
       text: "",
       type: 1,
+      previewImage: [],
     },
   },
   {
@@ -47,6 +53,7 @@ export const websiteChoice = [
       image: [],
       text: "<h3>標題</h3><p>您的英勇事蹟</p><p>您的英勇事蹟</p>",
       type: 2,
+      previewImage: [],
     },
   },
 ];
@@ -83,11 +90,9 @@ const Website = () => {
       if (websiteData) {
         dispatch(websiteLoading(websiteData));
         const tempArr: websiteComContent[] = [];
-        websiteData.content.forEach(
-          (content: { image: string[]; text: ""; type: number }) => {
-            tempArr.push(content);
-          }
-        );
+        websiteData.content.forEach((content: websiteComContent) => {
+          tempArr.push(content);
+        });
         setWebsiteCom(tempArr);
       }
     };
@@ -96,6 +101,9 @@ const Website = () => {
 
   return (
     <>
+      <Preview target="_blank" to="/website/preview">
+        Preview
+      </Preview>
       <div>
         {websiteCom.map((content, index) => {
           switch (content.type) {

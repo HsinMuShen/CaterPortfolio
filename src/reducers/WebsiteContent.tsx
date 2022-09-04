@@ -1,10 +1,14 @@
-import { Timestamp } from "firebase/firestore";
 import { AnyAction } from "redux";
 import { ActionType } from ".";
 
 interface websiteReducer {
   title: string;
-  content: { image: string[]; text: string; type: number }[];
+  content: {
+    image: string[];
+    text: string;
+    type: number;
+    previewImage: string[];
+  }[];
   name: string;
   followers: string[];
   tags: string[];
