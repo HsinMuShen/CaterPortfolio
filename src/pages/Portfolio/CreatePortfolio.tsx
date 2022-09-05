@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import WebsiteCom1 from "./WebsiteComponents/WebsiteCom1";
-import WebsiteCom2 from "./WebsiteComponents/WebsiteCom2";
-import WebsiteCom3 from "./WebsiteComponents/WebsiteCom3";
-import PortfolioAreaCom from "./WebsiteComponents/PortfolioAreaCom";
-import AddWebsiteCom from "./AddWebsiteCom";
+import PortfolioCom1 from "./PortfolioComponents/PortfolioCom1";
+import PortfolioCom2 from "./PortfolioComponents/PortfolioCom2";
+import PortfolioCom3 from "./PortfolioComponents/PortfolioCom3";
 import Delete from "../Resume/Delete";
-
+import CreatePortfolioCom from "./CreatePortfolioCom";
 import firebase from "../../utilis/firebase";
 import { RootState } from "../../reducers";
 import { useSelector, useDispatch } from "react-redux";
@@ -19,14 +17,13 @@ const SineleComponent = styled.div`
   display: flex;
 `;
 
-export interface websiteComContent {
+export interface portfolioComContent {
   image: string[];
   text: string[];
   type: number;
-  portfolioID?: string[];
 }
 
-export const websiteChoice = [
+export const portfolioChoice = [
   {
     name: 0,
     comIndex: 0,
@@ -58,26 +55,16 @@ export const websiteChoice = [
       type: 2,
     },
   },
-  {
-    name: 3,
-    comIndex: 3,
-    comContent: {
-      image: [],
-      text: [],
-      type: 3,
-      portfolioID: [],
-    },
-  },
 ];
 
-const Website = () => {
-  const [websiteCom, setWebsiteCom] = useState<websiteComContent[]>([]);
+const CreatePortfolio = () => {
+  const [websiteCom, setWebsiteCom] = useState<portfolioComContent[]>([]);
   const dispatch = useDispatch();
   const websiteData = useSelector((state: RootState) => state.WebsiteReducer);
   console.log(websiteData);
   const addWebsiteCom = (conIndex: number) => {
-    dispatch(websiteAddCom(websiteChoice[conIndex].comContent));
-    setWebsiteCom([...websiteCom, websiteChoice[conIndex].comContent]);
+    dispatch(websiteAddCom(portfolioChoice[conIndex].comContent));
+    setWebsiteCom([...websiteCom, portfolioChoice[conIndex].comContent]);
   };
 
   const addDeleteCom = (deleteIndex: number) => {
@@ -101,8 +88,8 @@ const Website = () => {
       );
       if (websiteData) {
         dispatch(websiteLoading(websiteData));
-        const tempArr: websiteComContent[] = [];
-        websiteData.content.forEach((content: websiteComContent) => {
+        const tempArr: portfolioComContent[] = [];
+        websiteData.content.forEach((content: portfolioComContent) => {
           tempArr.push(content);
         });
         setWebsiteCom(tempArr);
@@ -122,7 +109,7 @@ const Website = () => {
             case 0: {
               return (
                 <SineleComponent key={index}>
-                  <WebsiteCom1 content={content} index={index} />
+                  <PortfolioCom1 content={content} index={index} />
                   <Delete addDeleteCom={addDeleteCom} index={index} />
                 </SineleComponent>
               );
@@ -130,7 +117,7 @@ const Website = () => {
             case 1: {
               return (
                 <SineleComponent key={index}>
-                  <WebsiteCom2 content={content} index={index} />
+                  <PortfolioCom2 content={content} index={index} />
                   <Delete addDeleteCom={addDeleteCom} index={index} />
                 </SineleComponent>
               );
@@ -138,15 +125,7 @@ const Website = () => {
             case 2: {
               return (
                 <SineleComponent key={index}>
-                  <WebsiteCom3 content={content} index={index} />
-                  <Delete addDeleteCom={addDeleteCom} index={index} />
-                </SineleComponent>
-              );
-            }
-            case 3: {
-              return (
-                <SineleComponent key={index}>
-                  <PortfolioAreaCom content={content} index={index} />
+                  <PortfolioCom3 content={content} index={index} />
                   <Delete addDeleteCom={addDeleteCom} index={index} />
                 </SineleComponent>
               );
@@ -156,7 +135,7 @@ const Website = () => {
           }
         })}
       </div>
-      <AddWebsiteCom
+      <CreatePortfolioCom
         addWebsiteCom={addWebsiteCom}
         uploadWebsite={uploadWebsite}
       />
@@ -164,4 +143,4 @@ const Website = () => {
   );
 };
 
-export default Website;
+export default CreatePortfolio;

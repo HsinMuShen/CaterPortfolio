@@ -1,8 +1,6 @@
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { resumeFillContent, websiteFillContent } from "../action";
 import { RootState } from "../reducers";
 import { useSelector } from "react-redux";
 
@@ -89,7 +87,7 @@ export default ({ text, setReducerText, listIndex }: props) => {
   const isPreview = useSelector(
     (state: RootState) => state.IsPreviewReducer.resume
   );
-  const dispatch = useDispatch();
+
   const editor = useEditor({
     extensions: [StarterKit],
     content: `

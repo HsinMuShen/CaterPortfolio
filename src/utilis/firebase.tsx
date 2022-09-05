@@ -14,18 +14,46 @@ import { content } from "../pages/Homepage/Input";
 import { ResumeReducer, WebsiteReducer } from "../reducers";
 
 const firebase = {
-  post: doc(collection(db, `posts`)),
+  portfolios: doc(
+    collection(db, `portfolios`, `Xvbmt52vwx9RzFaXE17L`, `Xvbmt52vwx9RzFaXE17L`)
+  ),
 
-  writeFireStore(content: content) {
+  uploadPortfolio() {
     const Data = {
-      id: this.post.id,
-      title: content.title,
-      content: content.text,
-      author: content.author,
-      image: content.image,
+      id: this.portfolios.id,
+      title: "",
+      content: [],
+      author: "",
+      image: "",
       created_time: serverTimestamp(),
     };
-    setDoc(this.post, Data)
+    setDoc(this.portfolios, Data)
+      .then(() => alert("成功新增作品集!"))
+      .catch((error) => {
+        console.log(error);
+      });
+  },
+
+  async readPortfolioData(type: string, id: string) {
+    const docRef = doc(db, type, id, id);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      return docSnap.data();
+    } else {
+      console.log("No such document!");
+      return null;
+    }
+  },
+
+  async renewPortfolio(data: ResumeReducer | WebsiteReducer) {
+    const collectionDoc = doc(
+      db,
+      `portfolios`,
+      `Xvbmt52vwx9RzFaXE17L`,
+      `Xvbmt52vwx9RzFaXE17L`,
+      `M3SMOtATTseNm55713Ft`
+    );
+    setDoc(collectionDoc, data)
       .then(() => alert("成功上架頁面!"))
       .catch((error) => {
         console.log(error);

@@ -1,10 +1,18 @@
 import React, { useState } from "react";
 import EditText from "../../../utilis/EditText";
+import styled from "styled-components";
+import firebase from "../../../utilis/firebase";
+import { Link } from "react-router-dom";
 import { websiteComContent } from "../Website";
 import { useDispatch } from "react-redux";
 import { websiteFillContent } from "../../../action";
 
-const WebsiteCom3 = ({
+const AddingPortfolio = styled(Link)`
+  width: 100px;
+  height: 100px;
+  border: 1px solid;
+`;
+const PortfolioAreaCom = ({
   content,
   index,
 }: {
@@ -25,20 +33,9 @@ const WebsiteCom3 = ({
   };
   return (
     <div style={{ display: "flex" }}>
-      <>
-        {textList.map((_, listIndex) => {
-          return (
-            <EditText
-              key={listIndex}
-              text={content.text[listIndex]}
-              listIndex={listIndex}
-              setReducerText={setReducerText}
-            />
-          );
-        })}
-      </>
+      <AddingPortfolio to={"/createportfolio"}>新增作品集</AddingPortfolio>
     </div>
   );
 };
 
-export default WebsiteCom3;
+export default PortfolioAreaCom;

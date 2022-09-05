@@ -1,15 +1,15 @@
 import React, { useRef, useState } from "react";
 import Canves from "../../../utilis/Canves";
 import EditText from "../../../utilis/EditText";
-import { websiteComContent } from "../Website";
+import { portfolioComContent } from "../CreatePortfolio";
 import { useDispatch } from "react-redux";
 import { websiteAddImage, websiteFillContent } from "../../../action";
 
-const WebsiteCom1 = ({
+const PortfolioCom1 = ({
   content,
   index,
 }: {
-  content: websiteComContent;
+  content: portfolioComContent;
   index: number;
 }) => {
   const [imageFileList, setImageFileList] = useState<string[] | null[]>([null]);
@@ -57,4 +57,4 @@ const WebsiteCom1 = ({
   );
 };
 
-export default WebsiteCom1;
+export default PortfolioCom1;
