@@ -73,6 +73,16 @@ export const websiteFillContent = (
   };
 };
 
+export const websiteAddPortfolioID = (
+  index: number,
+  textArr: string[] | null[]
+) => {
+  return {
+    type: ActionType.WEBSITE.ADD_PORTFOLIO_ID,
+    payload: { index, textArr },
+  };
+};
+
 export const websiteAddImage = (index: number, imageArr: string[] | null[]) => {
   return {
     type: ActionType.WEBSITE.ADD_IMAGE,

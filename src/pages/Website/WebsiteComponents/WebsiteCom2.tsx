@@ -17,9 +17,11 @@ const WebsiteCom2 = ({
   ]);
   const diapatch = useDispatch();
   const setReducerImage = async (JSONstring: string, listIndex: number) => {
+    console.log(JSONstring);
     const tempArr = imageFileList;
     tempArr[listIndex] = JSONstring;
     setImageFileList(tempArr);
+
     diapatch(websiteAddImage(index, tempArr));
   };
   return (

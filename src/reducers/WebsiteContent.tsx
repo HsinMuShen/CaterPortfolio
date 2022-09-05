@@ -7,7 +7,7 @@ interface websiteReducer {
     image: string[];
     text: string[];
     type: number;
-    portfolioId?: string[];
+    portfolioID?: string[];
   }[];
   name: string;
   followers: string[];
@@ -58,6 +58,16 @@ const WebsiteReducer = (
       tempContentArr[index] = {
         ...websiteData.content[index],
         image: action.payload.imageArr,
+      };
+      const newWebsiteData = { ...websiteData, content: tempContentArr };
+      return newWebsiteData;
+    }
+    case ActionType.WEBSITE.ADD_PORTFOLIO_ID: {
+      const tempContentArr = websiteData.content;
+      const index = action.payload.index;
+      tempContentArr[index] = {
+        ...websiteData.content[index],
+        portfolioID: action.payload.textArr,
       };
       const newWebsiteData = { ...websiteData, content: tempContentArr };
       return newWebsiteData;

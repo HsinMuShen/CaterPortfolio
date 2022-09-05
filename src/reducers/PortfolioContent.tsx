@@ -1,7 +1,7 @@
 import { AnyAction } from "redux";
 import { ActionType } from ".";
 
-interface portfolioReducer {
+export interface portfolioReducer {
   title: string;
   mainImage: string;
   content: {
@@ -38,6 +38,8 @@ const PortfolioReducer = (
         tempData = { ...tempData, title: action.payload.text };
       } else if (action.payload.type === "mainImage") {
         tempData = { ...tempData, mainImage: action.payload.text };
+      } else if (action.payload.type === "portfolioID") {
+        tempData = { ...tempData, portfolioID: action.payload.text };
       }
       return tempData;
     }

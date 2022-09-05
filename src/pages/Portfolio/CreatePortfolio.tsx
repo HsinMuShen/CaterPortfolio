@@ -62,6 +62,7 @@ export const portfolioChoice = [
 const CreatePortfolio = () => {
   const [portfolioCom, setPortfolioCom] = useState<portfolioComContent[]>([]);
   const dispatch = useDispatch();
+  const websiteData = useSelector((state: RootState) => state.WebsiteReducer);
   const portfolioData = useSelector(
     (state: RootState) => state.PortfolioReducer
   );
@@ -80,8 +81,13 @@ const CreatePortfolio = () => {
 
   const uploadWebsite = () => {
     const tempPortfolioData = portfolioData;
-    tempPortfolioData.time = Date.now();
-    firebase.uploadDoc("websites", tempPortfolioData);
+    const timestamp = Date.now();
+    tempPortfolioData.time = timestamp;
+    firebase.uploadPortfolio(tempPortfolioData);
+
+    const tempWebsiteData = websiteData;
+    tempWebsiteData.time = timestamp;
+    firebase.uploadDoc("websites", websiteData);
   };
 
   return (

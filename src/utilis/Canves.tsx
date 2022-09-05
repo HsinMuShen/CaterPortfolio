@@ -66,7 +66,6 @@ const Canves = ({
     canvas.current.getActiveObjects().forEach((obj: any) => {
       canvas.current.remove(obj);
     });
-    // canvas.remove();
     canvas.current.requestRenderAll();
   }
 

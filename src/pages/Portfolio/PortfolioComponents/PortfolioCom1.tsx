@@ -3,7 +3,7 @@ import Canves from "../../../utilis/Canves";
 import EditText from "../../../utilis/EditText";
 import { portfolioComContent } from "../CreatePortfolio";
 import { useDispatch } from "react-redux";
-import { websiteAddImage, websiteFillContent } from "../../../action";
+import { portfolioAddImage, portfolioFillContent } from "../../../action";
 
 const PortfolioCom1 = ({
   content,
@@ -19,13 +19,13 @@ const PortfolioCom1 = ({
     const tempArr = imageFileList;
     tempArr[listIndex] = JSONstring;
     setImageFileList(tempArr);
-    diapatch(websiteAddImage(index, tempArr));
+    diapatch(portfolioAddImage(index, tempArr));
   };
   const setReducerText = async (text: string, listIndex: number) => {
     const tempArr = textList;
     tempArr[listIndex] = text;
     setTextList(tempArr);
-    diapatch(websiteFillContent(index, tempArr));
+    diapatch(portfolioFillContent(index, tempArr));
   };
   return (
     <div style={{ display: "flex" }}>

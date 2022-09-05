@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import Canves from "../../../utilis/Canves";
 import { portfolioComContent } from "../CreatePortfolio";
 import { useDispatch } from "react-redux";
-import { websiteAddImage } from "../../../action";
+import { portfolioAddImage } from "../../../action";
 
 const PortfolioCom2 = ({
   content,
@@ -20,7 +20,8 @@ const PortfolioCom2 = ({
     const tempArr = imageFileList;
     tempArr[listIndex] = JSONstring;
     setImageFileList(tempArr);
-    diapatch(websiteAddImage(index, tempArr));
+    diapatch(portfolioAddImage(index, tempArr));
+    console.log(tempArr);
   };
   return (
     <div style={{ display: "flex" }}>

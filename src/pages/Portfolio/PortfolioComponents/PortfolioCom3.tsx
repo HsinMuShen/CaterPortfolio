@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import EditText from "../../../utilis/EditText";
 import { portfolioComContent } from "../CreatePortfolio";
 import { useDispatch } from "react-redux";
-import { websiteFillContent } from "../../../action";
+import { portfolioFillContent } from "../../../action";
 
 const PortfolioCom3 = ({
   content,
@@ -21,7 +21,7 @@ const PortfolioCom3 = ({
     const tempArr = textList;
     tempArr[listIndex] = text;
     setTextList(tempArr);
-    diapatch(websiteFillContent(index, tempArr));
+    diapatch(portfolioFillContent(index, tempArr));
   };
   return (
     <div style={{ display: "flex" }}>

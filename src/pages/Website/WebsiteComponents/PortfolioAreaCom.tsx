@@ -37,6 +37,7 @@ const PortfolioAreaCom = ({
         <div
           onClick={() => {
             dispatch(setPortfolioIndex(index));
+            console.log(index);
           }}
         >
           新增作品集

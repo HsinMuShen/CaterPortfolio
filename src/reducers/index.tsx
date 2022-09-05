@@ -20,6 +20,7 @@ export const ActionType: {
     ADD_IMAGE: string | undefined;
     ADD_TIME: string | undefined;
     LOADING: string | undefined;
+    ADD_PORTFOLIO_ID: string | undefined;
   };
   PORTFOLIO: {
     ADD_COMPONENT: string | undefined;
@@ -53,6 +54,7 @@ export const ActionType: {
     ADD_IMAGE: "WEBSITE_ADD_IMAGE",
     ADD_TIME: "WEBSITE_ADD_TIME",
     LOADING: "WEBSITE_LOADING",
+    ADD_PORTFOLIO_ID: "ADD_PORTFOLIO_ID",
   },
   PORTFOLIO: {
     ADD_COMPONENT: "PORTFOLIO_ADD_COMPONENT",

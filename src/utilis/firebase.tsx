@@ -11,21 +11,24 @@ import {
 } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { content } from "../pages/Homepage/Input";
-import { ResumeReducer, WebsiteReducer } from "../reducers";
+import { ResumeReducer, WebsiteReducer, PortfolioReducer } from "../reducers";
 
 const firebase = {
   portfolios: doc(
     collection(db, `portfolios`, `Xvbmt52vwx9RzFaXE17L`, `Xvbmt52vwx9RzFaXE17L`)
   ),
 
-  uploadPortfolio() {
+  uploadPortfolio(data: PortfolioReducer) {
     const Data = {
-      id: this.portfolios.id,
-      title: "",
-      content: [],
-      author: "",
-      image: "",
-      created_time: serverTimestamp(),
+      portfolioID: this.portfolios.id,
+      title: data.title,
+      content: data.content,
+      name: data.name,
+      followers: data.followers,
+      tags: data.tags,
+      userID: data.userID,
+      mainImage: data.mainImage,
+      time: data.time,
     };
     setDoc(this.portfolios, Data)
       .then(() => alert("成功新增作品集!"))

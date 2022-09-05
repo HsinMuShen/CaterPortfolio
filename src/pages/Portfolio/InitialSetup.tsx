@@ -1,9 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import firebase from "../../utilis/firebase";
+import { v4 as uuidv4, v4 } from "uuid";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../reducers";
-import { portfolioInitialSetup, websiteFillContent } from "../../action";
+import {
+  portfolioInitialSetup,
+  websiteFillContent,
+  websiteAddImage,
+  websiteAddPortfolioID,
+} from "../../action";
 
 import cater from "../../utilis/cater.png";
 
@@ -47,15 +53,29 @@ const InitialSetup = () => {
   const setPortfolioMainImage = async (file: File) => {
     const imageUrl = await firebase.getImageUrl(file);
     dispatch(portfolioInitialSetup("mainImage", imageUrl));
+    const tempArr = websiteReducer.content[portfolioIndex.index].image;
+    tempArr[
+      websiteReducer.content[portfolioIndex.index].portfolioID.length - 1
+    ] = imageUrl;
+    dispatch(websiteAddImage(portfolioIndex.index, tempArr));
   };
 
   const setToWebsite = (text: string) => {
     const tempArr = websiteReducer.content[portfolioIndex.index].text;
-    tempArr[websiteReducer.content[portfolioIndex.index].portfolioID.length] =
-      text;
-    websiteFillContent(portfolioIndex.index, tempArr);
-    console.log(tempArr);
+    tempArr[
+      websiteReducer.content[portfolioIndex.index].portfolioID.length - 1
+    ] = text;
+    dispatch(websiteFillContent(portfolioIndex.index, tempArr));
   };
+
+  useEffect(() => {
+    const portID = v4();
+    dispatch(portfolioInitialSetup("portfolioID", portID));
+    const tempArr = websiteReducer.content[portfolioIndex.index].portfolioID;
+    tempArr[websiteReducer.content[portfolioIndex.index].portfolioID.length] =
+      portID;
+    dispatch(websiteAddPortfolioID(portfolioIndex.index, tempArr));
+  }, []);
   return (
     <div style={{ display: "flex" }}>
       <ImageContainer>
@@ -78,7 +98,7 @@ const InitialSetup = () => {
         placeholder="Title"
         onChange={(e) => {
           dispatch(portfolioInitialSetup("title", e.target.value));
-          //   setToWebsite(e.target.value);
+          setToWebsite(e.target.value);
         }}
       />
     </div>

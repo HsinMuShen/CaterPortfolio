@@ -96,11 +96,6 @@ export default ({ text, setReducerText, listIndex }: props) => {
     onUpdate: ({ editor }) => {
       const html = editor.getHTML();
       setReducerText(html, listIndex);
-      // if (type === "resume") {
-      //   dispatch(resumeFillContent(index, html));
-      // } else if (type === "website") {
-      //   setReducerText(html, listIndex);
-      // }
     },
   });
 
