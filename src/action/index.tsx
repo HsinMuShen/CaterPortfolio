@@ -58,7 +58,7 @@ export const websiteAddCom = (content: {
 
 export const websiteDeleteCom = (index: number) => {
   return {
-    type: ActionType.RESUME.DELETE_COMPONENT,
+    type: ActionType.WEBSITE.DELETE_COMPONENT,
     payload: { index },
   };
 };
@@ -88,7 +88,66 @@ export const websiteAddTime = () => {
 
 export const websiteLoading = (data: DocumentData) => {
   return {
-    type: ActionType.RESUME.LOADING,
+    type: ActionType.WEBSITE.LOADING,
+    payload: { data },
+  };
+};
+
+export const portfolioAddCom = (content: {
+  image: string[];
+  text: string[] | null[];
+  type: number;
+  portfolioId?: string[];
+}) => {
+  return {
+    type: ActionType.PORTFOLIO.ADD_COMPONENT,
+    payload: { content },
+  };
+};
+
+export const portfolioDeleteCom = (index: number) => {
+  return {
+    type: ActionType.PORTFOLIO.DELETE_COMPONENT,
+    payload: { index },
+  };
+};
+
+export const portfolioInitialSetup = (type: string, text: string) => {
+  return {
+    type: ActionType.PORTFOLIO.INITIAL_SETUP,
+    payload: { type, text },
+  };
+};
+
+export const portfolioFillContent = (
+  index: number,
+  textArr: string[] | null[]
+) => {
+  return {
+    type: ActionType.PORTFOLIO.FILL_CONTENT,
+    payload: { index, textArr },
+  };
+};
+
+export const portfolioAddImage = (
+  index: number,
+  imageArr: string[] | null[]
+) => {
+  return {
+    type: ActionType.PORTFOLIO.ADD_IMAGE,
+    payload: { index, imageArr },
+  };
+};
+
+export const portfolioAddTime = () => {
+  return {
+    type: ActionType.PORTFOLIO.ADD_TIME,
+  };
+};
+
+export const portfolioLoading = (data: DocumentData) => {
+  return {
+    type: ActionType.PORTFOLIO.LOADING,
     payload: { data },
   };
 };
@@ -108,5 +167,12 @@ export const isPreviewWebsite = () => {
 export const isPreviewPortfolio = () => {
   return {
     type: ActionType.ISPREVIEW.PORTFOLIO,
+  };
+};
+
+export const setPortfolioIndex = (index: number) => {
+  return {
+    type: ActionType.PORTFOLIOINDEX.SET_INDEX,
+    payload: { index },
   };
 };

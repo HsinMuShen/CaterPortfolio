@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+
+import InitialSetup from "./InitialSetup";
 import PortfolioCom1 from "./PortfolioComponents/PortfolioCom1";
 import PortfolioCom2 from "./PortfolioComponents/PortfolioCom2";
 import PortfolioCom3 from "./PortfolioComponents/PortfolioCom3";
@@ -8,10 +10,10 @@ import CreatePortfolioCom from "./CreatePortfolioCom";
 import firebase from "../../utilis/firebase";
 import { RootState } from "../../reducers";
 import { useSelector, useDispatch } from "react-redux";
-import { websiteAddCom, websiteDeleteCom, websiteLoading } from "../../action";
+import { portfolioAddCom, portfolioDeleteCom } from "../../action";
 import { Link } from "react-router-dom";
 
-const Preview = styled(Link)``;
+const Preview = styled.div``;
 
 const SineleComponent = styled.div`
   display: flex;
@@ -58,53 +60,37 @@ export const portfolioChoice = [
 ];
 
 const CreatePortfolio = () => {
-  const [websiteCom, setWebsiteCom] = useState<portfolioComContent[]>([]);
+  const [portfolioCom, setPortfolioCom] = useState<portfolioComContent[]>([]);
   const dispatch = useDispatch();
-  const websiteData = useSelector((state: RootState) => state.WebsiteReducer);
-  console.log(websiteData);
+  const portfolioData = useSelector(
+    (state: RootState) => state.PortfolioReducer
+  );
+  console.log(portfolioData);
   const addWebsiteCom = (conIndex: number) => {
-    dispatch(websiteAddCom(portfolioChoice[conIndex].comContent));
-    setWebsiteCom([...websiteCom, portfolioChoice[conIndex].comContent]);
+    dispatch(portfolioAddCom(portfolioChoice[conIndex].comContent));
+    setPortfolioCom([...portfolioCom, portfolioChoice[conIndex].comContent]);
   };
 
   const addDeleteCom = (deleteIndex: number) => {
-    dispatch(websiteDeleteCom(deleteIndex));
-    const tempArr = [...websiteCom];
+    dispatch(portfolioDeleteCom(deleteIndex));
+    const tempArr = [...portfolioCom];
     tempArr.splice(deleteIndex, 1);
-    setWebsiteCom(tempArr);
+    setPortfolioCom(tempArr);
   };
 
   const uploadWebsite = () => {
-    const tempWebsiteData = websiteData;
-    tempWebsiteData.time = Date.now();
-    firebase.uploadDoc("websites", websiteData);
+    const tempPortfolioData = portfolioData;
+    tempPortfolioData.time = Date.now();
+    firebase.uploadDoc("websites", tempPortfolioData);
   };
-
-  useEffect(() => {
-    const loadResume = async () => {
-      const websiteData = await firebase.readData(
-        "websites",
-        "Xvbmt52vwx9RzFaXE17L"
-      );
-      if (websiteData) {
-        dispatch(websiteLoading(websiteData));
-        const tempArr: portfolioComContent[] = [];
-        websiteData.content.forEach((content: portfolioComContent) => {
-          tempArr.push(content);
-        });
-        setWebsiteCom(tempArr);
-      }
-    };
-    loadResume();
-  }, []);
 
   return (
     <>
-      <Preview target="_blank" to="/website/preview">
-        Preview
-      </Preview>
+      <InitialSetup />
+      <hr />
+      <Preview>Preview</Preview>
       <div>
-        {websiteCom.map((content, index) => {
+        {portfolioCom.map((content, index) => {
           switch (content.type) {
             case 0: {
               return (

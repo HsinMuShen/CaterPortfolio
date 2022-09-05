@@ -5,7 +5,7 @@ import firebase from "../../../utilis/firebase";
 import { Link } from "react-router-dom";
 import { websiteComContent } from "../Website";
 import { useDispatch } from "react-redux";
-import { websiteFillContent } from "../../../action";
+import { websiteFillContent, setPortfolioIndex } from "../../../action";
 
 const AddingPortfolio = styled(Link)`
   width: 100px;
@@ -24,16 +24,24 @@ const PortfolioAreaCom = ({
     null,
     null,
   ]);
-  const diapatch = useDispatch();
+  const dispatch = useDispatch();
   const setReducerText = async (text: string, listIndex: number) => {
     const tempArr = textList;
     tempArr[listIndex] = text;
     setTextList(tempArr);
-    diapatch(websiteFillContent(index, tempArr));
+    dispatch(websiteFillContent(index, tempArr));
   };
   return (
     <div style={{ display: "flex" }}>
-      <AddingPortfolio to={"/createportfolio"}>新增作品集</AddingPortfolio>
+      <AddingPortfolio to={"/createportfolio"}>
+        <div
+          onClick={() => {
+            dispatch(setPortfolioIndex(index));
+          }}
+        >
+          新增作品集
+        </div>
+      </AddingPortfolio>
     </div>
   );
 };

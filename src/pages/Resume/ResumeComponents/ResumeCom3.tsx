@@ -25,11 +25,13 @@ const ResumeCom3 = ({
     <div>
       <>
         {textList.map((_, listIndex) => {
-          <EditText
-            text={content.text[listIndex]}
-            listIndex={listIndex}
-            setReducerText={setReducerText}
-          />;
+          return (
+            <EditText
+              text={content.text[listIndex]}
+              listIndex={listIndex}
+              setReducerText={setReducerText}
+            />
+          );
         })}
       </>
     </div>

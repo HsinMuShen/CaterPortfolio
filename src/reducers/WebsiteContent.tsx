@@ -35,7 +35,7 @@ const WebsiteReducer = (
       const newResumeData = { ...websiteData, content: tempContentArr };
       return newResumeData;
     }
-    case ActionType.RESUME.DELETE_COMPONENT: {
+    case ActionType.WEBSITE.DELETE_COMPONENT: {
       const tempContentArr = websiteData.content;
       const index = action.payload.index;
       tempContentArr.splice(index, 1);
@@ -66,7 +66,7 @@ const WebsiteReducer = (
       const tempObj = { ...websiteData, time: Date.now() };
       return tempObj;
     }
-    case ActionType.RESUME.LOADING: {
+    case ActionType.WEBSITE.LOADING: {
       const tempWebsiteData = action.payload.data;
       return tempWebsiteData;
     }
