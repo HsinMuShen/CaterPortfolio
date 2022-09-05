@@ -6,15 +6,15 @@ import {
   serverTimestamp,
   query,
   where,
+  getDoc,
   getDocs,
 } from "firebase/firestore";
-import {  ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { content } from "../pages/Homepage/Input";
-import {  ResumeReducer,WebsiteReducer } from '../reducers'
+import { ResumeReducer, WebsiteReducer } from "../reducers";
 
 const firebase = {
   post: doc(collection(db, `posts`)),
-  
 
   writeFireStore(content: content) {
     const Data = {
@@ -32,36 +32,43 @@ const firebase = {
       });
   },
 
-  async getProfile (id: string)  {
+  async getProfile(id: string) {
     const searchProfile = collection(db, "posts");
     const q = query(searchProfile, where("id", "==", id));
     const querySnapshot = await getDocs(q);
-    let temp
+    let temp;
     querySnapshot.forEach((doc) => {
-      temp = doc.data()
+      temp = doc.data();
     });
-    return temp ;
+    return temp;
   },
 
-  async getImageUrl (imagefile: File)  {
-    const imageRef = ref(
-      storage,
-      `images/${Date.now() + imagefile.name}`
-    );
+  async getImageUrl(imagefile: File) {
+    const imageRef = ref(storage, `images/${Date.now() + imagefile.name}`);
     await uploadBytes(imageRef, imagefile);
     const imageUrl = await getDownloadURL(imageRef);
     return imageUrl;
   },
 
-
-  async uploadDoc(collection:string, data: ResumeReducer|WebsiteReducer){
-    const collectionDoc = doc(db,collection, "Xvbmt52vwx9RzFaXE17L")
+  async uploadDoc(collection: string, data: ResumeReducer | WebsiteReducer) {
+    const collectionDoc = doc(db, collection, "Xvbmt52vwx9RzFaXE17L");
     setDoc(collectionDoc, data)
       .then(() => alert("成功上架頁面!"))
       .catch((error) => {
         console.log(error);
       });
-  }
+  },
+
+  async readData(type: string, id: string) {
+    const docRef = doc(db, type, id);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      return docSnap.data();
+    } else {
+      console.log("No such document!");
+      return null;
+    }
+  },
 };
 
 export default firebase;

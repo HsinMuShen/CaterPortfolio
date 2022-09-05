@@ -1,100 +1,139 @@
-import { EditorContent, useEditor } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
-import React, {useState} from 'react'
-import { useDispatch } from 'react-redux'
-import { resumeFillContent,websiteFillContent } from '../action'
+import { EditorContent, useEditor } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { resumeFillContent, websiteFillContent } from "../action";
+import { RootState } from "../reducers";
+import { useSelector } from "react-redux";
 
 const MenuBar: React.FC<any> = ({ editor, isShowBtn }) => {
   if (!editor) {
-    return null
+    return null;
   }
-  
+
   return (
-    <div style={{display: isShowBtn? "block" :"none"}}>
+    <div className="btns" style={{ display: isShowBtn ? "block" : "none" }}>
       <button
         onClick={() => editor.chain().focus().toggleBold().run()}
-        className={editor.isActive('bold') ? 'is-active' : ''}
+        className={editor.isActive("bold") ? "is-active" : ""}
       >
         bold
       </button>
       <button
         onClick={() => editor.chain().focus().toggleItalic().run()}
-        className={editor.isActive('italic') ? 'is-active' : ''}
+        className={editor.isActive("italic") ? "is-active" : ""}
       >
         italic
       </button>
       <button
         onClick={() => editor.chain().focus().toggleStrike().run()}
-        className={editor.isActive('strike') ? 'is-active' : ''}
+        className={editor.isActive("strike") ? "is-active" : ""}
       >
         strike
       </button>
 
       <button
         onClick={() => editor.chain().focus().setParagraph().run()}
-        className={editor.isActive('paragraph') ? 'is-active' : ''}
+        className={editor.isActive("paragraph") ? "is-active" : ""}
       >
         paragraph
       </button>
       <button
         onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-        className={editor.isActive('heading', { level: 1 }) ? 'is-active' : ''}
+        className={editor.isActive("heading", { level: 1 }) ? "is-active" : ""}
       >
         h1
       </button>
       <button
         onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-        className={editor.isActive('heading', { level: 2 }) ? 'is-active' : ''}
+        className={editor.isActive("heading", { level: 2 }) ? "is-active" : ""}
       >
         h2
       </button>
       <button
         onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
-        className={editor.isActive('heading', { level: 3 }) ? 'is-active' : ''}
+        className={editor.isActive("heading", { level: 3 }) ? "is-active" : ""}
       >
         h3
       </button>
+      <button
+        onClick={() => editor.chain().focus().toggleBulletList().run()}
+        className={editor.isActive("bulletList") ? "is-active" : ""}
+      >
+        bullet list
+      </button>
+      <button
+        onClick={() => editor.chain().focus().toggleOrderedList().run()}
+        className={editor.isActive("orderedList") ? "is-active" : ""}
+      >
+        ordered list
+      </button>
+      <button onClick={() => editor.chain().focus().setHorizontalRule().run()}>
+        horizontal rule
+      </button>
+      <button onClick={() => editor.chain().focus().setHardBreak().run()}>
+        hard break
+      </button>
     </div>
-  )
-}
+  );
+};
 
 interface props {
-  type: string,
+  text: string;
+  setReducerText: (text: string, listIndex: number) => void;
+  listIndex: number;
 }
 
-export default (props:props) => {
-const [isShowBtn, setIsShowBtn] =useState<boolean>(false);
-const dispatch = useDispatch();
-console.log(props.type)
+export default ({ text, setReducerText, listIndex }: props) => {
+  const [isShowBtn, setIsShowBtn] = useState<boolean>(false);
+  const isPreview = useSelector(
+    (state: RootState) => state.IsPreviewReducer.resume
+  );
+  const dispatch = useDispatch();
   const editor = useEditor({
-    extensions: [
-      StarterKit,
-    ],
+    extensions: [StarterKit],
     content: `
-      <h2>
-        姓名,
-      </h2>
-      <p>
-        Email
-      </p>
+      ${text}
     `,
     onUpdate: ({ editor }) => {
-        const html = editor.getHTML()
-        if(props.type==="resume"){
-          dispatch(resumeFillContent(0,html));
-        }else if(props.type==="website"){
-          dispatch(websiteFillContent(0,html));
-        }
-      },
-  })
+      const html = editor.getHTML();
+      setReducerText(html, listIndex);
+      // if (type === "resume") {
+      //   dispatch(resumeFillContent(index, html));
+      // } else if (type === "website") {
+      //   setReducerText(html, listIndex);
+      // }
+    },
+  });
+
+  useEffect(() => {
+    const closeBtn = (e: any) => {
+      // console.log(e.path[0].parentElement);
+      if (
+        e.path[0].parentElement.className ===
+          "ProseMirror ProseMirror-focused" ||
+        e.path[0].parentElement.className === "btns"
+      ) {
+        return;
+      }
+      setIsShowBtn(false);
+    };
+    document.body.addEventListener("click", closeBtn);
+  }, []);
 
   return (
-    <div  className="text">
-      <MenuBar editor={editor} isShowBtn={isShowBtn}/>
-      <EditorContent editor={editor} onClick={()=>{setIsShowBtn(true)}}/>
+    <div className="text">
+      <MenuBar editor={editor} isShowBtn={isShowBtn} className="tex2" />
+      <EditorContent
+        style={{ padding: "20px" }}
+        editor={editor}
+        onClick={() => {
+          setIsShowBtn(true);
+        }}
+      />
     </div>
-  )
-}
+  );
+};
 
 // onBlur={()=>{setIsShowBtn(false)}}
 // onClick={(e)=>{
