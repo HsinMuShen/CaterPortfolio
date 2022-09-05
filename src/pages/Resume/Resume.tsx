@@ -50,7 +50,7 @@ const ToProfileLink = styled(Link)``;
 
 export interface resumeComContent {
   image: string[];
-  text: string;
+  text: string[];
   type: number;
 }
 
@@ -60,7 +60,7 @@ export const resumeChoice = [
     comIndex: 0,
     comContent: {
       image: [preImage],
-      text: "<h2>姓名</h2><p>Email</p><p>聯絡資訊</p>",
+      text: ["<h2>姓名</h2><p>Email</p><p>聯絡資訊</p>"],
       type: 0,
     },
   },
@@ -69,7 +69,7 @@ export const resumeChoice = [
     comIndex: 1,
     comContent: {
       image: [preImage, preImage, preImage],
-      text: "",
+      text: [],
       type: 1,
     },
   },
@@ -78,7 +78,7 @@ export const resumeChoice = [
     comIndex: 2,
     comContent: {
       image: [],
-      text: "<h3>標題</h3><p>您的英勇事蹟</p><p>您的英勇事蹟</p>",
+      text: ["<h3>標題</h3><p>您的英勇事蹟</p><p>您的英勇事蹟</p>"],
       type: 2,
     },
   },
@@ -119,7 +119,7 @@ const Resume: React.FC = () => {
         dispatch(resumeLoading(resumeData));
         const tempArr: resumeComContent[] = [];
         resumeData.content.forEach(
-          (content: { image: string[]; text: ""; type: number }) => {
+          (content: { image: string[]; text: string[]; type: number }) => {
             tempArr.push(content);
           }
         );

@@ -79,12 +79,12 @@ const MenuBar: React.FC<any> = ({ editor, isShowBtn }) => {
 };
 
 interface props {
-  type: string;
   text: string;
-  index: number;
+  setReducerText: (text: string, listIndex: number) => void;
+  listIndex: number;
 }
 
-export default ({ type, text, index }: props) => {
+export default ({ text, setReducerText, listIndex }: props) => {
   const [isShowBtn, setIsShowBtn] = useState<boolean>(false);
   const isPreview = useSelector(
     (state: RootState) => state.IsPreviewReducer.resume
@@ -97,11 +97,12 @@ export default ({ type, text, index }: props) => {
     `,
     onUpdate: ({ editor }) => {
       const html = editor.getHTML();
-      if (type === "resume") {
-        dispatch(resumeFillContent(index, html));
-      } else if (type === "website") {
-        dispatch(websiteFillContent(index, html));
-      }
+      setReducerText(html, listIndex);
+      // if (type === "resume") {
+      //   dispatch(resumeFillContent(index, html));
+      // } else if (type === "website") {
+      //   setReducerText(html, listIndex);
+      // }
     },
   });
 

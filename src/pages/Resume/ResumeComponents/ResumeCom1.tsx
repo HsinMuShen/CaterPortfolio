@@ -3,7 +3,7 @@ import PreviewImageInput from "../../../utilis/PreviewImageInput";
 import EditText from "../../../utilis/EditText";
 import firebase from "../../../utilis/firebase";
 import { useDispatch } from "react-redux";
-import { resumeAddImage } from "../../../action";
+import { resumeAddImage, resumeFillContent } from "../../../action";
 import { resumeComContent } from "../Resume";
 
 const ResumeCom1 = ({
@@ -14,6 +14,7 @@ const ResumeCom1 = ({
   content: resumeComContent;
 }) => {
   const [imageFileList, setImageFileList] = useState<string[] | null[]>([null]);
+  const [textList, setTextList] = useState<string[] | null[]>([null]);
   const diapatch = useDispatch();
   const setResumeReducerImage = async (file: File, listIndex: number) => {
     const tempArr = imageFileList;
@@ -21,6 +22,12 @@ const ResumeCom1 = ({
     tempArr[listIndex] = imageUrl;
     setImageFileList(tempArr);
     diapatch(resumeAddImage(index, tempArr));
+  };
+  const setReducerText = async (text: string, listIndex: number) => {
+    const tempArr = textList;
+    tempArr[listIndex] = text;
+    setTextList(tempArr);
+    diapatch(resumeFillContent(index, tempArr));
   };
   return (
     <div style={{ display: "flex" }}>
@@ -34,7 +41,15 @@ const ResumeCom1 = ({
           />
         );
       })}
-      <EditText type={"resume"} text={content.text} index={index} />
+      <>
+        {textList.map((_, listIndex) => {
+          <EditText
+            text={content.text[listIndex]}
+            listIndex={listIndex}
+            setReducerText={setReducerText}
+          />;
+        })}
+      </>
     </div>
   );
 };

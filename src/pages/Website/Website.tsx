@@ -20,9 +20,9 @@ const SineleComponent = styled.div`
 
 export interface websiteComContent {
   image: string[];
-  text: string;
+  text: string[];
   type: number;
-  previewImage: string[];
+  portfolioID?: string[];
 }
 
 export const websiteChoice = [
@@ -31,9 +31,8 @@ export const websiteChoice = [
     comIndex: 0,
     comContent: {
       image: [""],
-      text: "<h2>標題</h2><p>令人眼睛一亮的介紹</p><p>令人眼睛一亮的介紹</p>",
+      text: ["<h2>標題</h2><p>令人眼睛一亮的介紹</p><p>令人眼睛一亮的介紹</p>"],
       type: 0,
-      previewImage: [],
     },
   },
   {
@@ -41,9 +40,8 @@ export const websiteChoice = [
     comIndex: 1,
     comContent: {
       image: ["", ""],
-      text: "",
+      text: [],
       type: 1,
-      previewImage: [],
     },
   },
   {
@@ -51,9 +49,18 @@ export const websiteChoice = [
     comIndex: 2,
     comContent: {
       image: [],
-      text: "<h3>標題</h3><p>您的英勇事蹟</p><p>您的英勇事蹟</p>",
+      text: ["<h3>標題</h3><p>您的英勇事蹟</p><p>您的英勇事蹟</p>"],
       type: 2,
-      previewImage: [],
+    },
+  },
+  {
+    name: 3,
+    comIndex: 3,
+    comContent: {
+      image: [],
+      text: [],
+      type: 3,
+      portfolioID: [],
     },
   },
 ];

@@ -16,10 +16,7 @@ const WebsiteCom2 = ({
     null,
   ]);
   const diapatch = useDispatch();
-  const setResumeReducerImage = async (
-    JSONstring: string,
-    listIndex: number
-  ) => {
+  const setReducerImage = async (JSONstring: string, listIndex: number) => {
     const tempArr = imageFileList;
     tempArr[listIndex] = JSONstring;
     setImageFileList(tempArr);
@@ -34,7 +31,7 @@ const WebsiteCom2 = ({
             content={content}
             name={`${index.toString()}-${listIndex.toString()}`}
             size={{ height: 200, width: 400 }}
-            setResumeReducerImage={setResumeReducerImage}
+            setReducerImage={setReducerImage}
             listIndex={listIndex}
           />
         );

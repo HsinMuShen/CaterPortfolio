@@ -5,9 +5,9 @@ interface websiteReducer {
   title: string;
   content: {
     image: string[];
-    text: string;
+    text: string[];
     type: number;
-    previewImage: string[];
+    portfolioId?: string[];
   }[];
   name: string;
   followers: string[];
@@ -47,7 +47,7 @@ const WebsiteReducer = (
       const index = action.payload.index;
       tempContentArr[index] = {
         ...websiteData.content[index],
-        text: action.payload.html,
+        text: action.payload.textArr,
       };
       const newWebsiteData = { ...websiteData, content: tempContentArr };
       return newWebsiteData;

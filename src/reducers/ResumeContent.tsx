@@ -4,7 +4,7 @@ import { Timestamp } from "firebase/firestore";
 
 interface resumeReducer {
   title: string;
-  content: { image: string[]; text: string; type: number }[];
+  content: { image: string[]; text: string[]; type: number }[];
   name: string;
   followers: string[];
   tags: string[];
@@ -40,7 +40,7 @@ const ResumeReducer = (
     }
     case ActionType.RESUME.FILL_CONTENT: {
       const tempContentArr = resumeData.content;
-      const index = action.payload.index;
+      const index = action.payload.textArr;
       tempContentArr[index] = {
         ...resumeData.content[index],
         text: action.payload.html,

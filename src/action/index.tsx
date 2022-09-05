@@ -4,7 +4,7 @@ import ResumeReducer from "../reducers/ResumeContent";
 
 export const resumeAddCom = (content: {
   image: string[];
-  text: string;
+  text: string[] | null[];
   type: number;
 }) => {
   return {
@@ -20,10 +20,13 @@ export const resumeDeleteCom = (index: number) => {
   };
 };
 
-export const resumeFillContent = (index: number, html: string) => {
+export const resumeFillContent = (
+  index: number,
+  textArr: string[] | null[]
+) => {
   return {
     type: ActionType.RESUME.FILL_CONTENT,
-    payload: { index, html },
+    payload: { index, textArr },
   };
 };
 
@@ -43,8 +46,9 @@ export const resumeLoading = (data: DocumentData) => {
 
 export const websiteAddCom = (content: {
   image: string[];
-  text: string;
+  text: string[] | null[];
   type: number;
+  portfolioId?: string[];
 }) => {
   return {
     type: ActionType.WEBSITE.ADD_COMPONENT,
@@ -59,10 +63,13 @@ export const websiteDeleteCom = (index: number) => {
   };
 };
 
-export const websiteFillContent = (index: number, html: string) => {
+export const websiteFillContent = (
+  index: number,
+  textArr: string[] | null[]
+) => {
   return {
     type: ActionType.WEBSITE.FILL_CONTENT,
-    payload: { index, html },
+    payload: { index, textArr },
   };
 };
 
