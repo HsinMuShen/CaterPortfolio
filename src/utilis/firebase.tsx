@@ -14,31 +14,23 @@ import { content } from "../pages/Homepage/Input";
 import { ResumeReducer, WebsiteReducer, PortfolioReducer } from "../reducers";
 
 const firebase = {
-  portfolios: doc(
-    collection(db, `portfolios`, `Xvbmt52vwx9RzFaXE17L`, `Xvbmt52vwx9RzFaXE17L`)
-  ),
-
   uploadPortfolio(data: PortfolioReducer) {
-    const Data = {
-      portfolioID: this.portfolios.id,
-      title: data.title,
-      content: data.content,
-      name: data.name,
-      followers: data.followers,
-      tags: data.tags,
-      userID: data.userID,
-      mainImage: data.mainImage,
-      time: data.time,
-    };
-    setDoc(this.portfolios, Data)
+    const portfolios = doc(
+      db,
+      `portfolios`,
+      `Xvbmt52vwx9RzFaXE17L`,
+      `Xvbmt52vwx9RzFaXE17L`,
+      data.portfolioID
+    );
+    setDoc(portfolios, data)
       .then(() => alert("成功新增作品集!"))
       .catch((error) => {
         console.log(error);
       });
   },
 
-  async readPortfolioData(type: string, id: string) {
-    const docRef = doc(db, type, id, id);
+  async readPortfolioData(type: string, userID: string, portfolioID: string) {
+    const docRef = doc(db, type, userID, userID, portfolioID);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
       return docSnap.data();

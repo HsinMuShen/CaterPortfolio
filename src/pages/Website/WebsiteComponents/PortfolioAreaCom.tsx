@@ -7,6 +7,8 @@ import { websiteComContent } from "../Website";
 import { useDispatch } from "react-redux";
 import { websiteFillContent, setPortfolioIndex } from "../../../action";
 
+const PortfolioCard = styled(Link)``;
+
 const AddingPortfolio = styled(Link)`
   width: 100px;
   height: 100px;
@@ -33,16 +35,26 @@ const PortfolioAreaCom = ({
   };
   return (
     <div style={{ display: "flex" }}>
-      <AddingPortfolio to={"/createportfolio"}>
-        <div
-          onClick={() => {
-            dispatch(setPortfolioIndex(index));
-            console.log(index);
-          }}
-        >
-          新增作品集
-        </div>
-      </AddingPortfolio>
+      <>
+        {content.portfolioID?.map((portfolioID, index) => {
+          return (
+            <PortfolioCard key={portfolioID} to={`/portfolio/${portfolioID}`}>
+              <img src={content.image[index]} />
+              <p>{content.text[index]}</p>
+            </PortfolioCard>
+          );
+        })}
+        <AddingPortfolio to={"/createportfolio"}>
+          <div
+            onClick={() => {
+              dispatch(setPortfolioIndex(index));
+              console.log(index);
+            }}
+          >
+            新增作品集
+          </div>
+        </AddingPortfolio>
+      </>
     </div>
   );
 };
