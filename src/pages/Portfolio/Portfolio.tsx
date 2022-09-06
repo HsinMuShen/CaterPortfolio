@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
+import InitialSetup from "./InitialSetup";
 import PortfolioCom1 from "./PortfolioComponents/PortfolioCom1";
 import PortfolioCom2 from "./PortfolioComponents/PortfolioCom2";
 import PortfolioCom3 from "./PortfolioComponents/PortfolioCom3";
@@ -69,7 +70,7 @@ const Portfolio = () => {
   const portfolioData = useSelector(
     (state: RootState) => state.PortfolioReducer
   );
-  const { id } = useParams();
+  const portfolioID = useParams().id;
 
   const addWebsiteCom = (conIndex: number) => {
     dispatch(portfolioAddCom(portfolioChoice[conIndex].comContent));
@@ -96,12 +97,12 @@ const Portfolio = () => {
 
   useEffect(() => {
     const loadPortfolio = async () => {
+      console.log(portfolioID);
       const portfolioData = await firebase.readPortfolioData(
         "portfolios",
         "Xvbmt52vwx9RzFaXE17L",
-        `${id}`
+        `${portfolioID}`
       );
-      console.log(portfolioData);
       if (portfolioData) {
         dispatch(portfolioLoading(portfolioData));
         const tempArr: portfolioComContent[] = [];
@@ -111,12 +112,16 @@ const Portfolio = () => {
         setPortfolioCom(tempArr);
       }
     };
-    loadPortfolio();
+    if (portfolioID !== "create") {
+      loadPortfolio();
+    }
   }, []);
 
   return (
     <>
       <Preview>Preview</Preview>
+      <InitialSetup portfolioID={portfolioID} />
+      <hr />
       <div>
         {portfolioCom.map((content, index) => {
           switch (content.type) {

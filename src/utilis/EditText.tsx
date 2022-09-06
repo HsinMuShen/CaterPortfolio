@@ -101,7 +101,6 @@ export default ({ text, setReducerText, listIndex }: props) => {
 
   useEffect(() => {
     const closeBtn = (e: any) => {
-      // console.log(e.path[0].parentElement);
       if (
         e.path[0].parentElement.className ===
           "ProseMirror ProseMirror-focused" ||

@@ -11,7 +11,7 @@ import firebase from "../../utilis/firebase";
 import { RootState } from "../../reducers";
 import { useSelector, useDispatch } from "react-redux";
 import { portfolioAddCom, portfolioDeleteCom } from "../../action";
-import { Link } from "react-router-dom";
+import { portfolioChoice } from "./Portfolio";
 
 const Preview = styled.div``;
 
@@ -24,40 +24,6 @@ export interface portfolioComContent {
   text: string[];
   type: number;
 }
-
-export const portfolioChoice = [
-  {
-    name: 0,
-    comIndex: 0,
-    comContent: {
-      image: [""],
-      text: ["<h2>標題</h2><p>令人眼睛一亮的介紹</p><p>令人眼睛一亮的介紹</p>"],
-      type: 0,
-    },
-  },
-  {
-    name: 1,
-    comIndex: 1,
-    comContent: {
-      image: ["", ""],
-      text: [],
-      type: 1,
-    },
-  },
-  {
-    name: 2,
-    comIndex: 2,
-    comContent: {
-      image: [],
-      text: [
-        "<h3>標題</h3><p>您的英勇事蹟</p><p>您的英勇事蹟</p>",
-        "<h3>標題</h3><p>您的英勇事蹟</p><p>您的英勇事蹟</p>",
-        "<h3>標題</h3><p>您的英勇事蹟</p><p>您的英勇事蹟</p>",
-      ],
-      type: 2,
-    },
-  },
-];
 
 const CreatePortfolio = () => {
   const [portfolioCom, setPortfolioCom] = useState<portfolioComContent[]>([]);
@@ -92,7 +58,7 @@ const CreatePortfolio = () => {
 
   return (
     <>
-      <InitialSetup />
+      {/* <InitialSetup /> */}
       <hr />
       <Preview>Preview</Preview>
       <div>

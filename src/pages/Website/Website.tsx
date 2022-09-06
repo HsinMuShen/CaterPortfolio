@@ -74,7 +74,6 @@ const Website = () => {
   const [websiteCom, setWebsiteCom] = useState<websiteComContent[]>([]);
   const dispatch = useDispatch();
   const websiteData = useSelector((state: RootState) => state.WebsiteReducer);
-  console.log(websiteData);
   const addWebsiteCom = (conIndex: number) => {
     dispatch(websiteAddCom(websiteChoice[conIndex].comContent));
     setWebsiteCom([...websiteCom, websiteChoice[conIndex].comContent]);

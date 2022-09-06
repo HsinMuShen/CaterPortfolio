@@ -45,6 +45,7 @@ const ResumeCom1 = ({
         {textList.map((_, listIndex) => {
           return (
             <EditText
+              key={listIndex}
               text={content.text[listIndex]}
               listIndex={listIndex}
               setReducerText={setReducerText}

@@ -38,6 +38,7 @@ export const ActionType: {
   };
   PORTFOLIOINDEX: {
     SET_INDEX: string | undefined;
+    SET_PORTFOLIO_INDEX: string | undefined;
   };
 } = {
   RESUME: {
@@ -72,6 +73,7 @@ export const ActionType: {
   },
   PORTFOLIOINDEX: {
     SET_INDEX: "SET_INDEX",
+    SET_PORTFOLIO_INDEX: "SET_PORTFOLIO_INDEX",
   },
 };
 

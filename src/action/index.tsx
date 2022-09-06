@@ -186,3 +186,10 @@ export const setPortfolioIndex = (index: number) => {
     payload: { index },
   };
 };
+
+export const setPortfolioListIndex = (index: number) => {
+  return {
+    type: ActionType.PORTFOLIOINDEX.SET_PORTFOLIO_INDEX,
+    payload: { index },
+  };
+};

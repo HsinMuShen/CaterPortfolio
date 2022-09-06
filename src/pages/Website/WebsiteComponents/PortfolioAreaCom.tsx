@@ -5,7 +5,11 @@ import firebase from "../../../utilis/firebase";
 import { Link } from "react-router-dom";
 import { websiteComContent } from "../Website";
 import { useDispatch } from "react-redux";
-import { websiteFillContent, setPortfolioIndex } from "../../../action";
+import {
+  websiteFillContent,
+  setPortfolioIndex,
+  setPortfolioListIndex,
+} from "../../../action";
 
 const PortfolioCard = styled(Link)``;
 
@@ -36,19 +40,25 @@ const PortfolioAreaCom = ({
   return (
     <div style={{ display: "flex" }}>
       <>
-        {content.portfolioID?.map((portfolioID, index) => {
+        {content.portfolioID?.map((portfolioID, portfolioListIndex) => {
           return (
-            <PortfolioCard key={portfolioID} to={`/portfolio/${portfolioID}`}>
-              <img src={content.image[index]} />
-              <p>{content.text[index]}</p>
+            <PortfolioCard
+              key={portfolioID}
+              to={`/portfolio/${portfolioID}`}
+              onClick={() => {
+                dispatch(setPortfolioListIndex(portfolioListIndex));
+                dispatch(setPortfolioIndex(index));
+              }}
+            >
+              <img src={content.image[portfolioListIndex]} />
+              <p>{content.text[portfolioListIndex]}</p>
             </PortfolioCard>
           );
         })}
-        <AddingPortfolio to={"/createportfolio"}>
+        <AddingPortfolio to={"/portfolio/create"}>
           <div
             onClick={() => {
               dispatch(setPortfolioIndex(index));
-              console.log(index);
             }}
           >
             新增作品集

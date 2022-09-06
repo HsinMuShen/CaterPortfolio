@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { RootState } from "../../reducers";
 import { useSelector } from "react-redux";
 
-import { portfolioChoice } from "./CreatePortfolio";
+import { portfolioChoice } from "./Portfolio";
 
 const ResumeBtn = styled.button`
   width: 200px;
