@@ -15,6 +15,7 @@ import {
   portfolioAddCom,
   portfolioDeleteCom,
   portfolioLoading,
+  isPreviewPortfolio,
 } from "../../action";
 
 const Preview = styled.div``;
@@ -66,6 +67,9 @@ export const portfolioChoice = [
 const Portfolio = () => {
   const [portfolioCom, setPortfolioCom] = useState<portfolioComContent[]>([]);
   const dispatch = useDispatch();
+  const isPreview = useSelector(
+    (state: RootState) => state.IsPreviewReducer.portfolio
+  );
   const websiteData = useSelector((state: RootState) => state.WebsiteReducer);
   const portfolioData = useSelector(
     (state: RootState) => state.PortfolioReducer
@@ -119,9 +123,20 @@ const Portfolio = () => {
 
   return (
     <>
-      <Preview>Preview</Preview>
-      <InitialSetup portfolioID={portfolioID} />
-      <hr />
+      <Preview
+        onClick={() => {
+          dispatch(isPreviewPortfolio());
+        }}
+      >
+        Preview
+      </Preview>
+      {isPreview ? null : (
+        <>
+          <InitialSetup portfolioID={portfolioID} />
+          <hr />{" "}
+        </>
+      )}
+
       <div>
         {portfolioCom.map((content, index) => {
           switch (content.type) {
