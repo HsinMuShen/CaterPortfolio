@@ -1,14 +1,14 @@
 import React, { useRef, useState } from "react";
 import Canves from "../../../utilis/Canves";
-import { websiteComContent } from "../Website";
+import { portfolioComContent } from "../CreatePortfolio";
 import { useDispatch } from "react-redux";
-import { websiteAddImage } from "../../../action";
+import { portfolioAddImage } from "../../../action";
 
-const WebsiteCom2 = ({
+const PortfolioCom2 = ({
   content,
   index,
 }: {
-  content: websiteComContent;
+  content: portfolioComContent;
   index: number;
 }) => {
   const [imageFileList, setImageFileList] = useState<string[] | null[]>([
@@ -17,12 +17,11 @@ const WebsiteCom2 = ({
   ]);
   const diapatch = useDispatch();
   const setReducerImage = async (JSONstring: string, listIndex: number) => {
-    console.log(JSONstring);
     const tempArr = imageFileList;
     tempArr[listIndex] = JSONstring;
     setImageFileList(tempArr);
-
-    diapatch(websiteAddImage(index, tempArr));
+    diapatch(portfolioAddImage(index, tempArr));
+    console.log(tempArr);
   };
   return (
     <div style={{ display: "flex" }}>
@@ -42,4 +41,4 @@ const WebsiteCom2 = ({
   );
 };
 
-export default WebsiteCom2;
+export default PortfolioCom2;

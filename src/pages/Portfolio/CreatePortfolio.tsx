@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
 import InitialSetup from "./InitialSetup";
@@ -11,11 +10,8 @@ import CreatePortfolioCom from "./CreatePortfolioCom";
 import firebase from "../../utilis/firebase";
 import { RootState } from "../../reducers";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  portfolioAddCom,
-  portfolioDeleteCom,
-  portfolioLoading,
-} from "../../action";
+import { portfolioAddCom, portfolioDeleteCom } from "../../action";
+import { portfolioChoice } from "./Portfolio";
 
 const Preview = styled.div``;
 
@@ -29,49 +25,14 @@ export interface portfolioComContent {
   type: number;
 }
 
-export const portfolioChoice = [
-  {
-    name: 0,
-    comIndex: 0,
-    comContent: {
-      image: [""],
-      text: ["<h2>標題</h2><p>令人眼睛一亮的介紹</p><p>令人眼睛一亮的介紹</p>"],
-      type: 0,
-    },
-  },
-  {
-    name: 1,
-    comIndex: 1,
-    comContent: {
-      image: ["", ""],
-      text: [],
-      type: 1,
-    },
-  },
-  {
-    name: 2,
-    comIndex: 2,
-    comContent: {
-      image: [],
-      text: [
-        "<h3>標題</h3><p>您的英勇事蹟</p><p>您的英勇事蹟</p>",
-        "<h3>標題</h3><p>您的英勇事蹟</p><p>您的英勇事蹟</p>",
-        "<h3>標題</h3><p>您的英勇事蹟</p><p>您的英勇事蹟</p>",
-      ],
-      type: 2,
-    },
-  },
-];
-
-const Portfolio = () => {
+const CreatePortfolio = () => {
   const [portfolioCom, setPortfolioCom] = useState<portfolioComContent[]>([]);
   const dispatch = useDispatch();
   const websiteData = useSelector((state: RootState) => state.WebsiteReducer);
   const portfolioData = useSelector(
     (state: RootState) => state.PortfolioReducer
   );
-  const portfolioID = useParams().id;
-
+  console.log(portfolioData);
   const addWebsiteCom = (conIndex: number) => {
     dispatch(portfolioAddCom(portfolioChoice[conIndex].comContent));
     setPortfolioCom([...portfolioCom, portfolioChoice[conIndex].comContent]);
@@ -95,33 +56,11 @@ const Portfolio = () => {
     firebase.uploadDoc("websites", websiteData);
   };
 
-  useEffect(() => {
-    const loadPortfolio = async () => {
-      console.log(portfolioID);
-      const portfolioData = await firebase.readPortfolioData(
-        "portfolios",
-        "Xvbmt52vwx9RzFaXE17L",
-        `${portfolioID}`
-      );
-      if (portfolioData) {
-        dispatch(portfolioLoading(portfolioData));
-        const tempArr: portfolioComContent[] = [];
-        portfolioData.content.forEach((content: portfolioComContent) => {
-          tempArr.push(content);
-        });
-        setPortfolioCom(tempArr);
-      }
-    };
-    if (portfolioID !== "create") {
-      loadPortfolio();
-    }
-  }, []);
-
   return (
     <>
-      <Preview>Preview</Preview>
-      <InitialSetup portfolioID={portfolioID} />
+      {/* <InitialSetup /> */}
       <hr />
+      <Preview>Preview</Preview>
       <div>
         {portfolioCom.map((content, index) => {
           switch (content.type) {
@@ -162,4 +101,4 @@ const Portfolio = () => {
   );
 };
 
-export default Portfolio;
+export default CreatePortfolio;

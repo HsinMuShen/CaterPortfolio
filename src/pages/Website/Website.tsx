@@ -3,6 +3,7 @@ import styled from "styled-components";
 import WebsiteCom1 from "./WebsiteComponents/WebsiteCom1";
 import WebsiteCom2 from "./WebsiteComponents/WebsiteCom2";
 import WebsiteCom3 from "./WebsiteComponents/WebsiteCom3";
+import PortfolioAreaCom from "./WebsiteComponents/PortfolioAreaCom";
 import AddWebsiteCom from "./AddWebsiteCom";
 import Delete from "../Resume/Delete";
 
@@ -49,7 +50,11 @@ export const websiteChoice = [
     comIndex: 2,
     comContent: {
       image: [],
-      text: ["<h3>標題</h3><p>您的英勇事蹟</p><p>您的英勇事蹟</p>"],
+      text: [
+        "<h3>標題</h3><p>您的英勇事蹟</p><p>您的英勇事蹟</p>",
+        "<h3>標題</h3><p>您的英勇事蹟</p><p>您的英勇事蹟</p>",
+        "<h3>標題</h3><p>您的英勇事蹟</p><p>您的英勇事蹟</p>",
+      ],
       type: 2,
     },
   },
@@ -69,7 +74,6 @@ const Website = () => {
   const [websiteCom, setWebsiteCom] = useState<websiteComContent[]>([]);
   const dispatch = useDispatch();
   const websiteData = useSelector((state: RootState) => state.WebsiteReducer);
-  console.log(websiteData);
   const addWebsiteCom = (conIndex: number) => {
     dispatch(websiteAddCom(websiteChoice[conIndex].comContent));
     setWebsiteCom([...websiteCom, websiteChoice[conIndex].comContent]);
@@ -89,7 +93,7 @@ const Website = () => {
   };
 
   useEffect(() => {
-    const loadResume = async () => {
+    const loadWebsite = async () => {
       const websiteData = await firebase.readData(
         "websites",
         "Xvbmt52vwx9RzFaXE17L"
@@ -103,7 +107,7 @@ const Website = () => {
         setWebsiteCom(tempArr);
       }
     };
-    loadResume();
+    loadWebsite();
   }, []);
 
   return (
@@ -134,6 +138,14 @@ const Website = () => {
               return (
                 <SineleComponent key={index}>
                   <WebsiteCom3 content={content} index={index} />
+                  <Delete addDeleteCom={addDeleteCom} index={index} />
+                </SineleComponent>
+              );
+            }
+            case 3: {
+              return (
+                <SineleComponent key={index}>
+                  <PortfolioAreaCom content={content} index={index} />
                   <Delete addDeleteCom={addDeleteCom} index={index} />
                 </SineleComponent>
               );

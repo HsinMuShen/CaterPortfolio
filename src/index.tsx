@@ -8,10 +8,11 @@ import { Provider } from "react-redux";
 
 import App from "./App";
 import Input from "./pages/Homepage/Input";
-import Portfolio from "./pages/Portfolio/Portfolio";
 import Profile from "./pages/Profile/Profile";
 import Resume from "./pages/Resume/Resume";
 import Website from "./pages/Website/Website";
+import Portfolio from "./pages/Portfolio/Portfolio";
+import CreatePortfolio from "./pages/Portfolio/CreatePortfolio";
 
 const store = createStore(allReducers, composeWithDevTools());
 
@@ -29,6 +30,8 @@ root.render(
           <Route path="website" element={<Website />} />
           <Route path="website/preview" element={<Website />} />
           <Route path="portfolio/:id" element={<Portfolio />} />
+          <Route path="createportfolio" element={<CreatePortfolio />} />
+          {/* <Route path="portfolio/:id" element={<Portfolio />} /> */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
       </Routes>

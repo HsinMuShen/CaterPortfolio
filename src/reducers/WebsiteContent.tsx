@@ -7,7 +7,7 @@ interface websiteReducer {
     image: string[];
     text: string[];
     type: number;
-    portfolioId?: string[];
+    portfolioID?: string[];
   }[];
   name: string;
   followers: string[];
@@ -35,7 +35,7 @@ const WebsiteReducer = (
       const newResumeData = { ...websiteData, content: tempContentArr };
       return newResumeData;
     }
-    case ActionType.RESUME.DELETE_COMPONENT: {
+    case ActionType.WEBSITE.DELETE_COMPONENT: {
       const tempContentArr = websiteData.content;
       const index = action.payload.index;
       tempContentArr.splice(index, 1);
@@ -62,11 +62,21 @@ const WebsiteReducer = (
       const newWebsiteData = { ...websiteData, content: tempContentArr };
       return newWebsiteData;
     }
+    case ActionType.WEBSITE.ADD_PORTFOLIO_ID: {
+      const tempContentArr = websiteData.content;
+      const index = action.payload.index;
+      tempContentArr[index] = {
+        ...websiteData.content[index],
+        portfolioID: action.payload.textArr,
+      };
+      const newWebsiteData = { ...websiteData, content: tempContentArr };
+      return newWebsiteData;
+    }
     case ActionType.WEBSITE.ADD_TIME: {
       const tempObj = { ...websiteData, time: Date.now() };
       return tempObj;
     }
-    case ActionType.RESUME.LOADING: {
+    case ActionType.WEBSITE.LOADING: {
       const tempWebsiteData = action.payload.data;
       return tempWebsiteData;
     }

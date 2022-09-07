@@ -12,7 +12,7 @@ const ResumeCom3 = ({
   index: number;
   content: resumeComContent;
 }) => {
-  const [textList, setTextList] = useState<string[] | null[]>([null]);
+  const [textList, setTextList] = useState<string[] | null[]>(content.text);
   const diapatch = useDispatch();
   const setReducerText = async (text: string, listIndex: number) => {
     const tempArr = textList;
@@ -25,11 +25,14 @@ const ResumeCom3 = ({
     <div>
       <>
         {textList.map((_, listIndex) => {
-          <EditText
-            text={content.text[listIndex]}
-            listIndex={listIndex}
-            setReducerText={setReducerText}
-          />;
+          return (
+            <EditText
+              key={listIndex}
+              text={content.text[listIndex]}
+              listIndex={listIndex}
+              setReducerText={setReducerText}
+            />
+          );
         })}
       </>
     </div>

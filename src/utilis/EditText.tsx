@@ -1,8 +1,6 @@
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { resumeFillContent, websiteFillContent } from "../action";
 import { RootState } from "../reducers";
 import { useSelector } from "react-redux";
 
@@ -89,7 +87,7 @@ export default ({ text, setReducerText, listIndex }: props) => {
   const isPreview = useSelector(
     (state: RootState) => state.IsPreviewReducer.resume
   );
-  const dispatch = useDispatch();
+
   const editor = useEditor({
     extensions: [StarterKit],
     content: `
@@ -98,17 +96,11 @@ export default ({ text, setReducerText, listIndex }: props) => {
     onUpdate: ({ editor }) => {
       const html = editor.getHTML();
       setReducerText(html, listIndex);
-      // if (type === "resume") {
-      //   dispatch(resumeFillContent(index, html));
-      // } else if (type === "website") {
-      //   setReducerText(html, listIndex);
-      // }
     },
   });
 
   useEffect(() => {
     const closeBtn = (e: any) => {
-      // console.log(e.path[0].parentElement);
       if (
         e.path[0].parentElement.className ===
           "ProseMirror ProseMirror-focused" ||

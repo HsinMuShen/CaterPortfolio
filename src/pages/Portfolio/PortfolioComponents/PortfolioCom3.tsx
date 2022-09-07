@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import EditText from "../../../utilis/EditText";
-import { websiteComContent } from "../Website";
+import { portfolioComContent } from "../CreatePortfolio";
 import { useDispatch } from "react-redux";
-import { websiteFillContent } from "../../../action";
+import { portfolioFillContent } from "../../../action";
 
-const WebsiteCom3 = ({
+const PortfolioCom3 = ({
   content,
   index,
 }: {
-  content: websiteComContent;
+  content: portfolioComContent;
   index: number;
 }) => {
   const [textList, setTextList] = useState<string[] | null[]>([
@@ -21,7 +21,7 @@ const WebsiteCom3 = ({
     const tempArr = textList;
     tempArr[listIndex] = text;
     setTextList(tempArr);
-    diapatch(websiteFillContent(index, tempArr));
+    diapatch(portfolioFillContent(index, tempArr));
   };
   return (
     <div style={{ display: "flex" }}>
@@ -41,4 +41,4 @@ const WebsiteCom3 = ({
   );
 };
 
-export default WebsiteCom3;
+export default PortfolioCom3;

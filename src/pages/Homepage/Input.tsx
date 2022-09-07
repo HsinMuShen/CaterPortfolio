@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { db } from "../../firebaseConfig";
 import { storage } from "../../firebaseConfig";
-import { collection, DocumentData, onSnapshot, Timestamp } from "firebase/firestore";
-import {  ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { portfolio } from "../Portfolio/Portfolio";
+import {
+  collection,
+  DocumentData,
+  onSnapshot,
+  Timestamp,
+} from "firebase/firestore";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 import styled from "styled-components";
 import firebase from "../../utilis/firebase";
@@ -47,16 +51,16 @@ const CardArea = styled.div`
   display: flex;
 `;
 
-export interface content{
-  id: string,
-  title: string,
-  text: string,
-  author: string,
-  image: string | null,
-  created_time?: Timestamp,
+export interface content {
+  id: string;
+  title: string;
+  text: string;
+  author: string;
+  image: string | null;
+  created_time?: Timestamp;
 }
 
-const Input:React.FC = () => {
+const Input: React.FC = () => {
   const [content, setContent] = useState<content>({
     id: "",
     title: "",
@@ -64,34 +68,31 @@ const Input:React.FC = () => {
     author: "",
     image: "",
   });
-  const [uploadImage, setUploadImage] = useState<FileList|null>(null);
-  const [cards, setCards] = useState<portfolio[]>([]);
+  const [uploadImage, setUploadImage] = useState<FileList | null>(null);
+  // const [cards, setCards] = useState<portfolio[]>([]);
 
-  const submitContent = async() => {
-    if(!uploadImage) return
+  const submitContent = async () => {
+    if (!uploadImage) return;
     // console.log(content.image[0])
-    const imageRef = ref(
-      storage,
-      `images/${Date.now() + uploadImage[0].name}`
-    );
-    
+    const imageRef = ref(storage, `images/${Date.now() + uploadImage[0].name}`);
+
     await uploadBytes(imageRef, uploadImage[0]);
     const imageUrl = await getDownloadURL(imageRef);
     const data = content;
     data.image = imageUrl;
-    
-    firebase.writeFireStore(data);
-  }
 
-  useEffect(() => {
-    onSnapshot(collection(db, "posts"), (doc) => {
-      const postArr:portfolio[] = [];
-      doc.forEach((doc) => {
-        postArr.push(doc.data() as portfolio);
-      });
-      setCards(postArr);
-    });
-  }, []);
+    // firebase.uploadPortfolio(data);
+  };
+
+  // useEffect(() => {
+  //   onSnapshot(collection(db, "posts"), (doc) => {
+  //     const postArr:portfolio[] = [];
+  //     doc.forEach((doc) => {
+  //       postArr.push(doc.data() as portfolio);
+  //     });
+  //     setCards(postArr);
+  //   });
+  // }, []);
   return (
     <InputArea>
       <Label>Title</Label>
@@ -118,9 +119,7 @@ const Input:React.FC = () => {
       <InputInfo
         type={"file"}
         onChange={(e) => {
-          setUploadImage(
-             e.target.files,
-          );
+          setUploadImage(e.target.files);
         }}
       />
       <Label>Text</Label>
@@ -132,18 +131,14 @@ const Input:React.FC = () => {
           });
         }}
       />
-      <SubmitBtn
-        onClick={submitContent}
-      >
-        送出
-      </SubmitBtn>
+      {/* <SubmitBtn onClick={submitContent}>送出</SubmitBtn> */}
       <CardArea>
-        {cards.map((card) => {
+        {/* {cards.map((card) => {
           return <Card card={card} key={card.id} />;
-        })}
+        })} */}
       </CardArea>
     </InputArea>
   );
-}
+};
 
 export default Input;
