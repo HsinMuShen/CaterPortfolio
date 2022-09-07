@@ -12,7 +12,7 @@ const ResumeCom3 = ({
   index: number;
   content: resumeComContent;
 }) => {
-  const [textList, setTextList] = useState<string[] | null[]>([null]);
+  const [textList, setTextList] = useState<string[] | null[]>(content.text);
   const diapatch = useDispatch();
   const setReducerText = async (text: string, listIndex: number) => {
     const tempArr = textList;

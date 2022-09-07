@@ -31,6 +31,15 @@ const ResumeEditor = styled.div`
   border-radius: 15px;
   padding: 20px 40px;
 `;
+
+const PreviewDiv = styled.div`
+  position: absolute;
+  /* border: 1px solid; */
+  width: 900px;
+  height: 100%;
+  z-index: 2;
+`;
+
 const ResumeHeader = styled.div`
   display: flex;
   flex-direction: column;
@@ -52,6 +61,7 @@ export interface resumeComContent {
   image: string[];
   text: string[];
   type: number;
+  comName: string;
 }
 
 export const resumeChoice = [
@@ -62,6 +72,7 @@ export const resumeChoice = [
       image: [preImage],
       text: ["<h2>姓名</h2><p>Email</p><p>聯絡資訊</p>"],
       type: 0,
+      comName: "text",
     },
   },
   {
@@ -71,6 +82,7 @@ export const resumeChoice = [
       image: [preImage, preImage, preImage],
       text: [],
       type: 1,
+      comName: "text",
     },
   },
   {
@@ -80,6 +92,7 @@ export const resumeChoice = [
       image: [],
       text: ["<h3>標題</h3><p>您的英勇事蹟</p><p>您的英勇事蹟</p>"],
       type: 2,
+      comName: "text",
     },
   },
 ];
@@ -119,7 +132,12 @@ const Resume: React.FC = () => {
         dispatch(resumeLoading(resumeData));
         const tempArr: resumeComContent[] = [];
         resumeData.content.forEach(
-          (content: { image: string[]; text: string[]; type: number }) => {
+          (content: {
+            image: string[];
+            text: string[];
+            type: number;
+            comName: string;
+          }) => {
             tempArr.push(content);
           }
         );
@@ -128,6 +146,18 @@ const Resume: React.FC = () => {
     };
     loadResume();
   }, []);
+
+  const ResumeComponents = {
+    Text: function Text({
+      index,
+      content,
+    }: {
+      index: number;
+      content: resumeComContent;
+    }) {
+      return <content.comName />;
+    },
+  };
 
   return (
     <Wrapper>
@@ -139,8 +169,15 @@ const Resume: React.FC = () => {
         編輯/預覽
       </button>
       <ResumeEditor>
+        <PreviewDiv style={{ zIndex: isPreview ? "2" : "-1" }}></PreviewDiv>
         <ResumeHeader>
           {resumeCom.map((content, index) => {
+            // return (
+            //   <SineleComponent key={index}>
+            //     <ResumeComponents.Text index={index} content={content} />
+            //     <Delete addDeleteCom={addDeleteCom} index={index} />
+            //   </SineleComponent>
+            // );
             switch (content.type) {
               case 0: {
                 return (

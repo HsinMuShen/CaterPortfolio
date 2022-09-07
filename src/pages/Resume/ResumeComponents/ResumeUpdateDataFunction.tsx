@@ -5,16 +5,14 @@ import firebase from "../../../utilis/firebase";
 import { useDispatch } from "react-redux";
 import { resumeAddImage, resumeFillContent } from "../../../action";
 import { resumeComContent } from "../Resume";
-import useUpdateResumeData from "./ResumeUpdateDataFunction";
 
-const ResumeCom1 = ({
+function useUpdateResumeData({
   index,
   content,
 }: {
   index: number;
   content: resumeComContent;
-}) => {
-  // useUpdateResumeData({ index, content });
+}) {
   const [imageFileList, setImageFileList] = useState<string[] | null[]>(
     content.image
   );
@@ -33,32 +31,6 @@ const ResumeCom1 = ({
     setTextList(tempArr);
     diapatch(resumeFillContent(index, tempArr));
   };
-  return (
-    <div style={{ display: "flex" }}>
-      {imageFileList.map((_, listIndex) => {
-        return (
-          <PreviewImageInput
-            key={listIndex}
-            setResumeReducerImage={setResumeReducerImage}
-            listIndex={listIndex}
-            image={content.image[listIndex]}
-          />
-        );
-      })}
-      <>
-        {textList.map((_, listIndex) => {
-          return (
-            <EditText
-              key={listIndex}
-              text={content.text[listIndex]}
-              listIndex={listIndex}
-              setReducerText={setReducerText}
-            />
-          );
-        })}
-      </>
-    </div>
-  );
-};
+}
 
-export default ResumeCom1;
+export default useUpdateResumeData;
