@@ -10,9 +10,9 @@ interface isPreviewReducer {
 
 const IsPreviewReducer = (
   isPreview: isPreviewReducer = {
-    resume: false,
-    website: false,
-    portfolio: false,
+    resume: true,
+    website: true,
+    portfolio: true,
   },
   action: AnyAction
 ) => {
@@ -26,13 +26,19 @@ const IsPreviewReducer = (
       return tempIsPreview;
     }
     case ActionType.ISPREVIEW.WEBSITE: {
-      const tempIsPreview = isPreview;
-      tempIsPreview.website = !tempIsPreview.website;
+      let tempIsPreview = isPreview;
+      tempIsPreview = {
+        ...tempIsPreview,
+        website: !tempIsPreview.website,
+      };
       return tempIsPreview;
     }
     case ActionType.ISPREVIEW.PORTFOLIO: {
-      const tempIsPreview = isPreview;
-      tempIsPreview.portfolio = !tempIsPreview.portfolio;
+      let tempIsPreview = isPreview;
+      tempIsPreview = {
+        ...tempIsPreview,
+        portfolio: !tempIsPreview.portfolio,
+      };
       return tempIsPreview;
     }
     default:

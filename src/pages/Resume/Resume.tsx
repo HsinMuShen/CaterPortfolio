@@ -103,7 +103,6 @@ const Resume: React.FC = () => {
   const isPreview = useSelector(
     (state: RootState) => state.IsPreviewReducer.resume
   );
-
   const dispatch = useDispatch();
 
   const addResumeCom = (conIndex: number) => {

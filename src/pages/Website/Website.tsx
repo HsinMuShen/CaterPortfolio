@@ -10,10 +10,17 @@ import Delete from "../Resume/Delete";
 import firebase from "../../utilis/firebase";
 import { RootState } from "../../reducers";
 import { useSelector, useDispatch } from "react-redux";
-import { websiteAddCom, websiteDeleteCom, websiteLoading } from "../../action";
+import {
+  websiteAddCom,
+  websiteDeleteCom,
+  websiteLoading,
+  isPreviewWebsite,
+} from "../../action";
 import { Link } from "react-router-dom";
 
-const Preview = styled(Link)``;
+const Preview = styled.div`
+  cursor: pointer;
+`;
 
 const SineleComponent = styled.div`
   display: flex;
@@ -74,6 +81,10 @@ const Website = () => {
   const [websiteCom, setWebsiteCom] = useState<websiteComContent[]>([]);
   const dispatch = useDispatch();
   const websiteData = useSelector((state: RootState) => state.WebsiteReducer);
+  const isPreview = useSelector(
+    (state: RootState) => state.IsPreviewReducer.website
+  );
+
   const addWebsiteCom = (conIndex: number) => {
     dispatch(websiteAddCom(websiteChoice[conIndex].comContent));
     setWebsiteCom([...websiteCom, websiteChoice[conIndex].comContent]);
@@ -112,8 +123,12 @@ const Website = () => {
 
   return (
     <>
-      <Preview target="_blank" to="/website/preview">
-        Preview
+      <Preview
+        onClick={() => {
+          dispatch(isPreviewWebsite());
+        }}
+      >
+        {`${isPreview}`}
       </Preview>
       <div>
         {websiteCom.map((content, index) => {
@@ -155,10 +170,12 @@ const Website = () => {
           }
         })}
       </div>
-      <AddWebsiteCom
-        addWebsiteCom={addWebsiteCom}
-        uploadWebsite={uploadWebsite}
-      />
+      {isPreview ? null : (
+        <AddWebsiteCom
+          addWebsiteCom={addWebsiteCom}
+          uploadWebsite={uploadWebsite}
+        />
+      )}
     </>
   );
 };

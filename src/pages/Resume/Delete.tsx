@@ -9,9 +9,7 @@ const Delete = ({
   addDeleteCom: (index: number) => void;
   index: number;
 }) => {
-  const isPreview = useSelector(
-    (state: RootState) => state.IsPreviewReducer.resume
-  );
+  const isPreview = useSelector((state: RootState) => state.IsPreviewReducer);
 
   return (
     <div>
@@ -19,7 +17,9 @@ const Delete = ({
         onClick={() => {
           addDeleteCom(index);
         }}
-        style={{ display: isPreview ? "none" : "block" }}
+        style={{
+          display: isPreview.resume && isPreview.website ? "none" : "block",
+        }}
       >
         delete
       </button>

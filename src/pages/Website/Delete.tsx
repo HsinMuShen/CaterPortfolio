@@ -10,7 +10,7 @@ const Delete = ({
   index: number;
 }) => {
   const isPreview = useSelector(
-    (state: RootState) => state.IsPreviewReducer.resume
+    (state: RootState) => state.IsPreviewReducer.website
   );
 
   return (
