@@ -74,7 +74,9 @@ const Portfolio = () => {
   const portfolioData = useSelector(
     (state: RootState) => state.PortfolioReducer
   );
-  const portfolioID = useParams().id;
+  const { id } = useParams();
+  const portfolioID = id?.split("+")[1];
+  const userID = id?.split("+")[0];
 
   const addWebsiteCom = (conIndex: number) => {
     dispatch(portfolioAddCom(portfolioChoice[conIndex].comContent));
@@ -123,17 +125,20 @@ const Portfolio = () => {
 
   return (
     <>
-      <Preview
-        onClick={() => {
-          dispatch(isPreviewPortfolio());
-        }}
-      >
-        Preview
-      </Preview>
+      {userID === localStorage.getItem("userID") ? (
+        <Preview
+          onClick={() => {
+            dispatch(isPreviewPortfolio());
+          }}
+        >
+          Preview
+        </Preview>
+      ) : null}
+
       {isPreview ? null : (
         <>
           <InitialSetup portfolioID={portfolioID} />
-          <hr />{" "}
+          <hr />
         </>
       )}
 

@@ -21,9 +21,11 @@ const AddingPortfolio = styled(Link)`
 const PortfolioAreaCom = ({
   content,
   index,
+  userID,
 }: {
   content: websiteComContent;
   index: number;
+  userID: string | undefined;
 }) => {
   const [textList, setTextList] = useState<string[] | null[]>([
     null,
@@ -47,7 +49,7 @@ const PortfolioAreaCom = ({
           return (
             <PortfolioCard
               key={portfolioID}
-              to={`/portfolio/${portfolioID}`}
+              to={`/portfolio/${userID}+${portfolioID}`}
               onClick={() => {
                 dispatch(setPortfolioListIndex(portfolioListIndex));
                 dispatch(setPortfolioIndex(index));

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import WebsiteCom1 from "./WebsiteComponents/WebsiteCom1";
 import WebsiteCom2 from "./WebsiteComponents/WebsiteCom2";
@@ -79,6 +80,7 @@ export const websiteChoice = [
 
 const Website = () => {
   const [websiteCom, setWebsiteCom] = useState<websiteComContent[]>([]);
+  const userID = useParams().id;
   const dispatch = useDispatch();
   const websiteData = useSelector((state: RootState) => state.WebsiteReducer);
   const isPreview = useSelector(
@@ -123,13 +125,16 @@ const Website = () => {
 
   return (
     <>
-      <Preview
-        onClick={() => {
-          dispatch(isPreviewWebsite());
-        }}
-      >
-        {`${isPreview}`}
-      </Preview>
+      {userID === localStorage.getItem("userID") ? (
+        <Preview
+          onClick={() => {
+            dispatch(isPreviewWebsite());
+          }}
+        >
+          {`${isPreview}`}
+        </Preview>
+      ) : null}
+
       <div>
         {websiteCom.map((content, index) => {
           switch (content.type) {
@@ -160,7 +165,11 @@ const Website = () => {
             case 3: {
               return (
                 <SineleComponent key={index}>
-                  <PortfolioAreaCom content={content} index={index} />
+                  <PortfolioAreaCom
+                    content={content}
+                    index={index}
+                    userID={userID}
+                  />
                   <Delete addDeleteCom={addDeleteCom} index={index} />
                 </SineleComponent>
               );
