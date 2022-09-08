@@ -10,7 +10,10 @@ export interface portfolioReducer {
     type: number;
   }[];
   name: string;
-  followers: string[];
+  followers: {
+    name: string;
+    userID: string;
+  }[];
   tags: string[];
   time: null | number;
   userID: string;

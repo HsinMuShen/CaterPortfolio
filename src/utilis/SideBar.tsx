@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { portfolioReducer } from "../reducers/PortfolioContent";
 import firebase from "./firebase";
@@ -26,6 +26,7 @@ const SideBar = ({ portfolioData }: { portfolioData: portfolioReducer }) => {
     showBar: false,
     title: "我喜歡這個作品!",
   });
+  const [isFollow, setIsFollow] = useState(false);
   const userData = useSelector((state: RootState) => state.UserReducer);
   const dispatch = useDispatch();
   const showingBar = () => {
@@ -51,12 +52,30 @@ const SideBar = ({ portfolioData }: { portfolioData: portfolioReducer }) => {
       dispatch(portfolioLoading(renewPortfolioData));
     }
   };
+  console.log(isFollow);
+  useEffect(() => {
+    console.log(portfolioData.followers);
+
+    portfolioData.followers.forEach((data) => {
+      if (data.userID === localStorage.getItem("userID")) {
+        setIsFollow(true);
+      }
+    });
+
+    return () => {
+      setIsFollow(false);
+    };
+  }, [portfolioData]);
   return (
     <SideBarArea>
       <div onClick={showingBar}>{showBarInfo.title}</div>
-      <Options style={{ left: showBarInfo.showBar ? "0px" : "-200px" }}>
+      <Options style={{ left: showBarInfo.showBar ? "0px" : "0px" }}>
         <p>{portfolioData.name}</p>
-        <p onClick={followPortfolio}>❤❤️{portfolioData.followers.length}</p>
+        <p onClick={followPortfolio}>
+          {isFollow ? `❤️` : `❤`}
+          {portfolioData.followers.length}
+        </p>
+        <p></p>
       </Options>
     </SideBarArea>
   );

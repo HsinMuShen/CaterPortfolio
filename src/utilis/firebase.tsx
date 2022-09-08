@@ -93,7 +93,7 @@ const firebase = {
     });
     await updateDoc(doc(db, `portfolios/${data.portfolioID}`), {
       followers: arrayUnion({
-        id: userData.userID,
+        userID: userData.userID,
         name: userData.name,
       }),
     });

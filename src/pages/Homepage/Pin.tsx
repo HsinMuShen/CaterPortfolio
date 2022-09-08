@@ -21,9 +21,9 @@ const IntroArea = styled.div`
 
 const Intro = styled(Link)``;
 
-const PinImage = styled(Link)<{ mainImage: string }>`
+const PinImage = styled(Link)<{ mainimage: string }>`
   flex: auto;
-  background-image: url(${(props) => props.mainImage});
+  background-image: url(${(props) => props.mainimage});
   background-size: cover;
   background-position: center;
   border-radius: 16px 16px 0 0;
@@ -34,7 +34,7 @@ const Pin = ({ size, data }: { size: number; data: DocumentData }) => {
     <SinglePin size={size}>
       <PinImage
         to={`/portfolio/${data.portfolioID}`}
-        mainImage={data.mainImage}
+        mainimage={data.mainImage}
       />
       <IntroArea>
         <Intro to={`/profile/${data.userID}`}>{data.name}</Intro>
