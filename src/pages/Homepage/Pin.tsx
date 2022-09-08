@@ -19,6 +19,8 @@ const IntroArea = styled.div`
   height: 60px;
 `;
 
+const Intro = styled(Link)``;
+
 const PinImage = styled(Link)<{ mainImage: string }>`
   flex: auto;
   background-image: url(${(props) => props.mainImage});
@@ -35,8 +37,8 @@ const Pin = ({ size, data }: { size: number; data: DocumentData }) => {
         mainImage={data.mainImage}
       />
       <IntroArea>
-        <p>{data.name}</p>
-        <p>{data.title}</p>
+        <Intro to={`/profile/${data.userID}`}>{data.name}</Intro>
+        <Intro to={`/portfolio/${data.portfolioID}`}>{data.title}</Intro>
         <p>❤{data.followers.length}</p>
       </IntroArea>
     </SinglePin>

@@ -1,3 +1,4 @@
+import UserReducer from "./UserContent";
 import ResumeReducer from "./ResumeContent";
 import WebsiteReducer from "./WebsiteContent";
 import PortfolioReducer from "./PortfolioContent";
@@ -6,6 +7,10 @@ import PortfolioIndex from "./PortfolioIndexContent";
 import { combineReducers } from "redux";
 
 export const ActionType: {
+  USER: {
+    LOADING: string;
+    ADD_FOLLOWING: string;
+  };
   RESUME: {
     ADD_COMPONENT: string | undefined;
     DELETE_COMPONENT: string | undefined;
@@ -41,6 +46,10 @@ export const ActionType: {
     SET_PORTFOLIO_INDEX: string | undefined;
   };
 } = {
+  USER: {
+    LOADING: "USER_LOADING",
+    ADD_FOLLOWING: "ADD_FOLLOWING",
+  },
   RESUME: {
     ADD_COMPONENT: "RESUME_ADD_COMPONENT",
     DELETE_COMPONENT: "RESUME_DELETE_COMPONENT",
@@ -78,6 +87,7 @@ export const ActionType: {
 };
 
 const allReducers = combineReducers({
+  UserReducer,
   ResumeReducer,
   WebsiteReducer,
   PortfolioReducer,
@@ -86,6 +96,7 @@ const allReducers = combineReducers({
 });
 
 export type RootState = ReturnType<typeof allReducers>;
+export type UserReducer = ReturnType<typeof UserReducer>;
 export type ResumeReducer = ReturnType<typeof ResumeReducer>;
 export type WebsiteReducer = ReturnType<typeof WebsiteReducer>;
 export type PortfolioReducer = ReturnType<typeof PortfolioReducer>;

@@ -181,7 +181,7 @@ const Portfolio = () => {
         addWebsiteCom={addWebsiteCom}
         uploadWebsite={uploadWebsite}
       />
-      <SideBar />
+      <SideBar portfolioData={portfolioData} />
     </>
   );
 };

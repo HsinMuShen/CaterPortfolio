@@ -8,10 +8,18 @@ import {
   where,
   getDoc,
   getDocs,
+  updateDoc,
+  arrayUnion,
+  arrayRemove,
 } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { content } from "../pages/Homepage/Input";
-import { ResumeReducer, WebsiteReducer, PortfolioReducer } from "../reducers";
+import {
+  UserReducer,
+  ResumeReducer,
+  WebsiteReducer,
+  PortfolioReducer,
+} from "../reducers";
 
 const firebase = {
   async getProfile(id: string) {
@@ -71,6 +79,24 @@ const firebase = {
       console.log("No such document!");
       return null;
     }
+  },
+
+  async addPortfolioFollowing(data: PortfolioReducer, userData: UserReducer) {
+    await updateDoc(doc(db, `users/${userData.userID}`), {
+      followPortfolios: arrayUnion({
+        portfolioID: data.portfolioID,
+        name: data.name,
+        userID: data.userID,
+        mainImage: data.mainImage,
+        title: data.title,
+      }),
+    });
+    await updateDoc(doc(db, `portfolios/${data.portfolioID}`), {
+      followers: arrayUnion({
+        id: userData.userID,
+        name: userData.name,
+      }),
+    });
   },
 };
 
