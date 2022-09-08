@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import EditText from "../../../utilis/EditText";
 import styled from "styled-components";
-import firebase from "../../../utilis/firebase";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../reducers";
 import { websiteComContent } from "../Website";
 import { useDispatch } from "react-redux";
 import {
@@ -21,9 +21,11 @@ const AddingPortfolio = styled(Link)`
 const PortfolioAreaCom = ({
   content,
   index,
+  userID,
 }: {
   content: websiteComContent;
   index: number;
+  userID: string | undefined;
 }) => {
   const [textList, setTextList] = useState<string[] | null[]>([
     null,
@@ -31,6 +33,9 @@ const PortfolioAreaCom = ({
     null,
   ]);
   const dispatch = useDispatch();
+  const isPreview = useSelector(
+    (state: RootState) => state.IsPreviewReducer.website
+  );
   const setReducerText = async (text: string, listIndex: number) => {
     const tempArr = textList;
     tempArr[listIndex] = text;
@@ -55,15 +60,17 @@ const PortfolioAreaCom = ({
             </PortfolioCard>
           );
         })}
-        <AddingPortfolio to={"/portfolio/create"}>
-          <div
-            onClick={() => {
-              dispatch(setPortfolioIndex(index));
-            }}
-          >
-            新增作品集
-          </div>
-        </AddingPortfolio>
+        {isPreview ? null : (
+          <AddingPortfolio to={"/portfolio/create"}>
+            <div
+              onClick={() => {
+                dispatch(setPortfolioIndex(index));
+              }}
+            >
+              新增作品集
+            </div>
+          </AddingPortfolio>
+        )}
       </>
     </div>
   );

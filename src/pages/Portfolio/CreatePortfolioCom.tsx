@@ -17,7 +17,7 @@ const CreatePortfolioCom = ({
   uploadWebsite: () => void;
 }) => {
   const isPreview = useSelector(
-    (state: RootState) => state.IsPreviewReducer.resume
+    (state: RootState) => state.IsPreviewReducer.portfolio
   );
   return isPreview ? null : (
     <>

@@ -1,7 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { RootState } from "../../reducers";
-import { useSelector } from "react-redux";
 
 import { websiteChoice } from "./Website";
 
@@ -16,10 +14,7 @@ const AddWebsiteCom = ({
   addWebsiteCom: (conIndex: number) => void;
   uploadWebsite: () => void;
 }) => {
-  const isPreview = useSelector(
-    (state: RootState) => state.IsPreviewReducer.resume
-  );
-  return isPreview ? null : (
+  return (
     <>
       <p>新增圖文內容</p>
       <div>

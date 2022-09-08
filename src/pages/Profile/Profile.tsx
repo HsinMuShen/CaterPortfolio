@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
 const Wrapper = styled.div`
@@ -24,10 +25,11 @@ const WebsiteArea = styled(Link)`
 `;
 
 const Profile: React.FC = () => {
+  const userID = useParams().id;
   return (
     <Wrapper>
-      <ResumeArea to={`/resume`}>Resume</ResumeArea>
-      <WebsiteArea to={`/website`}>Website</WebsiteArea>
+      <ResumeArea to={`/resume/${userID}`}>Resume</ResumeArea>
+      <WebsiteArea to={`/website/${userID}`}>Website</WebsiteArea>
     </Wrapper>
   );
 };

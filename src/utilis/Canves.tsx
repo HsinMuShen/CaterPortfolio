@@ -3,8 +3,8 @@ import { fabric } from "fabric";
 import styled from "styled-components";
 import firebase from "./firebase";
 import { websiteComContent } from "../pages/Website/Website";
-
-const deleteIcons = "./cater.png";
+import { RootState } from "../reducers";
+import { useSelector } from "react-redux";
 
 const ImageInput = styled.input``;
 
@@ -25,6 +25,8 @@ const Canves = ({
 }: canvasProps) => {
   const canvas: any = useRef();
   const storageJson = useRef("");
+  const isPreview = useSelector((state: RootState) => state.IsPreviewReducer);
+
   const addImage = async (file: File) => {
     const imageurl = await firebase.getImageUrl(file);
     const img = new Image();
@@ -93,16 +95,29 @@ const Canves = ({
 
   return (
     <div>
-      <canvas id={name} style={{ border: "2px solid" }}></canvas>
-      <ImageInput
-        type="file"
-        onChange={(e) => {
-          addImage(e.target.files![0]);
+      <canvas
+        id={name}
+        style={{
+          border:
+            isPreview.website && isPreview.portfolio
+              ? "0px solid"
+              : "1px solid",
         }}
-      />
-      <button onClick={deleteObject}>刪除</button>
-      <button onClick={storeJson}>存檔</button>
-      <button onClick={loadJson}>回復往日的美好</button>
+      ></canvas>
+
+      {isPreview.website && isPreview.portfolio ? null : (
+        <div>
+          <ImageInput
+            type="file"
+            onChange={(e) => {
+              addImage(e.target.files![0]);
+            }}
+          />
+          <button onClick={deleteObject}>刪除</button>
+          <button onClick={storeJson}>存檔</button>
+          <button onClick={loadJson}>回復往日的美好</button>
+        </div>
+      )}
     </div>
   );
 };

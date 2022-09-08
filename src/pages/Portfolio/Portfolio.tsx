@@ -8,6 +8,7 @@ import PortfolioCom2 from "./PortfolioComponents/PortfolioCom2";
 import PortfolioCom3 from "./PortfolioComponents/PortfolioCom3";
 import Delete from "../Resume/Delete";
 import CreatePortfolioCom from "./CreatePortfolioCom";
+import SideBar from "../../utilis/SideBar";
 import firebase from "../../utilis/firebase";
 import { RootState } from "../../reducers";
 import { useSelector, useDispatch } from "react-redux";
@@ -15,6 +16,7 @@ import {
   portfolioAddCom,
   portfolioDeleteCom,
   portfolioLoading,
+  isPreviewPortfolio,
 } from "../../action";
 
 const Preview = styled.div``;
@@ -65,7 +67,11 @@ export const portfolioChoice = [
 
 const Portfolio = () => {
   const [portfolioCom, setPortfolioCom] = useState<portfolioComContent[]>([]);
+  const [userID, setUserID] = useState("");
   const dispatch = useDispatch();
+  const isPreview = useSelector(
+    (state: RootState) => state.IsPreviewReducer.portfolio
+  );
   const websiteData = useSelector((state: RootState) => state.WebsiteReducer);
   const portfolioData = useSelector(
     (state: RootState) => state.PortfolioReducer
@@ -100,7 +106,6 @@ const Portfolio = () => {
       console.log(portfolioID);
       const portfolioData = await firebase.readPortfolioData(
         "portfolios",
-        "Xvbmt52vwx9RzFaXE17L",
         `${portfolioID}`
       );
       if (portfolioData) {
@@ -109,19 +114,37 @@ const Portfolio = () => {
         portfolioData.content.forEach((content: portfolioComContent) => {
           tempArr.push(content);
         });
+        setUserID(portfolioData.userID);
         setPortfolioCom(tempArr);
       }
     };
-    if (portfolioID !== "create") {
+
+    if (portfolioID === "create") {
+      dispatch(isPreviewPortfolio());
+    } else {
       loadPortfolio();
     }
   }, []);
 
   return (
     <>
-      <Preview>Preview</Preview>
-      <InitialSetup portfolioID={portfolioID} />
-      <hr />
+      {userID === localStorage.getItem("userID") || portfolioID === "create" ? (
+        <Preview
+          onClick={() => {
+            dispatch(isPreviewPortfolio());
+          }}
+        >
+          Preview
+        </Preview>
+      ) : null}
+
+      {isPreview ? null : (
+        <>
+          <InitialSetup portfolioID={portfolioID} />
+          <hr />
+        </>
+      )}
+
       <div>
         {portfolioCom.map((content, index) => {
           switch (content.type) {
@@ -158,6 +181,7 @@ const Portfolio = () => {
         addWebsiteCom={addWebsiteCom}
         uploadWebsite={uploadWebsite}
       />
+      <SideBar />
     </>
   );
 };

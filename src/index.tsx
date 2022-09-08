@@ -7,6 +7,7 @@ import allReducers from "./reducers";
 import { Provider } from "react-redux";
 
 import App from "./App";
+import Homepage from "./pages/Homepage/Homepage";
 import Input from "./pages/Homepage/Input";
 import Profile from "./pages/Profile/Profile";
 import Resume from "./pages/Resume/Resume";
@@ -24,10 +25,10 @@ root.render(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />}>
-          <Route index element={<Input />} />
-          <Route path="profile" element={<Profile />} />
-          <Route path="resume" element={<Resume />} />
-          <Route path="website" element={<Website />} />
+          <Route index element={<Homepage />} />
+          <Route path="profile/:id" element={<Profile />} />
+          <Route path="resume/:id" element={<Resume />} />
+          <Route path="website/:id" element={<Website />} />
           <Route path="website/preview" element={<Website />} />
           <Route path="portfolio/:id" element={<Portfolio />} />
           <Route path="createportfolio" element={<CreatePortfolio />} />

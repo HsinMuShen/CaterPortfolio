@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { RootState } from "../../reducers";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -99,11 +100,11 @@ export const resumeChoice = [
 
 const Resume: React.FC = () => {
   const [resumeCom, setResumeCom] = useState<resumeComContent[]>([]);
+  const userID = useParams().id;
   const resumeData = useSelector((state: RootState) => state.ResumeReducer);
   const isPreview = useSelector(
     (state: RootState) => state.IsPreviewReducer.resume
   );
-
   const dispatch = useDispatch();
 
   const addResumeCom = (conIndex: number) => {
@@ -161,13 +162,16 @@ const Resume: React.FC = () => {
 
   return (
     <Wrapper>
-      <button
-        onClick={() => {
-          dispatch(isPreviewResume());
-        }}
-      >
-        編輯/預覽
-      </button>
+      {userID === localStorage.getItem("userID") ? (
+        <button
+          onClick={() => {
+            dispatch(isPreviewResume());
+          }}
+        >
+          編輯/預覽
+        </button>
+      ) : null}
+
       <ResumeEditor>
         <PreviewDiv style={{ zIndex: isPreview ? "2" : "-1" }}></PreviewDiv>
         <ResumeHeader>

@@ -75,7 +75,7 @@ const InitialSetup = ({ portfolioID }: { portfolioID: string | undefined }) => {
 
   const setToWebsite = (text: string) => {
     const tempArr = websiteReducer.content[portfolioIndex.index].text;
-    if (portfolioID === "create") {
+    if (portfolioID === undefined) {
       tempArr[
         websiteReducer.content[portfolioIndex.index].portfolioID.length - 1
       ] = text;
