@@ -43,7 +43,14 @@ const SideBar = ({ portfolioData }: { portfolioData: portfolioReducer }) => {
     }
   };
   const followPortfolio = async () => {
-    await firebase.addPortfolioFollowing(portfolioData, userData);
+    if (isFollow) {
+      alert("取消追蹤!");
+      await firebase.cancelPortfolioFollowing(portfolioData, userData);
+    } else {
+      alert("加入追蹤!");
+      await firebase.addPortfolioFollowing(portfolioData, userData);
+    }
+
     const renewPortfolioData = await firebase.readPortfolioData(
       "portfolios",
       `${portfolioData.portfolioID}`
@@ -52,16 +59,13 @@ const SideBar = ({ portfolioData }: { portfolioData: portfolioReducer }) => {
       dispatch(portfolioLoading(renewPortfolioData));
     }
   };
-  console.log(isFollow);
-  useEffect(() => {
-    console.log(portfolioData.followers);
 
+  useEffect(() => {
     portfolioData.followers.forEach((data) => {
       if (data.userID === localStorage.getItem("userID")) {
         setIsFollow(true);
       }
     });
-
     return () => {
       setIsFollow(false);
     };
@@ -69,7 +73,7 @@ const SideBar = ({ portfolioData }: { portfolioData: portfolioReducer }) => {
   return (
     <SideBarArea>
       <div onClick={showingBar}>{showBarInfo.title}</div>
-      <Options style={{ left: showBarInfo.showBar ? "0px" : "0px" }}>
+      <Options style={{ left: showBarInfo.showBar ? "0px" : "-200px" }}>
         <p>{portfolioData.name}</p>
         <p onClick={followPortfolio}>
           {isFollow ? `❤️` : `❤`}

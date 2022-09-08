@@ -98,6 +98,27 @@ const firebase = {
       }),
     });
   },
+
+  async cancelPortfolioFollowing(
+    data: PortfolioReducer,
+    userData: UserReducer
+  ) {
+    await updateDoc(doc(db, `users/${userData.userID}`), {
+      followPortfolios: arrayRemove({
+        portfolioID: data.portfolioID,
+        name: data.name,
+        userID: data.userID,
+        mainImage: data.mainImage,
+        title: data.title,
+      }),
+    });
+    await updateDoc(doc(db, `portfolios/${data.portfolioID}`), {
+      followers: arrayRemove({
+        userID: userData.userID,
+        name: userData.name,
+      }),
+    });
+  },
 };
 
 export default firebase;
