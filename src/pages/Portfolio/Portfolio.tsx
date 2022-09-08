@@ -8,6 +8,7 @@ import PortfolioCom2 from "./PortfolioComponents/PortfolioCom2";
 import PortfolioCom3 from "./PortfolioComponents/PortfolioCom3";
 import Delete from "../Resume/Delete";
 import CreatePortfolioCom from "./CreatePortfolioCom";
+import SideBar from "../../utilis/SideBar";
 import firebase from "../../utilis/firebase";
 import { RootState } from "../../reducers";
 import { useSelector, useDispatch } from "react-redux";
@@ -66,6 +67,7 @@ export const portfolioChoice = [
 
 const Portfolio = () => {
   const [portfolioCom, setPortfolioCom] = useState<portfolioComContent[]>([]);
+  const [userID, setUserID] = useState("");
   const dispatch = useDispatch();
   const isPreview = useSelector(
     (state: RootState) => state.IsPreviewReducer.portfolio
@@ -74,9 +76,7 @@ const Portfolio = () => {
   const portfolioData = useSelector(
     (state: RootState) => state.PortfolioReducer
   );
-  const { id } = useParams();
-  const portfolioID = id?.split("+")[1];
-  const userID = id?.split("+")[0];
+  const portfolioID = useParams().id;
 
   const addWebsiteCom = (conIndex: number) => {
     dispatch(portfolioAddCom(portfolioChoice[conIndex].comContent));
@@ -106,7 +106,6 @@ const Portfolio = () => {
       console.log(portfolioID);
       const portfolioData = await firebase.readPortfolioData(
         "portfolios",
-        "Xvbmt52vwx9RzFaXE17L",
         `${portfolioID}`
       );
       if (portfolioData) {
@@ -115,17 +114,21 @@ const Portfolio = () => {
         portfolioData.content.forEach((content: portfolioComContent) => {
           tempArr.push(content);
         });
+        setUserID(portfolioData.userID);
         setPortfolioCom(tempArr);
       }
     };
-    if (portfolioID !== "create") {
+
+    if (portfolioID === "create") {
+      dispatch(isPreviewPortfolio());
+    } else {
       loadPortfolio();
     }
   }, []);
 
   return (
     <>
-      {userID === localStorage.getItem("userID") ? (
+      {userID === localStorage.getItem("userID") || portfolioID === "create" ? (
         <Preview
           onClick={() => {
             dispatch(isPreviewPortfolio());
@@ -178,6 +181,7 @@ const Portfolio = () => {
         addWebsiteCom={addWebsiteCom}
         uploadWebsite={uploadWebsite}
       />
+      <SideBar />
     </>
   );
 };

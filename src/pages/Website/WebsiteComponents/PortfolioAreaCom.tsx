@@ -49,7 +49,7 @@ const PortfolioAreaCom = ({
           return (
             <PortfolioCard
               key={portfolioID}
-              to={`/portfolio/${userID}+${portfolioID}`}
+              to={`/portfolio/${portfolioID}`}
               onClick={() => {
                 dispatch(setPortfolioListIndex(portfolioListIndex));
                 dispatch(setPortfolioIndex(index));
