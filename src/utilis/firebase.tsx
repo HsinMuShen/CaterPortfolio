@@ -40,10 +40,20 @@ const firebase = {
     return imageUrl;
   },
 
-  async uploadDoc(collection: string, data: ResumeReducer | WebsiteReducer) {
-    const collectionDoc = doc(db, collection, "Xvbmt52vwx9RzFaXE17L");
+  async uploadDoc(
+    collection: string,
+    docID: string,
+    data: ResumeReducer | WebsiteReducer | UserReducer
+  ) {
+    const collectionDoc = doc(db, collection, docID);
     setDoc(collectionDoc, data)
-      .then(() => alert("成功上架頁面!"))
+      .then(() => {
+        if (collection === "websites") {
+          alert("成功上架網站!");
+        } else if (collection === "resumes") {
+          alert("成功新增履歷!");
+        }
+      })
       .catch((error) => {
         console.log(error);
       });

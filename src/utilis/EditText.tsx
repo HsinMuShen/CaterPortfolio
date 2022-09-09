@@ -3,6 +3,7 @@ import StarterKit from "@tiptap/starter-kit";
 import React, { useState, useEffect } from "react";
 import { RootState } from "../reducers";
 import { useSelector } from "react-redux";
+import styled from "styled-components";
 
 const MenuBar: React.FC<any> = ({ editor, isShowBtn }) => {
   if (!editor) {

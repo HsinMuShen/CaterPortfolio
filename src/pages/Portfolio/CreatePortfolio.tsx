@@ -32,7 +32,8 @@ const CreatePortfolio = () => {
   const portfolioData = useSelector(
     (state: RootState) => state.PortfolioReducer
   );
-  console.log(portfolioData);
+  const userData = useSelector((state: RootState) => state.UserReducer);
+
   const addWebsiteCom = (conIndex: number) => {
     dispatch(portfolioAddCom(portfolioChoice[conIndex].comContent));
     setPortfolioCom([...portfolioCom, portfolioChoice[conIndex].comContent]);
@@ -53,7 +54,7 @@ const CreatePortfolio = () => {
 
     const tempWebsiteData = websiteData;
     tempWebsiteData.time = timestamp;
-    firebase.uploadDoc("websites", websiteData);
+    firebase.uploadDoc("websites", userData.userID, websiteData);
   };
 
   return (

@@ -86,6 +86,7 @@ const Website = () => {
   const isPreview = useSelector(
     (state: RootState) => state.IsPreviewReducer.website
   );
+  const userData = useSelector((state: RootState) => state.UserReducer);
 
   const addWebsiteCom = (conIndex: number) => {
     dispatch(websiteAddCom(websiteChoice[conIndex].comContent));
@@ -102,7 +103,7 @@ const Website = () => {
   const uploadWebsite = () => {
     const tempWebsiteData = websiteData;
     tempWebsiteData.time = Date.now();
-    firebase.uploadDoc("websites", websiteData);
+    firebase.uploadDoc("websites", userData.userID, websiteData);
   };
 
   useEffect(() => {

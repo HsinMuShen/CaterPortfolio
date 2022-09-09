@@ -1,6 +1,12 @@
 import { DocumentData } from "firebase/firestore";
 import { ActionType } from "../reducers";
-import ResumeReducer from "../reducers/ResumeContent";
+
+export const initialSetUserData = (type: string, data: string) => {
+  return {
+    type: ActionType.USER.INPUT_EMAIL_PASSWORD,
+    payload: { type, data },
+  };
+};
 
 export const resumeAddCom = (content: {
   image: string[];

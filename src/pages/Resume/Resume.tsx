@@ -105,6 +105,7 @@ const Resume: React.FC = () => {
   const isPreview = useSelector(
     (state: RootState) => state.IsPreviewReducer.resume
   );
+  const userData = useSelector((state: RootState) => state.UserReducer);
   const dispatch = useDispatch();
 
   const addResumeCom = (conIndex: number) => {
@@ -120,7 +121,7 @@ const Resume: React.FC = () => {
     setResumeCom(tempArr);
   };
   const uploadResume = async () => {
-    firebase.uploadDoc("resumes", resumeData);
+    firebase.uploadDoc("resumes", userData.userID, resumeData);
   };
 
   useEffect(() => {

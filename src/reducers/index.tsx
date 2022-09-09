@@ -8,6 +8,7 @@ import { combineReducers } from "redux";
 
 export const ActionType: {
   USER: {
+    INPUT_EMAIL_PASSWORD: string;
     LOADING: string;
     ADD_FOLLOWING: string;
   };
@@ -47,6 +48,7 @@ export const ActionType: {
   };
 } = {
   USER: {
+    INPUT_EMAIL_PASSWORD: "INPUT_EMAIL_PASSWORD",
     LOADING: "USER_LOADING",
     ADD_FOLLOWING: "ADD_FOLLOWING",
   },
