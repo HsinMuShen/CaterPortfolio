@@ -8,10 +8,18 @@ import {
   where,
   getDoc,
   getDocs,
+  updateDoc,
+  arrayUnion,
+  arrayRemove,
 } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { content } from "../pages/Homepage/Input";
-import { ResumeReducer, WebsiteReducer, PortfolioReducer } from "../reducers";
+import {
+  UserReducer,
+  ResumeReducer,
+  WebsiteReducer,
+  PortfolioReducer,
+} from "../reducers";
 
 const firebase = {
   async getProfile(id: string) {
@@ -32,10 +40,20 @@ const firebase = {
     return imageUrl;
   },
 
-  async uploadDoc(collection: string, data: ResumeReducer | WebsiteReducer) {
-    const collectionDoc = doc(db, collection, "Xvbmt52vwx9RzFaXE17L");
+  async uploadDoc(
+    collection: string,
+    docID: string,
+    data: ResumeReducer | WebsiteReducer | UserReducer
+  ) {
+    const collectionDoc = doc(db, collection, docID);
     setDoc(collectionDoc, data)
-      .then(() => alert("成功上架頁面!"))
+      .then(() => {
+        if (collection === "websites") {
+          alert("成功上架網站!");
+        } else if (collection === "resumes") {
+          alert("成功新增履歷!");
+        }
+      })
       .catch((error) => {
         console.log(error);
       });
@@ -71,6 +89,45 @@ const firebase = {
       console.log("No such document!");
       return null;
     }
+  },
+
+  async addPortfolioFollowing(data: PortfolioReducer, userData: UserReducer) {
+    await updateDoc(doc(db, `users/${userData.userID}`), {
+      followPortfolios: arrayUnion({
+        portfolioID: data.portfolioID,
+        name: data.name,
+        userID: data.userID,
+        mainImage: data.mainImage,
+        title: data.title,
+      }),
+    });
+    await updateDoc(doc(db, `portfolios/${data.portfolioID}`), {
+      followers: arrayUnion({
+        userID: userData.userID,
+        name: userData.name,
+      }),
+    });
+  },
+
+  async cancelPortfolioFollowing(
+    data: PortfolioReducer,
+    userData: UserReducer
+  ) {
+    await updateDoc(doc(db, `users/${userData.userID}`), {
+      followPortfolios: arrayRemove({
+        portfolioID: data.portfolioID,
+        name: data.name,
+        userID: data.userID,
+        mainImage: data.mainImage,
+        title: data.title,
+      }),
+    });
+    await updateDoc(doc(db, `portfolios/${data.portfolioID}`), {
+      followers: arrayRemove({
+        userID: userData.userID,
+        name: userData.name,
+      }),
+    });
   },
 };
 

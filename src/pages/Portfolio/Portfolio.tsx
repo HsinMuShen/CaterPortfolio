@@ -76,6 +76,7 @@ const Portfolio = () => {
   const portfolioData = useSelector(
     (state: RootState) => state.PortfolioReducer
   );
+  const userData = useSelector((state: RootState) => state.UserReducer);
   const portfolioID = useParams().id;
 
   const addWebsiteCom = (conIndex: number) => {
@@ -98,7 +99,7 @@ const Portfolio = () => {
 
     const tempWebsiteData = websiteData;
     tempWebsiteData.time = timestamp;
-    firebase.uploadDoc("websites", websiteData);
+    firebase.uploadDoc("websites", userData.userID, websiteData);
   };
 
   useEffect(() => {
@@ -181,7 +182,7 @@ const Portfolio = () => {
         addWebsiteCom={addWebsiteCom}
         uploadWebsite={uploadWebsite}
       />
-      <SideBar />
+      <SideBar portfolioData={portfolioData} />
     </>
   );
 };

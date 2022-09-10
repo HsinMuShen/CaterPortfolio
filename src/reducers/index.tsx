@@ -1,3 +1,4 @@
+import UserReducer from "./UserContent";
 import ResumeReducer from "./ResumeContent";
 import WebsiteReducer from "./WebsiteContent";
 import PortfolioReducer from "./PortfolioContent";
@@ -6,46 +7,60 @@ import PortfolioIndex from "./PortfolioIndexContent";
 import { combineReducers } from "redux";
 
 export const ActionType: {
+  USER: {
+    INPUT_EMAIL_PASSWORD: string;
+    LOADING: string;
+    ADD_FOLLOWING: string;
+  };
   RESUME: {
-    ADD_COMPONENT: string | undefined;
-    DELETE_COMPONENT: string | undefined;
-    FILL_CONTENT: string | undefined;
-    ADD_IMAGE: string | undefined;
-    LOADING: string | undefined;
+    ADD_COMPONENT: string;
+    DELETE_COMPONENT: string;
+    FILL_CONTENT: string;
+    ADD_IMAGE: string;
+    ADD_COVER_IMAGE: string;
+    LOADING: string;
   };
   WEBSITE: {
-    ADD_COMPONENT: string | undefined;
-    DELETE_COMPONENT: string | undefined;
-    FILL_CONTENT: string | undefined;
-    ADD_IMAGE: string | undefined;
-    ADD_TIME: string | undefined;
-    LOADING: string | undefined;
-    ADD_PORTFOLIO_ID: string | undefined;
+    ADD_COMPONENT: string;
+    DELETE_COMPONENT: string;
+    FILL_CONTENT: string;
+    ADD_IMAGE: string;
+    ADD_TIME: string;
+    LOADING: string;
+    ADD_PORTFOLIO_ID: string;
   };
   PORTFOLIO: {
-    ADD_COMPONENT: string | undefined;
-    DELETE_COMPONENT: string | undefined;
-    INITIAL_SETUP: string | undefined;
-    FILL_CONTENT: string | undefined;
-    ADD_IMAGE: string | undefined;
-    ADD_TIME: string | undefined;
-    LOADING: string | undefined;
+    ADD_COMPONENT: string;
+    DELETE_COMPONENT: string;
+    INITIAL_SETUP: string;
+    FILL_CONTENT: string;
+    ADD_IMAGE: string;
+    ADD_TIME: string;
+    LOADING: string;
   };
   ISPREVIEW: {
-    RESUME: string | undefined;
-    WEBSITE: string | undefined;
-    PORTFOLIO: string | undefined;
+    ISLOGIN: string;
+    RESUME: string;
+    WEBSITE: string;
+    PORTFOLIO: string;
+    TRUE: string;
   };
   PORTFOLIOINDEX: {
-    SET_INDEX: string | undefined;
-    SET_PORTFOLIO_INDEX: string | undefined;
+    SET_INDEX: string;
+    SET_PORTFOLIO_INDEX: string;
   };
 } = {
+  USER: {
+    INPUT_EMAIL_PASSWORD: "INPUT_EMAIL_PASSWORD",
+    LOADING: "USER_LOADING",
+    ADD_FOLLOWING: "ADD_FOLLOWING",
+  },
   RESUME: {
     ADD_COMPONENT: "RESUME_ADD_COMPONENT",
     DELETE_COMPONENT: "RESUME_DELETE_COMPONENT",
     FILL_CONTENT: "RESUME_FILL_CONTENT",
     ADD_IMAGE: "RESUME_ADD_IMAGE",
+    ADD_COVER_IMAGE: "RESUME_ADD_COVER_IMAGE",
     LOADING: "RESUME_LOADING",
   },
   WEBSITE: {
@@ -67,9 +82,11 @@ export const ActionType: {
     LOADING: "PORTFOLIO_LOADING",
   },
   ISPREVIEW: {
+    ISLOGIN: "ISPREVIEW_ISLOGIN",
     RESUME: "ISPREVIEW_RESUME",
     WEBSITE: "ISPREVIEW_WEBSITE",
     PORTFOLIO: "ISPREVIEW_PORTFOLIO",
+    TRUE: "ISPREVIEW_TRUE",
   },
   PORTFOLIOINDEX: {
     SET_INDEX: "SET_INDEX",
@@ -78,6 +95,7 @@ export const ActionType: {
 };
 
 const allReducers = combineReducers({
+  UserReducer,
   ResumeReducer,
   WebsiteReducer,
   PortfolioReducer,
@@ -86,6 +104,7 @@ const allReducers = combineReducers({
 });
 
 export type RootState = ReturnType<typeof allReducers>;
+export type UserReducer = ReturnType<typeof UserReducer>;
 export type ResumeReducer = ReturnType<typeof ResumeReducer>;
 export type WebsiteReducer = ReturnType<typeof WebsiteReducer>;
 export type PortfolioReducer = ReturnType<typeof PortfolioReducer>;

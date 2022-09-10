@@ -27,7 +27,6 @@ const Homepage = () => {
     onSnapshot(collection(db, "portfolios"), (doc) => {
       const postArr: DocumentData[] = [];
       doc.forEach((doc) => {
-        // console.log(JSON.stringify(doc.data()));
         postArr.push(doc.data());
       });
       setPortfolioArr(postArr);

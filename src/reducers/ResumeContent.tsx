@@ -4,6 +4,7 @@ import { Timestamp } from "firebase/firestore";
 
 interface resumeReducer {
   title: string;
+  coverImage: string;
   content: { image: string[]; text: string[]; type: number }[];
   name: string;
   followers: string[];
@@ -15,6 +16,7 @@ interface resumeReducer {
 const ResumeReducer = (
   resumeData: resumeReducer = {
     title: "Michael",
+    coverImage: "",
     content: [],
     name: "Michael",
     followers: [],
@@ -57,6 +59,14 @@ const ResumeReducer = (
       };
       const newResumeData = { ...resumeData, content: tempContentArr };
       return newResumeData;
+    }
+    case ActionType.RESUME.ADD_COVER_IMAGE: {
+      let tempResumeData = resumeData;
+      tempResumeData = {
+        ...resumeData,
+        coverImage: action.payload.image,
+      };
+      return tempResumeData;
     }
     case ActionType.RESUME.LOADING: {
       const tempResumeData = action.payload.data;

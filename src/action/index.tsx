@@ -1,6 +1,12 @@
 import { DocumentData } from "firebase/firestore";
 import { ActionType } from "../reducers";
-import ResumeReducer from "../reducers/ResumeContent";
+
+export const initialSetUserData = (type: string, data: string) => {
+  return {
+    type: ActionType.USER.INPUT_EMAIL_PASSWORD,
+    payload: { type, data },
+  };
+};
 
 export const resumeAddCom = (content: {
   image: string[];
@@ -34,6 +40,13 @@ export const resumeAddImage = (index: number, imageArr: string[] | null[]) => {
   return {
     type: ActionType.RESUME.ADD_IMAGE,
     payload: { index, imageArr },
+  };
+};
+
+export const resumeAddCoverImage = (image: string) => {
+  return {
+    type: ActionType.RESUME.ADD_COVER_IMAGE,
+    payload: { image },
   };
 };
 
@@ -162,6 +175,13 @@ export const portfolioLoading = (data: DocumentData) => {
   };
 };
 
+export const changeLoginState = (boolean: boolean) => {
+  return {
+    type: ActionType.ISPREVIEW.ISLOGIN,
+    payload: { boolean },
+  };
+};
+
 export const isPreviewResume = () => {
   return {
     type: ActionType.ISPREVIEW.RESUME,
@@ -177,6 +197,13 @@ export const isPreviewWebsite = () => {
 export const isPreviewPortfolio = () => {
   return {
     type: ActionType.ISPREVIEW.PORTFOLIO,
+  };
+};
+
+export const isPreviewTrue = (type: string) => {
+  return {
+    type: ActionType.ISPREVIEW.TRUE,
+    payload: { type },
   };
 };
 
