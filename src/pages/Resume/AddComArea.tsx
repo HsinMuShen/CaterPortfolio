@@ -19,7 +19,9 @@ const AddComArea = ({
   const isPreview = useSelector(
     (state: RootState) => state.IsPreviewReducer.resume
   );
-  return isPreview ? null : (
+  return isPreview ? (
+    <ResumeBtn onClick={uploadResume}>送出!</ResumeBtn>
+  ) : (
     <>
       <p>新增圖文內容</p>
       <div>
@@ -36,7 +38,6 @@ const AddComArea = ({
           );
         })}
       </div>
-      <ResumeBtn onClick={uploadResume}>送出!</ResumeBtn>
     </>
   );
 };

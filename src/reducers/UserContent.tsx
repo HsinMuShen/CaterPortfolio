@@ -7,6 +7,7 @@ interface userReducer {
   password: string;
   userID: string;
   userImage: string;
+  backgroundImage: string;
   followers: {
     userID: string;
     name: string;
@@ -38,6 +39,7 @@ const UserReducer = (
     password: "",
     userID: "",
     userImage: "",
+    backgroundImage: "",
     followers: [],
     interestingTags: [],
     tags: [],

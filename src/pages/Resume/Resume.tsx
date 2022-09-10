@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
+import html2canvas from "html2canvas";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { RootState } from "../../reducers";
@@ -8,7 +9,9 @@ import {
   resumeAddCom,
   resumeDeleteCom,
   resumeLoading,
+  resumeAddCoverImage,
   isPreviewResume,
+  isPreviewTrue,
 } from "../../action";
 
 import firebase from "../../utilis/firebase";
@@ -26,6 +29,7 @@ const Wrapper = styled.div`
 `;
 
 const ResumeEditor = styled.div`
+  position: relative;
   width: 960px;
   margin: 60px auto;
   border: 1px solid;
@@ -100,9 +104,10 @@ export const resumeChoice = [
 
 const Resume: React.FC = () => {
   const [resumeCom, setResumeCom] = useState<resumeComContent[]>([]);
+  const refPhoto = useRef<HTMLDivElement>(null);
   const userID = useParams().id;
   const resumeData = useSelector((state: RootState) => state.ResumeReducer);
-  const isPreview = useSelector(
+  let isPreview = useSelector(
     (state: RootState) => state.IsPreviewReducer.resume
   );
   const userData = useSelector((state: RootState) => state.UserReducer);
@@ -121,7 +126,14 @@ const Resume: React.FC = () => {
     setResumeCom(tempArr);
   };
   const uploadResume = async () => {
-    firebase.uploadDoc("resumes", userData.userID, resumeData);
+    firebase.uploadDoc("resumes", "Xvbmt52vwx9RzFaXE17L", resumeData);
+  };
+  const getCoverImage = () => {
+    html2canvas(refPhoto.current!).then(function (canvas) {
+      const dataUrl = canvas.toDataURL("image/png");
+      console.log(dataUrl);
+      dispatch(resumeAddCoverImage(dataUrl));
+    });
   };
 
   useEffect(() => {
@@ -173,7 +185,7 @@ const Resume: React.FC = () => {
         </button>
       ) : null}
 
-      <ResumeEditor>
+      <ResumeEditor ref={refPhoto}>
         <PreviewDiv style={{ zIndex: isPreview ? "2" : "-1" }}></PreviewDiv>
         <ResumeHeader>
           {resumeCom.map((content, index) => {
@@ -217,7 +229,14 @@ const Resume: React.FC = () => {
         <ResumeFooter></ResumeFooter>
       </ResumeEditor>
       <AddComArea addResumeCom={addResumeCom} uploadResume={uploadResume} />
-
+      <div
+        onClick={() => {
+          getCoverImage();
+          dispatch(isPreviewTrue("resume"));
+        }}
+      >
+        確定編輯? 預覽看看吧
+      </div>
       <ToProfileLink to={`/profile`}>profile</ToProfileLink>
     </Wrapper>
   );

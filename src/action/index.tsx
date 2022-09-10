@@ -43,6 +43,13 @@ export const resumeAddImage = (index: number, imageArr: string[] | null[]) => {
   };
 };
 
+export const resumeAddCoverImage = (image: string) => {
+  return {
+    type: ActionType.RESUME.ADD_COVER_IMAGE,
+    payload: { image },
+  };
+};
+
 export const resumeLoading = (data: DocumentData) => {
   return {
     type: ActionType.RESUME.LOADING,
@@ -168,6 +175,13 @@ export const portfolioLoading = (data: DocumentData) => {
   };
 };
 
+export const changeLoginState = (boolean: boolean) => {
+  return {
+    type: ActionType.ISPREVIEW.ISLOGIN,
+    payload: { boolean },
+  };
+};
+
 export const isPreviewResume = () => {
   return {
     type: ActionType.ISPREVIEW.RESUME,
@@ -183,6 +197,13 @@ export const isPreviewWebsite = () => {
 export const isPreviewPortfolio = () => {
   return {
     type: ActionType.ISPREVIEW.PORTFOLIO,
+  };
+};
+
+export const isPreviewTrue = (type: string) => {
+  return {
+    type: ActionType.ISPREVIEW.TRUE,
+    payload: { type },
   };
 };
 

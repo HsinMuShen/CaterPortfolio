@@ -33,6 +33,7 @@ const Input = styled.input``;
 const LoginArea = () => {
   const [activeItem, setActiveItem] = useState("signin");
   const userData = useSelector((state: RootState) => state.UserReducer);
+
   const dispatch = useDispatch();
 
   const onSubmit = () => {
@@ -82,14 +83,19 @@ const LoginArea = () => {
         </SelectTag>
       </SelectArea>
       <InputArea>
-        {/* {activeItem === "register" ? (
+        {activeItem === "register" ? (
           <div>
             <SingleInputArea>
               <Label>使用者名稱</Label>
-              <Input type="text" />
+              <Input
+                type="text"
+                onChange={(e) => {
+                  dispatch(initialSetUserData("name", e.target.value));
+                }}
+              />
             </SingleInputArea>
           </div>
-        ) : null} */}
+        ) : null}
 
         <SingleInputArea>
           <Label>Email</Label>
