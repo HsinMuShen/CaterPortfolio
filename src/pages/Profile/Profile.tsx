@@ -5,6 +5,7 @@ import { RootState } from "../../reducers";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { resumeLoading } from "../../action";
+import Resume from "../Resume/Resume";
 import firebase from "../../utilis/firebase";
 
 import styled from "styled-components";
@@ -69,6 +70,7 @@ const Profile: React.FC = () => {
         <CreaterArea>
           <ResumeArea to={`/resume/${userID}`}>
             <PreviewImg src={resumeData.coverImage} />
+            <></>
           </ResumeArea>
           <WebsiteArea to={`/website/${userID}`}>Website</WebsiteArea>
         </CreaterArea>

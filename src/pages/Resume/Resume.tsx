@@ -129,6 +129,14 @@ const Resume: React.FC = () => {
     firebase.uploadDoc("resumes", "Xvbmt52vwx9RzFaXE17L", resumeData);
   };
   const getCoverImage = () => {
+    // htmlToImage
+    //   .toJpeg(refPhoto.current!, { quality: 0.95 })
+    //   .then(function (dataUrl) {
+    //     console.log(dataUrl);
+    //   })
+    //   .catch(function (error) {
+    //     console.error("oops, something went wrong!", error);
+    //   });
     html2canvas(refPhoto.current!).then(function (canvas) {
       const dataUrl = canvas.toDataURL("image/png");
       console.log(dataUrl);
@@ -184,7 +192,6 @@ const Resume: React.FC = () => {
           編輯/預覽
         </button>
       ) : null}
-
       <ResumeEditor ref={refPhoto}>
         <PreviewDiv style={{ zIndex: isPreview ? "2" : "-1" }}></PreviewDiv>
         <ResumeHeader>

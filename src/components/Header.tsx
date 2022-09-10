@@ -40,6 +40,7 @@ const Header = () => {
   return (
     <Wrapper>
       <Tag to={`/`}>CaterPortfolio</Tag>
+      <Tag to={`/allresumes`}>All Resumes</Tag>
       <Tag to={`/profile/${localStorage.getItem("userID")}`}>profile</Tag>
       <Tag to={`/resume/${localStorage.getItem("userID")}`}>Resume</Tag>
       <Tag to={`/website/${localStorage.getItem("userID")}`}>Website</Tag>

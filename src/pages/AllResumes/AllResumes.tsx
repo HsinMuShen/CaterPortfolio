@@ -3,19 +3,17 @@ import { collection, DocumentData, onSnapshot } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
 import styled from "styled-components";
 
-import Pin from "./Pin";
+import ResumeCard from "./ResumeCard";
 
 const PinContainer = styled.div`
   width: 80vw;
   background-color: #ffffff;
   margin: 40px auto 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, 240px);
-  grid-auto-rows: 10px;
+  display: flex;
   justify-content: center;
 `;
 
-const Homepage = () => {
+const AllResumes = () => {
   const [portfolioArr, setPortfolioArr] = useState<DocumentData[]>([]);
   const random = (numbers: number[]) => {
     return numbers[Math.floor(Math.random() * numbers.length)];
@@ -23,7 +21,7 @@ const Homepage = () => {
   const numbers = [27, 36, 45, 48];
 
   useEffect(() => {
-    onSnapshot(collection(db, "portfolios"), (doc) => {
+    onSnapshot(collection(db, "resumes"), (doc) => {
       const postArr: DocumentData[] = [];
       doc.forEach((doc) => {
         postArr.push(doc.data());
@@ -35,11 +33,15 @@ const Homepage = () => {
     <PinContainer>
       {portfolioArr.map((data) => {
         return (
-          <Pin key={data.portfolioID} size={random(numbers)} data={data} />
+          <ResumeCard
+            key={data.portfolioID}
+            size={random(numbers)}
+            data={data}
+          />
         );
       })}
     </PinContainer>
   );
 };
 
-export default Homepage;
+export default AllResumes;
