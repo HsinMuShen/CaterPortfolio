@@ -45,6 +45,8 @@ const WebsiteArea = styled(Link)`
   align-items: center;
 `;
 
+const FollowingArea = styled(Link)``;
+
 const Profile: React.FC = () => {
   const [profileData, setProfileData] = useState({});
   const resumeData = useSelector((state: RootState) => state.ResumeReducer);
@@ -82,6 +84,9 @@ const Profile: React.FC = () => {
             </ResumeArea>
             <WebsiteArea to={`/website/${profileUserID}`}>Website</WebsiteArea>
           </CreaterArea>
+          <FollowingArea to={`/follow/${profileUserID}`}>
+            Following
+          </FollowingArea>
         </>
       ) : (
         <LoginArea />

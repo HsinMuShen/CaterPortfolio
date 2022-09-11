@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { portfolioReducer } from "../reducers/PortfolioContent";
 import firebase from "./firebase";
-import { useDispatch, useSelector } from "react-redux";
-import { portfolioLoading } from "../action";
 import { RootState } from "../reducers";
+import { useDispatch, useSelector } from "react-redux";
+import { portfolioLoading, userLoading } from "../action";
 
 const SideBarArea = styled.div`
   position: fixed;
@@ -57,6 +57,10 @@ const SideBar = ({ portfolioData }: { portfolioData: portfolioReducer }) => {
     );
     if (renewPortfolioData) {
       dispatch(portfolioLoading(renewPortfolioData));
+    }
+    const renewUserData = await firebase.readData("users", userData.userID);
+    if (renewUserData) {
+      dispatch(userLoading(renewUserData));
     }
   };
 

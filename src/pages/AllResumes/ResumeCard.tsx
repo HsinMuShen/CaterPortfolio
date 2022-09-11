@@ -57,7 +57,7 @@ const ResumeCard = ({ size, data }: { size: number; data: DocumentData }) => {
 
   useEffect(() => {
     data.followers.forEach((followersData: { userID: string | null }) => {
-      if (followersData.userID === localStorage.getItem("userID")) {
+      if (followersData.userID === userData.userID) {
         setIsFollow(true);
       }
     });
