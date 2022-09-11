@@ -62,7 +62,7 @@ const SideBar = ({ portfolioData }: { portfolioData: portfolioReducer }) => {
 
   useEffect(() => {
     portfolioData.followers.forEach((data) => {
-      if (data.userID === localStorage.getItem("userID")) {
+      if (data.userID === userData.userID) {
         setIsFollow(true);
       }
     });

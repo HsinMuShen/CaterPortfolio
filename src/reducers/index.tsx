@@ -26,6 +26,7 @@ export const ActionType: {
     FILL_CONTENT: string;
     ADD_IMAGE: string;
     ADD_TIME: string;
+    ADD_SETTING: string;
     LOADING: string;
     ADD_PORTFOLIO_ID: string;
   };
@@ -36,6 +37,7 @@ export const ActionType: {
     FILL_CONTENT: string;
     ADD_IMAGE: string;
     ADD_TIME: string;
+    ADD_SETTING: string;
     LOADING: string;
   };
   ISPREVIEW: {
@@ -70,6 +72,7 @@ export const ActionType: {
     FILL_CONTENT: "WEBSITE_FILL_CONTENT",
     ADD_IMAGE: "WEBSITE_ADD_IMAGE",
     ADD_TIME: "WEBSITE_ADD_TIME",
+    ADD_SETTING: "WEBSITE_ADD_SETTING",
     LOADING: "WEBSITE_LOADING",
     ADD_PORTFOLIO_ID: "ADD_PORTFOLIO_ID",
   },
@@ -80,6 +83,7 @@ export const ActionType: {
     FILL_CONTENT: "PORTFOLIO_FILL_CONTENT",
     ADD_IMAGE: "PORTFOLIO_ADD_IMAGE",
     ADD_TIME: "PORTFOLIO_ADD_TIME",
+    ADD_SETTING: "PORTFOLIO_ADD_SETTING",
     LOADING: "PORTFOLIO_LOADING",
   },
   ISPREVIEW: {

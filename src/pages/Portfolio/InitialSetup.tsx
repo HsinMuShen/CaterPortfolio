@@ -86,16 +86,16 @@ const InitialSetup = ({ portfolioID }: { portfolioID: string | undefined }) => {
     dispatch(websiteFillContent(portfolioIndex.index, tempArr));
   };
 
-  useEffect(() => {
-    if (portfolioID === "create") {
-      const portID = v4();
-      dispatch(portfolioInitialSetup("portfolioID", portID));
-      const tempArr = websiteReducer.content[portfolioIndex.index].portfolioID;
-      tempArr[websiteReducer.content[portfolioIndex.index].portfolioID.length] =
-        portID;
-      dispatch(websiteAddPortfolioID(portfolioIndex.index, tempArr));
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (portfolioID === "create") {
+  //     const portID = v4();
+  //     dispatch(portfolioInitialSetup("portfolioID", portID));
+  //     const tempArr = websiteReducer.content[portfolioIndex.index].portfolioID;
+  //     tempArr[websiteReducer.content[portfolioIndex.index].portfolioID.length] =
+  //       portID;
+  //     dispatch(websiteAddPortfolioID(portfolioIndex.index, tempArr));
+  //   }
+  // }, []);
   return (
     <div style={{ display: "flex" }}>
       <ImageContainer>

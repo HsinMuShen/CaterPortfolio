@@ -14,6 +14,7 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   websiteAddCom,
   websiteDeleteCom,
+  websiteAddSetting,
   websiteLoading,
   isPreviewWebsite,
 } from "../../action";
@@ -80,7 +81,7 @@ export const websiteChoice = [
 
 const Website = () => {
   const [websiteCom, setWebsiteCom] = useState<websiteComContent[]>([]);
-  const userID = useParams().id;
+  const websiteID = useParams().id;
   const dispatch = useDispatch();
   const websiteData = useSelector((state: RootState) => state.WebsiteReducer);
   const isPreview = useSelector(
@@ -110,7 +111,7 @@ const Website = () => {
     const loadWebsite = async () => {
       const websiteData = await firebase.readData(
         "websites",
-        "Xvbmt52vwx9RzFaXE17L"
+        `${userData.userID}`
       );
       if (websiteData) {
         dispatch(websiteLoading(websiteData));
@@ -119,20 +120,23 @@ const Website = () => {
           tempArr.push(content);
         });
         setWebsiteCom(tempArr);
+      } else {
+        dispatch(websiteAddSetting("name", userData.name));
+        dispatch(websiteAddSetting("userID", userData.userID));
       }
     };
     loadWebsite();
-  }, []);
+  }, [userData]);
 
   return (
     <>
-      {userID === localStorage.getItem("userID") ? (
+      {websiteID === userData.userID ? (
         <Preview
           onClick={() => {
             dispatch(isPreviewWebsite());
           }}
         >
-          {`${isPreview}`}
+          {`is preview : ${isPreview}`}
         </Preview>
       ) : null}
 
@@ -169,7 +173,7 @@ const Website = () => {
                   <PortfolioAreaCom
                     content={content}
                     index={index}
-                    userID={userID}
+                    userID={userData.userID}
                   />
                   <Delete addDeleteCom={addDeleteCom} index={index} />
                 </SineleComponent>

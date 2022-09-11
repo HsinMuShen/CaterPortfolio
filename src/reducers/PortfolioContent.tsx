@@ -29,7 +29,7 @@ const PortfolioReducer = (
     followers: [],
     tags: ["design"],
     time: null,
-    userID: "Xvbmt52vwx9RzFaXE17L",
+    userID: "",
     portfolioID: "",
   },
   action: AnyAction
@@ -82,6 +82,14 @@ const PortfolioReducer = (
     case ActionType.PORTFOLIO.ADD_TIME: {
       const tempObj = { ...portfolioData, time: Date.now() };
       return tempObj;
+    }
+    case ActionType.WEBSITE.ADD_SETTING: {
+      let tempResumeData = portfolioData;
+      tempResumeData = {
+        ...portfolioData,
+        [action.payload.type]: action.payload.text,
+      };
+      return tempResumeData;
     }
     case ActionType.PORTFOLIO.LOADING: {
       const tempWebsiteData = action.payload.data;

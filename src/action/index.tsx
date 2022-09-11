@@ -116,6 +116,13 @@ export const websiteAddTime = () => {
   };
 };
 
+export const websiteAddSetting = (type: string, text: string) => {
+  return {
+    type: ActionType.WEBSITE.ADD_SETTING,
+    payload: { type, text },
+  };
+};
+
 export const websiteLoading = (data: DocumentData) => {
   return {
     type: ActionType.WEBSITE.LOADING,
@@ -172,6 +179,13 @@ export const portfolioAddImage = (
 export const portfolioAddTime = () => {
   return {
     type: ActionType.PORTFOLIO.ADD_TIME,
+  };
+};
+
+export const portfolioAddSetting = (type: string, text: string) => {
+  return {
+    type: ActionType.PORTFOLIO.ADD_SETTING,
+    payload: { type, text },
   };
 };
 

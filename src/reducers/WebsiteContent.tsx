@@ -20,11 +20,11 @@ const WebsiteReducer = (
   websiteData: websiteReducer = {
     title: "Michael",
     content: [],
-    name: "Michael",
+    name: "",
     followers: [],
     tags: ["design"],
     time: null,
-    userID: "Xvbmt52vwx9RzFaXE17L",
+    userID: "",
   },
   action: AnyAction
 ) => {
@@ -75,6 +75,14 @@ const WebsiteReducer = (
     case ActionType.WEBSITE.ADD_TIME: {
       const tempObj = { ...websiteData, time: Date.now() };
       return tempObj;
+    }
+    case ActionType.WEBSITE.ADD_SETTING: {
+      let tempResumeData = websiteData;
+      tempResumeData = {
+        ...websiteData,
+        [action.payload.type]: action.payload.text,
+      };
+      return tempResumeData;
     }
     case ActionType.WEBSITE.LOADING: {
       const tempWebsiteData = action.payload.data;
