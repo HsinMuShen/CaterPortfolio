@@ -40,6 +40,7 @@ export const ActionType: {
   };
   ISPREVIEW: {
     ISLOGIN: string;
+    PROFILE: string;
     RESUME: string;
     WEBSITE: string;
     PORTFOLIO: string;
@@ -83,6 +84,7 @@ export const ActionType: {
   },
   ISPREVIEW: {
     ISLOGIN: "ISPREVIEW_ISLOGIN",
+    PROFILE: "ISPREVIEW_PROFILE",
     RESUME: "ISPREVIEW_RESUME",
     WEBSITE: "ISPREVIEW_WEBSITE",
     PORTFOLIO: "ISPREVIEW_PORTFOLIO",

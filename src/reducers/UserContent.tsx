@@ -8,6 +8,7 @@ interface userReducer {
   userID: string;
   userImage: string;
   backgroundImage: string;
+  introduction: string;
   followers: {
     userID: string;
     name: string;
@@ -40,6 +41,7 @@ const UserReducer = (
     userID: "",
     userImage: "",
     backgroundImage: "",
+    introduction: "",
     followers: [],
     interestingTags: [],
     tags: [],
@@ -50,6 +52,10 @@ const UserReducer = (
   action: AnyAction
 ) => {
   switch (action.type) {
+    case ActionType.USER.LOADING: {
+      const tempResumeData = action.payload.data;
+      return tempResumeData;
+    }
     case ActionType.USER.INPUT_EMAIL_PASSWORD: {
       let tempResumeData = userData;
       tempResumeData = {

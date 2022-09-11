@@ -44,11 +44,11 @@ const SideBar = ({ portfolioData }: { portfolioData: portfolioReducer }) => {
   };
   const followPortfolio = async () => {
     if (isFollow) {
-      alert("取消追蹤!");
       await firebase.cancelPortfolioFollowing(portfolioData, userData);
+      alert("取消追蹤!");
     } else {
-      alert("加入追蹤!");
       await firebase.addPortfolioFollowing(portfolioData, userData);
+      alert("加入追蹤!");
     }
 
     const renewPortfolioData = await firebase.readPortfolioData(

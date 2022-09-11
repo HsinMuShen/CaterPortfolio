@@ -4,6 +4,7 @@ import { Timestamp } from "firebase/firestore";
 
 interface isPreviewReducer {
   userIsLogin: boolean;
+  profileIntro: boolean;
   resume: boolean;
   website: boolean;
   portfolio: boolean;
@@ -12,6 +13,7 @@ interface isPreviewReducer {
 const IsPreviewReducer = (
   isPreview: isPreviewReducer = {
     userIsLogin: false,
+    profileIntro: true,
     resume: true,
     website: true,
     portfolio: true,
@@ -24,6 +26,14 @@ const IsPreviewReducer = (
       tempIsPreview = {
         ...tempIsPreview,
         userIsLogin: action.payload.boolean,
+      };
+      return tempIsPreview;
+    }
+    case ActionType.ISPREVIEW.PROFILE: {
+      let tempIsPreview = isPreview;
+      tempIsPreview = {
+        ...tempIsPreview,
+        profileIntro: !tempIsPreview.profileIntro,
       };
       return tempIsPreview;
     }

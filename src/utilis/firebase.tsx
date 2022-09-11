@@ -52,6 +52,8 @@ const firebase = {
           alert("成功上架網站!");
         } else if (collection === "resumes") {
           alert("成功新增履歷!");
+        } else if (collection === "users") {
+          alert("成功更新個人資料!");
         }
       })
       .catch((error) => {
@@ -92,7 +94,7 @@ const firebase = {
   },
 
   async addPortfolioFollowing(data: PortfolioReducer, userData: UserReducer) {
-    await updateDoc(doc(db, `users/${userData.userID}`), {
+    await updateDoc(doc(db, `users`, `${userData.userID}`), {
       followPortfolios: arrayUnion({
         portfolioID: data.portfolioID,
         name: data.name,
@@ -101,7 +103,7 @@ const firebase = {
         title: data.title,
       }),
     });
-    await updateDoc(doc(db, `portfolios/${data.portfolioID}`), {
+    await updateDoc(doc(db, `portfolios`, `${data.portfolioID}`), {
       followers: arrayUnion({
         userID: userData.userID,
         name: userData.name,

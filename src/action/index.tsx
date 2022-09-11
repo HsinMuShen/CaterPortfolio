@@ -8,6 +8,13 @@ export const initialSetUserData = (type: string, data: string) => {
   };
 };
 
+export const userLoading = (data: DocumentData) => {
+  return {
+    type: ActionType.USER.LOADING,
+    payload: { data },
+  };
+};
+
 export const resumeAddCom = (content: {
   image: string[];
   text: string[] | null[];
@@ -179,6 +186,12 @@ export const changeLoginState = (boolean: boolean) => {
   return {
     type: ActionType.ISPREVIEW.ISLOGIN,
     payload: { boolean },
+  };
+};
+
+export const isPreviewProfile = () => {
+  return {
+    type: ActionType.ISPREVIEW.PROFILE,
   };
 };
 

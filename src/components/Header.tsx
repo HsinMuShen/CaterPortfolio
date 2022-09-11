@@ -5,6 +5,8 @@ import { firebaseApp } from "../firebaseConfig";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { changeLoginState } from "../action";
+import firebase from "../utilis/firebase";
+import { userLoading } from "../action";
 
 const Wrapper = styled.div`
   width: 100vw;
@@ -27,10 +29,15 @@ const Header = () => {
   const auth = getAuth(firebaseApp);
   const dispatch = useDispatch();
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(auth, async (user) => {
       if (user) {
-        const uid = user.uid;
-        console.log(uid);
+        console.log(user);
+        const userData = await firebase.readData("users", user.uid);
+
+        if (userData) {
+          console.log(userData);
+          dispatch(userLoading(userData));
+        }
         dispatch(changeLoginState(true));
       } else {
         dispatch(changeLoginState(false));

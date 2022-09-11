@@ -4,12 +4,13 @@ import { useParams } from "react-router-dom";
 import { RootState } from "../../reducers";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { resumeLoading } from "../../action";
+import { resumeLoading, userLoading } from "../../action";
 import Resume from "../Resume/Resume";
 import firebase from "../../utilis/firebase";
 
 import styled from "styled-components";
 import LoginArea from "./LoginArea";
+import MemberIntro from "./MemberIntro";
 
 const Wrapper = styled.div`
   display: flex;
@@ -53,7 +54,7 @@ const Profile: React.FC = () => {
   const userID = useParams().id;
 
   useEffect(() => {
-    const loadResume = async () => {
+    const loadData = async () => {
       const resumeData = await firebase.readData(
         "resumes",
         "Xvbmt52vwx9RzFaXE17L"
@@ -61,19 +62,26 @@ const Profile: React.FC = () => {
       if (resumeData) {
         dispatch(resumeLoading(resumeData));
       }
+      const userData = await firebase.readData("users", "Xvbmt52vwx9RzFaXE17L");
+      if (userData) {
+        dispatch(userLoading(userData));
+      }
     };
-    loadResume();
+    loadData();
   }, []);
   return (
     <Wrapper>
       {isLogin ? (
-        <CreaterArea>
-          <ResumeArea to={`/resume/${userID}`}>
-            <PreviewImg src={resumeData.coverImage} />
-            <></>
-          </ResumeArea>
-          <WebsiteArea to={`/website/${userID}`}>Website</WebsiteArea>
-        </CreaterArea>
+        <>
+          <MemberIntro />
+          <CreaterArea>
+            <ResumeArea to={`/resume/${userID}`}>
+              <PreviewImg src={resumeData.coverImage} />
+              <></>
+            </ResumeArea>
+            <WebsiteArea to={`/website/${userID}`}>Website</WebsiteArea>
+          </CreaterArea>
+        </>
       ) : (
         <LoginArea />
       )}
