@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { followPortfolios } from "./FollowingArea";
+import { followPortfolios, followResumes } from "./FollowingArea";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
@@ -30,7 +30,7 @@ const PinImage = styled(Link)<{ mainimage: string }>`
   border-radius: 16px 16px 0 0;
 `;
 
-const FollowingCard = ({
+const FollowingPortfolioCard = ({
   data,
   index,
 }: {
@@ -56,4 +56,4 @@ const FollowingCard = ({
   );
 };
 
-export default FollowingCard;
+export default FollowingPortfolioCard;

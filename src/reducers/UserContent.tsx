@@ -19,6 +19,12 @@ export interface userReducer {
     userID: string;
     name: string;
   }[];
+  followResumes: {
+    portfolioID: string;
+    userID: string;
+    name: string;
+    coverImage: string;
+  }[];
   followPortfolios: {
     portfolioID: string;
     userID: string;
@@ -46,6 +52,7 @@ const UserReducer = (
     interestingTags: [],
     tags: [],
     followMembers: [],
+    followResumes: [],
     followPortfolios: [],
     followWebsites: [],
   },

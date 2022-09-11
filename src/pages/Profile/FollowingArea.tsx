@@ -3,7 +3,8 @@ import { RootState } from "../../reducers";
 import { useDispatch, useSelector } from "react-redux";
 import { portfolioLoading } from "../../action";
 
-import FollowingCard from "./FollowingCard";
+import FollowingPortfolioCard from "./FollowingPortfolioCard";
+import FollowingResumeCard from "./FollowingResumeCard";
 
 export interface followPortfolios {
   name: string;
@@ -13,28 +14,36 @@ export interface followPortfolios {
   portfolioID: string;
 }
 
+export interface followResumes {
+  name: string;
+  userID: string;
+  coverImage: string;
+}
+
 const FollowingArea = () => {
   const userData = useSelector((state: RootState) => state.UserReducer);
   const dispatch = useDispatch();
-  //   useEffect(() => {
-  //     const loadData = async () => {
-  //       const userData = await firebase.readData("users", `${userData.userID}`);
-  //       if (userData) {
-  //         setProfileData(userData);
-  //       }
-  //     };
-  //     loadData();
-  //   }, []);
+
   return (
     <div>
       <p>Portfolio : </p>
       {userData.followPortfolios.map(
         (data: followPortfolios, index: number) => {
           return (
-            <FollowingCard key={data.portfolioID} data={data} index={index} />
+            <FollowingPortfolioCard
+              key={data.portfolioID}
+              data={data}
+              index={index}
+            />
           );
         }
       )}
+      <p>Resume : </p>
+      {userData.followResumes.map((data: followResumes, index: number) => {
+        return (
+          <FollowingResumeCard key={data.userID} data={data} index={index} />
+        );
+      })}
     </div>
   );
 };

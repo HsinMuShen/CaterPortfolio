@@ -20,6 +20,7 @@ import ResumeCom2 from "./ResumeComponents/ResumeCom2";
 import ResumeCom3 from "./ResumeComponents/ResumeCom3";
 import Delete from "./Delete";
 import AddComArea from "./AddComArea";
+import SideBar from "../../utilis/SideBar";
 import preImage from "../../utilis/cat.jpg";
 
 const Wrapper = styled.div`
@@ -177,70 +178,74 @@ const Resume: React.FC = () => {
   };
 
   return (
-    <Wrapper>
-      {resumeID === userData.userID ? (
-        <button
+    <>
+      {" "}
+      <Wrapper>
+        {resumeID === userData.userID ? (
+          <button
+            onClick={() => {
+              dispatch(isPreviewResume());
+            }}
+          >
+            編輯/預覽
+          </button>
+        ) : null}
+        <ResumeEditor ref={refPhoto}>
+          <PreviewDiv style={{ zIndex: isPreview ? "2" : "-1" }}></PreviewDiv>
+          <ResumeHeader>
+            {resumeCom.map((content, index) => {
+              // return (
+              //   <SineleComponent key={index}>
+              //     <ResumeComponents.Text index={index} content={content} />
+              //     <Delete addDeleteCom={addDeleteCom} index={index} />
+              //   </SineleComponent>
+              // );
+              switch (content.type) {
+                case 0: {
+                  return (
+                    <SineleComponent key={index}>
+                      <ResumeCom1 index={index} content={content} />
+                      <Delete addDeleteCom={addDeleteCom} index={index} />
+                    </SineleComponent>
+                  );
+                }
+                case 1: {
+                  return (
+                    <SineleComponent key={index}>
+                      <ResumeCom2 index={index} content={content} />
+                      <Delete addDeleteCom={addDeleteCom} index={index} />
+                    </SineleComponent>
+                  );
+                }
+                case 2: {
+                  return (
+                    <SineleComponent key={index}>
+                      <ResumeCom3 index={index} content={content} />
+                      <Delete addDeleteCom={addDeleteCom} index={index} />
+                    </SineleComponent>
+                  );
+                }
+                default:
+                  return null;
+              }
+            })}
+          </ResumeHeader>
+          <ResumeBody></ResumeBody>
+          <ResumeFooter></ResumeFooter>
+        </ResumeEditor>
+        <AddComArea addResumeCom={addResumeCom} uploadResume={uploadResume} />
+        <div
           onClick={() => {
-            dispatch(isPreviewResume());
+            getCoverImage();
+            dispatch(isPreviewTrue("resume"));
           }}
         >
-          編輯/預覽
-        </button>
-      ) : null}
-      <ResumeEditor ref={refPhoto}>
-        <PreviewDiv style={{ zIndex: isPreview ? "2" : "-1" }}></PreviewDiv>
-        <ResumeHeader>
-          {resumeCom.map((content, index) => {
-            // return (
-            //   <SineleComponent key={index}>
-            //     <ResumeComponents.Text index={index} content={content} />
-            //     <Delete addDeleteCom={addDeleteCom} index={index} />
-            //   </SineleComponent>
-            // );
-            switch (content.type) {
-              case 0: {
-                return (
-                  <SineleComponent key={index}>
-                    <ResumeCom1 index={index} content={content} />
-                    <Delete addDeleteCom={addDeleteCom} index={index} />
-                  </SineleComponent>
-                );
-              }
-              case 1: {
-                return (
-                  <SineleComponent key={index}>
-                    <ResumeCom2 index={index} content={content} />
-                    <Delete addDeleteCom={addDeleteCom} index={index} />
-                  </SineleComponent>
-                );
-              }
-              case 2: {
-                return (
-                  <SineleComponent key={index}>
-                    <ResumeCom3 index={index} content={content} />
-                    <Delete addDeleteCom={addDeleteCom} index={index} />
-                  </SineleComponent>
-                );
-              }
-              default:
-                return null;
-            }
-          })}
-        </ResumeHeader>
-        <ResumeBody></ResumeBody>
-        <ResumeFooter></ResumeFooter>
-      </ResumeEditor>
-      <AddComArea addResumeCom={addResumeCom} uploadResume={uploadResume} />
-      <div
-        onClick={() => {
-          getCoverImage();
-          dispatch(isPreviewTrue("resume"));
-        }}
-      >
-        確定完成編輯? 預覽看看吧
-      </div>
-      <ToProfileLink to={`/profile`}>profile</ToProfileLink>
-    </Wrapper>
+          確定完成編輯? 預覽看看吧
+        </div>
+        <ToProfileLink to={`/profile`}>profile</ToProfileLink>
+      </Wrapper>
+      <SideBar type={"resume"} data={resumeData} />
+    </>
   );
 };
 

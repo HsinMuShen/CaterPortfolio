@@ -93,6 +93,38 @@ const firebase = {
     }
   },
 
+  async addResumeFollowing(data: ResumeReducer, userData: UserReducer) {
+    await updateDoc(doc(db, `users`, `${userData.userID}`), {
+      followResumes: arrayUnion({
+        name: data.name,
+        userID: data.userID,
+        coverImage: data.coverImage,
+      }),
+    });
+    await updateDoc(doc(db, `resumes`, `${data.userID}`), {
+      followers: arrayUnion({
+        userID: userData.userID,
+        name: userData.name,
+      }),
+    });
+  },
+
+  async cancelResumeFollowing(data: ResumeReducer, userData: UserReducer) {
+    await updateDoc(doc(db, `users/${userData.userID}`), {
+      followResumes: arrayRemove({
+        name: data.name,
+        userID: data.userID,
+        coverImage: data.coverImage,
+      }),
+    });
+    await updateDoc(doc(db, `resumes/${data.portfolioID}`), {
+      followers: arrayRemove({
+        userID: userData.userID,
+        name: userData.name,
+      }),
+    });
+  },
+
   async addPortfolioFollowing(data: PortfolioReducer, userData: UserReducer) {
     await updateDoc(doc(db, `users`, `${userData.userID}`), {
       followPortfolios: arrayUnion({
