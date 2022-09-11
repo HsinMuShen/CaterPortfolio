@@ -17,7 +17,7 @@ export const ActionType: {
     DELETE_COMPONENT: string;
     FILL_CONTENT: string;
     ADD_IMAGE: string;
-    ADD_COVER_IMAGE: string;
+    ADD_SETTING: string;
     LOADING: string;
   };
   WEBSITE: {
@@ -61,7 +61,7 @@ export const ActionType: {
     DELETE_COMPONENT: "RESUME_DELETE_COMPONENT",
     FILL_CONTENT: "RESUME_FILL_CONTENT",
     ADD_IMAGE: "RESUME_ADD_IMAGE",
-    ADD_COVER_IMAGE: "RESUME_ADD_COVER_IMAGE",
+    ADD_SETTING: "RESUME_ADD_SETTING",
     LOADING: "RESUME_LOADING",
   },
   WEBSITE: {

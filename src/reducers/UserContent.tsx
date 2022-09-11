@@ -1,7 +1,7 @@
 import { AnyAction } from "redux";
 import { ActionType } from ".";
 
-interface userReducer {
+export interface userReducer {
   name: string;
   email: string;
   password: string;

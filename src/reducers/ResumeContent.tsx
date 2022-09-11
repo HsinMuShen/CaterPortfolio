@@ -15,14 +15,14 @@ interface resumeReducer {
 
 const ResumeReducer = (
   resumeData: resumeReducer = {
-    title: "Michael",
+    title: "",
     coverImage: "",
     content: [],
-    name: "Michael",
+    name: "",
     followers: [],
     tags: ["design"],
     time: null,
-    userID: "Xvbmt52vwx9RzFaXE17L",
+    userID: "",
   },
   action: AnyAction
 ) => {
@@ -60,11 +60,11 @@ const ResumeReducer = (
       const newResumeData = { ...resumeData, content: tempContentArr };
       return newResumeData;
     }
-    case ActionType.RESUME.ADD_COVER_IMAGE: {
+    case ActionType.RESUME.ADD_SETTING: {
       let tempResumeData = resumeData;
       tempResumeData = {
         ...resumeData,
-        coverImage: action.payload.image,
+        [action.payload.type]: action.payload.text,
       };
       return tempResumeData;
     }

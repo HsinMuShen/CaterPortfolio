@@ -4,6 +4,7 @@ import { RootState } from "../../reducers";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { isPreviewProfile, initialSetUserData } from "../../action";
+import { UserReducer } from "../../reducers";
 
 import firebase from "../../utilis/firebase";
 
@@ -39,7 +40,7 @@ const ImageInput = styled.input`
   display: none;
 `;
 
-const MemberIntro = () => {
+const MemberIntro = ({ profileData, setProfileData }: UserReducer) => {
   const [imageFile, setImageFile] = useState<{
     headshot: File | null;
     backgroundImage: File | null;
@@ -111,28 +112,32 @@ const MemberIntro = () => {
           </ImageLabel>
         </ImagePreview>
         {isPreviewContent.profileIntro ? (
-          userData.introduction
+          profileData.introduction
         ) : (
           <input
-            defaultValue={userData.introduction}
+            defaultValue={profileData.introduction}
             onChange={(e) => {
               dispatch(initialSetUserData("introduction", e.target.value));
+              setProfileData({ ...profileData, introduction: e.target.value });
             }}
           />
         )}
-        <p>{userData.name}</p>
+        <p>{profileData.name}</p>
       </ImageContainer>
-      <button
-        onClick={() => {
-          dispatch(isPreviewProfile());
-          if (!isPreviewContent.profileIntro) {
-            console.log(1);
-            firebase.uploadDoc("users", "Xvbmt52vwx9RzFaXE17L", userData);
-          }
-        }}
-      >
-        編輯個人頁面/儲存編輯
-      </button>
+      {profileData.userID === userData.userID ? (
+        <button
+          onClick={() => {
+            dispatch(isPreviewProfile());
+            if (!isPreviewContent.profileIntro) {
+              firebase.uploadDoc("users", `${userData.userID}`, userData);
+            }
+          }}
+        >
+          編輯個人頁面/儲存編輯
+        </button>
+      ) : (
+        <button>追蹤此人</button>
+      )}
     </Wrapper>
   );
 };

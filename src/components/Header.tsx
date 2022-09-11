@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { firebaseApp } from "../firebaseConfig";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import { RootState } from "../reducers";
+import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { changeLoginState } from "../action";
 import firebase from "../utilis/firebase";
@@ -27,7 +29,9 @@ const Nav = styled.p`
 
 const Header = () => {
   const auth = getAuth(firebaseApp);
+  const userData = useSelector((state: RootState) => state.UserReducer);
   const dispatch = useDispatch();
+
   useEffect(() => {
     onAuthStateChanged(auth, async (user) => {
       if (user) {
@@ -48,9 +52,9 @@ const Header = () => {
     <Wrapper>
       <Tag to={`/`}>CaterPortfolio</Tag>
       <Tag to={`/allresumes`}>All Resumes</Tag>
-      <Tag to={`/profile/${localStorage.getItem("userID")}`}>profile</Tag>
-      <Tag to={`/resume/${localStorage.getItem("userID")}`}>Resume</Tag>
-      <Tag to={`/website/${localStorage.getItem("userID")}`}>Website</Tag>
+      <Tag to={`/profile/${userData.userID}`}>profile</Tag>
+      <Tag to={`/resume/${userData.userID}`}>Resume</Tag>
+      <Tag to={`/website/${userData.userID}`}>Website</Tag>
       <Nav
         onClick={() => {
           signOut(auth);

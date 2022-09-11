@@ -50,10 +50,10 @@ export const resumeAddImage = (index: number, imageArr: string[] | null[]) => {
   };
 };
 
-export const resumeAddCoverImage = (image: string) => {
+export const resumeAddSetting = (type: string, text: string) => {
   return {
-    type: ActionType.RESUME.ADD_COVER_IMAGE,
-    payload: { image },
+    type: ActionType.RESUME.ADD_SETTING,
+    payload: { type, text },
   };
 };
 

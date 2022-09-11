@@ -9,7 +9,7 @@ import {
   resumeAddCom,
   resumeDeleteCom,
   resumeLoading,
-  resumeAddCoverImage,
+  resumeAddSetting,
   isPreviewResume,
   isPreviewTrue,
 } from "../../action";
@@ -95,7 +95,10 @@ export const resumeChoice = [
     comIndex: 2,
     comContent: {
       image: [],
-      text: ["<h3>標題</h3><p>您的英勇事蹟</p><p>您的英勇事蹟</p>"],
+      text: [
+        "<h3>標題</h3><p>您的英勇事蹟</p><p>您的英勇事蹟</p>",
+        "<h3>標題</h3><p>您的英勇事蹟</p><p>您的英勇事蹟</p>",
+      ],
       type: 2,
       comName: "text",
     },
@@ -105,7 +108,7 @@ export const resumeChoice = [
 const Resume: React.FC = () => {
   const [resumeCom, setResumeCom] = useState<resumeComContent[]>([]);
   const refPhoto = useRef<HTMLDivElement>(null);
-  const userID = useParams().id;
+  const resumeID = useParams().id;
   const resumeData = useSelector((state: RootState) => state.ResumeReducer);
   let isPreview = useSelector(
     (state: RootState) => state.IsPreviewReducer.resume
@@ -126,30 +129,19 @@ const Resume: React.FC = () => {
     setResumeCom(tempArr);
   };
   const uploadResume = async () => {
-    firebase.uploadDoc("resumes", "Xvbmt52vwx9RzFaXE17L", resumeData);
+    firebase.uploadDoc("resumes", `${resumeID}`, resumeData);
   };
   const getCoverImage = () => {
-    // htmlToImage
-    //   .toJpeg(refPhoto.current!, { quality: 0.95 })
-    //   .then(function (dataUrl) {
-    //     console.log(dataUrl);
-    //   })
-    //   .catch(function (error) {
-    //     console.error("oops, something went wrong!", error);
-    //   });
     html2canvas(refPhoto.current!).then(function (canvas) {
       const dataUrl = canvas.toDataURL("image/png");
       console.log(dataUrl);
-      dispatch(resumeAddCoverImage(dataUrl));
+      dispatch(resumeAddSetting("coverImage", dataUrl));
     });
   };
 
   useEffect(() => {
     const loadResume = async () => {
-      const resumeData = await firebase.readData(
-        "resumes",
-        "Xvbmt52vwx9RzFaXE17L"
-      );
+      const resumeData = await firebase.readData("resumes", `${resumeID}`);
       if (resumeData) {
         dispatch(resumeLoading(resumeData));
         const tempArr: resumeComContent[] = [];
@@ -164,10 +156,13 @@ const Resume: React.FC = () => {
           }
         );
         setResumeCom(tempArr);
+      } else {
+        dispatch(resumeAddSetting("name", userData.name));
+        dispatch(resumeAddSetting("userID", userData.userID));
       }
     };
     loadResume();
-  }, []);
+  }, [userData]);
 
   const ResumeComponents = {
     Text: function Text({
@@ -183,7 +178,7 @@ const Resume: React.FC = () => {
 
   return (
     <Wrapper>
-      {userID === localStorage.getItem("userID") ? (
+      {resumeID === userData.userID ? (
         <button
           onClick={() => {
             dispatch(isPreviewResume());
@@ -242,7 +237,7 @@ const Resume: React.FC = () => {
           dispatch(isPreviewTrue("resume"));
         }}
       >
-        確定編輯? 預覽看看吧
+        確定完成編輯? 預覽看看吧
       </div>
       <ToProfileLink to={`/profile`}>profile</ToProfileLink>
     </Wrapper>

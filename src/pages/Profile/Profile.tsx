@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { RootState } from "../../reducers";
@@ -46,25 +46,23 @@ const WebsiteArea = styled(Link)`
 `;
 
 const Profile: React.FC = () => {
+  const [profileData, setProfileData] = useState({});
   const resumeData = useSelector((state: RootState) => state.ResumeReducer);
   const isLogin = useSelector(
     (state: RootState) => state.IsPreviewReducer.userIsLogin
   );
   const dispatch = useDispatch();
-  const userID = useParams().id;
+  const profileUserID = useParams().id;
 
   useEffect(() => {
     const loadData = async () => {
-      const resumeData = await firebase.readData(
-        "resumes",
-        "Xvbmt52vwx9RzFaXE17L"
-      );
+      const resumeData = await firebase.readData("resumes", `${profileUserID}`);
       if (resumeData) {
         dispatch(resumeLoading(resumeData));
       }
-      const userData = await firebase.readData("users", "Xvbmt52vwx9RzFaXE17L");
+      const userData = await firebase.readData("users", `${profileUserID}`);
       if (userData) {
-        dispatch(userLoading(userData));
+        setProfileData(userData);
       }
     };
     loadData();
@@ -73,13 +71,16 @@ const Profile: React.FC = () => {
     <Wrapper>
       {isLogin ? (
         <>
-          <MemberIntro />
+          <MemberIntro
+            profileData={profileData}
+            setProfileData={setProfileData}
+          />
           <CreaterArea>
-            <ResumeArea to={`/resume/${userID}`}>
+            <ResumeArea to={`/resume/${profileUserID}`}>
               <PreviewImg src={resumeData.coverImage} />
               <></>
             </ResumeArea>
-            <WebsiteArea to={`/website/${userID}`}>Website</WebsiteArea>
+            <WebsiteArea to={`/website/${profileUserID}`}>Website</WebsiteArea>
           </CreaterArea>
         </>
       ) : (
