@@ -1,14 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { RootState } from "../../reducers";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { resumeLoading } from "../../action";
+import { resumeLoading, userLoading } from "../../action";
+import Resume from "../Resume/Resume";
 import firebase from "../../utilis/firebase";
 
 import styled from "styled-components";
 import LoginArea from "./LoginArea";
+import MemberIntro from "./MemberIntro";
 
 const Wrapper = styled.div`
   display: flex;
@@ -43,35 +45,63 @@ const WebsiteArea = styled(Link)`
   align-items: center;
 `;
 
+const FollowingArea = styled(Link)``;
+
 const Profile: React.FC = () => {
+  const [profileData, setProfileData] = useState({});
+  const userData = useSelector((state: RootState) => state.UserReducer);
   const resumeData = useSelector((state: RootState) => state.ResumeReducer);
   const isLogin = useSelector(
     (state: RootState) => state.IsPreviewReducer.userIsLogin
   );
   const dispatch = useDispatch();
-  const userID = useParams().id;
+  const profileUserID = useParams().id;
 
   useEffect(() => {
-    const loadResume = async () => {
-      const resumeData = await firebase.readData(
-        "resumes",
-        "Xvbmt52vwx9RzFaXE17L"
-      );
+    const loadData = async () => {
+      const resumeData = await firebase.readData("resumes", `${profileUserID}`);
       if (resumeData) {
         dispatch(resumeLoading(resumeData));
+      } else {
+        dispatch(
+          resumeLoading({
+            title: "",
+            coverImage: "",
+            content: [],
+            name: "",
+            followers: [],
+            tags: ["design"],
+            time: null,
+            userID: "",
+          })
+        );
+      }
+      const userData = await firebase.readData("users", `${profileUserID}`);
+      if (userData) {
+        setProfileData(userData);
       }
     };
-    loadResume();
-  }, []);
+    loadData();
+  }, [profileUserID, userData]);
   return (
     <Wrapper>
       {isLogin ? (
-        <CreaterArea>
-          <ResumeArea to={`/resume/${userID}`}>
-            <PreviewImg src={resumeData.coverImage} />
-          </ResumeArea>
-          <WebsiteArea to={`/website/${userID}`}>Website</WebsiteArea>
-        </CreaterArea>
+        <>
+          <MemberIntro
+            profileData={profileData}
+            setProfileData={setProfileData}
+          />
+          <CreaterArea>
+            <ResumeArea to={`/resume/${profileUserID}`}>
+              <PreviewImg src={resumeData.coverImage} />
+              <></>
+            </ResumeArea>
+            <WebsiteArea to={`/website/${profileUserID}`}>Website</WebsiteArea>
+          </CreaterArea>
+          <FollowingArea to={`/follow/${profileUserID}`}>
+            Following
+          </FollowingArea>
+        </>
       ) : (
         <LoginArea />
       )}

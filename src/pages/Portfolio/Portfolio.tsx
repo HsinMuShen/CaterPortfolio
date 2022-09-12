@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { v4 } from "uuid";
 import styled from "styled-components";
 
 import InitialSetup from "./InitialSetup";
@@ -13,9 +14,12 @@ import firebase from "../../utilis/firebase";
 import { RootState } from "../../reducers";
 import { useSelector, useDispatch } from "react-redux";
 import {
+  websiteAddPortfolioID,
   portfolioAddCom,
   portfolioDeleteCom,
   portfolioLoading,
+  portfolioAddSetting,
+  portfolioInitialSetup,
   isPreviewPortfolio,
 } from "../../action";
 
@@ -76,6 +80,9 @@ const Portfolio = () => {
   const portfolioData = useSelector(
     (state: RootState) => state.PortfolioReducer
   );
+  const portfolioIndex = useSelector(
+    (state: RootState) => state.PortfolioIndex
+  );
   const userData = useSelector((state: RootState) => state.UserReducer);
   const portfolioID = useParams().id;
 
@@ -122,10 +129,18 @@ const Portfolio = () => {
 
     if (portfolioID === "create") {
       dispatch(isPreviewPortfolio());
+      dispatch(portfolioAddSetting("name", userData.name));
+      dispatch(portfolioAddSetting("userID", userData.userID));
+      const portID = v4();
+      dispatch(portfolioInitialSetup("portfolioID", portID));
+      const tempArr = websiteData.content[portfolioIndex.index].portfolioID;
+      tempArr[websiteData.content[portfolioIndex.index].portfolioID.length] =
+        portID;
+      dispatch(websiteAddPortfolioID(portfolioIndex.index, tempArr));
     } else {
       loadPortfolio();
     }
-  }, []);
+  }, [userData]);
 
   return (
     <>
@@ -182,7 +197,7 @@ const Portfolio = () => {
         addWebsiteCom={addWebsiteCom}
         uploadWebsite={uploadWebsite}
       />
-      <SideBar portfolioData={portfolioData} />
+      <SideBar type={"portfolio"} data={portfolioData} />
     </>
   );
 };

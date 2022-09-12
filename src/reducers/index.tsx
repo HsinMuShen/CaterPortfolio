@@ -17,7 +17,7 @@ export const ActionType: {
     DELETE_COMPONENT: string;
     FILL_CONTENT: string;
     ADD_IMAGE: string;
-    ADD_COVER_IMAGE: string;
+    ADD_SETTING: string;
     LOADING: string;
   };
   WEBSITE: {
@@ -26,6 +26,7 @@ export const ActionType: {
     FILL_CONTENT: string;
     ADD_IMAGE: string;
     ADD_TIME: string;
+    ADD_SETTING: string;
     LOADING: string;
     ADD_PORTFOLIO_ID: string;
   };
@@ -36,10 +37,12 @@ export const ActionType: {
     FILL_CONTENT: string;
     ADD_IMAGE: string;
     ADD_TIME: string;
+    ADD_SETTING: string;
     LOADING: string;
   };
   ISPREVIEW: {
     ISLOGIN: string;
+    PROFILE: string;
     RESUME: string;
     WEBSITE: string;
     PORTFOLIO: string;
@@ -60,7 +63,7 @@ export const ActionType: {
     DELETE_COMPONENT: "RESUME_DELETE_COMPONENT",
     FILL_CONTENT: "RESUME_FILL_CONTENT",
     ADD_IMAGE: "RESUME_ADD_IMAGE",
-    ADD_COVER_IMAGE: "RESUME_ADD_COVER_IMAGE",
+    ADD_SETTING: "RESUME_ADD_SETTING",
     LOADING: "RESUME_LOADING",
   },
   WEBSITE: {
@@ -69,6 +72,7 @@ export const ActionType: {
     FILL_CONTENT: "WEBSITE_FILL_CONTENT",
     ADD_IMAGE: "WEBSITE_ADD_IMAGE",
     ADD_TIME: "WEBSITE_ADD_TIME",
+    ADD_SETTING: "WEBSITE_ADD_SETTING",
     LOADING: "WEBSITE_LOADING",
     ADD_PORTFOLIO_ID: "ADD_PORTFOLIO_ID",
   },
@@ -79,10 +83,12 @@ export const ActionType: {
     FILL_CONTENT: "PORTFOLIO_FILL_CONTENT",
     ADD_IMAGE: "PORTFOLIO_ADD_IMAGE",
     ADD_TIME: "PORTFOLIO_ADD_TIME",
+    ADD_SETTING: "PORTFOLIO_ADD_SETTING",
     LOADING: "PORTFOLIO_LOADING",
   },
   ISPREVIEW: {
     ISLOGIN: "ISPREVIEW_ISLOGIN",
+    PROFILE: "ISPREVIEW_PROFILE",
     RESUME: "ISPREVIEW_RESUME",
     WEBSITE: "ISPREVIEW_WEBSITE",
     PORTFOLIO: "ISPREVIEW_PORTFOLIO",

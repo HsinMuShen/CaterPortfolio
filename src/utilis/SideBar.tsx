@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { portfolioReducer } from "../reducers/PortfolioContent";
 import firebase from "./firebase";
-import { useDispatch, useSelector } from "react-redux";
-import { portfolioLoading } from "../action";
 import { RootState } from "../reducers";
+import { useDispatch, useSelector } from "react-redux";
+import { portfolioLoading, resumeLoading, userLoading } from "../action";
 
 const SideBarArea = styled.div`
   position: fixed;
@@ -21,7 +21,7 @@ const Options = styled.div`
   background-color: #ffffff;
 `;
 
-const SideBar = ({ portfolioData }: { portfolioData: portfolioReducer }) => {
+const SideBar = ({ type, data }: { type: string; data: portfolioReducer }) => {
   const [showBarInfo, setShowBarInfo] = useState({
     showBar: false,
     title: "我喜歡這個作品!",
@@ -43,41 +43,65 @@ const SideBar = ({ portfolioData }: { portfolioData: portfolioReducer }) => {
     }
   };
   const followPortfolio = async () => {
-    if (isFollow) {
-      alert("取消追蹤!");
-      await firebase.cancelPortfolioFollowing(portfolioData, userData);
-    } else {
-      alert("加入追蹤!");
-      await firebase.addPortfolioFollowing(portfolioData, userData);
+    if (type === "portfolio") {
+      if (isFollow) {
+        await firebase.cancelPortfolioFollowing(data, userData);
+        alert("取消追蹤!");
+      } else {
+        await firebase.addPortfolioFollowing(data, userData);
+        alert("加入追蹤!");
+      }
+
+      const renewPortfolioData = await firebase.readPortfolioData(
+        "portfolios",
+        `${data.portfolioID}`
+      );
+      if (renewPortfolioData) {
+        dispatch(portfolioLoading(renewPortfolioData));
+      }
+    } else if (type === "resume") {
+      if (isFollow) {
+        console.log(data, userData);
+        await firebase.cancelResumeFollowing(data, userData);
+        alert("取消追蹤!");
+      } else {
+        await firebase.addResumeFollowing(data, userData);
+        alert("加入追蹤!");
+      }
+
+      const renewResumeData = await firebase.readData(
+        "resumes",
+        `${data.portfolioID}`
+      );
+      if (renewResumeData) {
+        dispatch(resumeLoading(renewResumeData));
+      }
     }
 
-    const renewPortfolioData = await firebase.readPortfolioData(
-      "portfolios",
-      `${portfolioData.portfolioID}`
-    );
-    if (renewPortfolioData) {
-      dispatch(portfolioLoading(renewPortfolioData));
+    const renewUserData = await firebase.readData("users", userData.userID);
+    if (renewUserData) {
+      dispatch(userLoading(renewUserData));
     }
   };
 
   useEffect(() => {
-    portfolioData.followers.forEach((data) => {
-      if (data.userID === localStorage.getItem("userID")) {
+    data.followers.forEach((data) => {
+      if (data.userID === userData.userID) {
         setIsFollow(true);
       }
     });
     return () => {
       setIsFollow(false);
     };
-  }, [portfolioData]);
+  }, [data]);
   return (
     <SideBarArea>
       <div onClick={showingBar}>{showBarInfo.title}</div>
       <Options style={{ left: showBarInfo.showBar ? "0px" : "-200px" }}>
-        <p>{portfolioData.name}</p>
+        <p>{data.name}</p>
         <p onClick={followPortfolio}>
           {isFollow ? `❤️` : `❤`}
-          {portfolioData.followers.length}
+          {data.followers.length}
         </p>
         <p></p>
       </Options>

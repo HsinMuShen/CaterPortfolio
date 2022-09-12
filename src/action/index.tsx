@@ -8,6 +8,13 @@ export const initialSetUserData = (type: string, data: string) => {
   };
 };
 
+export const userLoading = (data: DocumentData) => {
+  return {
+    type: ActionType.USER.LOADING,
+    payload: { data },
+  };
+};
+
 export const resumeAddCom = (content: {
   image: string[];
   text: string[] | null[];
@@ -43,10 +50,10 @@ export const resumeAddImage = (index: number, imageArr: string[] | null[]) => {
   };
 };
 
-export const resumeAddCoverImage = (image: string) => {
+export const resumeAddSetting = (type: string, text: string) => {
   return {
-    type: ActionType.RESUME.ADD_COVER_IMAGE,
-    payload: { image },
+    type: ActionType.RESUME.ADD_SETTING,
+    payload: { type, text },
   };
 };
 
@@ -109,6 +116,13 @@ export const websiteAddTime = () => {
   };
 };
 
+export const websiteAddSetting = (type: string, text: string) => {
+  return {
+    type: ActionType.WEBSITE.ADD_SETTING,
+    payload: { type, text },
+  };
+};
+
 export const websiteLoading = (data: DocumentData) => {
   return {
     type: ActionType.WEBSITE.LOADING,
@@ -168,6 +182,13 @@ export const portfolioAddTime = () => {
   };
 };
 
+export const portfolioAddSetting = (type: string, text: string) => {
+  return {
+    type: ActionType.PORTFOLIO.ADD_SETTING,
+    payload: { type, text },
+  };
+};
+
 export const portfolioLoading = (data: DocumentData) => {
   return {
     type: ActionType.PORTFOLIO.LOADING,
@@ -179,6 +200,12 @@ export const changeLoginState = (boolean: boolean) => {
   return {
     type: ActionType.ISPREVIEW.ISLOGIN,
     payload: { boolean },
+  };
+};
+
+export const isPreviewProfile = () => {
+  return {
+    type: ActionType.ISPREVIEW.PROFILE,
   };
 };
 
