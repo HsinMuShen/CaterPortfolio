@@ -11,12 +11,14 @@ export interface userReducer {
   introduction: string;
   followers: {
     userID: string;
+    userImage: string;
     name: string;
   }[];
   interestingTags: string[];
   tags: string[];
   followMembers: {
     userID: string;
+    userImage: string;
     name: string;
   }[];
   followResumes: {

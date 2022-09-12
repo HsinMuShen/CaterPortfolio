@@ -7,6 +7,7 @@ import { isPreviewProfile, initialSetUserData } from "../../action";
 import { UserReducer } from "../../reducers";
 
 import firebase from "../../utilis/firebase";
+import FollowBtn from "./FollowBtn";
 
 const Wrapper = styled.div``;
 
@@ -136,7 +137,7 @@ const MemberIntro = ({ profileData, setProfileData }: UserReducer) => {
           編輯個人頁面/儲存編輯
         </button>
       ) : (
-        <button>追蹤此人</button>
+        <FollowBtn profileData={profileData} />
       )}
     </Wrapper>
   );

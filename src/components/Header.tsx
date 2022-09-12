@@ -35,11 +35,9 @@ const Header = () => {
   useEffect(() => {
     onAuthStateChanged(auth, async (user) => {
       if (user) {
-        console.log(user);
         const userData = await firebase.readData("users", user.uid);
 
         if (userData) {
-          console.log(userData);
           dispatch(userLoading(userData));
         }
         dispatch(changeLoginState(true));

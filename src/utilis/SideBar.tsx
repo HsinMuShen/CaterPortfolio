@@ -61,6 +61,7 @@ const SideBar = ({ type, data }: { type: string; data: portfolioReducer }) => {
       }
     } else if (type === "resume") {
       if (isFollow) {
+        console.log(data, userData);
         await firebase.cancelResumeFollowing(data, userData);
         alert("取消追蹤!");
       } else {
@@ -68,7 +69,7 @@ const SideBar = ({ type, data }: { type: string; data: portfolioReducer }) => {
         alert("加入追蹤!");
       }
 
-      const renewResumeData = await firebase.readPortfolioData(
+      const renewResumeData = await firebase.readData(
         "resumes",
         `${data.portfolioID}`
       );

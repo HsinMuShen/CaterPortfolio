@@ -110,14 +110,14 @@ const firebase = {
   },
 
   async cancelResumeFollowing(data: ResumeReducer, userData: UserReducer) {
-    await updateDoc(doc(db, `users/${userData.userID}`), {
+    await updateDoc(doc(db, `users`, `${userData.userID}`), {
       followResumes: arrayRemove({
         name: data.name,
         userID: data.userID,
         coverImage: data.coverImage,
       }),
     });
-    await updateDoc(doc(db, `resumes/${data.portfolioID}`), {
+    await updateDoc(doc(db, `resumes`, `${data.userID}`), {
       followers: arrayRemove({
         userID: userData.userID,
         name: userData.name,
@@ -159,6 +159,43 @@ const firebase = {
     await updateDoc(doc(db, `portfolios/${data.portfolioID}`), {
       followers: arrayRemove({
         userID: userData.userID,
+        name: userData.name,
+      }),
+    });
+  },
+
+  async addMemberFollowing(followedData: UserReducer, userData: UserReducer) {
+    await updateDoc(doc(db, `users`, `${userData.userID}`), {
+      followMembers: arrayUnion({
+        name: followedData.name,
+        userID: followedData.userID,
+        userImage: followedData.userImage,
+      }),
+    });
+    await updateDoc(doc(db, `users`, `${followedData.userID}`), {
+      followers: arrayUnion({
+        userID: userData.userID,
+        userImage: userData.userImage,
+        name: userData.name,
+      }),
+    });
+  },
+
+  async cancelMemberFollowing(
+    followedData: UserReducer,
+    userData: UserReducer
+  ) {
+    await updateDoc(doc(db, `users`, `${userData.userID}`), {
+      followMembers: arrayRemove({
+        name: followedData.name,
+        userID: followedData.userID,
+        userImage: followedData.userImage,
+      }),
+    });
+    await updateDoc(doc(db, `users`, `${followedData.userID}`), {
+      followers: arrayRemove({
+        userID: userData.userID,
+        userImage: userData.userImage,
         name: userData.name,
       }),
     });

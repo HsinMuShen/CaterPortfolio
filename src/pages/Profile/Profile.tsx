@@ -49,6 +49,7 @@ const FollowingArea = styled(Link)``;
 
 const Profile: React.FC = () => {
   const [profileData, setProfileData] = useState({});
+  const userData = useSelector((state: RootState) => state.UserReducer);
   const resumeData = useSelector((state: RootState) => state.ResumeReducer);
   const isLogin = useSelector(
     (state: RootState) => state.IsPreviewReducer.userIsLogin
@@ -61,6 +62,19 @@ const Profile: React.FC = () => {
       const resumeData = await firebase.readData("resumes", `${profileUserID}`);
       if (resumeData) {
         dispatch(resumeLoading(resumeData));
+      } else {
+        dispatch(
+          resumeLoading({
+            title: "",
+            coverImage: "",
+            content: [],
+            name: "",
+            followers: [],
+            tags: ["design"],
+            time: null,
+            userID: "",
+          })
+        );
       }
       const userData = await firebase.readData("users", `${profileUserID}`);
       if (userData) {
@@ -68,7 +82,7 @@ const Profile: React.FC = () => {
       }
     };
     loadData();
-  }, []);
+  }, [profileUserID, userData]);
   return (
     <Wrapper>
       {isLogin ? (
