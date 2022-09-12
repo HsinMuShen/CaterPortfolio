@@ -42,6 +42,7 @@ const Chats = ({
     if (sendMsg !== "") {
       console.log(chatRoomID);
       firebase.addMsg(userData, chatRoomID, sendMsg);
+      setSendMsg("");
     } else {
       alert("請填入文字");
     }
@@ -72,6 +73,7 @@ const Chats = ({
         <ControlArea>
           <MessageInput
             type="text"
+            value={sendMsg}
             onChange={(e) => {
               setSendMsg(e.target.value);
             }}

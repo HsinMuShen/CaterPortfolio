@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { RootState } from "../../reducers";
 import { useSelector } from "react-redux";
@@ -24,7 +24,18 @@ const ChatRoom = () => {
   const [showingChatID, setShowingChatID] = useState<string>("");
   const [chattingName, setChattingName] = useState<string | null>(null);
   const userData = useSelector((state: RootState) => state.UserReducer);
+  const initialChatRoomID = useSelector(
+    (state: RootState) => state.IsPreviewReducer.nowChatRoomID
+  );
   const urlID = useParams().id;
+  useEffect(() => {
+    if (initialChatRoomID) {
+      setShowingChatID(initialChatRoomID);
+    }
+    return () => {
+      setShowingChatID("");
+    };
+  }, [initialChatRoomID]);
   return (
     <Wrapper>
       {userData.userID === urlID ? (

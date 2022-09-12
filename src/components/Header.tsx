@@ -53,6 +53,7 @@ const Header = () => {
       <Tag to={`/profile/${userData.userID}`}>profile</Tag>
       <Tag to={`/resume/${userData.userID}`}>Resume</Tag>
       <Tag to={`/website/${userData.userID}`}>Website</Tag>
+      <Tag to={`/chatroom/${userData.userID}`}>Chatroom</Tag>
       <Nav
         onClick={() => {
           signOut(auth);

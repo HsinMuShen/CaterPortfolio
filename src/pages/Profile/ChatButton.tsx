@@ -1,8 +1,10 @@
 import React from "react";
 import { RootState } from "../../reducers";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { UserReducer } from "../../reducers";
 import { useNavigate } from "react-router-dom";
+import { setChatRoomID } from "../../action";
+
 import { v4 } from "uuid";
 import firebase from "../../utilis/firebase";
 
@@ -14,12 +16,14 @@ export interface chatRoom {
 
 const ChatButton = ({ profileData }: UserReducer) => {
   const userData = useSelector((state: RootState) => state.UserReducer);
-  let navigate = useNavigate();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const toChatRoom = () => {
     let hasChat = false;
     userData.chatRoom.forEach((data: chatRoom) => {
       if (data.userID === profileData.userID) {
         navigate(`/chatroom/${userData.userID}`);
+        dispatch(setChatRoomID(data.chatRoomID));
         hasChat = true;
         return;
       }
@@ -27,6 +31,7 @@ const ChatButton = ({ profileData }: UserReducer) => {
 
     if (!hasChat) {
       const chatRoomID = v4();
+      dispatch(setChatRoomID(chatRoomID));
       const user = [
         { name: profileData.name, userID: profileData.userID },
         { name: userData.name, userID: userData.userID },

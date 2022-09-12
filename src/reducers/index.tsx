@@ -4,7 +4,6 @@ import WebsiteReducer from "./WebsiteContent";
 import PortfolioReducer from "./PortfolioContent";
 import IsPreviewReducer from "./IsPreviewContent";
 import PortfolioIndex from "./PortfolioIndexContent";
-import ChatRoomReducer from "./ChatRoomContent";
 import { combineReducers } from "redux";
 
 export const ActionType: {
@@ -48,6 +47,7 @@ export const ActionType: {
     WEBSITE: string;
     PORTFOLIO: string;
     TRUE: string;
+    SET_CHAT_ROOM: string;
   };
   PORTFOLIOINDEX: {
     SET_INDEX: string;
@@ -94,6 +94,7 @@ export const ActionType: {
     WEBSITE: "ISPREVIEW_WEBSITE",
     PORTFOLIO: "ISPREVIEW_PORTFOLIO",
     TRUE: "ISPREVIEW_TRUE",
+    SET_CHAT_ROOM: "ISPREVIEW_SET_CHAT_ROOM",
   },
   PORTFOLIOINDEX: {
     SET_INDEX: "SET_INDEX",
@@ -108,7 +109,6 @@ const allReducers = combineReducers({
   PortfolioReducer,
   PortfolioIndex,
   IsPreviewReducer,
-  ChatRoomReducer,
 });
 
 export type RootState = ReturnType<typeof allReducers>;
@@ -116,5 +116,4 @@ export type UserReducer = ReturnType<typeof UserReducer>;
 export type ResumeReducer = ReturnType<typeof ResumeReducer>;
 export type WebsiteReducer = ReturnType<typeof WebsiteReducer>;
 export type PortfolioReducer = ReturnType<typeof PortfolioReducer>;
-export type ChatRoomReducer = ReturnType<typeof ChatRoomReducer>;
 export default allReducers;

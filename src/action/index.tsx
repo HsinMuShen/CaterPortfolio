@@ -234,6 +234,13 @@ export const isPreviewTrue = (type: string) => {
   };
 };
 
+export const setChatRoomID = (chatRoomID: string) => {
+  return {
+    type: ActionType.ISPREVIEW.SET_CHAT_ROOM,
+    payload: { chatRoomID },
+  };
+};
+
 export const setPortfolioIndex = (index: number) => {
   return {
     type: ActionType.PORTFOLIOINDEX.SET_INDEX,
