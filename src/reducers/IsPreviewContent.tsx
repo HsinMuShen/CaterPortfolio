@@ -8,7 +8,7 @@ interface isPreviewReducer {
   resume: boolean;
   website: boolean;
   portfolio: boolean;
-  nowChatRoomID: string;
+  nowChatRoom: { chatRoomID: string; name: string };
 }
 
 const IsPreviewReducer = (
@@ -18,7 +18,7 @@ const IsPreviewReducer = (
     resume: true,
     website: true,
     portfolio: true,
-    nowChatRoomID: "",
+    nowChatRoom: { chatRoomID: "", name: "" },
   },
   action: AnyAction
 ) => {
@@ -75,7 +75,10 @@ const IsPreviewReducer = (
       let tempIsPreview = isPreview;
       tempIsPreview = {
         ...tempIsPreview,
-        nowChatRoomID: action.payload.chatRoomID,
+        nowChatRoom: {
+          chatRoomID: action.payload.chatRoomID,
+          name: action.payload.name,
+        },
       };
       return tempIsPreview;
     }

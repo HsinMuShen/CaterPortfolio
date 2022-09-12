@@ -17,6 +17,7 @@ import Website from "./pages/Website/Website";
 import Portfolio from "./pages/Portfolio/Portfolio";
 import CreatePortfolio from "./pages/Portfolio/CreatePortfolio";
 import ChatRoom from "./pages/ChatRoom/ChatRoom";
+import Login from "./pages/Login/Login";
 
 const store = createStore(allReducers, composeWithDevTools());
 
@@ -30,6 +31,7 @@ root.render(
         <Route path="/" element={<App />}>
           <Route index element={<Homepage />} />
           <Route path="allresumes" element={<AllResumes />} />
+          <Route path="login" element={<Login />} />
           <Route path="profile/:id" element={<Profile />} />
           <Route path="follow/:id" element={<FollowingArea />} />
           <Route path="resume/:id" element={<Resume />} />

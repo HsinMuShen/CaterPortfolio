@@ -84,7 +84,7 @@ const Profile: React.FC = () => {
       }
     };
     loadData();
-  }, [profileUserID, userData]);
+  }, [profileUserID, userData.followMembers]);
   return (
     <Wrapper>
       {isLogin ? (
@@ -93,9 +93,10 @@ const Profile: React.FC = () => {
             profileData={profileData}
             setProfileData={setProfileData}
           />
-          {profileData.userID === userData.userID ? null : (
+          {profileUserID === userData.userID ? null : (
             <ChatButton profileData={profileData} />
           )}
+          {console.log(userData.userID)}
           <CreaterArea>
             <ResumeArea to={`/resume/${profileUserID}`}>
               <PreviewImg src={resumeData.coverImage} />

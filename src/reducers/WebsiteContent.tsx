@@ -18,11 +18,11 @@ interface websiteReducer {
 
 const WebsiteReducer = (
   websiteData: websiteReducer = {
-    title: "Michael",
+    title: "",
     content: [],
     name: "",
     followers: [],
-    tags: ["design"],
+    tags: [],
     time: null,
     userID: "",
   },

@@ -22,20 +22,22 @@ const UserList = styled.div`
 
 const ChatRoom = () => {
   const [showingChatID, setShowingChatID] = useState<string>("");
-  const [chattingName, setChattingName] = useState<string | null>(null);
+  const [chattingName, setChattingName] = useState<string>("");
   const userData = useSelector((state: RootState) => state.UserReducer);
-  const initialChatRoomID = useSelector(
-    (state: RootState) => state.IsPreviewReducer.nowChatRoomID
+  const initialChatRoomData = useSelector(
+    (state: RootState) => state.IsPreviewReducer.nowChatRoom
   );
   const urlID = useParams().id;
   useEffect(() => {
-    if (initialChatRoomID) {
-      setShowingChatID(initialChatRoomID);
+    if (initialChatRoomData.chatRoomID && initialChatRoomData.name) {
+      setShowingChatID(initialChatRoomData.chatRoomID);
+      setChattingName(initialChatRoomData.name);
     }
     return () => {
       setShowingChatID("");
+      setChattingName("");
     };
-  }, [initialChatRoomID]);
+  }, [initialChatRoomData, userData]);
   return (
     <Wrapper>
       {userData.userID === urlID ? (
