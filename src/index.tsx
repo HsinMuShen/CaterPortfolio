@@ -36,6 +36,7 @@ root.render(
           <Route path="website/preview" element={<Website />} />
           <Route path="portfolio/:id" element={<Portfolio />} />
           <Route path="createportfolio" element={<CreatePortfolio />} />
+          <Route path="chatroom/:id" element={<Portfolio />} />
           {/* <Route path="portfolio/:id" element={<Portfolio />} /> */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>

@@ -7,10 +7,12 @@ import { useDispatch } from "react-redux";
 import { resumeLoading, userLoading } from "../../action";
 import Resume from "../Resume/Resume";
 import firebase from "../../utilis/firebase";
+import { UserReducer } from "../../reducers";
 
 import styled from "styled-components";
 import LoginArea from "./LoginArea";
 import MemberIntro from "./MemberIntro";
+import ChatButton from "./ChatButton";
 
 const Wrapper = styled.div`
   display: flex;
@@ -48,7 +50,7 @@ const WebsiteArea = styled(Link)`
 const FollowingArea = styled(Link)``;
 
 const Profile: React.FC = () => {
-  const [profileData, setProfileData] = useState({});
+  const [profileData, setProfileData] = useState<UserReducer | {}>({});
   const userData = useSelector((state: RootState) => state.UserReducer);
   const resumeData = useSelector((state: RootState) => state.ResumeReducer);
   const isLogin = useSelector(
@@ -91,6 +93,9 @@ const Profile: React.FC = () => {
             profileData={profileData}
             setProfileData={setProfileData}
           />
+          {profileData.userID === userData.userID ? null : (
+            <ChatButton profileData={profileData} />
+          )}
           <CreaterArea>
             <ResumeArea to={`/resume/${profileUserID}`}>
               <PreviewImg src={resumeData.coverImage} />

@@ -4,6 +4,7 @@ import WebsiteReducer from "./WebsiteContent";
 import PortfolioReducer from "./PortfolioContent";
 import IsPreviewReducer from "./IsPreviewContent";
 import PortfolioIndex from "./PortfolioIndexContent";
+import ChatRoomReducer from "./ChatRoomContent";
 import { combineReducers } from "redux";
 
 export const ActionType: {
@@ -107,6 +108,7 @@ const allReducers = combineReducers({
   PortfolioReducer,
   PortfolioIndex,
   IsPreviewReducer,
+  ChatRoomReducer,
 });
 
 export type RootState = ReturnType<typeof allReducers>;
@@ -114,4 +116,5 @@ export type UserReducer = ReturnType<typeof UserReducer>;
 export type ResumeReducer = ReturnType<typeof ResumeReducer>;
 export type WebsiteReducer = ReturnType<typeof WebsiteReducer>;
 export type PortfolioReducer = ReturnType<typeof PortfolioReducer>;
+export type ChatRoomReducer = ReturnType<typeof ChatRoomReducer>;
 export default allReducers;

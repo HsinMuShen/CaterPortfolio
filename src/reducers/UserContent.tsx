@@ -9,6 +9,7 @@ export interface userReducer {
   userImage: string;
   backgroundImage: string;
   introduction: string;
+  chatRoom: { chatRoomID: string; userID: string; name: string }[];
   followers: {
     userID: string;
     userImage: string;
@@ -50,6 +51,7 @@ const UserReducer = (
     userImage: "",
     backgroundImage: "",
     introduction: "",
+    chatRoom: [],
     followers: [],
     interestingTags: [],
     tags: [],
