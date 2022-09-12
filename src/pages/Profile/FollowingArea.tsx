@@ -20,13 +20,19 @@ export interface followResumes {
   coverImage: string;
 }
 
+export interface followMembers {
+  name: string;
+  userID: string;
+  userImage: string;
+}
+
 const FollowingArea = () => {
   const userData = useSelector((state: RootState) => state.UserReducer);
   const dispatch = useDispatch();
 
   return (
     <div>
-      <p>Portfolio : </p>
+      <p>Portfolios : </p>
       {userData.followPortfolios.map(
         (data: followPortfolios, index: number) => {
           return (
@@ -38,10 +44,27 @@ const FollowingArea = () => {
           );
         }
       )}
-      <p>Resume : </p>
+      <p>Resumes : </p>
       {userData.followResumes.map((data: followResumes, index: number) => {
         return (
           <FollowingResumeCard key={data.userID} data={data} index={index} />
+        );
+      })}
+      <p>Members : </p>
+      {userData.followMembers.map((data: followMembers, index: number) => {
+        return (
+          <div>
+            <img
+              src={data.userImage}
+              style={{
+                width: "150px",
+                height: "150px",
+                objectFit: "cover",
+                border: "1px solid",
+              }}
+            />
+            <p>{data.name}</p>
+          </div>
         );
       })}
     </div>
