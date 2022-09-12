@@ -20,7 +20,7 @@ const ResumeReducer = (
     content: [],
     name: "",
     followers: [],
-    tags: ["design"],
+    tags: [],
     time: null,
     userID: "",
   },

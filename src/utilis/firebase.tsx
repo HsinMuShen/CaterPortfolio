@@ -3,7 +3,6 @@ import {
   doc,
   setDoc,
   collection,
-  serverTimestamp,
   query,
   where,
   getDoc,
@@ -13,13 +12,13 @@ import {
   arrayRemove,
 } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { content } from "../pages/Homepage/Input";
 import {
   UserReducer,
   ResumeReducer,
   WebsiteReducer,
   PortfolioReducer,
 } from "../reducers";
+import { chatRoom } from "../pages/Profile/ChatButton";
 
 const firebase = {
   async getProfile(id: string) {
@@ -43,7 +42,7 @@ const firebase = {
   async uploadDoc(
     collection: string,
     docID: string,
-    data: ResumeReducer | WebsiteReducer | UserReducer
+    data: ResumeReducer | WebsiteReducer | UserReducer | chatRoom
   ) {
     const collectionDoc = doc(db, collection, docID);
     setDoc(collectionDoc, data)
@@ -54,6 +53,8 @@ const firebase = {
           alert("成功新增履歷!");
         } else if (collection === "users") {
           alert("成功更新個人資料!");
+        } else if (collection === "chatrooms") {
+          alert("成功開啟對話");
         }
       })
       .catch((error) => {
@@ -197,6 +198,36 @@ const firebase = {
         userID: userData.userID,
         userImage: userData.userImage,
         name: userData.name,
+      }),
+    });
+  },
+
+  async initialChat(
+    otherData: UserReducer,
+    userData: UserReducer,
+    chatRoomID: string
+  ) {
+    await updateDoc(doc(db, `users`, `${userData.userID}`), {
+      chatRoom: arrayUnion({
+        chatRoomID: chatRoomID,
+        userID: otherData.userID,
+        name: otherData.name,
+      }),
+    });
+    await updateDoc(doc(db, `users`, `${otherData.userID}`), {
+      chatRoom: arrayUnion({
+        chatRoomID: chatRoomID,
+        userID: userData.userID,
+        name: userData.name,
+      }),
+    });
+  },
+
+  async addMsg(userData: UserReducer, chatRoomID: string, msg: string) {
+    await updateDoc(doc(db, `chatrooms`, `${chatRoomID}`), {
+      message: arrayUnion({
+        msg: msg,
+        userID: userData.userID,
       }),
     });
   },

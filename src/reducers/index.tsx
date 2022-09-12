@@ -47,6 +47,7 @@ export const ActionType: {
     WEBSITE: string;
     PORTFOLIO: string;
     TRUE: string;
+    SET_CHAT_ROOM: string;
   };
   PORTFOLIOINDEX: {
     SET_INDEX: string;
@@ -93,6 +94,7 @@ export const ActionType: {
     WEBSITE: "ISPREVIEW_WEBSITE",
     PORTFOLIO: "ISPREVIEW_PORTFOLIO",
     TRUE: "ISPREVIEW_TRUE",
+    SET_CHAT_ROOM: "ISPREVIEW_SET_CHAT_ROOM",
   },
   PORTFOLIOINDEX: {
     SET_INDEX: "SET_INDEX",

@@ -205,7 +205,9 @@ const Resume: React.FC = () => {
                   return (
                     <SineleComponent key={index}>
                       <ResumeCom1 index={index} content={content} />
-                      <Delete addDeleteCom={addDeleteCom} index={index} />
+                      {isPreview ? null : (
+                        <Delete addDeleteCom={addDeleteCom} index={index} />
+                      )}
                     </SineleComponent>
                   );
                 }
@@ -213,7 +215,9 @@ const Resume: React.FC = () => {
                   return (
                     <SineleComponent key={index}>
                       <ResumeCom2 index={index} content={content} />
-                      <Delete addDeleteCom={addDeleteCom} index={index} />
+                      {isPreview ? null : (
+                        <Delete addDeleteCom={addDeleteCom} index={index} />
+                      )}
                     </SineleComponent>
                   );
                 }
@@ -221,7 +225,9 @@ const Resume: React.FC = () => {
                   return (
                     <SineleComponent key={index}>
                       <ResumeCom3 index={index} content={content} />
-                      <Delete addDeleteCom={addDeleteCom} index={index} />
+                      {isPreview ? null : (
+                        <Delete addDeleteCom={addDeleteCom} index={index} />
+                      )}
                     </SineleComponent>
                   );
                 }

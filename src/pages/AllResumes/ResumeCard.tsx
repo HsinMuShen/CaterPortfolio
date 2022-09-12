@@ -69,7 +69,7 @@ const ResumeCard = ({ size, data }: { size: number; data: DocumentData }) => {
     <SinglePin size={size}>
       <PinImage to={`/resume/${data.userID}`} mainimage={data.coverImage} />
       <IntroArea>
-        <Intro to={`/resume/${data.userID}`}>{data.name}</Intro>
+        <Intro to={`/profile/${data.userID}`}>{data.name}</Intro>
         <p>
           {isFollow ? `❤️` : `❤`}
           {data.followers.length}
