@@ -16,6 +16,7 @@ import Resume from "./pages/Resume/Resume";
 import Website from "./pages/Website/Website";
 import Portfolio from "./pages/Portfolio/Portfolio";
 import CreatePortfolio from "./pages/Portfolio/CreatePortfolio";
+import ChatRoom from "./pages/ChatRoom/ChatRoom";
 
 const store = createStore(allReducers, composeWithDevTools());
 
@@ -36,7 +37,7 @@ root.render(
           <Route path="website/preview" element={<Website />} />
           <Route path="portfolio/:id" element={<Portfolio />} />
           <Route path="createportfolio" element={<CreatePortfolio />} />
-          <Route path="chatroom/:id" element={<Portfolio />} />
+          <Route path="chatroom/:id" element={<ChatRoom />} />
           {/* <Route path="portfolio/:id" element={<Portfolio />} /> */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>

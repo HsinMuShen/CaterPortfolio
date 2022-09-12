@@ -53,6 +53,8 @@ const firebase = {
           alert("成功新增履歷!");
         } else if (collection === "users") {
           alert("成功更新個人資料!");
+        } else if (collection === "chatrooms") {
+          alert("成功開啟對話");
         }
       })
       .catch((error) => {
@@ -217,6 +219,15 @@ const firebase = {
         chatRoomID: chatRoomID,
         userID: userData.userID,
         name: userData.name,
+      }),
+    });
+  },
+
+  async addMsg(userData: UserReducer, chatRoomID: string, msg: string) {
+    await updateDoc(doc(db, `chatrooms`, `${chatRoomID}`), {
+      message: arrayUnion({
+        msg: msg,
+        userID: userData.userID,
       }),
     });
   },
