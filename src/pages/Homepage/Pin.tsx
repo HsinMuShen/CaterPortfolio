@@ -11,19 +11,27 @@ const SinglePin = styled.div<{ size: number }>`
   margin: 15px 10px;
   border-radius: 16px;
   background-color: #ffffff;
-  border: 1px solid;
+  border: 1.5px solid #555555;
   grid-row-end: span ${(props) => props.size};
   display: flex;
   flex-direction: column;
+  &:hover {
+    box-shadow: 0px 0px 10px #777777;
+  }
 `;
 
 const IntroArea = styled.div`
   display: flex;
   flex-direction: column;
   height: 60px;
+  margin: 10px 10px 20px;
 `;
 
-const Intro = styled(Link)``;
+const Intro = styled(Link)`
+  text-decoration: none;
+  color: #555555;
+  font-size: 14px;
+`;
 
 const PinImage = styled(Link)<{ mainimage: string }>`
   flex: auto;
@@ -31,6 +39,7 @@ const PinImage = styled(Link)<{ mainimage: string }>`
   background-size: cover;
   background-position: center;
   border-radius: 16px 16px 0 0;
+  /* border-bottom:1px solid ; */
 `;
 
 const Pin = ({ size, data }: { size: number; data: DocumentData }) => {
@@ -73,8 +82,9 @@ const Pin = ({ size, data }: { size: number; data: DocumentData }) => {
       <IntroArea>
         <Intro to={`/profile/${data.userID}`}>{data.name}</Intro>
         <Intro to={`/portfolio/${data.portfolioID}`}>{data.title}</Intro>
+
         <p>
-          {isFollow ? `❤️` : `❤`}
+          {isFollow ? `❤️ ` : `❤ `}
           {data.followers.length}
         </p>
       </IntroArea>
