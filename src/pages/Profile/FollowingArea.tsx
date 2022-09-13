@@ -2,9 +2,13 @@ import React, { useEffect } from "react";
 import { RootState } from "../../reducers";
 import { useDispatch, useSelector } from "react-redux";
 import { portfolioLoading } from "../../action";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
 
 import FollowingPortfolioCard from "./FollowingPortfolioCard";
 import FollowingResumeCard from "./FollowingResumeCard";
+
+const Member = styled(Link)``;
 
 export interface followPortfolios {
   name: string;
@@ -53,7 +57,7 @@ const FollowingArea = () => {
       <p>Members : </p>
       {userData.followMembers.map((data: followMembers, index: number) => {
         return (
-          <div>
+          <Member to={`/profile/${data.userID}`}>
             <img
               src={data.userImage}
               style={{
@@ -64,7 +68,7 @@ const FollowingArea = () => {
               }}
             />
             <p>{data.name}</p>
-          </div>
+          </Member>
         );
       })}
     </div>

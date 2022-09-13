@@ -129,10 +129,19 @@ const Portfolio = () => {
 
     if (portfolioID === "create") {
       dispatch(isPreviewPortfolio());
-      dispatch(portfolioAddSetting("name", userData.name));
-      dispatch(portfolioAddSetting("userID", userData.userID));
       const portID = v4();
-      dispatch(portfolioInitialSetup("portfolioID", portID));
+      const initialPortfolioData = {
+        title: "",
+        mainImage: "",
+        content: [],
+        name: userData.name,
+        followers: [],
+        tags: [],
+        time: null,
+        userID: userData.userID,
+        portfolioID: portID,
+      };
+      dispatch(portfolioLoading(initialPortfolioData));
       const tempArr = websiteData.content[portfolioIndex.index].portfolioID;
       tempArr[websiteData.content[portfolioIndex.index].portfolioID.length] =
         portID;
