@@ -11,7 +11,7 @@ const SinglePin = styled.div<{ size: number }>`
   margin: 15px 10px;
   border-radius: 16px;
   background-color: #ffffff;
-  border: 1px solid #555555;
+  border: 1.5px solid #555555;
   grid-row-end: span ${(props) => props.size};
   display: flex;
   flex-direction: column;
