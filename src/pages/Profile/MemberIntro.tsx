@@ -57,10 +57,10 @@ const MemberIntro = ({ profileData, setProfileData }: UserReducer) => {
 
   const previewHeadshotUrl = imageFile.headshot
     ? URL.createObjectURL(imageFile.headshot)
-    : userData.userImage;
+    : profileData.userImage;
   const previewBackUrl = imageFile.backgroundImage
     ? URL.createObjectURL(imageFile.backgroundImage)
-    : userData.backgroundImage;
+    : profileData.backgroundImage;
 
   const renewImageUrl = async (type: string, file: File) => {
     const imageUrl = await firebase.getImageUrl(file);
