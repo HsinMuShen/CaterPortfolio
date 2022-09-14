@@ -6,11 +6,12 @@ import styled from "styled-components";
 import ResumeCard from "./ResumeCard";
 
 const PinContainer = styled.div`
-  width: 80vw;
-  background-color: #ffffff;
-  margin: 40px auto 0;
+  width: 1040px;
+  margin: 120px auto 0;
   display: flex;
-  justify-content: center;
+  flex-wrap: wrap;
+
+  justify-content: flex-start;
 `;
 
 const AllResumes = () => {
