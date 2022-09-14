@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 
 import firebase from "../../utilis/firebase";
 import FollowBtn from "./FollowBtn";
+import ChatButton from "./ChatButton";
 
 const Wrapper = styled.div``;
 
@@ -82,7 +83,7 @@ const EditBtn = styled(Link)`
   width: 120px;
   height: 30px;
   font-size: 14px;
-  margin: 10px 0 10px;
+  margin: 5px 0 5px;
   text-decoration: none;
   display: flex;
   align-items: center;
@@ -200,11 +201,17 @@ const MemberIntro = ({ profileData, setProfileData }: UserReducer) => {
               </p>
             </EditBtn>
           ) : (
-            <FollowBtn profileData={profileData} />
+            <>
+              <EditBtn to={"#"}>
+                <FollowBtn profileData={profileData} />
+              </EditBtn>
+              <EditBtn to={`/follow/${profileData.userID}`}>
+                <p>查看追蹤名單</p>
+              </EditBtn>
+            </>
           )}
-          <EditBtn to={`/follow/${profileData.userID}`}>
-            <p>查看追蹤名單</p>
-          </EditBtn>
+
+          <ChatButton profileData={profileData} />
         </EditArea>
       </ImageContainer>
     </Wrapper>

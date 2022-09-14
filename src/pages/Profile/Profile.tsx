@@ -98,14 +98,9 @@ const Profile: React.FC = () => {
             profileData={profileData}
             setProfileData={setProfileData}
           />
-          {profileUserID === userData.userID ? null : (
-            <ChatButton profileData={profileData} />
-          )}
-          {console.log(userData.userID)}
           <CreaterArea>
             <ResumeArea to={`/resume/${profileUserID}`}>
               <PreviewImg src={resumeData.coverImage} />
-              <></>
             </ResumeArea>
             <WebsiteArea to={`/website/${profileUserID}`}>Website</WebsiteArea>
           </CreaterArea>

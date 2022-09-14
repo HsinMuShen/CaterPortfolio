@@ -42,6 +42,7 @@ const GlobalStyle = createGlobalStyle`
 
   body {
     font-family: NotoSansTC;
+    background-color: #F6F6F699;
   }
 
   ul,

@@ -7,12 +7,32 @@ import { setChatRoomID, userLoading } from "../../action";
 
 import { v4 } from "uuid";
 import firebase from "../../utilis/firebase";
+import styled from "styled-components";
 
 export interface chatRoom {
   chatRoomID: string;
   userID: string;
   name: string;
 }
+
+const EditBtn = styled.div`
+  background-color: #ffffff;
+  color: #555555;
+  border: 2px solid;
+  width: 120px;
+  height: 30px;
+  font-size: 14px;
+  margin: 5px 0 5px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  &:hover {
+    background-color: #555555;
+    color: #ffffff;
+  }
+`;
 
 const ChatButton = ({ profileData }: UserReducer) => {
   const userData = useSelector((state: RootState) => state.UserReducer);
@@ -52,7 +72,7 @@ const ChatButton = ({ profileData }: UserReducer) => {
       }
     }
   };
-  return <div onClick={toChatRoom}>ChatButton</div>;
+  return <EditBtn onClick={toChatRoom}>ChatButton</EditBtn>;
 };
 
 export default ChatButton;

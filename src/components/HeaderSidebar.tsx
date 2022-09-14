@@ -49,7 +49,6 @@ const HeaderSidebar = ({
     <Wrapper isSideBar={isSideBar}>
       <Nav
         onClick={(e) => {
-          console.log(e.target);
           setIsSideBar(false);
         }}
       >
