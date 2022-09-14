@@ -14,6 +14,7 @@ const Wrapper = styled.div<{ isSideBar: boolean }>`
   height: 100vh;
   width: 200px;
   background-color: #555555f2;
+  transition: right 1.5s;
   /* border-left: 1px solid; */
 `;
 
@@ -48,7 +49,6 @@ const HeaderSidebar = ({
     <Wrapper isSideBar={isSideBar}>
       <Nav
         onClick={(e) => {
-          console.log(e.target);
           setIsSideBar(false);
         }}
       >

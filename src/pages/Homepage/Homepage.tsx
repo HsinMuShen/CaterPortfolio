@@ -19,7 +19,7 @@ const Wrapper = styled.div`
 
 const PinContainer = styled.div`
   width: 80vw;
-  background-color: #ffffff;
+
   margin: 40px auto 0;
   display: grid;
   grid-template-columns: repeat(auto-fill, 240px);

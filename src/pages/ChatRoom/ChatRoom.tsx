@@ -15,6 +15,7 @@ const ChatRoomArea = styled.div`
   border: 2px solid;
   border-radius: 15px;
   overflow: hidden;
+  background-color: #ffffff;
 `;
 const UserList = styled.div`
   display: flex;

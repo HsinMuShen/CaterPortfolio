@@ -22,9 +22,14 @@ const IntroArea = styled.div`
   display: flex;
   flex-direction: column;
   height: 60px;
+  margin: 10px 10px 5px;
 `;
 
-const Intro = styled(Link)``;
+const Intro = styled(Link)`
+  text-decoration: none;
+  color: #555555;
+  font-size: 20px;
+`;
 
 const PinImage = styled(Link)<{ mainimage: string }>`
   flex: auto;

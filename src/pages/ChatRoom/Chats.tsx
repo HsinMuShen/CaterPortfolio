@@ -20,12 +20,13 @@ const NameArea = styled.div`
   border-bottom: 1px solid;
   width: 100%;
   padding-left: 15px;
-  font-size: 24px;
+  font-size: 20px;
 `;
 
 const MessageArea = styled.div`
-  min-height: 600px;
+  height: 600px;
   width: 600px;
+  overflow: scroll;
 `;
 
 const MsgDialog = styled.div`
@@ -107,7 +108,7 @@ const Chats = ({
   return (
     <Wrapper>
       <NameArea>
-        <p>{chattingName}</p>
+        <p>{chattingName + " 聊天室"}</p>
       </NameArea>
 
       <MessageArea>

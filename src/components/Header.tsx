@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { firebaseApp } from "../firebaseConfig";
-import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { RootState } from "../reducers";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
@@ -123,6 +123,7 @@ const Header = () => {
     (state: RootState) => state.IsPreviewReducer.userIsLogin
   );
   const dispatch = useDispatch();
+  const location = useLocation();
 
   useEffect(() => {
     onAuthStateChanged(auth, async (user) => {
@@ -142,6 +143,10 @@ const Header = () => {
       }
     });
   }, []);
+
+  useEffect(() => {
+    setIsSideBar(false);
+  }, [location]);
   return (
     <Wrapper>
       <MainNav>

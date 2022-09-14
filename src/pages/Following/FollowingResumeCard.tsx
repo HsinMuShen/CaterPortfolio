@@ -1,26 +1,35 @@
-import React, { useState, useEffect } from "react";
-import { followPortfolios, followResumes } from "./FollowingArea";
+import React, { useState } from "react";
+import { followResumes } from "./FollowingArea";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const SinglePin = styled.div`
-  margin: 15px 10px;
+  margin: 15px 20px 15px 0;
   border-radius: 16px;
   background-color: #ffffff;
-  border: 1px solid;
-  width: 240px;
+  border: 1px solid #d5d5d5;
+  width: 200px;
   height: 280px;
   display: flex;
   flex-direction: column;
+  &:hover {
+    box-shadow: 0px 0px 10px #777777;
+  }
 `;
 
 const IntroArea = styled.div`
   display: flex;
   flex-direction: column;
-  height: 60px;
+  height: 40px;
+  margin: 10px 0 0 10px;
 `;
 
-const Intro = styled(Link)``;
+const Intro = styled(Link)`
+  font-size: 18px;
+  text-decoration: none;
+  color: #555555;
+  font-weight: 600;
+`;
 
 const PinImage = styled(Link)<{ mainimage: string }>`
   flex: auto;
@@ -30,23 +39,20 @@ const PinImage = styled(Link)<{ mainimage: string }>`
   border-radius: 16px 16px 0 0;
 `;
 
-const FollowingPortfolioCard = ({
+const FollowingResumeCard = ({
   data,
   index,
 }: {
-  data: followPortfolios;
+  data: followResumes;
   index: number;
 }) => {
   const [isFollow, setIsFollow] = useState(false);
 
   return (
     <SinglePin>
-      <PinImage
-        to={`/portfolio/${data.portfolioID}`}
-        mainimage={data.mainImage}
-      />
+      <PinImage to={`/resume/${data.userID}`} mainimage={data.coverImage} />
       <IntroArea>
-        <Intro to={`/portfolio/${data.portfolioID}`}>{data.name}</Intro>
+        <Intro to={`/resume/${data.userID}`}>{data.name}</Intro>
         {/* <p>
           {isFollow ? `❤️` : `❤`}
           {data.followers.length}
@@ -56,4 +62,4 @@ const FollowingPortfolioCard = ({
   );
 };
 
-export default FollowingPortfolioCard;
+export default FollowingResumeCard;

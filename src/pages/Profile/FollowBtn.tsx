@@ -3,7 +3,10 @@ import { RootState } from "../../reducers";
 import { useDispatch, useSelector } from "react-redux";
 import { UserReducer } from "../../reducers";
 import { userLoading } from "../../action";
+import styled from "styled-components";
 import firebase from "../../utilis/firebase";
+
+const FollowButton = styled.div``;
 
 const FollowBtn = ({ profileData }: UserReducer) => {
   const [isFollow, setIsFollow] = useState(false);
@@ -50,9 +53,9 @@ const FollowBtn = ({ profileData }: UserReducer) => {
     };
   }, [profileData, userData]);
   return (
-    <button onClick={followPortfolio}>
+    <FollowButton onClick={followPortfolio}>
       {isFollow ? "cancel follow" : "follow this guy"}
-    </button>
+    </FollowButton>
   );
 };
 

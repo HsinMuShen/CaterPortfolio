@@ -6,9 +6,9 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { resumeLoading, userLoading } from "../../action";
 import Resume from "../Resume/Resume";
-import firebase from "../../utilis/firebase";
 import { UserReducer } from "../../reducers";
 
+import firebase from "../../utilis/firebase";
 import styled from "styled-components";
 import LoginArea from "./LoginArea";
 import MemberIntro from "./MemberIntro";
@@ -19,11 +19,16 @@ const Wrapper = styled.div`
   justify-content: center;
   flex-direction: column;
   align-items: center;
+  margin: 60px;
 `;
 
 const CreaterArea = styled.div`
   display: flex;
   justify-content: center;
+  margin-top: 40px;
+  border-radius: 15px;
+  border: 2px solid;
+  overflow: hidden;
 `;
 const ResumeArea = styled(Link)`
   width: 300px;
@@ -93,20 +98,12 @@ const Profile: React.FC = () => {
             profileData={profileData}
             setProfileData={setProfileData}
           />
-          {profileUserID === userData.userID ? null : (
-            <ChatButton profileData={profileData} />
-          )}
-          {console.log(userData.userID)}
           <CreaterArea>
             <ResumeArea to={`/resume/${profileUserID}`}>
               <PreviewImg src={resumeData.coverImage} />
-              <></>
             </ResumeArea>
             <WebsiteArea to={`/website/${profileUserID}`}>Website</WebsiteArea>
           </CreaterArea>
-          <FollowingArea to={`/follow/${profileUserID}`}>
-            Following
-          </FollowingArea>
         </>
       ) : (
         <LoginArea />
