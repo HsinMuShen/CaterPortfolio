@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { RootState } from "../../reducers";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { isPreviewProfile, initialSetUserData } from "../../action";
 import { UserReducer } from "../../reducers";
+import { Link } from "react-router-dom";
 
 import firebase from "../../utilis/firebase";
 import FollowBtn from "./FollowBtn";
@@ -13,22 +13,25 @@ const Wrapper = styled.div``;
 
 const ImageContainer = styled.div`
   display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
+  width: 900px;
+  margin: 10px auto 0;
+  align-items: center;
 `;
 
 const ImagePreview = styled.div<{
   previewUrl: string;
   width: string;
   height: string;
+  borderRadius: string;
+  borderWidth: string;
 }>`
   display: flex;
   justify-content: center;
   align-items: center;
   width: ${(props) => props.width};
   height: ${(props) => props.height};
-  border: solid 1px black;
-  //   border-radius: 90px;
+  border: solid ${(props) => props.borderWidth} black;
+  border-radius: ${(props) => props.borderRadius};
   background-position: center;
   background-image: url(${(props) => props.previewUrl});
   background-size: cover;
@@ -39,6 +42,56 @@ const ImageLabel = styled.label`
 `;
 const ImageInput = styled.input`
   display: none;
+`;
+
+const MainImageArea = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px 120px 0 100px;
+`;
+
+const IntroInput = styled.textarea`
+  width: 420px;
+  height: 80px;
+`;
+
+const IntroTextArea = styled.div`
+  width: 420px;
+  font-size: 14px;
+  margin-right: 40px;
+`;
+
+const NameTag = styled.p`
+  margin-top: 10px;
+  font-size: 20px;
+  font-weight: 600;
+`;
+
+const EditArea = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  margin: 0 auto;
+  align-items: center;
+`;
+const EditBtn = styled(Link)`
+  background-color: #ffffff;
+  color: #555555;
+  border: 2px solid;
+  width: 120px;
+  height: 30px;
+  font-size: 14px;
+  margin: 10px 0 10px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  &:hover {
+    background-color: #555555;
+    color: #ffffff;
+  }
 `;
 
 const MemberIntro = ({ profileData, setProfileData }: UserReducer) => {
@@ -69,53 +122,61 @@ const MemberIntro = ({ profileData, setProfileData }: UserReducer) => {
 
   return (
     <Wrapper>
+      <ImagePreview
+        previewUrl={previewBackUrl}
+        width={"100vw"}
+        height={"240px"}
+        borderRadius={"0"}
+        borderWidth={"0"}
+      >
+        <ImageLabel>
+          {isPreviewContent.profileIntro ? "" : "+"}
+          <ImageInput
+            type="file"
+            id="postImage"
+            disabled={isPreviewContent.profileIntro}
+            onChange={(e) => {
+              setImageFile({
+                ...imageFile,
+                backgroundImage: e.target.files![0],
+              });
+              renewImageUrl("backgroundImage", e.target.files![0]);
+            }}
+          />
+        </ImageLabel>
+      </ImagePreview>
       <ImageContainer>
-        <ImagePreview
-          previewUrl={previewBackUrl}
-          width={"100vw"}
-          height={"200px"}
-        >
-          <ImageLabel>
-            {isPreviewContent.profileIntro ? "" : "+"}
-            <ImageInput
-              type="file"
-              id="postImage"
-              disabled={isPreviewContent.profileIntro}
-              onChange={(e) => {
-                setImageFile({
-                  ...imageFile,
-                  backgroundImage: e.target.files![0],
-                });
-                renewImageUrl("backgroundImage", e.target.files![0]);
-              }}
-            />
-          </ImageLabel>
-        </ImagePreview>
-        <ImagePreview
-          previewUrl={previewHeadshotUrl}
-          width={"100px"}
-          height={"100px"}
-        >
-          <ImageLabel>
-            {isPreviewContent.profileIntro ? "" : "+"}
-            <ImageInput
-              type="file"
-              id="postImage"
-              disabled={isPreviewContent.profileIntro}
-              onChange={(e) => {
-                setImageFile({
-                  ...imageFile,
-                  headshot: e.target.files![0],
-                });
-                renewImageUrl("userImage", e.target.files![0]);
-              }}
-            />
-          </ImageLabel>
-        </ImagePreview>
+        <MainImageArea>
+          <ImagePreview
+            previewUrl={previewHeadshotUrl}
+            width={"100px"}
+            height={"100px"}
+            borderRadius={"90px"}
+            borderWidth={"1px"}
+          >
+            <ImageLabel>
+              {isPreviewContent.profileIntro ? "" : "+"}
+              <ImageInput
+                type="file"
+                id="postImage"
+                disabled={isPreviewContent.profileIntro}
+                onChange={(e) => {
+                  setImageFile({
+                    ...imageFile,
+                    headshot: e.target.files![0],
+                  });
+                  renewImageUrl("userImage", e.target.files![0]);
+                }}
+              />
+            </ImageLabel>
+          </ImagePreview>
+          <NameTag>{profileData.name}</NameTag>
+        </MainImageArea>
+
         {isPreviewContent.profileIntro ? (
-          profileData.introduction
+          <IntroTextArea>{profileData.introduction}</IntroTextArea>
         ) : (
-          <input
+          <IntroInput
             defaultValue={profileData.introduction}
             onChange={(e) => {
               dispatch(initialSetUserData("introduction", e.target.value));
@@ -123,22 +184,29 @@ const MemberIntro = ({ profileData, setProfileData }: UserReducer) => {
             }}
           />
         )}
-        <p>{profileData.name}</p>
+        <EditArea>
+          {profileData.userID === userData.userID ? (
+            <EditBtn
+              to={"#"}
+              onClick={() => {
+                dispatch(isPreviewProfile());
+                if (!isPreviewContent.profileIntro) {
+                  firebase.uploadDoc("users", `${userData.userID}`, userData);
+                }
+              }}
+            >
+              <p>
+                {isPreviewContent.profileIntro ? "編輯個人資料" : "儲存編輯"}
+              </p>
+            </EditBtn>
+          ) : (
+            <FollowBtn profileData={profileData} />
+          )}
+          <EditBtn to={`/follow/${profileData.userID}`}>
+            <p>查看追蹤名單</p>
+          </EditBtn>
+        </EditArea>
       </ImageContainer>
-      {profileData.userID === userData.userID ? (
-        <button
-          onClick={() => {
-            dispatch(isPreviewProfile());
-            if (!isPreviewContent.profileIntro) {
-              firebase.uploadDoc("users", `${userData.userID}`, userData);
-            }
-          }}
-        >
-          編輯個人頁面/儲存編輯
-        </button>
-      ) : (
-        <FollowBtn profileData={profileData} />
-      )}
     </Wrapper>
   );
 };

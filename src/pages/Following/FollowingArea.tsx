@@ -8,6 +8,10 @@ import styled from "styled-components";
 import FollowingPortfolioCard from "./FollowingPortfolioCard";
 import FollowingResumeCard from "./FollowingResumeCard";
 
+const Wrapper = styled.div`
+  width: 960px;
+`;
+
 const Member = styled(Link)``;
 
 export interface followPortfolios {

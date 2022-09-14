@@ -11,7 +11,7 @@ import Homepage from "./pages/Homepage/Homepage";
 import AllResumes from "./pages/AllResumes/AllResumes";
 import Input from "./pages/Homepage/Input";
 import Profile from "./pages/Profile/Profile";
-import FollowingArea from "./pages/Profile/FollowingArea";
+import FollowingArea from "./pages/Following/FollowingArea";
 import Resume from "./pages/Resume/Resume";
 import Website from "./pages/Website/Website";
 import Portfolio from "./pages/Portfolio/Portfolio";

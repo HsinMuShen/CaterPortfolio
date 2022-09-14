@@ -9,6 +9,7 @@ import {
 import { RootState } from "../../reducers";
 import { useSelector, useDispatch } from "react-redux";
 import { initialSetUserData } from "../../action";
+import { useNavigate } from "react-router-dom";
 import firebase from "../../utilis/firebase";
 
 import signinImg from "./loginimg.jpg";
@@ -102,7 +103,7 @@ const SideImgArea = styled.div<{ backgroundImg: string }>`
 const Login = () => {
   const [activeItem, setActiveItem] = useState("signin");
   const userData = useSelector((state: RootState) => state.UserReducer);
-
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const onSubmit = () => {
@@ -113,6 +114,7 @@ const Login = () => {
           alert("成功登入會員!");
           const tempData = userData;
           tempData.userID = user.uid;
+          navigate("/");
         })
         .catch((error) => {
           const errorMessage = error.message;
@@ -126,6 +128,7 @@ const Login = () => {
           const tempData = userData;
           tempData.userID = user.uid;
           firebase.uploadDoc("users", user.uid, tempData);
+          navigate("/profile");
         })
         .catch((error) => {
           const errorMessage = error.message;
