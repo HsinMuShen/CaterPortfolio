@@ -11,7 +11,7 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 
-const ResumeCom1 = ({
+const TextAndImg0 = ({
   index,
   content,
 }: {
@@ -55,4 +55,4 @@ const ResumeCom1 = ({
   );
 };
 
-export default ResumeCom1;
+export default TextAndImg0;

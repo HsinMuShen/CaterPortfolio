@@ -18,7 +18,8 @@ import firebase from "../../utilis/firebase";
 import Delete from "./Delete";
 import AddComArea from "./AddComArea";
 import SideBar from "../../utilis/SideBar";
-import preImage from "../../utilis/cat.jpg";
+import { resumeChoice } from "./resumeComponents";
+
 import { ResumeComponents } from "./resumeComponents";
 
 const Wrapper = styled.div`
@@ -69,42 +70,6 @@ export interface resumeComContent {
   comName: string;
 }
 
-export const resumeChoice = [
-  {
-    name: 0,
-    comIndex: 0,
-    comContent: {
-      image: [preImage],
-      text: ["<h2>您的姓名</h2><p>職位名稱</p><p>聯絡資訊</p>"],
-      type: 0,
-      comName: "ResumeCom1",
-    },
-  },
-  {
-    name: 1,
-    comIndex: 1,
-    comContent: {
-      image: [preImage, preImage],
-      text: [],
-      type: 1,
-      comName: "ResumeCom2",
-    },
-  },
-  {
-    name: 2,
-    comIndex: 2,
-    comContent: {
-      image: [],
-      text: [
-        "<h3>標題</h3><p>您的英勇事蹟</p><p>您的英勇事蹟</p>",
-        "<h3>標題</h3><p>您的英勇事蹟</p><p>您的英勇事蹟</p>",
-      ],
-      type: 2,
-      comName: "ResumeCom3",
-    },
-  },
-];
-
 const Resume: React.FC = () => {
   const [resumeCom, setResumeCom] = useState<resumeComContent[]>([]);
   const refPhoto = useRef<HTMLDivElement>(null);
@@ -116,9 +81,10 @@ const Resume: React.FC = () => {
   const userData = useSelector((state: RootState) => state.UserReducer);
   const dispatch = useDispatch();
 
-  const addResumeCom = (conIndex: number) => {
-    dispatch(resumeAddCom(resumeChoice[conIndex].comContent));
-    setResumeCom([...resumeCom, resumeChoice[conIndex].comContent]);
+  const addResumeCom = (comIndex: number) => {
+    console.log(resumeChoice);
+    dispatch(resumeAddCom(resumeChoice[comIndex].comContent));
+    setResumeCom([...resumeCom, resumeChoice[comIndex].comContent]);
   };
 
   const addDeleteCom = (deleteIndex: number) => {
@@ -192,8 +158,9 @@ const Resume: React.FC = () => {
               );
             })}
           </ResumeHeader>
+          <AddComArea addResumeCom={addResumeCom} uploadResume={uploadResume} />
         </ResumeEditor>
-        <AddComArea addResumeCom={addResumeCom} uploadResume={uploadResume} />
+
         <div
           onClick={() => {
             getCoverImage();
