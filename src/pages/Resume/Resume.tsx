@@ -15,14 +15,11 @@ import {
 } from "../../action";
 
 import firebase from "../../utilis/firebase";
-import ResumeCom1 from "./ResumeComponents/ResumeCom1";
-import ResumeCom2 from "./ResumeComponents/ResumeCom2";
-import ResumeCom3 from "./ResumeComponents/ResumeCom3";
 import Delete from "./Delete";
 import AddComArea from "./AddComArea";
 import SideBar from "../../utilis/SideBar";
 import preImage from "../../utilis/cat.jpg";
-import { Type } from "typescript";
+import { ResumeComponents } from "./resumeComponents";
 
 const Wrapper = styled.div`
   display: flex;
@@ -36,8 +33,9 @@ const ResumeEditor = styled.div`
   width: 960px;
   margin: 60px auto;
   border: 1px solid;
-  border-radius: 15px;
-  padding: 20px 40px;
+  border-radius: 5px;
+  padding: 30px 40px;
+  background-color: #ffffff;
 `;
 
 const PreviewDiv = styled.div`
@@ -53,10 +51,13 @@ const ResumeHeader = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 900px;
 `;
 
 const SineleComponent = styled.div`
   display: flex;
+  width: 900px;
+  position: relative;
 `;
 
 const ToProfileLink = styled(Link)``;
@@ -74,19 +75,19 @@ export const resumeChoice = [
     comIndex: 0,
     comContent: {
       image: [preImage],
-      text: ["<h2>姓名</h2><p>Email</p><p>聯絡資訊</p>"],
+      text: ["<h2>您的姓名</h2><p>職位名稱</p><p>聯絡資訊</p>"],
       type: 0,
-      comName: "Text",
+      comName: "ResumeCom1",
     },
   },
   {
     name: 1,
     comIndex: 1,
     comContent: {
-      image: [preImage, preImage, preImage],
+      image: [preImage, preImage],
       text: [],
       type: 1,
-      comName: "Text",
+      comName: "ResumeCom2",
     },
   },
   {
@@ -99,7 +100,7 @@ export const resumeChoice = [
         "<h3>標題</h3><p>您的英勇事蹟</p><p>您的英勇事蹟</p>",
       ],
       type: 2,
-      comName: "Text",
+      comName: "ResumeCom3",
     },
   },
 ];
@@ -124,7 +125,6 @@ const Resume: React.FC = () => {
     dispatch(resumeDeleteCom(deleteIndex));
     const tempArr = [...resumeCom];
     tempArr.splice(deleteIndex, 1);
-    console.log(tempArr);
     setResumeCom(tempArr);
   };
   const uploadResume = async () => {
@@ -163,18 +163,6 @@ const Resume: React.FC = () => {
     loadResume();
   }, [userData]);
 
-  const ResumeComponents = {
-    Text: function Text({
-      index,
-      content,
-    }: {
-      index: number;
-      content: resumeComContent;
-    }) {
-      return <ResumeCom1 index={index} content={content} />;
-    },
-  };
-
   return (
     <>
       <Wrapper>
@@ -196,47 +184,12 @@ const Resume: React.FC = () => {
                 ResumeComponents[
                   content.comName as keyof typeof ResumeComponents
                 ];
-              console.log(TempCom);
               return (
                 <SineleComponent key={index}>
                   <TempCom index={index} content={content} />
                   <Delete addDeleteCom={addDeleteCom} index={index} />
                 </SineleComponent>
               );
-              // switch (content.type) {
-              //   case 0: {
-              //     return (
-              //       <SineleComponent key={index}>
-              //         <ResumeCom1 index={index} content={content} />
-              //         {isPreview ? null : (
-              //           <Delete addDeleteCom={addDeleteCom} index={index} />
-              //         )}
-              //       </SineleComponent>
-              //     );
-              //   }
-              //   case 1: {
-              //     return (
-              //       <SineleComponent key={index}>
-              //         <ResumeCom2 index={index} content={content} />
-              //         {isPreview ? null : (
-              //           <Delete addDeleteCom={addDeleteCom} index={index} />
-              //         )}
-              //       </SineleComponent>
-              //     );
-              //   }
-              //   case 2: {
-              //     return (
-              //       <SineleComponent key={index}>
-              //         <ResumeCom3 index={index} content={content} />
-              //         {isPreview ? null : (
-              //           <Delete addDeleteCom={addDeleteCom} index={index} />
-              //         )}
-              //       </SineleComponent>
-              //     );
-              //   }
-              //   default:
-              //     return null;
-              // }
             })}
           </ResumeHeader>
         </ResumeEditor>

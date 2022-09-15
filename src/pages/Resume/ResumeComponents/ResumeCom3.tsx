@@ -2,6 +2,14 @@ import React from "react";
 import EditText from "../../../utilis/EditText";
 import { resumeComContent } from "../Resume";
 import useUpdateResumeData from "./ResumeUpdateDataFunction";
+import styled from "styled-components";
+
+const Wrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+`;
 
 const ResumeCom3 = ({
   index,
@@ -14,7 +22,7 @@ const ResumeCom3 = ({
     useUpdateResumeData({ index, content });
 
   return (
-    <div>
+    <Wrapper>
       <>
         {textList.map((_, listIndex) => {
           return (
@@ -27,7 +35,7 @@ const ResumeCom3 = ({
           );
         })}
       </>
-    </div>
+    </Wrapper>
   );
 };
 

@@ -2,6 +2,14 @@ import React from "react";
 import PreviewImageInput from "../../../utilis/PreviewImageInput";
 import { resumeComContent } from "../Resume";
 import useUpdateResumeData from "./ResumeUpdateDataFunction";
+import styled from "styled-components";
+
+const Wrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+`;
 
 const ResumeCom2 = ({
   index,
@@ -14,7 +22,7 @@ const ResumeCom2 = ({
     useUpdateResumeData({ index, content });
 
   return (
-    <div style={{ display: "flex" }}>
+    <Wrapper>
       {imageFileList.map((_, listIndex) => {
         return (
           <PreviewImageInput
@@ -22,10 +30,15 @@ const ResumeCom2 = ({
             setResumeReducerImage={setResumeReducerImage}
             listIndex={listIndex}
             image={content.image[listIndex]}
+            style={{
+              width: "400px",
+              height: "200px",
+              border: "1px solid",
+            }}
           />
         );
       })}
-    </div>
+    </Wrapper>
   );
 };
 

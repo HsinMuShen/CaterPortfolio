@@ -1,8 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
+import styled from "styled-components";
 import PreviewImageInput from "../../../utilis/PreviewImageInput";
 import EditText from "../../../utilis/EditText";
 import { resumeComContent } from "../Resume";
 import useUpdateResumeData from "./ResumeUpdateDataFunction";
+
+const Wrapper = styled.div`
+  display: flex;
+  width: 100%;
+  align-items: center;
+`;
 
 const ResumeCom1 = ({
   index,
@@ -15,7 +22,7 @@ const ResumeCom1 = ({
     useUpdateResumeData({ index, content });
 
   return (
-    <div style={{ display: "flex" }}>
+    <Wrapper>
       {imageFileList.map((_, listIndex) => {
         return (
           <PreviewImageInput
@@ -23,22 +30,28 @@ const ResumeCom1 = ({
             setResumeReducerImage={setResumeReducerImage}
             listIndex={listIndex}
             image={content.image[listIndex]}
+            style={{
+              width: "100px",
+              height: "100px",
+              border: "1px solid",
+              borderRadius: "50%",
+              margin: "0 200px 0 60px",
+            }}
           />
         );
       })}
-      <>
-        {textList.map((_, listIndex) => {
-          return (
-            <EditText
-              key={listIndex}
-              text={content.text[listIndex]}
-              listIndex={listIndex}
-              setReducerText={setReducerText}
-            />
-          );
-        })}
-      </>
-    </div>
+
+      {textList.map((_, listIndex) => {
+        return (
+          <EditText
+            key={listIndex}
+            text={content.text[listIndex]}
+            listIndex={listIndex}
+            setReducerText={setReducerText}
+          />
+        );
+      })}
+    </Wrapper>
   );
 };
 

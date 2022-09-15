@@ -16,7 +16,7 @@ function useUpdateResumeData({
   );
   const [textList, setTextList] = useState<string[] | null[]>(content.text);
   const diapatch = useDispatch();
-
+  console.log(index, content);
   const setResumeReducerImage = async (file: File, listIndex: number) => {
     const tempArr = imageFileList;
     const imageUrl = await firebase.getImageUrl(file);
