@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import PreviewImageInput from "../../../utilis/PreviewImageInput";
-import EditText from "../../../utilis/EditText";
 import firebase from "../../../utilis/firebase";
 import { useDispatch } from "react-redux";
 import { resumeAddImage, resumeFillContent } from "../../../action";
@@ -18,6 +16,7 @@ function useUpdateResumeData({
   );
   const [textList, setTextList] = useState<string[] | null[]>(content.text);
   const diapatch = useDispatch();
+
   const setResumeReducerImage = async (file: File, listIndex: number) => {
     const tempArr = imageFileList;
     const imageUrl = await firebase.getImageUrl(file);
@@ -30,6 +29,13 @@ function useUpdateResumeData({
     tempArr[listIndex] = text;
     setTextList(tempArr);
     diapatch(resumeFillContent(index, tempArr));
+  };
+
+  return {
+    imageFileList: imageFileList,
+    textList: textList,
+    setResumeReducerImage: setResumeReducerImage,
+    setReducerText: setReducerText,
   };
 }
 

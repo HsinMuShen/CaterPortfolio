@@ -1,9 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import PreviewImageInput from "../../../utilis/PreviewImageInput";
-import firebase from "../../../utilis/firebase";
-import { useDispatch } from "react-redux";
-import { resumeAddImage } from "../../../action";
 import { resumeComContent } from "../Resume";
+import useUpdateResumeData from "./ResumeUpdateDataFunction";
 
 const ResumeCom2 = ({
   index,
@@ -12,17 +10,8 @@ const ResumeCom2 = ({
   index: number;
   content: resumeComContent;
 }) => {
-  const [imageFileList, setImageFileList] = useState<string[] | null[]>(
-    content.image
-  );
-  const diapatch = useDispatch();
-  const setResumeReducerImage = async (file: File, listIndex: number) => {
-    const tempArr = imageFileList;
-    const imageUrl = await firebase.getImageUrl(file);
-    tempArr[listIndex] = imageUrl;
-    setImageFileList(tempArr);
-    diapatch(resumeAddImage(index, tempArr));
-  };
+  const { imageFileList, textList, setResumeReducerImage, setReducerText } =
+    useUpdateResumeData({ index, content });
 
   return (
     <div style={{ display: "flex" }}>

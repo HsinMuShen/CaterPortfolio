@@ -22,11 +22,13 @@ import Delete from "./Delete";
 import AddComArea from "./AddComArea";
 import SideBar from "../../utilis/SideBar";
 import preImage from "../../utilis/cat.jpg";
+import { Type } from "typescript";
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 120px;
 `;
 
 const ResumeEditor = styled.div`
@@ -57,10 +59,6 @@ const SineleComponent = styled.div`
   display: flex;
 `;
 
-const ResumeBody = styled.div``;
-
-const ResumeFooter = styled.div``;
-
 const ToProfileLink = styled(Link)``;
 
 export interface resumeComContent {
@@ -78,7 +76,7 @@ export const resumeChoice = [
       image: [preImage],
       text: ["<h2>姓名</h2><p>Email</p><p>聯絡資訊</p>"],
       type: 0,
-      comName: "text",
+      comName: "Text",
     },
   },
   {
@@ -88,7 +86,7 @@ export const resumeChoice = [
       image: [preImage, preImage, preImage],
       text: [],
       type: 1,
-      comName: "text",
+      comName: "Text",
     },
   },
   {
@@ -101,7 +99,7 @@ export const resumeChoice = [
         "<h3>標題</h3><p>您的英勇事蹟</p><p>您的英勇事蹟</p>",
       ],
       type: 2,
-      comName: "text",
+      comName: "Text",
     },
   },
 ];
@@ -173,13 +171,12 @@ const Resume: React.FC = () => {
       index: number;
       content: resumeComContent;
     }) {
-      return <content.comName />;
+      return <ResumeCom1 index={index} content={content} />;
     },
   };
 
   return (
     <>
-      {" "}
       <Wrapper>
         {resumeID === userData.userID ? (
           <button
@@ -190,54 +187,58 @@ const Resume: React.FC = () => {
             編輯/預覽
           </button>
         ) : null}
+
         <ResumeEditor ref={refPhoto}>
           <PreviewDiv style={{ zIndex: isPreview ? "2" : "-1" }}></PreviewDiv>
           <ResumeHeader>
-            {resumeCom.map((content, index) => {
-              // return (
-              //   <SineleComponent key={index}>
-              //     <ResumeComponents.Text index={index} content={content} />
-              //     <Delete addDeleteCom={addDeleteCom} index={index} />
-              //   </SineleComponent>
-              // );
-              switch (content.type) {
-                case 0: {
-                  return (
-                    <SineleComponent key={index}>
-                      <ResumeCom1 index={index} content={content} />
-                      {isPreview ? null : (
-                        <Delete addDeleteCom={addDeleteCom} index={index} />
-                      )}
-                    </SineleComponent>
-                  );
-                }
-                case 1: {
-                  return (
-                    <SineleComponent key={index}>
-                      <ResumeCom2 index={index} content={content} />
-                      {isPreview ? null : (
-                        <Delete addDeleteCom={addDeleteCom} index={index} />
-                      )}
-                    </SineleComponent>
-                  );
-                }
-                case 2: {
-                  return (
-                    <SineleComponent key={index}>
-                      <ResumeCom3 index={index} content={content} />
-                      {isPreview ? null : (
-                        <Delete addDeleteCom={addDeleteCom} index={index} />
-                      )}
-                    </SineleComponent>
-                  );
-                }
-                default:
-                  return null;
-              }
+            {resumeCom?.map((content, index) => {
+              const TempCom =
+                ResumeComponents[
+                  content.comName as keyof typeof ResumeComponents
+                ];
+              console.log(TempCom);
+              return (
+                <SineleComponent key={index}>
+                  <TempCom index={index} content={content} />
+                  <Delete addDeleteCom={addDeleteCom} index={index} />
+                </SineleComponent>
+              );
+              // switch (content.type) {
+              //   case 0: {
+              //     return (
+              //       <SineleComponent key={index}>
+              //         <ResumeCom1 index={index} content={content} />
+              //         {isPreview ? null : (
+              //           <Delete addDeleteCom={addDeleteCom} index={index} />
+              //         )}
+              //       </SineleComponent>
+              //     );
+              //   }
+              //   case 1: {
+              //     return (
+              //       <SineleComponent key={index}>
+              //         <ResumeCom2 index={index} content={content} />
+              //         {isPreview ? null : (
+              //           <Delete addDeleteCom={addDeleteCom} index={index} />
+              //         )}
+              //       </SineleComponent>
+              //     );
+              //   }
+              //   case 2: {
+              //     return (
+              //       <SineleComponent key={index}>
+              //         <ResumeCom3 index={index} content={content} />
+              //         {isPreview ? null : (
+              //           <Delete addDeleteCom={addDeleteCom} index={index} />
+              //         )}
+              //       </SineleComponent>
+              //     );
+              //   }
+              //   default:
+              //     return null;
+              // }
             })}
           </ResumeHeader>
-          <ResumeBody></ResumeBody>
-          <ResumeFooter></ResumeFooter>
         </ResumeEditor>
         <AddComArea addResumeCom={addResumeCom} uploadResume={uploadResume} />
         <div
