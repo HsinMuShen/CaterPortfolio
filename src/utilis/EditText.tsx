@@ -7,7 +7,7 @@ import styled from "styled-components";
 
 const BtnWrapper = styled.div`
   position: absolute;
-  top: -80px;
+  top: -100px;
   transform: translate(-31%, 0);
   width: 400px;
   border: 2px solid;
@@ -111,9 +111,10 @@ interface props {
   text: string;
   setReducerText: (text: string, listIndex: number) => void;
   listIndex: number;
+  styles?: any;
 }
 
-export default ({ text, setReducerText, listIndex }: props) => {
+export default ({ text, setReducerText, listIndex, styles }: props) => {
   const [isShowBtn, setIsShowBtn] = useState<boolean>(false);
   const isPreview = useSelector(
     (state: RootState) => state.IsPreviewReducer.resume
@@ -150,7 +151,7 @@ export default ({ text, setReducerText, listIndex }: props) => {
     <div className="text">
       <MenuBar editor={editor} isShowBtn={isShowBtn} className="tex2" />
       <EditorContent
-        style={{ padding: "20px" }}
+        style={styles}
         editor={editor}
         onClick={() => {
           setIsShowBtn(true);

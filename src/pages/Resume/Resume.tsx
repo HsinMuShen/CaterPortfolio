@@ -42,7 +42,7 @@ const ResumeEditor = styled.div`
 const PreviewDiv = styled.div`
   position: absolute;
   /* border: 1px solid; */
-  width: 900px;
+  width: 880px;
   height: 100%;
   z-index: 2;
 `;
@@ -52,13 +52,14 @@ const ResumeHeader = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 900px;
+  width: 880px;
 `;
 
 const SineleComponent = styled.div`
   display: flex;
-  width: 900px;
+  width: 880px;
   position: relative;
+  margin: 10px 0;
 `;
 
 const ToProfileLink = styled(Link)``;

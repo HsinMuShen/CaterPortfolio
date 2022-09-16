@@ -11,21 +11,19 @@ function useUpdateResumeData({
   index: number;
   content: resumeComContent;
 }) {
-  const [imageFileList, setImageFileList] = useState<string[] | null[]>(
-    content.image
-  );
-  const [textList, setTextList] = useState<string[] | null[]>(content.text);
+  const [imageFileList, setImageFileList] = useState<string[]>(content.image);
+  const [textList, setTextList] = useState<string[]>(content.text);
   const diapatch = useDispatch();
-  console.log(index, content);
   const setResumeReducerImage = async (file: File, listIndex: number) => {
-    const tempArr = imageFileList;
+    const tempArr = [...imageFileList];
     const imageUrl = await firebase.getImageUrl(file);
     tempArr[listIndex] = imageUrl;
     setImageFileList(tempArr);
     diapatch(resumeAddImage(index, tempArr));
   };
+
   const setReducerText = async (text: string, listIndex: number) => {
-    const tempArr = textList;
+    const tempArr = [...textList];
     tempArr[listIndex] = text;
     setTextList(tempArr);
     diapatch(resumeFillContent(index, tempArr));

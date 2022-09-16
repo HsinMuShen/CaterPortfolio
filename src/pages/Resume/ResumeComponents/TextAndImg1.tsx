@@ -11,7 +11,7 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 
-const TextAndImg0 = ({
+const TextAndImg1 = ({
   index,
   content,
 }: {
@@ -31,11 +31,10 @@ const TextAndImg0 = ({
             listIndex={listIndex}
             image={content.image[listIndex]}
             style={{
-              width: "100px",
-              height: "100px",
+              width: "400px",
+              height: "200px",
               border: "1px solid",
-              borderRadius: "50%",
-              margin: "0 200px 0 60px",
+              margin: "0 100px 0 40px",
             }}
           />
         );
@@ -48,9 +47,6 @@ const TextAndImg0 = ({
             text={content.text[listIndex]}
             listIndex={listIndex}
             setReducerText={setReducerText}
-            styles={{
-              width: "400px",
-            }}
           />
         );
       })}
@@ -58,4 +54,4 @@ const TextAndImg0 = ({
   );
 };
 
-export default TextAndImg0;
+export default TextAndImg1;

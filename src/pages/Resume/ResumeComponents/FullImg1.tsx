@@ -1,17 +1,17 @@
 import React from "react";
-import styled from "styled-components";
 import PreviewImageInput from "../../../utilis/PreviewImageInput";
-import EditText from "../../../utilis/EditText";
 import { resumeComContent } from "../Resume";
 import useUpdateResumeData from "./ResumeUpdateDataFunction";
+import styled from "styled-components";
 
 const Wrapper = styled.div`
   display: flex;
-  width: 100%;
   align-items: center;
+  justify-content: center;
+  width: 100%;
 `;
 
-const TextAndImg0 = ({
+const FullImg1 = ({
   index,
   content,
 }: {
@@ -31,25 +31,9 @@ const TextAndImg0 = ({
             listIndex={listIndex}
             image={content.image[listIndex]}
             style={{
-              width: "100px",
-              height: "100px",
+              width: "800px",
+              height: "200px",
               border: "1px solid",
-              borderRadius: "50%",
-              margin: "0 200px 0 60px",
-            }}
-          />
-        );
-      })}
-
-      {textList.map((_, listIndex) => {
-        return (
-          <EditText
-            key={listIndex}
-            text={content.text[listIndex]}
-            listIndex={listIndex}
-            setReducerText={setReducerText}
-            styles={{
-              width: "400px",
             }}
           />
         );
@@ -58,4 +42,4 @@ const TextAndImg0 = ({
   );
 };
 
-export default TextAndImg0;
+export default FullImg1;

@@ -4,6 +4,11 @@ import TextAndImg0 from "./ResumeComponents/TextAndImg0";
 import ResumeCom2 from "./ResumeComponents/ResumeCom2";
 import ResumeCom3 from "./ResumeComponents/ResumeCom3";
 import preImage from "../../utilis/cat.jpg";
+import TextAndImg1 from "./ResumeComponents/TextAndImg1";
+import TextAndImg2 from "./ResumeComponents/TextAndImg2";
+import FullImg0 from "./ResumeComponents/FullImg0";
+import FullImg1 from "./ResumeComponents/FullImg1";
+import MultiImg0 from "./ResumeComponents/MultiImg0";
 
 export const resumeChoice = [
   {
@@ -63,7 +68,7 @@ export const resumeChoice = [
       image: [preImage],
       text: ["<h2>您的姓名</h2><p>職位名稱</p><p>聯絡資訊</p>"],
       type: 5,
-      comName: "TextAndImg2",
+      comName: "TextAndImg1",
     },
   },
   {
@@ -73,7 +78,7 @@ export const resumeChoice = [
       image: [preImage],
       text: ["<h2>您的姓名</h2><p>職位名稱</p><p>聯絡資訊</p>"],
       type: 6,
-      comName: "TextAndImg3",
+      comName: "TextAndImg2",
     },
   },
   {
@@ -122,6 +127,24 @@ export const resumeChoice = [
 ];
 
 export const ResumeComponents = {
+  FullImg0: function Text({
+    index,
+    content,
+  }: {
+    index: number;
+    content: resumeComContent;
+  }) {
+    return <FullImg0 index={index} content={content} />;
+  },
+  FullImg1: function Text({
+    index,
+    content,
+  }: {
+    index: number;
+    content: resumeComContent;
+  }) {
+    return <FullImg1 index={index} content={content} />;
+  },
   TextAndImg0: function Text({
     index,
     content,
@@ -130,6 +153,33 @@ export const ResumeComponents = {
     content: resumeComContent;
   }) {
     return <TextAndImg0 index={index} content={content} />;
+  },
+  TextAndImg1: function Text({
+    index,
+    content,
+  }: {
+    index: number;
+    content: resumeComContent;
+  }) {
+    return <TextAndImg1 index={index} content={content} />;
+  },
+  TextAndImg2: function Text({
+    index,
+    content,
+  }: {
+    index: number;
+    content: resumeComContent;
+  }) {
+    return <TextAndImg2 index={index} content={content} />;
+  },
+  MultiImg0: function Text({
+    index,
+    content,
+  }: {
+    index: number;
+    content: resumeComContent;
+  }) {
+    return <MultiImg0 index={index} content={content} />;
   },
   ResumeCom2: function Text({
     index,

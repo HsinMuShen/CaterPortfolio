@@ -25,7 +25,7 @@ const Wrapper = styled.div`
   background-color: #eaeaea;
   padding: 20px;
   border-radius: 15px;
-  margin-top: 60px;
+  margin-top: 40px;
 `;
 
 const Title = styled.p`
@@ -137,6 +137,7 @@ const AddComArea = ({
               onClick={() => {
                 setShowArr(data.arr);
               }}
+              key={data.img}
             >
               <ImgSection
                 backgroundImg={data.img}

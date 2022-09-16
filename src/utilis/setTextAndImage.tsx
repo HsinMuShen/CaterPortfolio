@@ -11,10 +11,8 @@ const useUpdateResumeData = ({
   index: number;
   content: resumeComContent;
 }) => {
-  const [imageFileList, setImageFileList] = useState<string[] | null[]>(
-    content.image
-  );
-  const [textList, setTextList] = useState<string[] | null[]>(content.text);
+  const [imageFileList, setImageFileList] = useState<string[]>(content.image);
+  const [textList, setTextList] = useState<string[]>(content.text);
   const diapatch = useDispatch();
   const setResumeReducerImage = async (file: File, listIndex: number) => {
     const tempArr = imageFileList;
