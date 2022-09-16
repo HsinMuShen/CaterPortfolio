@@ -12,7 +12,7 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 
-const TextAndImg0 = ({
+const Text0 = ({
   index,
   content,
 }: {
@@ -24,24 +24,6 @@ const TextAndImg0 = ({
 
   return (
     <Wrapper>
-      {imageFileList.map((_, listIndex) => {
-        return (
-          <PreviewImageInput
-            key={listIndex}
-            setResumeReducerImage={setResumeReducerImage}
-            listIndex={listIndex}
-            image={content.image[listIndex]}
-            style={{
-              width: "100px",
-              height: "100px",
-              border: "1px solid",
-              borderRadius: "50%",
-              margin: "0 100px 0 80px",
-            }}
-          />
-        );
-      })}
-
       {textList.map((_, listIndex) => {
         return (
           <EditText
@@ -50,7 +32,8 @@ const TextAndImg0 = ({
             listIndex={listIndex}
             setReducerText={setReducerText}
             style={{
-              width: "520px",
+              width: "800px",
+              padding: " 0 10px",
             }}
           />
         );
@@ -59,4 +42,4 @@ const TextAndImg0 = ({
   );
 };
 
-export default TextAndImg0;
+export default Text0;

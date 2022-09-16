@@ -7,7 +7,8 @@ import useUpdateResumeData from "./ResumeUpdateDataFunction";
 
 const Wrapper = styled.div`
   display: flex;
-  width: 100%;
+  width: 800px;
+  margin: 0 auto;
   align-items: center;
 `;
 
@@ -30,6 +31,10 @@ const TextAndImg2 = ({
             text={content.text[listIndex]}
             listIndex={listIndex}
             setReducerText={setReducerText}
+            style={{
+              width: "390px",
+              padding: " 0 10px",
+            }}
           />
         );
       })}
@@ -41,10 +46,10 @@ const TextAndImg2 = ({
             listIndex={listIndex}
             image={content.image[listIndex]}
             style={{
-              width: "400px",
+              width: "390px",
               height: "200px",
               border: "1px solid",
-              margin: "0 20px 0 100px",
+              margin: "0 0 0 10px",
             }}
           />
         );

@@ -7,8 +7,9 @@ import styled from "styled-components";
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 100%;
+  justify-content: space-between;
+  width: 800px;
+  margin: 0 auto;
 `;
 
 const MultiImg0 = ({
@@ -31,10 +32,9 @@ const MultiImg0 = ({
             listIndex={listIndex}
             image={content.image[listIndex]}
             style={{
-              width: "380px",
+              width: "390px",
               height: "240px",
               border: "1px solid",
-              margin: "0 10px",
             }}
           />
         );

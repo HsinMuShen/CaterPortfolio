@@ -12,7 +12,7 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 
-const TextAndImg0 = ({
+const Text1 = ({
   index,
   content,
 }: {
@@ -21,27 +21,19 @@ const TextAndImg0 = ({
 }) => {
   const { imageFileList, textList, setResumeReducerImage, setReducerText } =
     useUpdateResumeData({ index, content });
-
+  const styleArr = [
+    {
+      width: "525px",
+      padding: " 0 10px",
+      margin: " 0 20px 0 0",
+    },
+    {
+      width: "255px",
+      padding: " 0 10px",
+    },
+  ];
   return (
     <Wrapper>
-      {imageFileList.map((_, listIndex) => {
-        return (
-          <PreviewImageInput
-            key={listIndex}
-            setResumeReducerImage={setResumeReducerImage}
-            listIndex={listIndex}
-            image={content.image[listIndex]}
-            style={{
-              width: "100px",
-              height: "100px",
-              border: "1px solid",
-              borderRadius: "50%",
-              margin: "0 100px 0 80px",
-            }}
-          />
-        );
-      })}
-
       {textList.map((_, listIndex) => {
         return (
           <EditText
@@ -49,9 +41,7 @@ const TextAndImg0 = ({
             text={content.text[listIndex]}
             listIndex={listIndex}
             setReducerText={setReducerText}
-            style={{
-              width: "520px",
-            }}
+            style={styleArr[listIndex]}
           />
         );
       })}
@@ -59,4 +49,4 @@ const TextAndImg0 = ({
   );
 };
 
-export default TextAndImg0;
+export default Text1;

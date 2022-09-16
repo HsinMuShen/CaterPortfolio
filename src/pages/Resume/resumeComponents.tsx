@@ -9,6 +9,9 @@ import TextAndImg2 from "./ResumeComponents/TextAndImg2";
 import FullImg0 from "./ResumeComponents/FullImg0";
 import FullImg1 from "./ResumeComponents/FullImg1";
 import MultiImg0 from "./ResumeComponents/MultiImg0";
+import MultiImg1 from "./ResumeComponents/MultiImg1";
+import Text0 from "./ResumeComponents/Text0";
+import Text1 from "./ResumeComponents/Text1";
 
 export const resumeChoice = [
   {
@@ -96,7 +99,10 @@ export const resumeChoice = [
     comIndex: 8,
     comContent: {
       image: [],
-      text: ["<h2>您的姓名</h2><p>職位名稱</p><p>聯絡資訊</p>"],
+      text: [
+        "<h2>您的姓名</h2><p>職位名稱</p><p>聯絡資訊</p>",
+        "<h2>您的姓名</h2><p>職位名稱</p><p>聯絡資訊</p>",
+      ],
       type: 8,
       comName: "Text1",
     },
@@ -145,6 +151,24 @@ export const ResumeComponents = {
   }) {
     return <FullImg1 index={index} content={content} />;
   },
+  MultiImg0: function Text({
+    index,
+    content,
+  }: {
+    index: number;
+    content: resumeComContent;
+  }) {
+    return <MultiImg0 index={index} content={content} />;
+  },
+  MultiImg1: function Text({
+    index,
+    content,
+  }: {
+    index: number;
+    content: resumeComContent;
+  }) {
+    return <MultiImg1 index={index} content={content} />;
+  },
   TextAndImg0: function Text({
     index,
     content,
@@ -172,15 +196,7 @@ export const ResumeComponents = {
   }) {
     return <TextAndImg2 index={index} content={content} />;
   },
-  MultiImg0: function Text({
-    index,
-    content,
-  }: {
-    index: number;
-    content: resumeComContent;
-  }) {
-    return <MultiImg0 index={index} content={content} />;
-  },
+
   ResumeCom2: function Text({
     index,
     content,
@@ -198,5 +214,23 @@ export const ResumeComponents = {
     content: resumeComContent;
   }) {
     return <ResumeCom3 index={index} content={content} />;
+  },
+  Text0: function Text({
+    index,
+    content,
+  }: {
+    index: number;
+    content: resumeComContent;
+  }) {
+    return <Text0 index={index} content={content} />;
+  },
+  Text1: function Text({
+    index,
+    content,
+  }: {
+    index: number;
+    content: resumeComContent;
+  }) {
+    return <Text1 index={index} content={content} />;
   },
 };

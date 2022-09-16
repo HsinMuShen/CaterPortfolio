@@ -111,10 +111,10 @@ interface props {
   text: string;
   setReducerText: (text: string, listIndex: number) => void;
   listIndex: number;
-  styles?: any;
+  style?: any;
 }
 
-export default ({ text, setReducerText, listIndex, styles }: props) => {
+export default ({ text, setReducerText, listIndex, style }: props) => {
   const [isShowBtn, setIsShowBtn] = useState<boolean>(false);
   const isPreview = useSelector(
     (state: RootState) => state.IsPreviewReducer.resume
@@ -151,7 +151,7 @@ export default ({ text, setReducerText, listIndex, styles }: props) => {
     <div className="text">
       <MenuBar editor={editor} isShowBtn={isShowBtn} className="tex2" />
       <EditorContent
-        style={styles}
+        style={style}
         editor={editor}
         onClick={() => {
           setIsShowBtn(true);
