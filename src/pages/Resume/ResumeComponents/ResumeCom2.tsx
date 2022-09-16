@@ -1,9 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
 import PreviewImageInput from "../../../utilis/PreviewImageInput";
-import firebase from "../../../utilis/firebase";
-import { useDispatch } from "react-redux";
-import { resumeAddImage } from "../../../action";
 import { resumeComContent } from "../Resume";
+import useUpdateResumeData from "./ResumeUpdateDataFunction";
+import styled from "styled-components";
+
+const Wrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+`;
 
 const ResumeCom2 = ({
   index,
@@ -12,20 +18,11 @@ const ResumeCom2 = ({
   index: number;
   content: resumeComContent;
 }) => {
-  const [imageFileList, setImageFileList] = useState<string[] | null[]>(
-    content.image
-  );
-  const diapatch = useDispatch();
-  const setResumeReducerImage = async (file: File, listIndex: number) => {
-    const tempArr = imageFileList;
-    const imageUrl = await firebase.getImageUrl(file);
-    tempArr[listIndex] = imageUrl;
-    setImageFileList(tempArr);
-    diapatch(resumeAddImage(index, tempArr));
-  };
+  const { imageFileList, textList, setResumeReducerImage, setReducerText } =
+    useUpdateResumeData({ index, content });
 
   return (
-    <div style={{ display: "flex" }}>
+    <Wrapper>
       {imageFileList.map((_, listIndex) => {
         return (
           <PreviewImageInput
@@ -33,10 +30,15 @@ const ResumeCom2 = ({
             setResumeReducerImage={setResumeReducerImage}
             listIndex={listIndex}
             image={content.image[listIndex]}
+            style={{
+              width: "400px",
+              height: "200px",
+              border: "1px solid",
+            }}
           />
         );
       })}
-    </div>
+    </Wrapper>
   );
 };
 

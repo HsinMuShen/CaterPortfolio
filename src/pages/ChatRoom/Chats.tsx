@@ -10,23 +10,73 @@ import firebase from "../../utilis/firebase";
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  border-left: 1px solid;
+`;
+
+const NameArea = styled.div`
+  display: flex;
+  align-items: center;
+  height: 40px;
+  border-bottom: 1px solid;
+  width: 100%;
+  padding-left: 15px;
+  font-size: 20px;
 `;
 
 const MessageArea = styled.div`
-  min-height: 600px;
-  width: 700px;
+  height: 600px;
+  width: 600px;
+  overflow: scroll;
+`;
+
+const MsgDialog = styled.div`
+  display: flex;
+  align-items: center;
+  background: #d6d6d6;
+  border-radius: 0.4em;
+  margin: 10px;
+  padding: 5px;
+  width: fit-content;
+`;
+
+const UserMsgDialog = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  background: #d6d6d6;
+  border-radius: 0.4em;
+  margin: 10px 15px 10px auto;
+  padding: 5px;
+  width: fit-content;
 `;
 
 const UserMsg = styled.p`
-  margin-left: 600px;
+  margin-left: auto;
 `;
 
 const ControlArea = styled.div`
   display: flex;
+  justify-content: flex-start;
   height: 40px;
+  align-items: center;
 `;
-const MessageInput = styled.input``;
-const MessageSubmit = styled.button``;
+const MessageInput = styled.input`
+  width: 80%;
+  margin: 0 0 10px 15px;
+  height: 30px;
+`;
+const MessageSubmit = styled.button`
+  width: 18%;
+  margin: 0 15px 10px;
+  height: 30px;
+  background-color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+  &:hover {
+    background-color: #555555;
+    color: #ffffff;
+  }
+`;
 
 const Chats = ({
   chatRoomID,
@@ -57,14 +107,24 @@ const Chats = ({
   }, [chatRoomID]);
   return (
     <Wrapper>
-      <p>{chattingName}</p>
+      <NameArea>
+        <p>{chattingName + " 聊天室"}</p>
+      </NameArea>
 
       <MessageArea>
         {allMsg.map((data) => {
           if (data.userID === userData.userID) {
-            return <UserMsg>{data.msg}</UserMsg>;
+            return (
+              <UserMsgDialog>
+                <UserMsg>{data.msg}</UserMsg>
+              </UserMsgDialog>
+            );
           } else {
-            return <p>{data.msg}</p>;
+            return (
+              <MsgDialog>
+                <p>{data.msg}</p>
+              </MsgDialog>
+            );
           }
         })}
       </MessageArea>

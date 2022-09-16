@@ -6,20 +6,16 @@ import { useSelector } from "react-redux";
 const ImageContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
 `;
 
-const ImagePreview = styled.div<{ previewUrl: string }>`
+const ImagePreview = styled.div<{ previewUrl: string; style: any }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100px;
-  height: 100px;
-  border: solid 1px black;
-  border-radius: 90px;
   background-position: center;
   background-image: url(${(props) => props.previewUrl});
   background-size: cover;
+  ${(props) => props.style}
 `;
 const ImageLabel = styled.label`
   font-size: 150%;
@@ -33,12 +29,14 @@ interface PreviewImageInputProps {
   setResumeReducerImage: (file: File, listIndex: number) => void;
   listIndex: number;
   image: string;
+  style?: any;
 }
 
 const PreviewImageInput = ({
   setResumeReducerImage,
   listIndex,
   image,
+  style,
 }: PreviewImageInputProps) => {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const isPreview = useSelector(
@@ -47,7 +45,7 @@ const PreviewImageInput = ({
   const previewUrl = imageFile ? URL.createObjectURL(imageFile) : image;
   return (
     <ImageContainer>
-      <ImagePreview previewUrl={previewUrl}>
+      <ImagePreview previewUrl={previewUrl} style={style}>
         <ImageLabel>
           {isPreview ? null : "+"}
 

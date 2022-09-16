@@ -15,18 +15,36 @@ import {
 } from "../../action";
 
 import firebase from "../../utilis/firebase";
-import ResumeCom1 from "./ResumeComponents/ResumeCom1";
-import ResumeCom2 from "./ResumeComponents/ResumeCom2";
-import ResumeCom3 from "./ResumeComponents/ResumeCom3";
 import Delete from "./Delete";
 import AddComArea from "./AddComArea";
 import SideBar from "../../utilis/SideBar";
-import preImage from "../../utilis/cat.jpg";
+import { resumeChoice } from "./resumeComponents";
+import { ResumeComponents } from "./resumeComponents";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPen } from "@fortawesome/free-solid-svg-icons";
+import { faEye } from "@fortawesome/free-solid-svg-icons";
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 120px;
+`;
+
+const PreviewBtn = styled.div`
+  position: fixed;
+  top: 180px;
+  right: 25px;
+  background-color: #ffffff;
+  padding: 5px 8px;
+  border-radius: 10px;
+  border: 1px solid;
+  cursor: pointer;
+  &:hover {
+    background-color: #555555;
+    color: #ffffff;
+  }
 `;
 
 const ResumeEditor = styled.div`
@@ -34,14 +52,15 @@ const ResumeEditor = styled.div`
   width: 960px;
   margin: 60px auto;
   border: 1px solid;
-  border-radius: 15px;
-  padding: 20px 40px;
+  border-radius: 5px;
+  padding: 30px 40px;
+  background-color: #ffffff;
 `;
 
 const PreviewDiv = styled.div`
   position: absolute;
   /* border: 1px solid; */
-  width: 900px;
+  width: 880px;
   height: 100%;
   z-index: 2;
 `;
@@ -51,15 +70,30 @@ const ResumeHeader = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 880px;
 `;
 
 const SineleComponent = styled.div`
   display: flex;
+  width: 880px;
+  position: relative;
+  margin: 10px 0;
 `;
 
-const ResumeBody = styled.div``;
-
-const ResumeFooter = styled.div``;
+const UpoloadBtn = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 120px;
+  background-color: #ffffff;
+  padding: 5px 8px;
+  border-radius: 10px;
+  border: 1px solid;
+  cursor: pointer;
+  &:hover {
+    background-color: #555555;
+    color: #ffffff;
+  }
+`;
 
 const ToProfileLink = styled(Link)``;
 
@@ -69,42 +103,6 @@ export interface resumeComContent {
   type: number;
   comName: string;
 }
-
-export const resumeChoice = [
-  {
-    name: 0,
-    comIndex: 0,
-    comContent: {
-      image: [preImage],
-      text: ["<h2>姓名</h2><p>Email</p><p>聯絡資訊</p>"],
-      type: 0,
-      comName: "text",
-    },
-  },
-  {
-    name: 1,
-    comIndex: 1,
-    comContent: {
-      image: [preImage, preImage, preImage],
-      text: [],
-      type: 1,
-      comName: "text",
-    },
-  },
-  {
-    name: 2,
-    comIndex: 2,
-    comContent: {
-      image: [],
-      text: [
-        "<h3>標題</h3><p>您的英勇事蹟</p><p>您的英勇事蹟</p>",
-        "<h3>標題</h3><p>您的英勇事蹟</p><p>您的英勇事蹟</p>",
-      ],
-      type: 2,
-      comName: "text",
-    },
-  },
-];
 
 const Resume: React.FC = () => {
   const [resumeCom, setResumeCom] = useState<resumeComContent[]>([]);
@@ -117,20 +115,26 @@ const Resume: React.FC = () => {
   const userData = useSelector((state: RootState) => state.UserReducer);
   const dispatch = useDispatch();
 
-  const addResumeCom = (conIndex: number) => {
-    dispatch(resumeAddCom(resumeChoice[conIndex].comContent));
-    setResumeCom([...resumeCom, resumeChoice[conIndex].comContent]);
+  const addResumeCom = (comIndex: number) => {
+    console.log(resumeChoice);
+    dispatch(resumeAddCom(resumeChoice[comIndex].comContent));
+    setResumeCom([...resumeCom, resumeChoice[comIndex].comContent]);
   };
 
   const addDeleteCom = (deleteIndex: number) => {
     dispatch(resumeDeleteCom(deleteIndex));
     const tempArr = [...resumeCom];
     tempArr.splice(deleteIndex, 1);
-    console.log(tempArr);
     setResumeCom(tempArr);
   };
   const uploadResume = async () => {
-    firebase.uploadDoc("resumes", `${resumeID}`, resumeData);
+    html2canvas(refPhoto.current!).then(function (canvas) {
+      const dataUrl = canvas.toDataURL("image/png");
+      dispatch(resumeAddSetting("coverImage", dataUrl));
+      const tempData = resumeData;
+      tempData.coverImage = dataUrl;
+      firebase.uploadDoc("resumes", `${resumeID}`, tempData);
+    });
   };
   const getCoverImage = () => {
     html2canvas(refPhoto.current!).then(function (canvas) {
@@ -165,89 +169,61 @@ const Resume: React.FC = () => {
     loadResume();
   }, [userData]);
 
-  const ResumeComponents = {
-    Text: function Text({
-      index,
-      content,
-    }: {
-      index: number;
-      content: resumeComContent;
-    }) {
-      return <content.comName />;
-    },
-  };
-
   return (
     <>
-      {" "}
       <Wrapper>
         {resumeID === userData.userID ? (
-          <button
+          <PreviewBtn
             onClick={() => {
               dispatch(isPreviewResume());
             }}
           >
-            編輯/預覽
-          </button>
+            {isPreview ? (
+              <>
+                <FontAwesomeIcon icon={faPen} />
+                <span> 編輯</span>
+              </>
+            ) : (
+              <>
+                <FontAwesomeIcon icon={faEye} />
+                <span> 預覽</span>
+              </>
+            )}
+          </PreviewBtn>
         ) : null}
+
         <ResumeEditor ref={refPhoto}>
           <PreviewDiv style={{ zIndex: isPreview ? "2" : "-1" }}></PreviewDiv>
           <ResumeHeader>
-            {resumeCom.map((content, index) => {
-              // return (
-              //   <SineleComponent key={index}>
-              //     <ResumeComponents.Text index={index} content={content} />
-              //     <Delete addDeleteCom={addDeleteCom} index={index} />
-              //   </SineleComponent>
-              // );
-              switch (content.type) {
-                case 0: {
-                  return (
-                    <SineleComponent key={index}>
-                      <ResumeCom1 index={index} content={content} />
-                      {isPreview ? null : (
-                        <Delete addDeleteCom={addDeleteCom} index={index} />
-                      )}
-                    </SineleComponent>
-                  );
-                }
-                case 1: {
-                  return (
-                    <SineleComponent key={index}>
-                      <ResumeCom2 index={index} content={content} />
-                      {isPreview ? null : (
-                        <Delete addDeleteCom={addDeleteCom} index={index} />
-                      )}
-                    </SineleComponent>
-                  );
-                }
-                case 2: {
-                  return (
-                    <SineleComponent key={index}>
-                      <ResumeCom3 index={index} content={content} />
-                      {isPreview ? null : (
-                        <Delete addDeleteCom={addDeleteCom} index={index} />
-                      )}
-                    </SineleComponent>
-                  );
-                }
-                default:
-                  return null;
-              }
+            {resumeCom?.map((content, index) => {
+              const TempCom =
+                ResumeComponents[
+                  content.comName as keyof typeof ResumeComponents
+                ];
+              return (
+                <SineleComponent key={index}>
+                  <TempCom index={index} content={content} />
+                  <Delete addDeleteCom={addDeleteCom} index={index} />
+                </SineleComponent>
+              );
             })}
           </ResumeHeader>
-          <ResumeBody></ResumeBody>
-          <ResumeFooter></ResumeFooter>
+          <AddComArea addResumeCom={addResumeCom} uploadResume={uploadResume} />
         </ResumeEditor>
-        <AddComArea addResumeCom={addResumeCom} uploadResume={uploadResume} />
-        <div
-          onClick={() => {
-            getCoverImage();
-            dispatch(isPreviewTrue("resume"));
-          }}
-        >
-          確定完成編輯? 預覽看看吧
-        </div>
+
+        {isPreview ? (
+          <UpoloadBtn onClick={uploadResume}>送出!</UpoloadBtn>
+        ) : (
+          <div
+            onClick={() => {
+              getCoverImage();
+              dispatch(isPreviewTrue("resume"));
+            }}
+          >
+            確定完成編輯? 預覽檢查
+          </div>
+        )}
+
         <ToProfileLink to={`/profile`}>profile</ToProfileLink>
       </Wrapper>
       <SideBar type={"resume"} data={resumeData} />
