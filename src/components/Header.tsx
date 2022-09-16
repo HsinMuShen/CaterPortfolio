@@ -19,6 +19,8 @@ import { faUserAstronaut } from "@fortawesome/free-solid-svg-icons";
 import { faComment } from "@fortawesome/free-solid-svg-icons";
 
 import HeaderSidebar from "./HeaderSidebar";
+import Fish from "../images/fish.png";
+import Bulb from "../images/bulb.png";
 
 const Wrapper = styled.div`
   width: 100vw;
@@ -30,6 +32,7 @@ const Wrapper = styled.div`
   top: 0px;
   border-bottom: 1px solid;
   /* box-shadow: 0 3px #888888b3; */
+  z-index: 3;
 `;
 
 const MainNav = styled.div`
@@ -43,6 +46,16 @@ const SideNav = styled.div`
   margin-right: 20px;
 `;
 
+const Logo = styled(Link)<{ img: string }>`
+  color: #333333;
+  text-decoration: none;
+  width: 110px;
+  height: 20px;
+  background-position: center;
+  background-size: contain;
+  margin: 0 0px 0 20px;
+  background-image: url(${(props) => props.img});
+`;
 const Tag = styled(Link)`
   color: #333333;
   text-decoration: none;
@@ -150,6 +163,7 @@ const Header = () => {
   return (
     <Wrapper>
       <MainNav>
+        <Logo to={`/`} img={Fish}></Logo>
         <Tag to={`/`}>CaterPortfolio</Tag>
         <Tag to={`/allresumes`}>All Resumes</Tag>
       </MainNav>

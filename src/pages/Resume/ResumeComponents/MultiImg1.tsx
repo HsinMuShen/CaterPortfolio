@@ -7,11 +7,12 @@ import styled from "styled-components";
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 100%;
+  justify-content: space-between;
+  width: 800px;
+  margin: 0 auto;
 `;
 
-const ResumeCom2 = ({
+const MultiImg0 = ({
   index,
   content,
 }: {
@@ -31,8 +32,8 @@ const ResumeCom2 = ({
             listIndex={listIndex}
             image={content.image[listIndex]}
             style={{
-              width: "400px",
-              height: "200px",
+              width: "255px",
+              height: "240px",
               border: "1px solid",
             }}
           />
@@ -42,4 +43,4 @@ const ResumeCom2 = ({
   );
 };
 
-export default ResumeCom2;
+export default MultiImg0;

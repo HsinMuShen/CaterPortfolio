@@ -34,11 +34,7 @@ const AllResumes = () => {
     <PinContainer>
       {portfolioArr.map((data) => {
         return (
-          <ResumeCard
-            key={data.portfolioID}
-            size={random(numbers)}
-            data={data}
-          />
+          <ResumeCard key={data.userID} size={random(numbers)} data={data} />
         );
       })}
     </PinContainer>

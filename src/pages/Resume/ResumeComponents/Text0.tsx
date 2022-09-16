@@ -1,17 +1,18 @@
 import React from "react";
+import styled from "styled-components";
 import PreviewImageInput from "../../../utilis/PreviewImageInput";
+import EditText from "../../../utilis/EditText";
 import { resumeComContent } from "../Resume";
 import useUpdateResumeData from "./ResumeUpdateDataFunction";
-import styled from "styled-components";
 
 const Wrapper = styled.div`
   display: flex;
+  width: 800px;
+  margin: 0 auto;
   align-items: center;
-  justify-content: center;
-  width: 100%;
 `;
 
-const ResumeCom2 = ({
+const Text0 = ({
   index,
   content,
 }: {
@@ -23,17 +24,16 @@ const ResumeCom2 = ({
 
   return (
     <Wrapper>
-      {imageFileList.map((_, listIndex) => {
+      {textList.map((_, listIndex) => {
         return (
-          <PreviewImageInput
+          <EditText
             key={listIndex}
-            setResumeReducerImage={setResumeReducerImage}
+            text={content.text[listIndex]}
             listIndex={listIndex}
-            image={content.image[listIndex]}
+            setReducerText={setReducerText}
             style={{
-              width: "400px",
-              height: "200px",
-              border: "1px solid",
+              width: "800px",
+              padding: " 0 10px",
             }}
           />
         );
@@ -42,4 +42,4 @@ const ResumeCom2 = ({
   );
 };
 
-export default ResumeCom2;
+export default Text0;

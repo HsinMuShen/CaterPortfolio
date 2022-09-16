@@ -47,7 +47,7 @@ const GlobalStyle = createGlobalStyle`
 
   ul,
   ol {
-    padding: 0 1rem;
+    padding: 0 25px;
   }
 
 `;

@@ -1,5 +1,5 @@
 import React from "react";
-import EditText from "../../../utilis/EditText";
+import PreviewImageInput from "../../../utilis/PreviewImageInput";
 import { resumeComContent } from "../Resume";
 import useUpdateResumeData from "./ResumeUpdateDataFunction";
 import styled from "styled-components";
@@ -11,7 +11,7 @@ const Wrapper = styled.div`
   width: 100%;
 `;
 
-const ResumeCom3 = ({
+const FullImg1 = ({
   index,
   content,
 }: {
@@ -23,20 +23,23 @@ const ResumeCom3 = ({
 
   return (
     <Wrapper>
-      <>
-        {textList.map((_, listIndex) => {
-          return (
-            <EditText
-              key={listIndex}
-              text={content.text[listIndex]}
-              listIndex={listIndex}
-              setReducerText={setReducerText}
-            />
-          );
-        })}
-      </>
+      {imageFileList.map((_, listIndex) => {
+        return (
+          <PreviewImageInput
+            key={listIndex}
+            setResumeReducerImage={setResumeReducerImage}
+            listIndex={listIndex}
+            image={content.image[listIndex]}
+            style={{
+              width: "800px",
+              height: "200px",
+              border: "1px solid",
+            }}
+          />
+        );
+      })}
     </Wrapper>
   );
 };
 
-export default ResumeCom3;
+export default FullImg1;

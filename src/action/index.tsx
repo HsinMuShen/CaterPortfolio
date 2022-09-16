@@ -33,17 +33,14 @@ export const resumeDeleteCom = (index: number) => {
   };
 };
 
-export const resumeFillContent = (
-  index: number,
-  textArr: string[] | null[]
-) => {
+export const resumeFillContent = (index: number, textArr: string[]) => {
   return {
     type: ActionType.RESUME.FILL_CONTENT,
     payload: { index, textArr },
   };
 };
 
-export const resumeAddImage = (index: number, imageArr: string[] | null[]) => {
+export const resumeAddImage = (index: number, imageArr: string[]) => {
   return {
     type: ActionType.RESUME.ADD_IMAGE,
     payload: { index, imageArr },
