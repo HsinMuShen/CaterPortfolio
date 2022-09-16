@@ -72,10 +72,6 @@ const ImgSection = styled.div<{
   }
 `;
 
-const ResumeBtn = styled.button`
-  width: 200px;
-`;
-
 const selectArr = [
   {
     img: imgOnly,
@@ -124,9 +120,7 @@ const AddComArea = ({
     (state: RootState) => state.IsPreviewReducer.resume
   );
 
-  return isPreview ? (
-    <ResumeBtn onClick={uploadResume}>送出!</ResumeBtn>
-  ) : (
+  return isPreview ? null : (
     <Wrapper>
       <Title>新增圖文內容</Title>
       <Instruction>（選擇橫幅樣式，點擊即可新增、編輯圖文區塊）</Instruction>

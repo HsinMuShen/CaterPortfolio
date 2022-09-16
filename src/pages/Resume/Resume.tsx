@@ -19,14 +19,32 @@ import Delete from "./Delete";
 import AddComArea from "./AddComArea";
 import SideBar from "../../utilis/SideBar";
 import { resumeChoice } from "./resumeComponents";
-
 import { ResumeComponents } from "./resumeComponents";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPen } from "@fortawesome/free-solid-svg-icons";
+import { faEye } from "@fortawesome/free-solid-svg-icons";
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-top: 120px;
+`;
+
+const PreviewBtn = styled.div`
+  position: fixed;
+  top: 180px;
+  right: 25px;
+  background-color: #ffffff;
+  padding: 5px 8px;
+  border-radius: 10px;
+  border: 1px solid;
+  cursor: pointer;
+  &:hover {
+    background-color: #555555;
+    color: #ffffff;
+  }
 `;
 
 const ResumeEditor = styled.div`
@@ -62,6 +80,21 @@ const SineleComponent = styled.div`
   margin: 10px 0;
 `;
 
+const UpoloadBtn = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 120px;
+  background-color: #ffffff;
+  padding: 5px 8px;
+  border-radius: 10px;
+  border: 1px solid;
+  cursor: pointer;
+  &:hover {
+    background-color: #555555;
+    color: #ffffff;
+  }
+`;
+
 const ToProfileLink = styled(Link)``;
 
 export interface resumeComContent {
@@ -95,7 +128,13 @@ const Resume: React.FC = () => {
     setResumeCom(tempArr);
   };
   const uploadResume = async () => {
-    firebase.uploadDoc("resumes", `${resumeID}`, resumeData);
+    html2canvas(refPhoto.current!).then(function (canvas) {
+      const dataUrl = canvas.toDataURL("image/png");
+      dispatch(resumeAddSetting("coverImage", dataUrl));
+      const tempData = resumeData;
+      tempData.coverImage = dataUrl;
+      firebase.uploadDoc("resumes", `${resumeID}`, tempData);
+    });
   };
   const getCoverImage = () => {
     html2canvas(refPhoto.current!).then(function (canvas) {
@@ -134,13 +173,23 @@ const Resume: React.FC = () => {
     <>
       <Wrapper>
         {resumeID === userData.userID ? (
-          <button
+          <PreviewBtn
             onClick={() => {
               dispatch(isPreviewResume());
             }}
           >
-            編輯/預覽
-          </button>
+            {isPreview ? (
+              <>
+                <FontAwesomeIcon icon={faPen} />
+                <span> 編輯</span>
+              </>
+            ) : (
+              <>
+                <FontAwesomeIcon icon={faEye} />
+                <span> 預覽</span>
+              </>
+            )}
+          </PreviewBtn>
         ) : null}
 
         <ResumeEditor ref={refPhoto}>
@@ -162,14 +211,19 @@ const Resume: React.FC = () => {
           <AddComArea addResumeCom={addResumeCom} uploadResume={uploadResume} />
         </ResumeEditor>
 
-        <div
-          onClick={() => {
-            getCoverImage();
-            dispatch(isPreviewTrue("resume"));
-          }}
-        >
-          確定完成編輯? 預覽看看吧
-        </div>
+        {isPreview ? (
+          <UpoloadBtn onClick={uploadResume}>送出!</UpoloadBtn>
+        ) : (
+          <div
+            onClick={() => {
+              getCoverImage();
+              dispatch(isPreviewTrue("resume"));
+            }}
+          >
+            確定完成編輯? 預覽檢查
+          </div>
+        )}
+
         <ToProfileLink to={`/profile`}>profile</ToProfileLink>
       </Wrapper>
       <SideBar type={"resume"} data={resumeData} />
