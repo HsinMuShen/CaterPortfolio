@@ -35,7 +35,7 @@ export const resumeDeleteCom = (index: number) => {
 
 export const resumeFillContent = (index: number, textArr: string[]) => {
   return {
-    type: ActionType.RESUME.FILL_CONTENT,
+    type: ActionType.RESUME.FILL_TEXT,
     payload: { index, textArr },
   };
 };
@@ -51,6 +51,21 @@ export const resumeAddSetting = (type: string, text: string) => {
   return {
     type: ActionType.RESUME.ADD_SETTING,
     payload: { type, text },
+  };
+};
+
+export const resumeRenewContent = (
+  content: {
+    image: string[];
+    text: string[];
+    type: number;
+    comName: string;
+    id: string;
+  }[]
+) => {
+  return {
+    type: ActionType.RESUME.RENEW_CONTENT,
+    payload: { content },
   };
 };
 

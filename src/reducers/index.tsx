@@ -15,9 +15,10 @@ export const ActionType: {
   RESUME: {
     ADD_COMPONENT: string;
     DELETE_COMPONENT: string;
-    FILL_CONTENT: string;
+    FILL_TEXT: string;
     ADD_IMAGE: string;
     ADD_SETTING: string;
+    RENEW_CONTENT: string;
     LOADING: string;
   };
   WEBSITE: {
@@ -62,9 +63,10 @@ export const ActionType: {
   RESUME: {
     ADD_COMPONENT: "RESUME_ADD_COMPONENT",
     DELETE_COMPONENT: "RESUME_DELETE_COMPONENT",
-    FILL_CONTENT: "RESUME_FILL_CONTENT",
+    FILL_TEXT: "RESUME_FILL_TEXT",
     ADD_IMAGE: "RESUME_ADD_IMAGE",
     ADD_SETTING: "RESUME_ADD_SETTING",
+    RENEW_CONTENT: "RESUME_RENEW_CONTENT",
     LOADING: "RESUME_LOADING",
   },
   WEBSITE: {

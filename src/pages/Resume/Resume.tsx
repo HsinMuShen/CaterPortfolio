@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import html2canvas from "html2canvas";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { RootState } from "../../reducers";
@@ -10,6 +11,7 @@ import {
   resumeDeleteCom,
   resumeLoading,
   resumeAddSetting,
+  resumeRenewContent,
   isPreviewResume,
   isPreviewTrue,
 } from "../../action";
@@ -24,6 +26,180 @@ import { ResumeComponents } from "./resumeComponents";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { v4 } from "uuid";
+
+export interface resumeComContent {
+  image: string[];
+  text: string[];
+  type: number;
+  comName: string;
+  id: string;
+}
+
+const Resume: React.FC = () => {
+  const [resumeCom, setResumeCom] = useState<resumeComContent[]>([]);
+  const refPhoto = useRef<HTMLDivElement>(null);
+  const resumeID = useParams().id;
+  const resumeData = useSelector((state: RootState) => state.ResumeReducer);
+  let isPreview = useSelector(
+    (state: RootState) => state.IsPreviewReducer.resume
+  );
+  const userData = useSelector((state: RootState) => state.UserReducer);
+  const dispatch = useDispatch();
+
+  const addResumeCom = (comIndex: number) => {
+    dispatch(resumeAddCom(resumeChoice[comIndex].comContent));
+    setResumeCom([...resumeCom, resumeChoice[comIndex].comContent]);
+  };
+
+  const addDeleteCom = (deleteIndex: number) => {
+    dispatch(resumeDeleteCom(deleteIndex));
+    const tempArr = [...resumeCom];
+    tempArr.splice(deleteIndex, 1);
+    setResumeCom(tempArr);
+  };
+  const uploadResume = async () => {
+    html2canvas(refPhoto.current!).then(function (canvas) {
+      const dataUrl = canvas.toDataURL("image/png");
+      dispatch(resumeAddSetting("coverImage", dataUrl));
+      const tempData = resumeData;
+      tempData.coverImage = dataUrl;
+      console.log(tempData);
+      firebase.uploadDoc("resumes", `${resumeID}`, tempData);
+    });
+  };
+  const getCoverImage = () => {
+    html2canvas(refPhoto.current!).then(function (canvas) {
+      const dataUrl = canvas.toDataURL("image/png");
+      dispatch(resumeAddSetting("coverImage", dataUrl));
+    });
+  };
+
+  const handleOnDragEnd = (result: any) => {
+    const items = Array.from(resumeCom);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+    setResumeCom(items);
+    dispatch(resumeRenewContent(items));
+  };
+  console.log(resumeData);
+
+  useEffect(() => {
+    const loadResume = async () => {
+      const resumeData = await firebase.readData("resumes", `${resumeID}`);
+      if (resumeData) {
+        dispatch(resumeLoading(resumeData));
+        const tempArr: resumeComContent[] = [];
+        resumeData.content.forEach(
+          (content: {
+            image: string[];
+            text: string[];
+            type: number;
+            comName: string;
+            id: string;
+          }) => {
+            tempArr.push(content);
+          }
+        );
+        setResumeCom(tempArr);
+      } else {
+        dispatch(resumeAddSetting("name", userData.name));
+        dispatch(resumeAddSetting("userID", userData.userID));
+      }
+    };
+    loadResume();
+  }, [userData]);
+
+  return (
+    <>
+      <Wrapper>
+        {resumeID === userData.userID ? (
+          <PreviewBtn
+            onClick={() => {
+              dispatch(isPreviewResume());
+            }}
+          >
+            {isPreview ? (
+              <>
+                <FontAwesomeIcon icon={faPen} />
+                <span> 編輯</span>
+              </>
+            ) : (
+              <>
+                <FontAwesomeIcon icon={faEye} />
+                <span> 預覽</span>
+              </>
+            )}
+          </PreviewBtn>
+        ) : null}
+
+        <ResumeEditor ref={refPhoto}>
+          <PreviewDiv style={{ zIndex: isPreview ? "2" : "-1" }}></PreviewDiv>
+          <DragDropContext onDragEnd={handleOnDragEnd}>
+            <Droppable droppableId="characters">
+              {(provided) => (
+                <ResumeHeader
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                >
+                  {resumeCom?.map((content, index) => {
+                    const TempCom =
+                      ResumeComponents[
+                        content.comName as keyof typeof ResumeComponents
+                      ];
+
+                    return (
+                      <Draggable
+                        key={index + content.id}
+                        draggableId={index + content.id}
+                        index={index}
+                      >
+                        {(provided) => (
+                          <SineleComponent
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            ref={provided.innerRef}
+                          >
+                            <TempCom
+                              index={index}
+                              content={content}
+                              resumeCom={resumeCom}
+                              setResumeCom={setResumeCom}
+                            />
+                            <Delete addDeleteCom={addDeleteCom} index={index} />
+                          </SineleComponent>
+                        )}
+                      </Draggable>
+                    );
+                  })}
+                  {provided.placeholder}
+                </ResumeHeader>
+              )}
+            </Droppable>
+          </DragDropContext>
+          <AddComArea addResumeCom={addResumeCom} uploadResume={uploadResume} />
+        </ResumeEditor>
+
+        {isPreview ? (
+          <UpoloadBtn onClick={uploadResume}>送出!</UpoloadBtn>
+        ) : (
+          <div
+            onClick={() => {
+              dispatch(isPreviewTrue("resume"));
+            }}
+          >
+            確定完成編輯? 預覽檢查
+          </div>
+        )}
+
+        <ToProfileLink to={`/profile`}>profile</ToProfileLink>
+      </Wrapper>
+      <SideBar type={"resume"} data={resumeData} />
+    </>
+  );
+};
+
+export default Resume;
 
 const Wrapper = styled.div`
   display: flex;
@@ -96,139 +272,3 @@ const UpoloadBtn = styled.div`
 `;
 
 const ToProfileLink = styled(Link)``;
-
-export interface resumeComContent {
-  image: string[];
-  text: string[];
-  type: number;
-  comName: string;
-}
-
-const Resume: React.FC = () => {
-  const [resumeCom, setResumeCom] = useState<resumeComContent[]>([]);
-  const refPhoto = useRef<HTMLDivElement>(null);
-  const resumeID = useParams().id;
-  const resumeData = useSelector((state: RootState) => state.ResumeReducer);
-  let isPreview = useSelector(
-    (state: RootState) => state.IsPreviewReducer.resume
-  );
-  const userData = useSelector((state: RootState) => state.UserReducer);
-  const dispatch = useDispatch();
-
-  const addResumeCom = (comIndex: number) => {
-    console.log(resumeChoice);
-    dispatch(resumeAddCom(resumeChoice[comIndex].comContent));
-    setResumeCom([...resumeCom, resumeChoice[comIndex].comContent]);
-  };
-
-  const addDeleteCom = (deleteIndex: number) => {
-    dispatch(resumeDeleteCom(deleteIndex));
-    const tempArr = [...resumeCom];
-    tempArr.splice(deleteIndex, 1);
-    setResumeCom(tempArr);
-  };
-  const uploadResume = async () => {
-    html2canvas(refPhoto.current!).then(function (canvas) {
-      const dataUrl = canvas.toDataURL("image/png");
-      dispatch(resumeAddSetting("coverImage", dataUrl));
-      const tempData = resumeData;
-      tempData.coverImage = dataUrl;
-      firebase.uploadDoc("resumes", `${resumeID}`, tempData);
-    });
-  };
-  const getCoverImage = () => {
-    html2canvas(refPhoto.current!).then(function (canvas) {
-      const dataUrl = canvas.toDataURL("image/png");
-      console.log(dataUrl);
-      dispatch(resumeAddSetting("coverImage", dataUrl));
-    });
-  };
-
-  useEffect(() => {
-    const loadResume = async () => {
-      const resumeData = await firebase.readData("resumes", `${resumeID}`);
-      if (resumeData) {
-        dispatch(resumeLoading(resumeData));
-        const tempArr: resumeComContent[] = [];
-        resumeData.content.forEach(
-          (content: {
-            image: string[];
-            text: string[];
-            type: number;
-            comName: string;
-          }) => {
-            tempArr.push(content);
-          }
-        );
-        setResumeCom(tempArr);
-      } else {
-        dispatch(resumeAddSetting("name", userData.name));
-        dispatch(resumeAddSetting("userID", userData.userID));
-      }
-    };
-    loadResume();
-  }, [userData]);
-
-  return (
-    <>
-      <Wrapper>
-        {resumeID === userData.userID ? (
-          <PreviewBtn
-            onClick={() => {
-              dispatch(isPreviewResume());
-            }}
-          >
-            {isPreview ? (
-              <>
-                <FontAwesomeIcon icon={faPen} />
-                <span> 編輯</span>
-              </>
-            ) : (
-              <>
-                <FontAwesomeIcon icon={faEye} />
-                <span> 預覽</span>
-              </>
-            )}
-          </PreviewBtn>
-        ) : null}
-
-        <ResumeEditor ref={refPhoto}>
-          <PreviewDiv style={{ zIndex: isPreview ? "2" : "-1" }}></PreviewDiv>
-          <ResumeHeader>
-            {resumeCom?.map((content, index) => {
-              const TempCom =
-                ResumeComponents[
-                  content.comName as keyof typeof ResumeComponents
-                ];
-              return (
-                <SineleComponent key={index}>
-                  <TempCom index={index} content={content} />
-                  <Delete addDeleteCom={addDeleteCom} index={index} />
-                </SineleComponent>
-              );
-            })}
-          </ResumeHeader>
-          <AddComArea addResumeCom={addResumeCom} uploadResume={uploadResume} />
-        </ResumeEditor>
-
-        {isPreview ? (
-          <UpoloadBtn onClick={uploadResume}>送出!</UpoloadBtn>
-        ) : (
-          <div
-            onClick={() => {
-              getCoverImage();
-              dispatch(isPreviewTrue("resume"));
-            }}
-          >
-            確定完成編輯? 預覽檢查
-          </div>
-        )}
-
-        <ToProfileLink to={`/profile`}>profile</ToProfileLink>
-      </Wrapper>
-      <SideBar type={"resume"} data={resumeData} />
-    </>
-  );
-};
-
-export default Resume;
