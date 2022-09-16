@@ -37,7 +37,6 @@ export interface resumeComContent {
 }
 
 const Resume: React.FC = () => {
-  const [resumeCom, setResumeCom] = useState<resumeComContent[]>([]);
   const refPhoto = useRef<HTMLDivElement>(null);
   const resumeID = useParams().id;
   const resumeData = useSelector((state: RootState) => state.ResumeReducer);
@@ -49,14 +48,12 @@ const Resume: React.FC = () => {
 
   const addResumeCom = (comIndex: number) => {
     dispatch(resumeAddCom(resumeChoice[comIndex].comContent));
-    setResumeCom([...resumeCom, resumeChoice[comIndex].comContent]);
   };
 
   const addDeleteCom = (deleteIndex: number) => {
     dispatch(resumeDeleteCom(deleteIndex));
-    const tempArr = [...resumeCom];
+    const tempArr = [...resumeData.content];
     tempArr.splice(deleteIndex, 1);
-    setResumeCom(tempArr);
   };
   const uploadResume = async () => {
     html2canvas(refPhoto.current!).then(function (canvas) {
@@ -76,10 +73,10 @@ const Resume: React.FC = () => {
   };
 
   const handleOnDragEnd = (result: any) => {
-    const items = Array.from(resumeCom);
+    const items: resumeComContent[] = [...resumeData.content];
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
-    setResumeCom(items);
+
     dispatch(resumeRenewContent(items));
   };
   console.log(resumeData);
@@ -90,18 +87,9 @@ const Resume: React.FC = () => {
       if (resumeData) {
         dispatch(resumeLoading(resumeData));
         const tempArr: resumeComContent[] = [];
-        resumeData.content.forEach(
-          (content: {
-            image: string[];
-            text: string[];
-            type: number;
-            comName: string;
-            id: string;
-          }) => {
-            tempArr.push(content);
-          }
-        );
-        setResumeCom(tempArr);
+        resumeData.content.forEach((content: resumeComContent) => {
+          tempArr.push(content);
+        });
       } else {
         dispatch(resumeAddSetting("name", userData.name));
         dispatch(resumeAddSetting("userID", userData.userID));
@@ -142,36 +130,36 @@ const Resume: React.FC = () => {
                   {...provided.droppableProps}
                   ref={provided.innerRef}
                 >
-                  {resumeCom?.map((content, index) => {
-                    const TempCom =
-                      ResumeComponents[
-                        content.comName as keyof typeof ResumeComponents
-                      ];
+                  {resumeData.content?.map(
+                    (content: resumeComContent, index: number) => {
+                      const TempCom =
+                        ResumeComponents[
+                          content.comName as keyof typeof ResumeComponents
+                        ];
 
-                    return (
-                      <Draggable
-                        key={index + content.id}
-                        draggableId={index + content.id}
-                        index={index}
-                      >
-                        {(provided) => (
-                          <SineleComponent
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                            ref={provided.innerRef}
-                          >
-                            <TempCom
-                              index={index}
-                              content={content}
-                              resumeCom={resumeCom}
-                              setResumeCom={setResumeCom}
-                            />
-                            <Delete addDeleteCom={addDeleteCom} index={index} />
-                          </SineleComponent>
-                        )}
-                      </Draggable>
-                    );
-                  })}
+                      return (
+                        <Draggable
+                          key={index + content.id}
+                          draggableId={index + content.id}
+                          index={index}
+                        >
+                          {(provided) => (
+                            <SineleComponent
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              ref={provided.innerRef}
+                            >
+                              <TempCom index={index} content={content} />
+                              <Delete
+                                addDeleteCom={addDeleteCom}
+                                index={index}
+                              />
+                            </SineleComponent>
+                          )}
+                        </Draggable>
+                      );
+                    }
+                  )}
                   {provided.placeholder}
                 </ResumeHeader>
               )}

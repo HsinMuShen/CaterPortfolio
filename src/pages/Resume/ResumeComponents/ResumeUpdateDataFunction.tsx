@@ -7,13 +7,9 @@ import { resumeComContent } from "../Resume";
 function useUpdateResumeData({
   index,
   content,
-  resumeCom,
-  setResumeCom,
 }: {
   index: number;
   content: resumeComContent;
-  resumeCom: resumeComContent[];
-  setResumeCom: (arr: resumeComContent[]) => void;
 }) {
   const [imageFileList, setImageFileList] = useState<string[]>(content.image);
   const [textList, setTextList] = useState<string[]>(content.text);
@@ -24,15 +20,6 @@ function useUpdateResumeData({
     tempArr[listIndex] = imageUrl;
     setImageFileList(tempArr);
     diapatch(resumeAddImage(index, tempArr));
-
-    const tempContentArr = [...resumeCom];
-    if (tempContentArr) {
-      tempContentArr[index] = {
-        ...tempContentArr![index],
-        image: tempArr,
-      };
-      setResumeCom(tempContentArr);
-    }
   };
 
   const setReducerText = async (text: string, listIndex: number) => {

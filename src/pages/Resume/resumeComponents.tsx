@@ -148,222 +148,101 @@ export const ResumeComponents = {
   FullImg0: function Text({
     index,
     content,
-    resumeCom,
-    setResumeCom,
   }: {
     index: number;
     content: resumeComContent;
-    resumeCom: resumeComContent[];
-    setResumeCom: (arr: resumeComContent[]) => void;
   }) {
-    return (
-      <FullImg0
-        index={index}
-        content={content}
-        resumeCom={resumeCom}
-        setResumeCom={setResumeCom}
-      />
-    );
+    return <FullImg0 index={index} content={content} />;
   },
   FullImg1: function Text({
     index,
     content,
-    resumeCom,
-    setResumeCom,
   }: {
     index: number;
     content: resumeComContent;
-    resumeCom: resumeComContent[];
-    setResumeCom: (arr: resumeComContent[]) => void;
   }) {
-    return (
-      <FullImg1
-        index={index}
-        content={content}
-        resumeCom={resumeCom}
-        setResumeCom={setResumeCom}
-      />
-    );
+    return <FullImg1 index={index} content={content} />;
   },
   MultiImg0: function Text({
     index,
     content,
-    resumeCom,
-    setResumeCom,
   }: {
     index: number;
     content: resumeComContent;
-    resumeCom: resumeComContent[];
-    setResumeCom: (arr: resumeComContent[]) => void;
   }) {
-    return (
-      <MultiImg0
-        index={index}
-        content={content}
-        resumeCom={resumeCom}
-        setResumeCom={setResumeCom}
-      />
-    );
+    return <MultiImg0 index={index} content={content} />;
   },
   MultiImg1: function Text({
     index,
     content,
-    resumeCom,
-    setResumeCom,
   }: {
     index: number;
     content: resumeComContent;
-    resumeCom: resumeComContent[];
-    setResumeCom: (arr: resumeComContent[]) => void;
   }) {
-    return (
-      <MultiImg1
-        index={index}
-        content={content}
-        resumeCom={resumeCom}
-        setResumeCom={setResumeCom}
-      />
-    );
+    return <MultiImg1 index={index} content={content} />;
   },
   TextAndImg0: function Text({
     index,
     content,
-    resumeCom,
-    setResumeCom,
   }: {
     index: number;
     content: resumeComContent;
-    resumeCom: resumeComContent[];
-    setResumeCom: (arr: resumeComContent[]) => void;
   }) {
-    return (
-      <TextAndImg0
-        index={index}
-        content={content}
-        resumeCom={resumeCom}
-        setResumeCom={setResumeCom}
-      />
-    );
+    return <TextAndImg0 index={index} content={content} />;
   },
   TextAndImg1: function Text({
     index,
     content,
-    resumeCom,
-    setResumeCom,
   }: {
     index: number;
     content: resumeComContent;
-    resumeCom: resumeComContent[];
-    setResumeCom: (arr: resumeComContent[]) => void;
   }) {
-    return (
-      <TextAndImg1
-        index={index}
-        content={content}
-        resumeCom={resumeCom}
-        setResumeCom={setResumeCom}
-      />
-    );
+    return <TextAndImg1 index={index} content={content} />;
   },
   TextAndImg2: function Text({
     index,
     content,
-    resumeCom,
-    setResumeCom,
   }: {
     index: number;
     content: resumeComContent;
-    resumeCom: resumeComContent[];
-    setResumeCom: (arr: resumeComContent[]) => void;
   }) {
-    return (
-      <TextAndImg2
-        index={index}
-        content={content}
-        resumeCom={resumeCom}
-        setResumeCom={setResumeCom}
-      />
-    );
+    return <TextAndImg2 index={index} content={content} />;
   },
 
   ResumeCom2: function Text({
     index,
     content,
-    resumeCom,
-    setResumeCom,
   }: {
     index: number;
     content: resumeComContent;
-    resumeCom: resumeComContent[];
-    setResumeCom: (arr: resumeComContent[]) => void;
   }) {
-    return (
-      <ResumeCom2
-        index={index}
-        content={content}
-        resumeCom={resumeCom}
-        setResumeCom={setResumeCom}
-      />
-    );
+    return <ResumeCom2 index={index} content={content} />;
   },
   ResumeCom3: function Text({
     index,
     content,
-    resumeCom,
-    setResumeCom,
   }: {
     index: number;
     content: resumeComContent;
-    resumeCom: resumeComContent[];
-    setResumeCom: (arr: resumeComContent[]) => void;
   }) {
-    return (
-      <ResumeCom3
-        index={index}
-        content={content}
-        resumeCom={resumeCom}
-        setResumeCom={setResumeCom}
-      />
-    );
+    return <ResumeCom3 index={index} content={content} />;
   },
   Text0: function Text({
     index,
     content,
-    resumeCom,
-    setResumeCom,
   }: {
     index: number;
     content: resumeComContent;
-    resumeCom: resumeComContent[];
-    setResumeCom: (arr: resumeComContent[]) => void;
   }) {
-    return (
-      <Text0
-        index={index}
-        content={content}
-        resumeCom={resumeCom}
-        setResumeCom={setResumeCom}
-      />
-    );
+    return <Text0 index={index} content={content} />;
   },
   Text1: function Text({
     index,
     content,
-    resumeCom,
-    setResumeCom,
   }: {
     index: number;
     content: resumeComContent;
-    resumeCom: resumeComContent[];
-    setResumeCom: (arr: resumeComContent[]) => void;
   }) {
-    return (
-      <Text1
-        index={index}
-        content={content}
-        resumeCom={resumeCom}
-        setResumeCom={setResumeCom}
-      />
-    );
+    return <Text1 index={index} content={content} />;
   },
 };

@@ -15,16 +15,12 @@ const Wrapper = styled.div`
 const TextAndImg1 = ({
   index,
   content,
-  resumeCom,
-  setResumeCom,
 }: {
   index: number;
   content: resumeComContent;
-  resumeCom: resumeComContent[];
-  setResumeCom: (arr: resumeComContent[]) => void;
 }) => {
   const { imageFileList, textList, setResumeReducerImage, setReducerText } =
-    useUpdateResumeData({ index, content, resumeCom, setResumeCom });
+    useUpdateResumeData({ index, content });
 
   return (
     <Wrapper>
