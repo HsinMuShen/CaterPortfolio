@@ -10,15 +10,38 @@ const SideBarArea = styled.div`
   position: fixed;
   top: 45%;
 `;
+
+const SideBarTag = styled.div`
+  position: relative;
+
+  width: 140px;
+  border: 1px solid;
+  border-radius: 5px;
+  padding: 6px;
+  font-size: 16px;
+  background-color: #555555;
+  color: #ffffff;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+`;
+
 const Options = styled.div`
-  position: fixed;
+  position: relative;
   left: -200px;
+  top: -5px;
   display: flex;
   flex-direction: column;
   border: 1px solid;
-  border-radius: 16px;
-  width: 200px;
+  border-radius: 0 5px 16px 16px;
+  padding: 5px;
+  width: 140px;
   background-color: #ffffff;
+  transition: left 1s;
+`;
+
+const OptionsBtn = styled.p`
+  cursor: pointer;
 `;
 
 const SideBar = ({ type, data }: { type: string; data: portfolioReducer }) => {
@@ -96,14 +119,13 @@ const SideBar = ({ type, data }: { type: string; data: portfolioReducer }) => {
   }, [data]);
   return (
     <SideBarArea>
-      <div onClick={showingBar}>{showBarInfo.title}</div>
+      <SideBarTag onClick={showingBar}>{showBarInfo.title}</SideBarTag>
       <Options style={{ left: showBarInfo.showBar ? "0px" : "-200px" }}>
-        <p>{data.name}</p>
-        <p onClick={followPortfolio}>
-          {isFollow ? `❤️` : `❤`}
+        <OptionsBtn>{data.name}</OptionsBtn>
+        <OptionsBtn onClick={followPortfolio}>
+          {isFollow ? `已追蹤 ❤️` : `加入追蹤 ❤`}
           {data.followers.length}
-        </p>
-        <p></p>
+        </OptionsBtn>
       </Options>
     </SideBarArea>
   );

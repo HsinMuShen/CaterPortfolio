@@ -21,7 +21,6 @@ const TextAndImg0 = ({
 }) => {
   const { imageFileList, textList, setResumeReducerImage, setReducerText } =
     useUpdateResumeData({ index, content });
-
   return (
     <Wrapper>
       {imageFileList.map((_, listIndex) => {

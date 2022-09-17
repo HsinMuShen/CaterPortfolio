@@ -1,11 +1,18 @@
 import { AnyAction } from "redux";
 import { ActionType } from ".";
 import { Timestamp } from "firebase/firestore";
+import { v4 } from "uuid";
 
 interface resumeReducer {
   title: string;
   coverImage: string;
-  content: { image: string[]; text: string[]; type: number }[];
+  content: {
+    image: string[];
+    text: string[];
+    type: number;
+    comName: string;
+    id: string;
+  }[];
   name: string;
   followers: string[];
   tags: string[];
@@ -29,7 +36,10 @@ const ResumeReducer = (
   switch (action.type) {
     case ActionType.RESUME.ADD_COMPONENT: {
       const tempContentArr = resumeData.content;
-      tempContentArr.push(action.payload.content);
+      const tempContent = { ...action.payload.content };
+      tempContent.id = v4();
+      tempContentArr.push(tempContent);
+
       const newResumeData = { ...resumeData, content: tempContentArr };
       return newResumeData;
     }
@@ -40,7 +50,7 @@ const ResumeReducer = (
       const newResumeData = { ...resumeData, content: tempContentArr };
       return newResumeData;
     }
-    case ActionType.RESUME.FILL_CONTENT: {
+    case ActionType.RESUME.FILL_TEXT: {
       const tempContentArr = resumeData.content;
       const index = action.payload.index;
       tempContentArr[index] = {
@@ -66,6 +76,11 @@ const ResumeReducer = (
         ...resumeData,
         [action.payload.type]: action.payload.text,
       };
+      return tempResumeData;
+    }
+    case ActionType.RESUME.RENEW_CONTENT: {
+      let tempResumeData = resumeData;
+      tempResumeData = { ...resumeData, content: action.payload.content };
       return tempResumeData;
     }
     case ActionType.RESUME.LOADING: {

@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { firebaseApp } from "../firebaseConfig";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { RootState } from "../reducers";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { changeLoginState } from "../action";
 import firebase from "../utilis/firebase";
 import {
@@ -137,12 +136,12 @@ const Header = () => {
   );
   const dispatch = useDispatch();
   const location = useLocation();
+  const nevigate = useNavigate();
 
   useEffect(() => {
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         const userData = await firebase.readData("users", user.uid);
-        console.log(userData);
         if (userData) {
           dispatch(userLoading(userData));
         }
@@ -153,6 +152,7 @@ const Header = () => {
         dispatch(websiteLoading(initialWebsiteData));
         dispatch(resumeLoading(initialResumeData));
         dispatch(changeLoginState(false));
+        nevigate("/");
       }
     });
   }, []);

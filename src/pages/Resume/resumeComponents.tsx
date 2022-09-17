@@ -1,5 +1,6 @@
 import React from "react";
 import { resumeComContent } from "./Resume";
+import { v4 } from "uuid";
 import TextAndImg0 from "./ResumeComponents/TextAndImg0";
 import ResumeCom2 from "./ResumeComponents/ResumeCom2";
 import ResumeCom3 from "./ResumeComponents/ResumeCom3";
@@ -22,6 +23,7 @@ export const resumeChoice = [
       text: [],
       type: 0,
       comName: "FullImg0",
+      id: v4(),
     },
   },
   {
@@ -32,6 +34,7 @@ export const resumeChoice = [
       text: [],
       type: 1,
       comName: "FullImg1",
+      id: v4(),
     },
   },
   {
@@ -42,6 +45,7 @@ export const resumeChoice = [
       text: [],
       type: 2,
       comName: "MultiImg0",
+      id: v4(),
     },
   },
   {
@@ -52,6 +56,7 @@ export const resumeChoice = [
       text: [],
       type: 3,
       comName: "MultiImg1",
+      id: v4(),
     },
   },
   {
@@ -62,6 +67,7 @@ export const resumeChoice = [
       text: ["<h2>您的姓名</h2><p>職位名稱</p><p>聯絡資訊</p>"],
       type: 4,
       comName: "TextAndImg0",
+      id: v4(),
     },
   },
   {
@@ -72,6 +78,7 @@ export const resumeChoice = [
       text: ["<h2>您的姓名</h2><p>職位名稱</p><p>聯絡資訊</p>"],
       type: 5,
       comName: "TextAndImg1",
+      id: v4(),
     },
   },
   {
@@ -82,6 +89,7 @@ export const resumeChoice = [
       text: ["<h2>您的姓名</h2><p>職位名稱</p><p>聯絡資訊</p>"],
       type: 6,
       comName: "TextAndImg2",
+      id: v4(),
     },
   },
   {
@@ -92,6 +100,7 @@ export const resumeChoice = [
       text: ["<h2>您的姓名</h2><p>職位名稱</p><p>聯絡資訊</p>"],
       type: 7,
       comName: "Text0",
+      id: v4(),
     },
   },
   {
@@ -105,6 +114,7 @@ export const resumeChoice = [
       ],
       type: 8,
       comName: "Text1",
+      id: v4(),
     },
   },
   {
@@ -115,6 +125,7 @@ export const resumeChoice = [
       text: [],
       type: 1,
       comName: "ResumeCom2",
+      id: v4(),
     },
   },
   {
@@ -128,6 +139,7 @@ export const resumeChoice = [
       ],
       type: 2,
       comName: "ResumeCom3",
+      id: v4(),
     },
   },
 ];

@@ -42,10 +42,10 @@ const PreviewImageInput = ({
   const isPreview = useSelector(
     (state: RootState) => state.IsPreviewReducer.resume
   );
-  const previewUrl = imageFile ? URL.createObjectURL(imageFile) : image;
+
   return (
     <ImageContainer>
-      <ImagePreview previewUrl={previewUrl} style={style}>
+      <ImagePreview previewUrl={image} style={style}>
         <ImageLabel>
           {isPreview ? null : "+"}
 

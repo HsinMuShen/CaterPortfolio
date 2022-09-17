@@ -49,7 +49,7 @@ const TextAndImg2 = ({
               width: "390px",
               height: "200px",
               border: "1px solid",
-              margin: "0 0 0 10px",
+              margin: "0 0 0 20px",
             }}
           />
         );
