@@ -2,13 +2,14 @@ import React from "react";
 import { websiteComContent } from "./Website";
 import preImage from "../../utilis/cat.jpg";
 import { v4 } from "uuid";
+import FullImg0 from "./WebsiteComponents/FullImg0";
 
-export const resumeChoice = [
+export const websiteChoice = [
   {
     name: "FullImg0",
     comIndex: 0,
     comContent: {
-      image: [preImage],
+      image: [""],
       text: [],
       type: 0,
       comName: "FullImg0",
@@ -19,7 +20,7 @@ export const resumeChoice = [
     name: "FullImg1",
     comIndex: 1,
     comContent: {
-      image: [preImage],
+      image: [],
       text: [],
       type: 1,
       comName: "FullImg1",
@@ -162,4 +163,14 @@ export const resumeChoice = [
   },
 ];
 
-export const ResumeComponents = {};
+export const WebsiteComponents = {
+  FullImg0: function Text({
+    index,
+    content,
+  }: {
+    index: number;
+    content: websiteComContent;
+  }) {
+    return <FullImg0 index={index} content={content} />;
+  },
+};

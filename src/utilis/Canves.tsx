@@ -8,12 +8,15 @@ import { useSelector } from "react-redux";
 
 const ImageInput = styled.input``;
 
+const Wrapper = styled.div<{ style: any }>``;
+
 interface canvasProps {
   content: websiteComContent;
   name: string;
   size: { height: number; width: number };
   setReducerImage: (JSONstring: string, listIndex: number) => void;
   listIndex: number;
+  style?: any;
 }
 
 const Canves = ({
@@ -22,6 +25,7 @@ const Canves = ({
   size,
   setReducerImage,
   listIndex,
+  style,
 }: canvasProps) => {
   const canvas: any = useRef();
   const storageJson = useRef("");
@@ -94,7 +98,7 @@ const Canves = ({
   }, []);
 
   return (
-    <div>
+    <Wrapper style={style}>
       <canvas
         id={name}
         style={{
@@ -118,7 +122,7 @@ const Canves = ({
           <button onClick={loadJson}>回復往日的美好</button>
         </div>
       )}
-    </div>
+    </Wrapper>
   );
 };
 

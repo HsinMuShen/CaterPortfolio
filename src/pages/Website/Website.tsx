@@ -4,9 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
-import WebsiteCom1 from "./WebsiteComponents/WebsiteCom1";
-import WebsiteCom2 from "./WebsiteComponents/WebsiteCom2";
-import WebsiteCom3 from "./WebsiteComponents/WebsiteCom3";
+import { websiteChoice } from "./websiteComponents";
 import PortfolioAreaCom from "./WebsiteComponents/PortfolioAreaCom";
 import AddWebsiteCom from "./AddWebsiteCom";
 import Delete from "../Resume/Delete";
@@ -21,6 +19,7 @@ import {
   websiteLoading,
   isPreviewWebsite,
 } from "../../action";
+import { WebsiteComponents } from "./websiteComponents";
 import { Link } from "react-router-dom";
 
 export interface websiteComContent {
@@ -31,50 +30,6 @@ export interface websiteComContent {
   id: string;
   portfolioID?: string[];
 }
-
-export const websiteChoice = [
-  {
-    name: 0,
-    comIndex: 0,
-    comContent: {
-      image: [""],
-      text: ["<h2>標題</h2><p>令人眼睛一亮的介紹</p><p>令人眼睛一亮的介紹</p>"],
-      type: 0,
-    },
-  },
-  {
-    name: 1,
-    comIndex: 1,
-    comContent: {
-      image: ["", ""],
-      text: [],
-      type: 1,
-    },
-  },
-  {
-    name: 2,
-    comIndex: 2,
-    comContent: {
-      image: [],
-      text: [
-        "<h3>標題</h3><p>您的英勇事蹟</p><p>您的英勇事蹟</p>",
-        "<h3>標題</h3><p>您的英勇事蹟</p><p>您的英勇事蹟</p>",
-        "<h3>標題</h3><p>您的英勇事蹟</p><p>您的英勇事蹟</p>",
-      ],
-      type: 2,
-    },
-  },
-  {
-    name: 3,
-    comIndex: 3,
-    comContent: {
-      image: [],
-      text: [],
-      type: 3,
-      portfolioID: [],
-    },
-  },
-];
 
 const Website = () => {
   const websiteID = useParams().id;
@@ -103,7 +58,6 @@ const Website = () => {
     const loadWebsite = async () => {
       const websiteData = await firebase.readData("websites", `${websiteID}`);
       if (websiteData) {
-        console.log(websiteData);
         dispatch(websiteLoading(websiteData));
       } else {
         dispatch(websiteAddSetting("name", userData.name));
@@ -136,48 +90,18 @@ const Website = () => {
       ) : null}
 
       <div>
-        {websiteData.content.map(
+        {websiteData.content?.map(
           (content: websiteComContent, index: number) => {
-            switch (content.type) {
-              case 0: {
-                return (
-                  <SineleComponent key={index}>
-                    <WebsiteCom1 content={content} index={index} />
-                    <Delete addDeleteCom={addDeleteCom} index={index} />
-                  </SineleComponent>
-                );
-              }
-              case 1: {
-                return (
-                  <SineleComponent key={index}>
-                    <WebsiteCom2 content={content} index={index} />
-                    <Delete addDeleteCom={addDeleteCom} index={index} />
-                  </SineleComponent>
-                );
-              }
-              case 2: {
-                return (
-                  <SineleComponent key={index}>
-                    <WebsiteCom3 content={content} index={index} />
-                    <Delete addDeleteCom={addDeleteCom} index={index} />
-                  </SineleComponent>
-                );
-              }
-              case 3: {
-                return (
-                  <SineleComponent key={index}>
-                    <PortfolioAreaCom
-                      content={content}
-                      index={index}
-                      userID={userData.userID}
-                    />
-                    <Delete addDeleteCom={addDeleteCom} index={index} />
-                  </SineleComponent>
-                );
-              }
-              default:
-                return null;
-            }
+            const TempCom =
+              WebsiteComponents[
+                content.comName as keyof typeof WebsiteComponents
+              ];
+            return (
+              <SineleComponent>
+                <TempCom index={index} content={content} />
+                <Delete addDeleteCom={addDeleteCom} index={index} />
+              </SineleComponent>
+            );
           }
         )}
       </div>
@@ -197,6 +121,7 @@ export default Website;
 const Wrapper = styled.div`
   width: 960px;
   margin: 120px auto;
+  background-color: #ffffff;
 `;
 
 const PreviewBtn = styled.div`
@@ -216,6 +141,9 @@ const PreviewBtn = styled.div`
 
 const SineleComponent = styled.div`
   display: flex;
+  width: 960px;
+  position: relative;
+  margin: 10px 0;
 `;
 
 const ResumeBtn = styled.button`

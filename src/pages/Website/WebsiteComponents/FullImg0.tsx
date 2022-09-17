@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import Canves from "../../../utilis/Canves";
 import EditText from "../../../utilis/EditText";
@@ -12,7 +12,7 @@ const Wrapper = styled.div`
   width: 960px;
 `;
 
-const WebsiteCom1 = ({
+const FullImg0 = ({
   content,
   index,
 }: {
@@ -29,11 +29,11 @@ const WebsiteCom1 = ({
             key={listIndex}
             content={content}
             name={index.toString()}
-            size={{ height: 200, width: 200 }}
+            size={{ height: 350, width: 860 }}
             setReducerImage={setReducerImage}
             listIndex={listIndex}
             style={{
-              margin: "0 auto",
+              margin: "0px auto",
             }}
           />
         );
@@ -52,4 +52,4 @@ const WebsiteCom1 = ({
   );
 };
 
-export default WebsiteCom1;
+export default FullImg0;

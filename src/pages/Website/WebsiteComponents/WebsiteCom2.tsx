@@ -35,6 +35,9 @@ const WebsiteCom2 = ({
             size={{ height: 200, width: 400 }}
             setReducerImage={setReducerImage}
             listIndex={listIndex}
+            style={{
+              margin: "0 auto",
+            }}
           />
         );
       })}
