@@ -4,6 +4,7 @@ import EditText from "../../../utilis/EditText";
 import { websiteComContent } from "../Website";
 import { useDispatch } from "react-redux";
 import { websiteAddImage, websiteFillContent } from "../../../action";
+import useUpdateResumeData from "./WebsiteUpdateDataFunction";
 
 const WebsiteCom1 = ({
   content,
@@ -12,21 +13,8 @@ const WebsiteCom1 = ({
   content: websiteComContent;
   index: number;
 }) => {
-  const [imageFileList, setImageFileList] = useState<string[] | null[]>([null]);
-  const [textList, setTextList] = useState<string[] | null[]>([null]);
-  const diapatch = useDispatch();
-  const setReducerImage = async (JSONstring: string, listIndex: number) => {
-    const tempArr = imageFileList;
-    tempArr[listIndex] = JSONstring;
-    setImageFileList(tempArr);
-    diapatch(websiteAddImage(index, tempArr));
-  };
-  const setReducerText = async (text: string, listIndex: number) => {
-    const tempArr = textList;
-    tempArr[listIndex] = text;
-    setTextList(tempArr);
-    diapatch(websiteFillContent(index, tempArr));
-  };
+  const { imageFileList, textList, setReducerImage, setReducerText } =
+    useUpdateResumeData({ index, content });
   return (
     <div style={{ display: "flex" }}>
       <>

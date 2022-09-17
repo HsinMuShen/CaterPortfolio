@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { UserReducer } from "../reducers";
 import { signOut } from "firebase/auth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -45,6 +45,7 @@ const HeaderSidebar = ({
   isSideBar,
   setIsSideBar,
 }: UserReducer) => {
+  const nevigate = useNavigate();
   return (
     <Wrapper isSideBar={isSideBar}>
       <Nav
@@ -64,6 +65,7 @@ const HeaderSidebar = ({
           onClick={() => {
             signOut(auth);
             alert("成功登出會員!");
+            nevigate("/");
           }}
         >
           登出

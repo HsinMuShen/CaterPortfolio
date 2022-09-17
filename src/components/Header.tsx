@@ -136,7 +136,6 @@ const Header = () => {
   );
   const dispatch = useDispatch();
   const location = useLocation();
-  const nevigate = useNavigate();
 
   useEffect(() => {
     onAuthStateChanged(auth, async (user) => {
@@ -152,7 +151,6 @@ const Header = () => {
         dispatch(websiteLoading(initialWebsiteData));
         dispatch(resumeLoading(initialResumeData));
         dispatch(changeLoginState(false));
-        nevigate("/");
       }
     });
   }, []);

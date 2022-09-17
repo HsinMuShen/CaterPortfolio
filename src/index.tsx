@@ -36,7 +36,6 @@ root.render(
           <Route path="follow/:id" element={<FollowingArea />} />
           <Route path="resume/:id" element={<Resume />} />
           <Route path="website/:id" element={<Website />} />
-          <Route path="website/preview" element={<Website />} />
           <Route path="portfolio/:id" element={<Portfolio />} />
           <Route path="createportfolio" element={<CreatePortfolio />} />
           <Route path="chatroom/:id" element={<ChatRoom />} />

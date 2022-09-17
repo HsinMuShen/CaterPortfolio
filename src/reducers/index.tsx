@@ -28,6 +28,7 @@ export const ActionType: {
     ADD_IMAGE: string;
     ADD_TIME: string;
     ADD_SETTING: string;
+    RENEW_CONTENT: string;
     LOADING: string;
     ADD_PORTFOLIO_ID: string;
   };
@@ -76,6 +77,7 @@ export const ActionType: {
     ADD_IMAGE: "WEBSITE_ADD_IMAGE",
     ADD_TIME: "WEBSITE_ADD_TIME",
     ADD_SETTING: "WEBSITE_ADD_SETTING",
+    RENEW_CONTENT: "WEBSITE_RENEW_CONTENT",
     LOADING: "WEBSITE_LOADING",
     ADD_PORTFOLIO_ID: "ADD_PORTFOLIO_ID",
   },

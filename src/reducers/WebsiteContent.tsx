@@ -7,6 +7,8 @@ interface websiteReducer {
     image: string[];
     text: string[];
     type: number;
+    comName: string;
+    id: string;
     portfolioID?: string[];
   }[];
   name: string;
