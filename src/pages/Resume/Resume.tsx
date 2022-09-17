@@ -79,7 +79,6 @@ const Resume: React.FC = () => {
 
     dispatch(resumeRenewContent(items));
   };
-  console.log(resumeData);
 
   useEffect(() => {
     const loadResume = async () => {

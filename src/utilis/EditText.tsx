@@ -116,10 +116,6 @@ interface props {
 
 export default ({ text, setReducerText, listIndex, style }: props) => {
   const [isShowBtn, setIsShowBtn] = useState<boolean>(false);
-  const isPreview = useSelector(
-    (state: RootState) => state.IsPreviewReducer.resume
-  );
-
   const editor = useEditor({
     extensions: [StarterKit],
     content: `

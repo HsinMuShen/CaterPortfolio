@@ -1,6 +1,7 @@
 import { AnyAction } from "redux";
 import { ActionType } from ".";
 import { Timestamp } from "firebase/firestore";
+import { v4 } from "uuid";
 
 interface resumeReducer {
   title: string;
@@ -35,7 +36,10 @@ const ResumeReducer = (
   switch (action.type) {
     case ActionType.RESUME.ADD_COMPONENT: {
       const tempContentArr = resumeData.content;
-      tempContentArr.push(action.payload.content);
+      const tempContent = { ...action.payload.content };
+      tempContent.id = v4();
+      tempContentArr.push(tempContent);
+
       const newResumeData = { ...resumeData, content: tempContentArr };
       return newResumeData;
     }

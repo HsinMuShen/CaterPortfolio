@@ -19,6 +19,8 @@ export const resumeAddCom = (content: {
   image: string[];
   text: string[] | null[];
   type: number;
+  comName: string;
+  id: string;
 }) => {
   return {
     type: ActionType.RESUME.ADD_COMPONENT,
