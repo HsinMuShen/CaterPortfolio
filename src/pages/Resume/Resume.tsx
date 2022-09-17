@@ -26,7 +26,7 @@ import { ResumeComponents } from "./resumeComponents";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
-import { v4 } from "uuid";
+import { faUserAstronaut } from "@fortawesome/free-solid-svg-icons";
 
 export interface resumeComContent {
   image: string[];
@@ -73,6 +73,7 @@ const Resume: React.FC = () => {
   };
 
   const handleOnDragEnd = (result: any) => {
+    if (!result.destination) return;
     const items: resumeComContent[] = [...resumeData.content];
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
@@ -138,8 +139,8 @@ const Resume: React.FC = () => {
 
                       return (
                         <Draggable
-                          key={index + content.id}
-                          draggableId={index + content.id}
+                          key={content.id}
+                          draggableId={content.id}
                           index={index}
                         >
                           {(provided) => (
@@ -168,18 +169,27 @@ const Resume: React.FC = () => {
         </ResumeEditor>
 
         {isPreview ? (
-          <UpoloadBtn onClick={uploadResume}>送出!</UpoloadBtn>
+          <UpoloadBtn onClick={uploadResume} width={"120px"}>
+            送出!
+          </UpoloadBtn>
         ) : (
-          <div
+          <UpoloadBtn
             onClick={() => {
               dispatch(isPreviewTrue("resume"));
             }}
+            width={"200px"}
           >
             確定完成編輯? 預覽檢查
-          </div>
+          </UpoloadBtn>
         )}
 
-        <ToProfileLink to={`/profile`}>profile</ToProfileLink>
+        <ToProfileLink to={`/profile/${resumeID}`}>
+          <FontAwesomeIcon
+            icon={faUserAstronaut}
+            style={{ marginRight: "10px" }}
+          />
+          前往{resumeData.name}的個人頁面
+        </ToProfileLink>
       </Wrapper>
       <SideBar type={"resume"} data={resumeData} />
     </>
@@ -192,7 +202,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 120px;
+  margin: 120px 0;
 `;
 
 const PreviewBtn = styled.div`
@@ -243,10 +253,10 @@ const SineleComponent = styled.div`
   margin: 10px 0;
 `;
 
-const UpoloadBtn = styled.div`
+const UpoloadBtn = styled.div<{ width: string }>`
   display: flex;
   justify-content: center;
-  width: 120px;
+  width: ${(props) => props.width};
   background-color: #ffffff;
   padding: 5px 8px;
   border-radius: 10px;
@@ -258,4 +268,12 @@ const UpoloadBtn = styled.div`
   }
 `;
 
-const ToProfileLink = styled(Link)``;
+const ToProfileLink = styled(Link)`
+  margin: 40px 0 20px;
+  text-decoration: none;
+  color: #ffffff;
+  background-color: #555555;
+  border: 1px solid;
+  padding: 8px;
+  border-radius: 5px;
+`;
