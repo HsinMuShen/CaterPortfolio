@@ -89,6 +89,13 @@ const WebsiteReducer = (
       };
       return tempResumeData;
     }
+    case ActionType.WEBSITE.RENEW_CONTENT: {
+      const tempResumeData = {
+        ...websiteData,
+        content: action.payload.content,
+      };
+      return tempResumeData;
+    }
     case ActionType.WEBSITE.LOADING: {
       const tempWebsiteData = action.payload.data;
       return tempWebsiteData;

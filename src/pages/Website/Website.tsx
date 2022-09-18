@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
@@ -8,6 +9,7 @@ import { websiteChoice } from "./websiteComponents";
 import PortfolioAreaCom from "./WebsiteComponents/PortfolioAreaCom";
 import AddWebsiteCom from "./AddWebsiteCom";
 import Delete from "../Resume/Delete";
+import Move from "../../utilis/Move";
 
 import firebase from "../../utilis/firebase";
 import { RootState } from "../../reducers";
@@ -16,6 +18,7 @@ import {
   websiteAddCom,
   websiteDeleteCom,
   websiteAddSetting,
+  websiteRenewContent,
   websiteLoading,
   isPreviewWebsite,
 } from "../../action";
@@ -54,6 +57,15 @@ const Website = () => {
     firebase.uploadDoc("websites", userData.userID, websiteData);
   };
 
+  const handleOnDragEnd = (result: any) => {
+    if (!result.destination) return;
+    const items: websiteComContent[] = [...websiteData.content];
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+
+    dispatch(websiteRenewContent(items));
+  };
+
   useEffect(() => {
     const loadWebsite = async () => {
       const websiteData = await firebase.readData("websites", `${websiteID}`);
@@ -89,31 +101,56 @@ const Website = () => {
             )}
           </PreviewBtn>
         ) : null}
-
-        <WebsiteLayouts>
-          {websiteData.content?.map(
-            (content: websiteComContent, index: number) => {
-              const TempCom =
-                WebsiteComponents[
-                  content.comName as keyof typeof WebsiteComponents
-                ];
-              return (
-                <SineleComponent key={content.id}>
-                  <TempCom index={index} content={content} />
-                  <Delete addDeleteCom={addDeleteCom} index={index} />
-                </SineleComponent>
-              );
-            }
-          )}
-        </WebsiteLayouts>
+        <DragDropContext onDragEnd={handleOnDragEnd}>
+          <Droppable droppableId="characters">
+            {(provided) => (
+              <WebsiteLayouts
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+              >
+                <PreviewDiv
+                  style={{ zIndex: isPreview ? "2" : "-1" }}
+                ></PreviewDiv>
+                {websiteData.content?.map(
+                  (content: websiteComContent, index: number) => {
+                    const TempCom =
+                      WebsiteComponents[
+                        content.comName as keyof typeof WebsiteComponents
+                      ];
+                    return (
+                      <Draggable
+                        key={content.id}
+                        draggableId={content.id}
+                        index={index}
+                      >
+                        {(provided) => (
+                          <SineleComponent
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            ref={provided.innerRef}
+                          >
+                            <TempCom index={index} content={content} />
+                            <Delete addDeleteCom={addDeleteCom} index={index} />
+                            <Move />
+                          </SineleComponent>
+                        )}
+                      </Draggable>
+                    );
+                  }
+                )}
+                {provided.placeholder}
+              </WebsiteLayouts>
+            )}
+          </Droppable>
+        </DragDropContext>
         {isPreview ? null : (
           <AddWebsiteCom
             addWebsiteCom={addWebsiteCom}
             uploadWebsite={uploadWebsite}
           />
         )}
-        <ResumeBtn onClick={uploadWebsite}>上架網站!</ResumeBtn>
       </Wrapper>
+      <ResumeBtn onClick={uploadWebsite}>上架網站!</ResumeBtn>
     </WebsiteBody>
   );
 };
@@ -125,12 +162,16 @@ const WebsiteBody = styled.div`
   height: 100%;
   padding: 120px 0;
   background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const Wrapper = styled.div`
   width: 960px;
   margin: 0 auto;
   background-color: #ffffff;
+  /* border: 1px solid; */
 `;
 
 const PreviewBtn = styled.div`
@@ -149,11 +190,19 @@ const PreviewBtn = styled.div`
 `;
 
 const WebsiteLayouts = styled.div`
+  position: relative;
   display: flex;
   width: 960px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+`;
+
+const PreviewDiv = styled.div`
+  position: absolute;
+  width: 900px;
+  height: 100%;
+  z-index: 2;
 `;
 
 const SineleComponent = styled.div`

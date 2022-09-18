@@ -146,6 +146,7 @@ export const websiteRenewContent = (
     type: number;
     comName: string;
     id: string;
+    portfolioID?: string[];
   }[]
 ) => {
   return {

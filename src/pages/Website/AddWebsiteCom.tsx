@@ -7,6 +7,7 @@ import imgOnly from "../../images/imgOnly.jpeg";
 import multipleImg from "../../images/multipleImg.jpeg";
 import textAndImg from "../../images/textandImg.jpeg";
 import textOnly from "../../images/textOnly.jpeg";
+import portfolioImg from "../../images/layers.png";
 import fullImg0 from "../../images/fullImg0.jpg";
 import fullImg1 from "../../images/fullImg1.jpg";
 import multiImg0 from "../../images/multiImg0.jpg";
@@ -20,6 +21,7 @@ import text1 from "../../images/text1.jpg";
 import text2 from "../../images/text2.jpg";
 import text3 from "../../images/text3.jpg";
 import text4 from "../../images/text4.jpg";
+import portfolio0 from "../../images/portfolio0.jpg";
 
 const Wrapper = styled.div`
   display: flex;
@@ -113,6 +115,11 @@ const selectArr = [
       { img: text3, index: 11 },
       { img: text4, index: 12 },
     ],
+  },
+  {
+    img: portfolioImg,
+    text: "作品集區",
+    arr: [{ img: portfolio0, index: 13 }],
   },
 ];
 
