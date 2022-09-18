@@ -68,59 +68,68 @@ const Website = () => {
   }, [userData]);
 
   return (
-    <Wrapper>
-      {websiteID === userData.userID ? (
-        <PreviewBtn
-          onClick={() => {
-            dispatch(isPreviewWebsite());
-          }}
-        >
-          {isPreview ? (
-            <>
-              <FontAwesomeIcon icon={faPen} />
-              <span> 編輯</span>
-            </>
-          ) : (
-            <>
-              <FontAwesomeIcon icon={faEye} />
-              <span> 預覽</span>
-            </>
-          )}
-        </PreviewBtn>
-      ) : null}
+    <WebsiteBody>
+      <Wrapper>
+        {websiteID === userData.userID ? (
+          <PreviewBtn
+            onClick={() => {
+              dispatch(isPreviewWebsite());
+            }}
+          >
+            {isPreview ? (
+              <>
+                <FontAwesomeIcon icon={faPen} />
+                <span> 編輯</span>
+              </>
+            ) : (
+              <>
+                <FontAwesomeIcon icon={faEye} />
+                <span> 預覽</span>
+              </>
+            )}
+          </PreviewBtn>
+        ) : null}
 
-      <div>
-        {websiteData.content?.map(
-          (content: websiteComContent, index: number) => {
-            const TempCom =
-              WebsiteComponents[
-                content.comName as keyof typeof WebsiteComponents
-              ];
-            return (
-              <SineleComponent>
-                <TempCom index={index} content={content} />
-                <Delete addDeleteCom={addDeleteCom} index={index} />
-              </SineleComponent>
-            );
-          }
+        <WebsiteLayouts>
+          {websiteData.content?.map(
+            (content: websiteComContent, index: number) => {
+              const TempCom =
+                WebsiteComponents[
+                  content.comName as keyof typeof WebsiteComponents
+                ];
+              return (
+                <SineleComponent key={content.id}>
+                  <TempCom index={index} content={content} />
+                  <Delete addDeleteCom={addDeleteCom} index={index} />
+                </SineleComponent>
+              );
+            }
+          )}
+        </WebsiteLayouts>
+        {isPreview ? null : (
+          <AddWebsiteCom
+            addWebsiteCom={addWebsiteCom}
+            uploadWebsite={uploadWebsite}
+          />
         )}
-      </div>
-      {isPreview ? null : (
-        <AddWebsiteCom
-          addWebsiteCom={addWebsiteCom}
-          uploadWebsite={uploadWebsite}
-        />
-      )}
-      <ResumeBtn onClick={uploadWebsite}>上架網站!</ResumeBtn>
-    </Wrapper>
+        <ResumeBtn onClick={uploadWebsite}>上架網站!</ResumeBtn>
+      </Wrapper>
+    </WebsiteBody>
   );
 };
 
 export default Website;
 
+const WebsiteBody = styled.div`
+  width: 100%;
+  height: 100%;
+  padding: 120px 0;
+  background-color: #ffffff;
+`;
+
 const Wrapper = styled.div`
   width: 960px;
-  margin: 120px auto;
+  margin: 0 auto;
   background-color: #ffffff;
 `;
 
@@ -137,6 +146,14 @@ const PreviewBtn = styled.div`
     background-color: #555555;
     color: #ffffff;
   }
+`;
+
+const WebsiteLayouts = styled.div`
+  display: flex;
+  width: 960px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 const SineleComponent = styled.div`

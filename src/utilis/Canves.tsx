@@ -8,7 +8,9 @@ import { useSelector } from "react-redux";
 
 const ImageInput = styled.input``;
 
-const Wrapper = styled.div<{ style: any }>``;
+const Wrapper = styled.div<{ style: any }>`
+  ${(props) => props.style}
+`;
 
 interface canvasProps {
   content: websiteComContent;

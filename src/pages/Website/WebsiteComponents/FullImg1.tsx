@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import Canves from "../../../utilis/Canves";
-import EditText from "../../../utilis/EditText";
 import { websiteComContent } from "../Website";
 import useUpdateResumeData from "./WebsiteUpdateDataFunction";
 
@@ -13,7 +12,7 @@ const Wrapper = styled.div`
   width: 900px;
 `;
 
-const FullImg0 = ({
+const FullImg1 = ({
   content,
   index,
 }: {
@@ -30,12 +29,9 @@ const FullImg0 = ({
             key={listIndex}
             content={content}
             name={`${index}-${listIndex}`}
-            size={{ height: 350, width: 900 }}
+            size={{ height: 200, width: 900 }}
             setReducerImage={setReducerImage}
             listIndex={listIndex}
-            style={{
-              margin: "0px auto",
-            }}
           />
         );
       })}
@@ -43,4 +39,4 @@ const FullImg0 = ({
   );
 };
 
-export default FullImg0;
+export default FullImg1;

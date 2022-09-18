@@ -1,5 +1,6 @@
 import { AnyAction } from "redux";
 import { ActionType } from ".";
+import { v4 } from "uuid";
 
 interface websiteReducer {
   title: string;
@@ -33,7 +34,9 @@ const WebsiteReducer = (
   switch (action.type) {
     case ActionType.WEBSITE.ADD_COMPONENT: {
       const tempContentArr = websiteData.content;
-      tempContentArr.push(action.payload.content);
+      const tempContent = { ...action.payload.content };
+      tempContent.id = v4();
+      tempContentArr.push(tempContent);
       const newResumeData = { ...websiteData, content: tempContentArr };
       return newResumeData;
     }

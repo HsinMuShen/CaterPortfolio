@@ -3,6 +3,9 @@ import { websiteComContent } from "./Website";
 import preImage from "../../utilis/cat.jpg";
 import { v4 } from "uuid";
 import FullImg0 from "./WebsiteComponents/FullImg0";
+import FullImg1 from "./WebsiteComponents/FullImg1";
+import MultiImg0 from "./WebsiteComponents/MultiImg0";
+import MultiImg1 from "./WebsiteComponents/MultiImg1";
 
 export const websiteChoice = [
   {
@@ -20,7 +23,7 @@ export const websiteChoice = [
     name: "FullImg1",
     comIndex: 1,
     comContent: {
-      image: [],
+      image: [""],
       text: [],
       type: 1,
       comName: "FullImg1",
@@ -31,7 +34,7 @@ export const websiteChoice = [
     name: "MultiImg0",
     comIndex: 2,
     comContent: {
-      image: [preImage, preImage],
+      image: ["", ""],
       text: [],
       type: 2,
       comName: "MultiImg0",
@@ -42,7 +45,7 @@ export const websiteChoice = [
     name: "MultiImg1",
     comIndex: 3,
     comContent: {
-      image: [preImage, preImage, preImage],
+      image: ["", "", ""],
       text: [],
       type: 3,
       comName: "MultiImg1",
@@ -172,5 +175,32 @@ export const WebsiteComponents = {
     content: websiteComContent;
   }) {
     return <FullImg0 index={index} content={content} />;
+  },
+  FullImg1: function Text({
+    index,
+    content,
+  }: {
+    index: number;
+    content: websiteComContent;
+  }) {
+    return <FullImg1 index={index} content={content} />;
+  },
+  MultiImg0: function Text({
+    index,
+    content,
+  }: {
+    index: number;
+    content: websiteComContent;
+  }) {
+    return <MultiImg0 index={index} content={content} />;
+  },
+  MultiImg1: function Text({
+    index,
+    content,
+  }: {
+    index: number;
+    content: websiteComContent;
+  }) {
+    return <MultiImg1 index={index} content={content} />;
   },
 };

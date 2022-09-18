@@ -59,7 +59,6 @@ const Resume: React.FC = () => {
       dispatch(resumeAddSetting("coverImage", dataUrl));
       const tempData = resumeData;
       tempData.coverImage = dataUrl;
-      console.log(tempData);
       firebase.uploadDoc("resumes", `${resumeID}`, tempData);
     });
   };
