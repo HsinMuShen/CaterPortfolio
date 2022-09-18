@@ -32,9 +32,6 @@ const MultiImg1 = ({
             size={{ height: 240, width: 290 }}
             setReducerImage={setReducerImage}
             listIndex={listIndex}
-            style={{
-              margin: "0px auto",
-            }}
           />
         );
       })}

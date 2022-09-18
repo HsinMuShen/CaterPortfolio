@@ -120,8 +120,8 @@ const Canves = ({
             }}
           />
           <button onClick={deleteObject}>刪除</button>
-          <button onClick={storeJson}>存檔</button>
-          <button onClick={loadJson}>回復往日的美好</button>
+          {/* <button onClick={storeJson}>存檔</button>
+          <button onClick={loadJson}>回復往日的美好</button> */}
         </div>
       )}
     </Wrapper>

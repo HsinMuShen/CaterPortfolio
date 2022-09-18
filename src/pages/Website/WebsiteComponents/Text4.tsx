@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import Canves from "../../../utilis/Canves";
+import EditText from "../../../utilis/EditText";
 import { websiteComContent } from "../Website";
 import useUpdateResumeData from "./WebsiteUpdateDataFunction";
 
@@ -12,7 +12,7 @@ const Wrapper = styled.div`
   width: 900px;
 `;
 
-const MultiImg0 = ({
+const Text3 = ({
   content,
   index,
 }: {
@@ -23,15 +23,17 @@ const MultiImg0 = ({
     useUpdateResumeData({ index, content });
   return (
     <Wrapper>
-      {imageFileList.map((_, listIndex) => {
+      {textList.map((_, listIndex) => {
         return (
-          <Canves
+          <EditText
             key={listIndex}
-            content={content}
-            name={`${index}-${listIndex}`}
-            size={{ height: 240, width: 440 }}
-            setReducerImage={setReducerImage}
+            text={content.text[listIndex]}
             listIndex={listIndex}
+            setReducerText={setReducerText}
+            style={{
+              width: "290px",
+              padding: " 0 10px",
+            }}
           />
         );
       })}
@@ -39,4 +41,4 @@ const MultiImg0 = ({
   );
 };
 
-export default MultiImg0;
+export default Text3;

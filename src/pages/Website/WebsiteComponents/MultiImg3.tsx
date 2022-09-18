@@ -6,13 +6,13 @@ import useUpdateResumeData from "./WebsiteUpdateDataFunction";
 
 const Wrapper = styled.div`
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   margin: 0 auto;
   width: 900px;
 `;
 
-const MultiImg0 = ({
+const MultiImg3 = ({
   content,
   index,
 }: {
@@ -21,6 +21,17 @@ const MultiImg0 = ({
 }) => {
   const { imageFileList, textList, setReducerImage, setReducerText } =
     useUpdateResumeData({ index, content });
+
+  const sizeArr = [
+    {
+      height: 240,
+      width: 590,
+    },
+    {
+      height: 240,
+      width: 290,
+    },
+  ];
   return (
     <Wrapper>
       {imageFileList.map((_, listIndex) => {
@@ -29,7 +40,7 @@ const MultiImg0 = ({
             key={listIndex}
             content={content}
             name={`${index}-${listIndex}`}
-            size={{ height: 240, width: 440 }}
+            size={sizeArr[listIndex]}
             setReducerImage={setReducerImage}
             listIndex={listIndex}
           />
@@ -39,4 +50,4 @@ const MultiImg0 = ({
   );
 };
 
-export default MultiImg0;
+export default MultiImg3;

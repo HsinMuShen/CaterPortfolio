@@ -6,6 +6,15 @@ import FullImg0 from "./WebsiteComponents/FullImg0";
 import FullImg1 from "./WebsiteComponents/FullImg1";
 import MultiImg0 from "./WebsiteComponents/MultiImg0";
 import MultiImg1 from "./WebsiteComponents/MultiImg1";
+import MultiImg2 from "./WebsiteComponents/MultiImg2";
+import MultiImg3 from "./WebsiteComponents/MultiImg3";
+import TextAndImg1 from "./WebsiteComponents/TextAndImg1";
+import TextAndImg2 from "./WebsiteComponents/TextAndImg2";
+import Text0 from "./WebsiteComponents/Text0";
+import Text1 from "./WebsiteComponents/Text1";
+import Text2 from "./WebsiteComponents/Text2";
+import Text3 from "./WebsiteComponents/Text3";
+import Text4 from "./WebsiteComponents/Text4";
 
 export const websiteChoice = [
   {
@@ -56,7 +65,7 @@ export const websiteChoice = [
     name: "MultiImg2",
     comIndex: 4,
     comContent: {
-      image: [preImage, preImage],
+      image: ["", ""],
       text: [],
       type: 4,
       comName: "MultiImg2",
@@ -67,7 +76,7 @@ export const websiteChoice = [
     name: "MultiImg3",
     comIndex: 5,
     comContent: {
-      image: [preImage, preImage],
+      image: ["", ""],
       text: [],
       type: 5,
       comName: "MultiImg3",
@@ -75,24 +84,24 @@ export const websiteChoice = [
     },
   },
   {
-    name: "TextAndImg0",
+    name: "TextAndImg1",
     comIndex: 6,
     comContent: {
-      image: [preImage],
+      image: [""],
       text: ["<h2>您的姓名</h2><p>職位名稱</p><p>聯絡資訊</p>"],
       type: 6,
-      comName: "TextAndImg0",
+      comName: "TextAndImg1",
       id: v4(),
     },
   },
   {
-    name: "TextAndImg1",
+    name: "TextAndImg2",
     comIndex: 7,
     comContent: {
-      image: [preImage],
+      image: [""],
       text: ["<h2>您的姓名</h2><p>職位名稱</p><p>聯絡資訊</p>"],
       type: 7,
-      comName: "TextAndImg1",
+      comName: "TextAndImg2",
       id: v4(),
     },
   },
@@ -143,7 +152,6 @@ export const websiteChoice = [
       text: [
         "<h2>您的姓名</h2><p>職位名稱</p><p>聯絡資訊</p>",
         "<h2>您的姓名</h2><p>職位名稱</p><p>聯絡資訊</p>",
-        "<h2>您的姓名</h2><p>職位名稱</p><p>聯絡資訊</p>",
       ],
       type: 11,
       comName: "Text3",
@@ -156,6 +164,7 @@ export const websiteChoice = [
     comContent: {
       image: [],
       text: [
+        "<h2>您的姓名</h2><p>職位名稱</p><p>聯絡資訊</p>",
         "<h2>您的姓名</h2><p>職位名稱</p><p>聯絡資訊</p>",
         "<h2>您的姓名</h2><p>職位名稱</p><p>聯絡資訊</p>",
       ],
@@ -202,5 +211,86 @@ export const WebsiteComponents = {
     content: websiteComContent;
   }) {
     return <MultiImg1 index={index} content={content} />;
+  },
+  MultiImg2: function Text({
+    index,
+    content,
+  }: {
+    index: number;
+    content: websiteComContent;
+  }) {
+    return <MultiImg2 index={index} content={content} />;
+  },
+  MultiImg3: function Text({
+    index,
+    content,
+  }: {
+    index: number;
+    content: websiteComContent;
+  }) {
+    return <MultiImg3 index={index} content={content} />;
+  },
+  TextAndImg1: function Text({
+    index,
+    content,
+  }: {
+    index: number;
+    content: websiteComContent;
+  }) {
+    return <TextAndImg1 index={index} content={content} />;
+  },
+  TextAndImg2: function Text({
+    index,
+    content,
+  }: {
+    index: number;
+    content: websiteComContent;
+  }) {
+    return <TextAndImg2 index={index} content={content} />;
+  },
+  Text0: function Text({
+    index,
+    content,
+  }: {
+    index: number;
+    content: websiteComContent;
+  }) {
+    return <Text0 index={index} content={content} />;
+  },
+  Text1: function Text({
+    index,
+    content,
+  }: {
+    index: number;
+    content: websiteComContent;
+  }) {
+    return <Text1 index={index} content={content} />;
+  },
+  Text2: function Text({
+    index,
+    content,
+  }: {
+    index: number;
+    content: websiteComContent;
+  }) {
+    return <Text2 index={index} content={content} />;
+  },
+  Text3: function Text({
+    index,
+    content,
+  }: {
+    index: number;
+    content: websiteComContent;
+  }) {
+    return <Text3 index={index} content={content} />;
+  },
+  Text4: function Text({
+    index,
+    content,
+  }: {
+    index: number;
+    content: websiteComContent;
+  }) {
+    return <Text4 index={index} content={content} />;
   },
 };
