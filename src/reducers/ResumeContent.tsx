@@ -79,8 +79,7 @@ const ResumeReducer = (
       return tempResumeData;
     }
     case ActionType.RESUME.RENEW_CONTENT: {
-      let tempResumeData = resumeData;
-      tempResumeData = { ...resumeData, content: action.payload.content };
+      const tempResumeData = { ...resumeData, content: action.payload.content };
       return tempResumeData;
     }
     case ActionType.RESUME.LOADING: {

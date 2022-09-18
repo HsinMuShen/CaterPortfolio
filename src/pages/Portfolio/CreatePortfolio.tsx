@@ -23,6 +23,8 @@ export interface portfolioComContent {
   image: string[];
   text: string[];
   type: number;
+  comName: string;
+  id: string;
 }
 
 const CreatePortfolio = () => {
@@ -36,7 +38,7 @@ const CreatePortfolio = () => {
 
   const addWebsiteCom = (conIndex: number) => {
     dispatch(portfolioAddCom(portfolioChoice[conIndex].comContent));
-    setPortfolioCom([...portfolioCom, portfolioChoice[conIndex].comContent]);
+    // setPortfolioCom([...portfolioCom, portfolioChoice[conIndex].comContent]);
   };
 
   const addDeleteCom = (deleteIndex: number) => {

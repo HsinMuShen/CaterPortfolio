@@ -1,12 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPen } from "@fortawesome/free-solid-svg-icons";
+import { faEye } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
-import WebsiteCom1 from "./WebsiteComponents/WebsiteCom1";
-import WebsiteCom2 from "./WebsiteComponents/WebsiteCom2";
-import WebsiteCom3 from "./WebsiteComponents/WebsiteCom3";
+import { websiteChoice } from "./websiteComponents";
 import PortfolioAreaCom from "./WebsiteComponents/PortfolioAreaCom";
 import AddWebsiteCom from "./AddWebsiteCom";
 import Delete from "../Resume/Delete";
+import Move from "../../utilis/Move";
 
 import firebase from "../../utilis/firebase";
 import { RootState } from "../../reducers";
@@ -15,72 +18,23 @@ import {
   websiteAddCom,
   websiteDeleteCom,
   websiteAddSetting,
+  websiteRenewContent,
   websiteLoading,
   isPreviewWebsite,
 } from "../../action";
+import { WebsiteComponents } from "./websiteComponents";
 import { Link } from "react-router-dom";
-
-const Preview = styled.div`
-  cursor: pointer;
-`;
-
-const SineleComponent = styled.div`
-  display: flex;
-`;
 
 export interface websiteComContent {
   image: string[];
   text: string[];
   type: number;
+  comName: string;
+  id: string;
   portfolioID?: string[];
 }
 
-export const websiteChoice = [
-  {
-    name: 0,
-    comIndex: 0,
-    comContent: {
-      image: [""],
-      text: ["<h2>標題</h2><p>令人眼睛一亮的介紹</p><p>令人眼睛一亮的介紹</p>"],
-      type: 0,
-    },
-  },
-  {
-    name: 1,
-    comIndex: 1,
-    comContent: {
-      image: ["", ""],
-      text: [],
-      type: 1,
-    },
-  },
-  {
-    name: 2,
-    comIndex: 2,
-    comContent: {
-      image: [],
-      text: [
-        "<h3>標題</h3><p>您的英勇事蹟</p><p>您的英勇事蹟</p>",
-        "<h3>標題</h3><p>您的英勇事蹟</p><p>您的英勇事蹟</p>",
-        "<h3>標題</h3><p>您的英勇事蹟</p><p>您的英勇事蹟</p>",
-      ],
-      type: 2,
-    },
-  },
-  {
-    name: 3,
-    comIndex: 3,
-    comContent: {
-      image: [],
-      text: [],
-      type: 3,
-      portfolioID: [],
-    },
-  },
-];
-
 const Website = () => {
-  const [websiteCom, setWebsiteCom] = useState<websiteComContent[]>([]);
   const websiteID = useParams().id;
   const dispatch = useDispatch();
   const websiteData = useSelector((state: RootState) => state.WebsiteReducer);
@@ -91,14 +45,10 @@ const Website = () => {
 
   const addWebsiteCom = (conIndex: number) => {
     dispatch(websiteAddCom(websiteChoice[conIndex].comContent));
-    setWebsiteCom([...websiteCom, websiteChoice[conIndex].comContent]);
   };
 
   const addDeleteCom = (deleteIndex: number) => {
     dispatch(websiteDeleteCom(deleteIndex));
-    const tempArr = [...websiteCom];
-    tempArr.splice(deleteIndex, 1);
-    setWebsiteCom(tempArr);
   };
 
   const uploadWebsite = () => {
@@ -107,19 +57,20 @@ const Website = () => {
     firebase.uploadDoc("websites", userData.userID, websiteData);
   };
 
+  const handleOnDragEnd = (result: any) => {
+    if (!result.destination) return;
+    const items: websiteComContent[] = [...websiteData.content];
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+
+    dispatch(websiteRenewContent(items));
+  };
+
   useEffect(() => {
     const loadWebsite = async () => {
-      const websiteData = await firebase.readData(
-        "websites",
-        `${userData.userID}`
-      );
+      const websiteData = await firebase.readData("websites", `${websiteID}`);
       if (websiteData) {
         dispatch(websiteLoading(websiteData));
-        const tempArr: websiteComContent[] = [];
-        websiteData.content.forEach((content: websiteComContent) => {
-          tempArr.push(content);
-        });
-        setWebsiteCom(tempArr);
       } else {
         dispatch(websiteAddSetting("name", userData.name));
         dispatch(websiteAddSetting("userID", userData.userID));
@@ -129,69 +80,138 @@ const Website = () => {
   }, [userData]);
 
   return (
-    <>
-      {websiteID === userData.userID ? (
-        <Preview
-          onClick={() => {
-            dispatch(isPreviewWebsite());
-          }}
-        >
-          {`is preview : ${isPreview}`}
-        </Preview>
-      ) : null}
-
-      <div>
-        {websiteCom.map((content, index) => {
-          switch (content.type) {
-            case 0: {
-              return (
-                <SineleComponent key={index}>
-                  <WebsiteCom1 content={content} index={index} />
-                  <Delete addDeleteCom={addDeleteCom} index={index} />
-                </SineleComponent>
-              );
-            }
-            case 1: {
-              return (
-                <SineleComponent key={index}>
-                  <WebsiteCom2 content={content} index={index} />
-                  <Delete addDeleteCom={addDeleteCom} index={index} />
-                </SineleComponent>
-              );
-            }
-            case 2: {
-              return (
-                <SineleComponent key={index}>
-                  <WebsiteCom3 content={content} index={index} />
-                  <Delete addDeleteCom={addDeleteCom} index={index} />
-                </SineleComponent>
-              );
-            }
-            case 3: {
-              return (
-                <SineleComponent key={index}>
-                  <PortfolioAreaCom
-                    content={content}
-                    index={index}
-                    userID={userData.userID}
-                  />
-                  <Delete addDeleteCom={addDeleteCom} index={index} />
-                </SineleComponent>
-              );
-            }
-            default:
-              return null;
-          }
-        })}
-      </div>
-      {isPreview ? null : (
-        <AddWebsiteCom
-          addWebsiteCom={addWebsiteCom}
-          uploadWebsite={uploadWebsite}
-        />
-      )}
-    </>
+    <WebsiteBody>
+      <Wrapper>
+        {websiteID === userData.userID ? (
+          <PreviewBtn
+            onClick={() => {
+              dispatch(isPreviewWebsite());
+            }}
+          >
+            {isPreview ? (
+              <>
+                <FontAwesomeIcon icon={faPen} />
+                <span> 編輯</span>
+              </>
+            ) : (
+              <>
+                <FontAwesomeIcon icon={faEye} />
+                <span> 預覽</span>
+              </>
+            )}
+          </PreviewBtn>
+        ) : null}
+        <DragDropContext onDragEnd={handleOnDragEnd}>
+          <Droppable droppableId="characters">
+            {(provided) => (
+              <WebsiteLayouts
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+              >
+                <PreviewDiv
+                  style={{ zIndex: isPreview ? "2" : "-1" }}
+                ></PreviewDiv>
+                {websiteData.content?.map(
+                  (content: websiteComContent, index: number) => {
+                    const TempCom =
+                      WebsiteComponents[
+                        content.comName as keyof typeof WebsiteComponents
+                      ];
+                    return (
+                      <Draggable
+                        key={content.id}
+                        draggableId={content.id}
+                        index={index}
+                      >
+                        {(provided) => (
+                          <SineleComponent
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            ref={provided.innerRef}
+                          >
+                            <TempCom index={index} content={content} />
+                            <Delete addDeleteCom={addDeleteCom} index={index} />
+                            <Move />
+                          </SineleComponent>
+                        )}
+                      </Draggable>
+                    );
+                  }
+                )}
+                {provided.placeholder}
+              </WebsiteLayouts>
+            )}
+          </Droppable>
+        </DragDropContext>
+        {isPreview ? null : (
+          <AddWebsiteCom
+            addWebsiteCom={addWebsiteCom}
+            uploadWebsite={uploadWebsite}
+          />
+        )}
+      </Wrapper>
+      <ResumeBtn onClick={uploadWebsite}>上架網站!</ResumeBtn>
+    </WebsiteBody>
   );
 };
 
 export default Website;
+
+const WebsiteBody = styled.div`
+  width: 100%;
+  height: 100%;
+  padding: 120px 0;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const Wrapper = styled.div`
+  width: 960px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  /* border: 1px solid; */
+`;
+
+const PreviewBtn = styled.div`
+  position: fixed;
+  top: 180px;
+  right: 25px;
+  background-color: #ffffff;
+  padding: 5px 8px;
+  border-radius: 10px;
+  border: 1px solid;
+  cursor: pointer;
+  &:hover {
+    background-color: #555555;
+    color: #ffffff;
+  }
+`;
+
+const WebsiteLayouts = styled.div`
+  position: relative;
+  display: flex;
+  width: 960px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const PreviewDiv = styled.div`
+  position: absolute;
+  width: 900px;
+  height: 100%;
+  z-index: 2;
+`;
+
+const SineleComponent = styled.div`
+  display: flex;
+  width: 960px;
+  position: relative;
+  margin: 10px 0;
+`;
+
+const ResumeBtn = styled.button`
+  width: 200px;
+`;

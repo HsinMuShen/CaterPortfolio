@@ -52,8 +52,6 @@ const Resume: React.FC = () => {
 
   const addDeleteCom = (deleteIndex: number) => {
     dispatch(resumeDeleteCom(deleteIndex));
-    const tempArr = [...resumeData.content];
-    tempArr.splice(deleteIndex, 1);
   };
   const uploadResume = async () => {
     html2canvas(refPhoto.current!).then(function (canvas) {
@@ -61,7 +59,6 @@ const Resume: React.FC = () => {
       dispatch(resumeAddSetting("coverImage", dataUrl));
       const tempData = resumeData;
       tempData.coverImage = dataUrl;
-      console.log(tempData);
       firebase.uploadDoc("resumes", `${resumeID}`, tempData);
     });
   };
@@ -86,10 +83,6 @@ const Resume: React.FC = () => {
       const resumeData = await firebase.readData("resumes", `${resumeID}`);
       if (resumeData) {
         dispatch(resumeLoading(resumeData));
-        const tempArr: resumeComContent[] = [];
-        resumeData.content.forEach((content: resumeComContent) => {
-          tempArr.push(content);
-        });
       } else {
         dispatch(resumeAddSetting("name", userData.name));
         dispatch(resumeAddSetting("userID", userData.userID));

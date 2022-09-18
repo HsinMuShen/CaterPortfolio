@@ -78,6 +78,8 @@ export const resumeLoading = (data: DocumentData) => {
   };
 };
 
+//------------------------ WEBSITE ----------------------------//
+
 export const websiteAddCom = (content: {
   image: string[];
   text: string[] | null[];
@@ -134,6 +136,22 @@ export const websiteAddSetting = (type: string, text: string) => {
   return {
     type: ActionType.WEBSITE.ADD_SETTING,
     payload: { type, text },
+  };
+};
+
+export const websiteRenewContent = (
+  content: {
+    image: string[];
+    text: string[];
+    type: number;
+    comName: string;
+    id: string;
+    portfolioID?: string[];
+  }[]
+) => {
+  return {
+    type: ActionType.WEBSITE.RENEW_CONTENT,
+    payload: { content },
   };
 };
 

@@ -2,8 +2,6 @@ import React from "react";
 import { resumeComContent } from "./Resume";
 import { v4 } from "uuid";
 import TextAndImg0 from "./ResumeComponents/TextAndImg0";
-import ResumeCom2 from "./ResumeComponents/ResumeCom2";
-import ResumeCom3 from "./ResumeComponents/ResumeCom3";
 import preImage from "../../utilis/cat.jpg";
 import TextAndImg1 from "./ResumeComponents/TextAndImg1";
 import TextAndImg2 from "./ResumeComponents/TextAndImg2";
@@ -60,7 +58,7 @@ export const resumeChoice = [
     },
   },
   {
-    name: 4,
+    name: "TextAndImg0",
     comIndex: 4,
     comContent: {
       image: [preImage],
@@ -71,7 +69,7 @@ export const resumeChoice = [
     },
   },
   {
-    name: 5,
+    name: "TextAndImg1",
     comIndex: 5,
     comContent: {
       image: [preImage],
@@ -82,7 +80,7 @@ export const resumeChoice = [
     },
   },
   {
-    name: 6,
+    name: "TextAndImg2",
     comIndex: 6,
     comContent: {
       image: [preImage],
@@ -93,7 +91,7 @@ export const resumeChoice = [
     },
   },
   {
-    name: 7,
+    name: "Text0",
     comIndex: 7,
     comContent: {
       image: [],
@@ -104,7 +102,7 @@ export const resumeChoice = [
     },
   },
   {
-    name: 8,
+    name: "Text1",
     comIndex: 8,
     comContent: {
       image: [],
@@ -114,31 +112,6 @@ export const resumeChoice = [
       ],
       type: 8,
       comName: "Text1",
-      id: v4(),
-    },
-  },
-  {
-    name: 1,
-    comIndex: 1,
-    comContent: {
-      image: [preImage, preImage],
-      text: [],
-      type: 1,
-      comName: "ResumeCom2",
-      id: v4(),
-    },
-  },
-  {
-    name: 2,
-    comIndex: 2,
-    comContent: {
-      image: [],
-      text: [
-        "<h3>標題</h3><p>您的英勇事蹟</p><p>您的英勇事蹟</p>",
-        "<h3>標題</h3><p>您的英勇事蹟</p><p>您的英勇事蹟</p>",
-      ],
-      type: 2,
-      comName: "ResumeCom3",
       id: v4(),
     },
   },
@@ -207,25 +180,6 @@ export const ResumeComponents = {
     content: resumeComContent;
   }) {
     return <TextAndImg2 index={index} content={content} />;
-  },
-
-  ResumeCom2: function Text({
-    index,
-    content,
-  }: {
-    index: number;
-    content: resumeComContent;
-  }) {
-    return <ResumeCom2 index={index} content={content} />;
-  },
-  ResumeCom3: function Text({
-    index,
-    content,
-  }: {
-    index: number;
-    content: resumeComContent;
-  }) {
-    return <ResumeCom3 index={index} content={content} />;
   },
   Text0: function Text({
     index,

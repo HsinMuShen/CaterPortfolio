@@ -8,6 +8,8 @@ export interface portfolioReducer {
     image: string[];
     text: string[];
     type: number;
+    comName: string;
+    id: string;
   }[];
   name: string;
   followers: {

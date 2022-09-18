@@ -22,18 +22,13 @@ import {
   portfolioInitialSetup,
   isPreviewPortfolio,
 } from "../../action";
+import { portfolioComContent } from "./CreatePortfolio";
 
 const Preview = styled.div``;
 
 const SineleComponent = styled.div`
   display: flex;
 `;
-
-export interface portfolioComContent {
-  image: string[];
-  text: string[];
-  type: number;
-}
 
 export const portfolioChoice = [
   {
@@ -88,7 +83,7 @@ const Portfolio = () => {
 
   const addWebsiteCom = (conIndex: number) => {
     dispatch(portfolioAddCom(portfolioChoice[conIndex].comContent));
-    setPortfolioCom([...portfolioCom, portfolioChoice[conIndex].comContent]);
+    // setPortfolioCom([...portfolioCom, portfolioChoice[conIndex].comContent]);
   };
 
   const addDeleteCom = (deleteIndex: number) => {
@@ -171,36 +166,38 @@ const Portfolio = () => {
       )}
 
       <div>
-        {portfolioCom.map((content, index) => {
-          switch (content.type) {
-            case 0: {
-              return (
-                <SineleComponent key={index}>
-                  <PortfolioCom1 content={content} index={index} />
-                  <Delete addDeleteCom={addDeleteCom} index={index} />
-                </SineleComponent>
-              );
+        {portfolioData.content.map(
+          (content: portfolioComContent, index: number) => {
+            switch (content.type) {
+              case 0: {
+                return (
+                  <SineleComponent key={index}>
+                    <PortfolioCom1 content={content} index={index} />
+                    <Delete addDeleteCom={addDeleteCom} index={index} />
+                  </SineleComponent>
+                );
+              }
+              case 1: {
+                return (
+                  <SineleComponent key={index}>
+                    <PortfolioCom2 content={content} index={index} />
+                    <Delete addDeleteCom={addDeleteCom} index={index} />
+                  </SineleComponent>
+                );
+              }
+              case 2: {
+                return (
+                  <SineleComponent key={index}>
+                    <PortfolioCom3 content={content} index={index} />
+                    <Delete addDeleteCom={addDeleteCom} index={index} />
+                  </SineleComponent>
+                );
+              }
+              default:
+                return null;
             }
-            case 1: {
-              return (
-                <SineleComponent key={index}>
-                  <PortfolioCom2 content={content} index={index} />
-                  <Delete addDeleteCom={addDeleteCom} index={index} />
-                </SineleComponent>
-              );
-            }
-            case 2: {
-              return (
-                <SineleComponent key={index}>
-                  <PortfolioCom3 content={content} index={index} />
-                  <Delete addDeleteCom={addDeleteCom} index={index} />
-                </SineleComponent>
-              );
-            }
-            default:
-              return null;
           }
-        })}
+        )}
       </div>
       <CreatePortfolioCom
         addWebsiteCom={addWebsiteCom}
