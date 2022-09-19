@@ -157,7 +157,9 @@ const Website = () => {
           />
         )}
       </Wrapper>
-      <ResumeBtn onClick={uploadWebsite}>上架網站!</ResumeBtn>
+      {isPreview ? null : (
+        <ResumeBtn onClick={uploadWebsite}>上架網站!</ResumeBtn>
+      )}
     </WebsiteBody>
   );
 };

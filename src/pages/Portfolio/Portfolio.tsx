@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { v4 } from "uuid";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen, faEye } from "@fortawesome/free-solid-svg-icons";
@@ -162,7 +162,13 @@ const Portfolio = () => {
         </PortfolioLayouts>
         <CreatePortfolioCom addPortfolioCom={addPortfolioCom} />
       </Wrapper>
-      <ResumeBtn onClick={uploadPortfolio}>上架作品集!</ResumeBtn>
+      {isPreview ? null : (
+        <ResumeBtn onClick={uploadPortfolio}>上架作品集!</ResumeBtn>
+      )}
+      <ToWebsiteBtn to={`/website/${portfolioData.userID}`}>
+        <ResumeBtn>回到{portfolioData.name}的網站</ResumeBtn>
+      </ToWebsiteBtn>
+
       <SideBar type={"portfolio"} data={portfolioData} />
     </PortfolioBody>
   );
@@ -205,7 +211,7 @@ const PreviewBtn = styled.div`
 const PortfolioLayouts = styled.div`
   position: relative;
   display: flex;
-  width: 900px;
+  width: 960px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -214,23 +220,23 @@ const PortfolioLayouts = styled.div`
 
 const PreviewDiv = styled.div`
   position: absolute;
-  width: 900px;
+  width: 960px;
   height: 100%;
   z-index: 2;
 `;
 
 const SingleComponent = styled.div`
   display: flex;
-  width: 900px;
+  width: 960px;
   position: relative;
-  margin: 10px auto;
+  margin: 10px 0;
 `;
 
 const ResumeBtn = styled.div`
   color: #555555;
   background-color: #ffffff;
   padding: 8px;
-  width: 120px;
+  width: 130px;
   border-radius: 5px;
   font-weight: 600;
   border: 2px solid;
@@ -243,4 +249,8 @@ const ResumeBtn = styled.div`
     color: #ffffff;
     background-color: #555555;
   }
+`;
+
+const ToWebsiteBtn = styled(Link)`
+  text-decoration: none;
 `;

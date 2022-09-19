@@ -16,9 +16,13 @@ import cater from "../../utilis/cater.png";
 
 const Wrapper = styled.div`
   display: flex;
+  width: 900px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin: 0 auto 40px;
+  background-color: #eaeaea;
+  border-radius: 15px;
 `;
 
 const Intro = styled.p`
@@ -28,11 +32,6 @@ const Intro = styled.p`
 const SettingArea = styled.div`
   display: flex;
   align-items: center;
-`;
-
-const Hr = styled.hr`
-  width: 90%;
-  border: 1px solid;
 `;
 
 const ImageContainer = styled.div`
@@ -142,7 +141,6 @@ const InitialSetup = ({ portfolioID }: { portfolioID: string | undefined }) => {
           }}
         />
       </SettingArea>
-      <Hr />
     </Wrapper>
   );
 };
