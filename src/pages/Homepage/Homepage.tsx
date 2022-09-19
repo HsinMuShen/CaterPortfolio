@@ -11,6 +11,7 @@ import { db } from "../../firebaseConfig";
 import styled from "styled-components";
 
 import Pin from "./Pin";
+import Loading from "../../utilis/Loading";
 
 const Wrapper = styled.div`
   display: flex;

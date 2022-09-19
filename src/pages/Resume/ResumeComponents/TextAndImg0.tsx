@@ -33,7 +33,6 @@ const TextAndImg0 = ({
             style={{
               width: "100px",
               height: "100px",
-              border: "1px solid",
               borderRadius: "50%",
               margin: "0 100px 0 80px",
             }}

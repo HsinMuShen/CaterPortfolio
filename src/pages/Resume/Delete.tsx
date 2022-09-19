@@ -90,7 +90,10 @@ const Delete = ({
         addDeleteCom(index);
       }}
       style={{
-        display: isPreview.resume && isPreview.website ? "none" : "block",
+        display:
+          isPreview.resume && isPreview.website && isPreview.portfolio
+            ? "none"
+            : "block",
       }}
     >
       <FontAwesomeIcon icon={faTrash} />

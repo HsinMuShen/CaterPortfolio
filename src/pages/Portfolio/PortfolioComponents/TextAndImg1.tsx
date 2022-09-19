@@ -1,45 +1,41 @@
 import React from "react";
 import styled from "styled-components";
-import PreviewImageInput from "../../../utilis/PreviewImageInput";
+import Canves from "../../../utilis/Canves";
 import EditText from "../../../utilis/EditText";
-import { resumeComContent } from "../Resume";
-import useUpdateResumeData from "./ResumeUpdateDataFunction";
+import { portfolioComContent } from "../Portfolio";
+import useUpdateResumeData from "./WebsiteUpdateDataFunction";
 
 const Wrapper = styled.div`
   display: flex;
-  width: 800px;
-  margin: 0 auto;
   align-items: center;
+  justify-content: space-between;
+  margin: 0 auto;
+  width: 900px;
 `;
 
 const TextAndImg1 = ({
-  index,
   content,
+  index,
 }: {
+  content: portfolioComContent;
   index: number;
-  content: resumeComContent;
 }) => {
-  const { imageFileList, textList, setResumeReducerImage, setReducerText } =
+  const { imageFileList, textList, setReducerImage, setReducerText } =
     useUpdateResumeData({ index, content });
-
   return (
     <Wrapper>
       {imageFileList.map((_, listIndex) => {
         return (
-          <PreviewImageInput
+          <Canves
             key={listIndex}
-            setResumeReducerImage={setResumeReducerImage}
+            content={content}
+            name={`${index}-${listIndex}`}
+            size={{ height: 240, width: 440 }}
+            setReducerImage={setReducerImage}
             listIndex={listIndex}
-            image={content.image[listIndex]}
-            style={{
-              width: "390px",
-              height: "200px",
-              margin: "0 20px 0 0",
-            }}
           />
         );
       })}
-
       {textList.map((_, listIndex) => {
         return (
           <EditText
@@ -48,7 +44,7 @@ const TextAndImg1 = ({
             listIndex={listIndex}
             setReducerText={setReducerText}
             style={{
-              width: "390px",
+              width: "400px",
               padding: " 0 10px",
             }}
           />

@@ -10,14 +10,64 @@ import {
   setPortfolioIndex,
   setPortfolioListIndex,
 } from "../../../action";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBook } from "@fortawesome/free-solid-svg-icons";
 
-const PortfolioCard = styled(Link)``;
+const Wrapper = styled.div`
+  display: flex;
+  width: 900px;
+  flex-wrap: wrap;
+  margin: 0 auto;
+  z-index: 3;
+`;
+
+const PortfolioCard = styled(Link)`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  margin: 20px 5px;
+  &:hover {
+    scale: 1.1;
+  }
+`;
+
+const PortfolioImg = styled.div<{ img: string }>`
+  width: 210px;
+  height: 210px;
+  background-image: url(${(props) => props.img});
+  background-size: cover;
+  background-position: center;
+  margin: 10px 0;
+`;
+
+const PortfolioTitle = styled.p`
+  color: #555555;
+  font-size: 20px;
+`;
 
 const AddingPortfolio = styled(Link)`
-  width: 100px;
-  height: 100px;
-  border: 1px solid;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 210px;
+  height: 270px;
+  border: 2px solid;
+  border-radius: 5px;
+  text-decoration: none;
+  color: #555555;
+  margin: 20px 5px;
+  &:hover {
+    color: #ffffff;
+    background-color: #555555;
+  }
 `;
+
+const AddingPortfolioBtn = styled.p`
+  pointer-events: none;
+  font-size: 16px; ;
+`;
+
 const PortfolioAreaCom = ({
   content,
   index,
@@ -27,52 +77,42 @@ const PortfolioAreaCom = ({
   index: number;
   userID: string | undefined;
 }) => {
-  const [textList, setTextList] = useState<string[] | null[]>([
-    null,
-    null,
-    null,
-  ]);
   const dispatch = useDispatch();
   const isPreview = useSelector(
     (state: RootState) => state.IsPreviewReducer.website
   );
-  const setReducerText = async (text: string, listIndex: number) => {
-    const tempArr = textList;
-    tempArr[listIndex] = text;
-    setTextList(tempArr);
-    dispatch(websiteFillContent(index, tempArr));
-  };
+
   return (
-    <div style={{ display: "flex" }}>
-      <>
-        {content.portfolioID?.map((portfolioID, portfolioListIndex) => {
-          return (
-            <PortfolioCard
-              key={portfolioID}
-              to={`/portfolio/${portfolioID}`}
-              onClick={() => {
-                dispatch(setPortfolioListIndex(portfolioListIndex));
-                dispatch(setPortfolioIndex(index));
-              }}
-            >
-              <img src={content.image[portfolioListIndex]} />
-              <p>{content.text[portfolioListIndex]}</p>
-            </PortfolioCard>
-          );
-        })}
-        {isPreview ? null : (
-          <AddingPortfolio to={"/portfolio/create"}>
-            <div
-              onClick={() => {
-                dispatch(setPortfolioIndex(index));
-              }}
-            >
-              新增作品集
-            </div>
-          </AddingPortfolio>
-        )}
-      </>
-    </div>
+    <Wrapper>
+      {content.portfolioID?.map((portfolioID, portfolioListIndex) => {
+        return (
+          <PortfolioCard
+            key={portfolioID}
+            to={`/portfolio/${portfolioID}`}
+            onClick={() => {
+              dispatch(setPortfolioListIndex(portfolioListIndex));
+              dispatch(setPortfolioIndex(index));
+            }}
+          >
+            <PortfolioImg img={content.image[portfolioListIndex]} />
+            <PortfolioTitle>{content.text[portfolioListIndex]}</PortfolioTitle>
+          </PortfolioCard>
+        );
+      })}
+      {isPreview ? null : (
+        <AddingPortfolio
+          to={"/portfolio/create"}
+          onClick={() => {
+            dispatch(setPortfolioIndex(index));
+          }}
+        >
+          <AddingPortfolioBtn>
+            <FontAwesomeIcon icon={faBook} />
+            {" 新增作品集"}
+          </AddingPortfolioBtn>
+        </AddingPortfolio>
+      )}
+    </Wrapper>
   );
 };
 

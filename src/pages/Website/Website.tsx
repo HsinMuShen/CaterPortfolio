@@ -2,11 +2,13 @@ import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPen } from "@fortawesome/free-solid-svg-icons";
-import { faEye } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPen,
+  faEye,
+  faUpDownLeftRight,
+} from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 import { websiteChoice } from "./websiteComponents";
-import PortfolioAreaCom from "./WebsiteComponents/PortfolioAreaCom";
 import AddWebsiteCom from "./AddWebsiteCom";
 import Delete from "../Resume/Delete";
 import Move from "../../utilis/Move";
@@ -21,9 +23,9 @@ import {
   websiteRenewContent,
   websiteLoading,
   isPreviewWebsite,
+  isPreviewTrue,
 } from "../../action";
 import { WebsiteComponents } from "./websiteComponents";
-import { Link } from "react-router-dom";
 
 export interface websiteComContent {
   image: string[];
@@ -77,6 +79,9 @@ const Website = () => {
       }
     };
     loadWebsite();
+    return () => {
+      dispatch(isPreviewTrue("website"));
+    };
   }, [userData]);
 
   return (
@@ -124,15 +129,23 @@ const Website = () => {
                         index={index}
                       >
                         {(provided) => (
-                          <SineleComponent
+                          <SingleComponent
                             {...provided.draggableProps}
-                            {...provided.dragHandleProps}
                             ref={provided.innerRef}
                           >
-                            <TempCom index={index} content={content} />
+                            <TempCom
+                              index={index}
+                              content={content}
+                              userID={userData.userID}
+                            />
                             <Delete addDeleteCom={addDeleteCom} index={index} />
-                            <Move />
-                          </SineleComponent>
+
+                            <MoveBtn {...provided.dragHandleProps}>
+                              {isPreview ? null : (
+                                <FontAwesomeIcon icon={faUpDownLeftRight} />
+                              )}
+                            </MoveBtn>
+                          </SingleComponent>
                         )}
                       </Draggable>
                     );
@@ -150,7 +163,9 @@ const Website = () => {
           />
         )}
       </Wrapper>
-      <ResumeBtn onClick={uploadWebsite}>上架網站!</ResumeBtn>
+      {isPreview ? null : (
+        <ResumeBtn onClick={uploadWebsite}>上架網站!</ResumeBtn>
+      )}
     </WebsiteBody>
   );
 };
@@ -159,6 +174,7 @@ export default Website;
 
 const WebsiteBody = styled.div`
   width: 100%;
+  min-height: 100vh;
   height: 100%;
   padding: 120px 0;
   background-color: #ffffff;
@@ -205,13 +221,35 @@ const PreviewDiv = styled.div`
   z-index: 2;
 `;
 
-const SineleComponent = styled.div`
+const SingleComponent = styled.div`
   display: flex;
   width: 960px;
   position: relative;
   margin: 10px 0;
 `;
 
+const MoveBtn = styled.div`
+  position: absolute;
+  right: 4.5px;
+  top: 60px;
+  font-size: 20px;
+`;
+
 const ResumeBtn = styled.button`
-  width: 200px;
+  color: #555555;
+  background-color: #ffffff;
+  padding: 8px;
+  width: 120px;
+  border-radius: 5px;
+  font-weight: 600;
+  border: 2px solid;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 40px auto 20px;
+  cursor: pointer;
+  &:hover {
+    color: #ffffff;
+    background-color: #555555;
+  }
 `;

@@ -18,6 +18,7 @@ import {
 
 import firebase from "../../utilis/firebase";
 import Delete from "./Delete";
+import Move from "../../utilis/Move";
 import AddComArea from "./AddComArea";
 import SideBar from "../../utilis/SideBar";
 import { resumeChoice } from "./resumeComponents";
@@ -89,6 +90,9 @@ const Resume: React.FC = () => {
       }
     };
     loadResume();
+    return () => {
+      dispatch(isPreviewTrue("resume"));
+    };
   }, [userData]);
 
   return (
@@ -147,6 +151,7 @@ const Resume: React.FC = () => {
                                 addDeleteCom={addDeleteCom}
                                 index={index}
                               />
+                              <Move />
                             </SineleComponent>
                           )}
                         </Draggable>

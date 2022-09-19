@@ -107,8 +107,8 @@ export const resumeChoice = [
     comContent: {
       image: [],
       text: [
-        "<h2>您的姓名</h2><p>職位名稱</p><p>聯絡資訊</p>",
-        "<h2>您的姓名</h2><p>職位名稱</p><p>聯絡資訊</p>",
+        "<h3>工作經驗</h3><hr><ol><li><p>酪梨牧場 豬仔</p></li><li><p>西瓜農場 作業員</p></li><li><p>骨灰墳場 清潔員</p><p></p></li></ol>",
+        "<p></p><p>2016 - 2019</p><p>2019 - 2021</p>",
       ],
       type: 8,
       comName: "Text1",

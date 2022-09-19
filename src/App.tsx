@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
 import Header from "./components/Header";
+import Loading from "./utilis/Loading";
 
 import PingFangTCRegular from "./fonts/PingFang-TC-Regular-2.otf";
 import PingFangTCThin from "./fonts/PingFang-TC-Thin-2.otf";
@@ -53,10 +54,19 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 const App: React.FC = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const location = useLocation();
+  useEffect(() => {
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 2500);
+  }, [location]);
   return (
     <>
       <GlobalStyle />
-      <Header />
+
+      {isLoading ? <Loading /> : <Header />}
       <Outlet />
     </>
   );

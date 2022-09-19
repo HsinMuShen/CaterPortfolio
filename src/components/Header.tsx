@@ -31,7 +31,7 @@ const Wrapper = styled.div`
   top: 0px;
   border-bottom: 1px solid;
   /* box-shadow: 0 3px #888888b3; */
-  z-index: 3;
+  z-index: 5;
 `;
 
 const MainNav = styled.div`
@@ -48,8 +48,8 @@ const SideNav = styled.div`
 const Logo = styled(Link)<{ img: string }>`
   color: #333333;
   text-decoration: none;
-  width: 110px;
-  height: 20px;
+  width: 120px;
+  height: 25px;
   background-position: center;
   background-size: contain;
   margin: 0 0px 0 20px;

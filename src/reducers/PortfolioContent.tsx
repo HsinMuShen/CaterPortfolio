@@ -1,4 +1,5 @@
 import { AnyAction } from "redux";
+import { v4 } from "uuid";
 import { ActionType } from ".";
 
 export interface portfolioReducer {
@@ -50,7 +51,9 @@ const PortfolioReducer = (
     }
     case ActionType.PORTFOLIO.ADD_COMPONENT: {
       const tempContentArr = portfolioData.content;
-      tempContentArr.push(action.payload.content);
+      const tempContent = { ...action.payload.content };
+      tempContent.id = v4();
+      tempContentArr.push(tempContent);
       const newResumeData = { ...portfolioData, content: tempContentArr };
       return newResumeData;
     }

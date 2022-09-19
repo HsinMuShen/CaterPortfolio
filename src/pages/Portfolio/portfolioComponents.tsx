@@ -1,21 +1,20 @@
 import React from "react";
-import { websiteComContent } from "./Website";
-import FullImg0 from "./WebsiteComponents/FullImg0";
-import FullImg1 from "./WebsiteComponents/FullImg1";
-import MultiImg0 from "./WebsiteComponents/MultiImg0";
-import MultiImg1 from "./WebsiteComponents/MultiImg1";
-import MultiImg2 from "./WebsiteComponents/MultiImg2";
-import MultiImg3 from "./WebsiteComponents/MultiImg3";
-import TextAndImg1 from "./WebsiteComponents/TextAndImg1";
-import TextAndImg2 from "./WebsiteComponents/TextAndImg2";
-import Text0 from "./WebsiteComponents/Text0";
-import Text1 from "./WebsiteComponents/Text1";
-import Text2 from "./WebsiteComponents/Text2";
-import Text3 from "./WebsiteComponents/Text3";
-import Text4 from "./WebsiteComponents/Text4";
-import PortfolioAreaCom from "./WebsiteComponents/PortfolioAreaCom";
+import { portfolioComContent } from "./Portfolio";
+import FullImg0 from "./PortfolioComponents/FullImg0";
+import FullImg1 from "./PortfolioComponents/FullImg1";
+import MultiImg0 from "./PortfolioComponents/MultiImg0";
+import MultiImg1 from "./PortfolioComponents/MultiImg1";
+import MultiImg2 from "./PortfolioComponents/MultiImg2";
+import MultiImg3 from "./PortfolioComponents/MultiImg3";
+import TextAndImg1 from "./PortfolioComponents/TextAndImg1";
+import TextAndImg2 from "./PortfolioComponents/TextAndImg2";
+import Text0 from "./PortfolioComponents/Text0";
+import Text1 from "./PortfolioComponents/Text1";
+import Text2 from "./PortfolioComponents/Text2";
+import Text3 from "./PortfolioComponents/Text3";
+import Text4 from "./PortfolioComponents/Text4";
 
-export const websiteChoice = [
+export const portfolioChoice = [
   {
     name: "FullImg0",
     comIndex: 0,
@@ -172,27 +171,15 @@ export const websiteChoice = [
       id: "",
     },
   },
-  {
-    name: "Portfolio0",
-    comIndex: 13,
-    comContent: {
-      image: [],
-      text: [],
-      type: 13,
-      comName: "Portfolio0",
-      id: "",
-      portfolioID: [],
-    },
-  },
 ];
 
-export const WebsiteComponents = {
+export const PortfolioComponents = {
   FullImg0: function Text({
     index,
     content,
   }: {
     index: number;
-    content: websiteComContent;
+    content: portfolioComContent;
   }) {
     return <FullImg0 index={index} content={content} />;
   },
@@ -201,7 +188,7 @@ export const WebsiteComponents = {
     content,
   }: {
     index: number;
-    content: websiteComContent;
+    content: portfolioComContent;
   }) {
     return <FullImg1 index={index} content={content} />;
   },
@@ -210,7 +197,7 @@ export const WebsiteComponents = {
     content,
   }: {
     index: number;
-    content: websiteComContent;
+    content: portfolioComContent;
   }) {
     return <MultiImg0 index={index} content={content} />;
   },
@@ -219,7 +206,7 @@ export const WebsiteComponents = {
     content,
   }: {
     index: number;
-    content: websiteComContent;
+    content: portfolioComContent;
   }) {
     return <MultiImg1 index={index} content={content} />;
   },
@@ -228,7 +215,7 @@ export const WebsiteComponents = {
     content,
   }: {
     index: number;
-    content: websiteComContent;
+    content: portfolioComContent;
   }) {
     return <MultiImg2 index={index} content={content} />;
   },
@@ -237,7 +224,7 @@ export const WebsiteComponents = {
     content,
   }: {
     index: number;
-    content: websiteComContent;
+    content: portfolioComContent;
   }) {
     return <MultiImg3 index={index} content={content} />;
   },
@@ -246,7 +233,7 @@ export const WebsiteComponents = {
     content,
   }: {
     index: number;
-    content: websiteComContent;
+    content: portfolioComContent;
   }) {
     return <TextAndImg1 index={index} content={content} />;
   },
@@ -255,7 +242,7 @@ export const WebsiteComponents = {
     content,
   }: {
     index: number;
-    content: websiteComContent;
+    content: portfolioComContent;
   }) {
     return <TextAndImg2 index={index} content={content} />;
   },
@@ -264,7 +251,7 @@ export const WebsiteComponents = {
     content,
   }: {
     index: number;
-    content: websiteComContent;
+    content: portfolioComContent;
   }) {
     return <Text0 index={index} content={content} />;
   },
@@ -273,7 +260,7 @@ export const WebsiteComponents = {
     content,
   }: {
     index: number;
-    content: websiteComContent;
+    content: portfolioComContent;
   }) {
     return <Text1 index={index} content={content} />;
   },
@@ -282,7 +269,7 @@ export const WebsiteComponents = {
     content,
   }: {
     index: number;
-    content: websiteComContent;
+    content: portfolioComContent;
   }) {
     return <Text2 index={index} content={content} />;
   },
@@ -291,7 +278,7 @@ export const WebsiteComponents = {
     content,
   }: {
     index: number;
-    content: websiteComContent;
+    content: portfolioComContent;
   }) {
     return <Text3 index={index} content={content} />;
   },
@@ -300,19 +287,8 @@ export const WebsiteComponents = {
     content,
   }: {
     index: number;
-    content: websiteComContent;
+    content: portfolioComContent;
   }) {
     return <Text4 index={index} content={content} />;
-  },
-  Portfolio0: function Text({
-    index,
-    content,
-    userID,
-  }: {
-    index: number;
-    content: websiteComContent;
-    userID: string;
-  }) {
-    return <PortfolioAreaCom index={index} content={content} userID={userID} />;
   },
 };

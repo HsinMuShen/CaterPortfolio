@@ -33,7 +33,6 @@ const FullImg0 = ({
             style={{
               width: "800px",
               height: "350px",
-              border: "1px solid",
             }}
           />
         );

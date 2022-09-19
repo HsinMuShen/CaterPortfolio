@@ -15,7 +15,6 @@ import FollowingArea from "./pages/Following/FollowingArea";
 import Resume from "./pages/Resume/Resume";
 import Website from "./pages/Website/Website";
 import Portfolio from "./pages/Portfolio/Portfolio";
-import CreatePortfolio from "./pages/Portfolio/CreatePortfolio";
 import ChatRoom from "./pages/ChatRoom/ChatRoom";
 import Login from "./pages/Login/Login";
 
@@ -37,7 +36,6 @@ root.render(
           <Route path="resume/:id" element={<Resume />} />
           <Route path="website/:id" element={<Website />} />
           <Route path="portfolio/:id" element={<Portfolio />} />
-          <Route path="createportfolio" element={<CreatePortfolio />} />
           <Route path="chatroom/:id" element={<ChatRoom />} />
           {/* <Route path="portfolio/:id" element={<Portfolio />} /> */}
           <Route path="*" element={<Navigate to="/" replace />} />
