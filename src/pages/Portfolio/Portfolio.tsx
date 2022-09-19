@@ -111,7 +111,7 @@ const Portfolio = () => {
     return () => {
       dispatch(isPreviewTrue("portfolio"));
     };
-  }, [userData]);
+  }, []);
 
   return (
     <PortfolioBody>

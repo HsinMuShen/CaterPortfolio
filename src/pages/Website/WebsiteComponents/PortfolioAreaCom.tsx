@@ -27,6 +27,9 @@ const PortfolioCard = styled(Link)`
   align-items: center;
   text-decoration: none;
   margin: 20px 5px;
+  &:hover {
+    scale: 1.1;
+  }
 `;
 
 const PortfolioImg = styled.div<{ img: string }>`

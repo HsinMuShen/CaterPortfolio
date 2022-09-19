@@ -6,10 +6,40 @@ import { websiteComContent } from "../pages/Website/Website";
 import { RootState } from "../reducers";
 import { useSelector } from "react-redux";
 
-const ImageInput = styled.input``;
+const ImageLabel = styled.label`
+  border: 1px solid;
+  border-radius: 5px;
+  padding: 5px;
+  margin: 5px;
+  cursor: pointer;
+  &:hover {
+    background-color: #555555;
+    color: #ffffff;
+  }
+`;
+
+const ImageInput = styled.input`
+  display: none;
+`;
+
+const BtnsArea = styled.div`
+  display: flex;
+`;
 
 const Wrapper = styled.div<{ style: any }>`
   ${(props) => props.style}
+`;
+
+const Btns = styled.div`
+  border: 1px solid;
+  border-radius: 5px;
+  padding: 5px;
+  margin: 5px;
+  cursor: pointer;
+  &:hover {
+    background-color: #555555;
+    color: #ffffff;
+  }
 `;
 
 interface canvasProps {
@@ -95,17 +125,21 @@ const Canves = ({
       ></canvas>
 
       {isPreview.website && isPreview.portfolio ? null : (
-        <div>
-          <ImageInput
-            type="file"
-            onChange={(e) => {
-              addImage(e.target.files![0]);
-            }}
-          />
-          <button onClick={deleteObject}>刪除</button>
-          <button onClick={storeJson}>存檔</button>
-          <button onClick={loadJson}>回復往日的美好</button>
-        </div>
+        <BtnsArea>
+          <ImageLabel>
+            新增照片
+            <ImageInput
+              type="file"
+              onChange={(e) => {
+                addImage(e.target.files![0]);
+              }}
+            />
+          </ImageLabel>
+
+          <Btns onClick={deleteObject}>刪除(選取後再按)</Btns>
+          <Btns onClick={storeJson}>存檔</Btns>
+          <Btns onClick={loadJson}>回復往日的美好</Btns>
+        </BtnsArea>
       )}
     </Wrapper>
   );
