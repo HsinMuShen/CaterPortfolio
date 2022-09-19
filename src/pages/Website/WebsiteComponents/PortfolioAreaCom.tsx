@@ -74,21 +74,11 @@ const PortfolioAreaCom = ({
   index: number;
   userID: string | undefined;
 }) => {
-  const [textList, setTextList] = useState<string[] | null[]>([
-    null,
-    null,
-    null,
-  ]);
   const dispatch = useDispatch();
   const isPreview = useSelector(
     (state: RootState) => state.IsPreviewReducer.website
   );
-  const setReducerText = async (text: string, listIndex: number) => {
-    const tempArr = textList;
-    tempArr[listIndex] = text;
-    setTextList(tempArr);
-    dispatch(websiteFillContent(index, tempArr));
-  };
+
   return (
     <Wrapper>
       {content.portfolioID?.map((portfolioID, portfolioListIndex) => {

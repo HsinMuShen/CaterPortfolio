@@ -34,7 +34,6 @@ const TextAndImg1 = ({
             style={{
               width: "390px",
               height: "200px",
-              border: "1px solid",
               margin: "0 20px 0 0",
             }}
           />

@@ -94,7 +94,6 @@ const Homepage = () => {
           );
         })}
       </PinContainer>
-      <Loading />
     </Wrapper>
   );
 };
