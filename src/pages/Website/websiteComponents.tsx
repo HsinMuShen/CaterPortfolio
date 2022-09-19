@@ -1,7 +1,5 @@
 import React from "react";
 import { websiteComContent } from "./Website";
-import preImage from "../../utilis/cat.jpg";
-import { v4 } from "uuid";
 import FullImg0 from "./WebsiteComponents/FullImg0";
 import FullImg1 from "./WebsiteComponents/FullImg1";
 import MultiImg0 from "./WebsiteComponents/MultiImg0";
@@ -15,6 +13,7 @@ import Text1 from "./WebsiteComponents/Text1";
 import Text2 from "./WebsiteComponents/Text2";
 import Text3 from "./WebsiteComponents/Text3";
 import Text4 from "./WebsiteComponents/Text4";
+import PortfolioAreaCom from "./WebsiteComponents/PortfolioAreaCom";
 
 export const websiteChoice = [
   {
@@ -91,7 +90,7 @@ export const websiteChoice = [
       text: ["<h2>您的姓名</h2><p>職位名稱</p><p>聯絡資訊</p>"],
       type: 6,
       comName: "TextAndImg1",
-      id: v4(),
+      id: "",
     },
   },
   {
@@ -102,7 +101,7 @@ export const websiteChoice = [
       text: ["<h2>您的姓名</h2><p>職位名稱</p><p>聯絡資訊</p>"],
       type: 7,
       comName: "TextAndImg2",
-      id: v4(),
+      id: "",
     },
   },
   {
@@ -113,7 +112,7 @@ export const websiteChoice = [
       text: ["<h2>您的姓名</h2><p>職位名稱</p><p>聯絡資訊</p>"],
       type: 8,
       comName: "Text0",
-      id: v4(),
+      id: "",
     },
   },
   {
@@ -127,7 +126,7 @@ export const websiteChoice = [
       ],
       type: 9,
       comName: "Text1",
-      id: v4(),
+      id: "",
     },
   },
   {
@@ -141,7 +140,7 @@ export const websiteChoice = [
       ],
       type: 10,
       comName: "Text2",
-      id: v4(),
+      id: "",
     },
   },
   {
@@ -155,7 +154,7 @@ export const websiteChoice = [
       ],
       type: 11,
       comName: "Text3",
-      id: v4(),
+      id: "",
     },
   },
   {
@@ -170,7 +169,19 @@ export const websiteChoice = [
       ],
       type: 12,
       comName: "Text4",
-      id: v4(),
+      id: "",
+    },
+  },
+  {
+    name: "Portfolio0",
+    comIndex: 13,
+    comContent: {
+      image: [],
+      text: [],
+      type: 13,
+      comName: "Portfolio0",
+      id: "",
+      portfolioID: [],
     },
   },
 ];
@@ -179,9 +190,11 @@ export const WebsiteComponents = {
   FullImg0: function Text({
     index,
     content,
+    userID,
   }: {
     index: number;
     content: websiteComContent;
+    userID: string;
   }) {
     return <FullImg0 index={index} content={content} />;
   },
@@ -292,5 +305,16 @@ export const WebsiteComponents = {
     content: websiteComContent;
   }) {
     return <Text4 index={index} content={content} />;
+  },
+  Portfolio0: function Text({
+    index,
+    content,
+    userID,
+  }: {
+    index: number;
+    content: websiteComContent;
+    userID: string;
+  }) {
+    return <PortfolioAreaCom index={index} content={content} userID={userID} />;
   },
 };

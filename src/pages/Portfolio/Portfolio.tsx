@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { v4 } from "uuid";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPen, faEye } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 
 import InitialSetup from "./InitialSetup";
@@ -112,6 +114,7 @@ const Portfolio = () => {
         `${portfolioID}`
       );
       if (portfolioData) {
+        console.log(portfolioData);
         dispatch(portfolioLoading(portfolioData));
         const tempArr: portfolioComContent[] = [];
         portfolioData.content.forEach((content: portfolioComContent) => {
@@ -147,65 +150,109 @@ const Portfolio = () => {
   }, [userData]);
 
   return (
-    <>
-      {userID === localStorage.getItem("userID") || portfolioID === "create" ? (
-        <Preview
-          onClick={() => {
-            dispatch(isPreviewPortfolio());
-          }}
-        >
-          Preview
-        </Preview>
-      ) : null}
+    <PortfolioBody>
+      <Wrapper>
+        {userData.userID === userID || portfolioID === "create" ? (
+          <PreviewBtn
+            onClick={() => {
+              dispatch(isPreviewPortfolio());
+            }}
+          >
+            {isPreview ? (
+              <>
+                <FontAwesomeIcon icon={faPen} />
+                <span> 編輯</span>
+              </>
+            ) : (
+              <>
+                <FontAwesomeIcon icon={faEye} />
+                <span> 預覽</span>
+              </>
+            )}
+          </PreviewBtn>
+        ) : null}
 
-      {isPreview ? null : (
-        <>
-          <InitialSetup portfolioID={portfolioID} />
-          <hr />
-        </>
-      )}
-
-      <div>
-        {portfolioData.content.map(
-          (content: portfolioComContent, index: number) => {
-            switch (content.type) {
-              case 0: {
-                return (
-                  <SineleComponent key={index}>
-                    <PortfolioCom1 content={content} index={index} />
-                    <Delete addDeleteCom={addDeleteCom} index={index} />
-                  </SineleComponent>
-                );
-              }
-              case 1: {
-                return (
-                  <SineleComponent key={index}>
-                    <PortfolioCom2 content={content} index={index} />
-                    <Delete addDeleteCom={addDeleteCom} index={index} />
-                  </SineleComponent>
-                );
-              }
-              case 2: {
-                return (
-                  <SineleComponent key={index}>
-                    <PortfolioCom3 content={content} index={index} />
-                    <Delete addDeleteCom={addDeleteCom} index={index} />
-                  </SineleComponent>
-                );
-              }
-              default:
-                return null;
-            }
-          }
+        {isPreview ? null : (
+          <>
+            <InitialSetup portfolioID={portfolioID} />
+            <hr />
+          </>
         )}
-      </div>
-      <CreatePortfolioCom
-        addWebsiteCom={addWebsiteCom}
-        uploadWebsite={uploadWebsite}
-      />
+
+        <div>
+          {portfolioData.content.map(
+            (content: portfolioComContent, index: number) => {
+              switch (content.type) {
+                case 0: {
+                  return (
+                    <SineleComponent key={index}>
+                      <PortfolioCom1 content={content} index={index} />
+                      <Delete addDeleteCom={addDeleteCom} index={index} />
+                    </SineleComponent>
+                  );
+                }
+                case 1: {
+                  return (
+                    <SineleComponent key={index}>
+                      <PortfolioCom2 content={content} index={index} />
+                      <Delete addDeleteCom={addDeleteCom} index={index} />
+                    </SineleComponent>
+                  );
+                }
+                case 2: {
+                  return (
+                    <SineleComponent key={index}>
+                      <PortfolioCom3 content={content} index={index} />
+                      <Delete addDeleteCom={addDeleteCom} index={index} />
+                    </SineleComponent>
+                  );
+                }
+                default:
+                  return null;
+              }
+            }
+          )}
+        </div>
+        <CreatePortfolioCom
+          addWebsiteCom={addWebsiteCom}
+          uploadWebsite={uploadWebsite}
+        />
+      </Wrapper>
       <SideBar type={"portfolio"} data={portfolioData} />
-    </>
+    </PortfolioBody>
   );
 };
 
 export default Portfolio;
+
+const PortfolioBody = styled.div`
+  width: 100%;
+  min-height: 100vh;
+  height: 100%;
+  padding: 120px 0;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+`;
+
+const Wrapper = styled.div`
+  width: 960px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  border: 1px solid;
+`;
+
+const PreviewBtn = styled.div`
+  position: fixed;
+  top: 180px;
+  right: 25px;
+  background-color: #ffffff;
+  padding: 5px 8px;
+  border-radius: 10px;
+  border: 1px solid;
+  cursor: pointer;
+  &:hover {
+    background-color: #555555;
+    color: #ffffff;
+  }
+`;

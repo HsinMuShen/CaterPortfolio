@@ -11,13 +11,36 @@ import {
   setPortfolioListIndex,
 } from "../../../action";
 
+const Wrapper = styled.div`
+  display: flex;
+  width: 900px;
+  flex-wrap: wrap;
+  margin: 0 auto;
+`;
+
 const PortfolioCard = styled(Link)``;
 
 const AddingPortfolio = styled(Link)`
-  width: 100px;
-  height: 100px;
-  border: 1px solid;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 210px;
+  height: 210px;
+  border: 2px solid;
+  border-radius: 5px;
+  text-decoration: none;
+  color: #555555;
+  &:hover {
+    color: #ffffff;
+    background-color: #555555;
+  }
 `;
+
+const AddingPortfolioBtn = styled.p`
+  pointer-events: none;
+  font-size: 16px; ;
+`;
+
 const PortfolioAreaCom = ({
   content,
   index,
@@ -43,36 +66,33 @@ const PortfolioAreaCom = ({
     dispatch(websiteFillContent(index, tempArr));
   };
   return (
-    <div style={{ display: "flex" }}>
-      <>
-        {content.portfolioID?.map((portfolioID, portfolioListIndex) => {
-          return (
-            <PortfolioCard
-              key={portfolioID}
-              to={`/portfolio/${portfolioID}`}
-              onClick={() => {
-                dispatch(setPortfolioListIndex(portfolioListIndex));
-                dispatch(setPortfolioIndex(index));
-              }}
-            >
-              <img src={content.image[portfolioListIndex]} />
-              <p>{content.text[portfolioListIndex]}</p>
-            </PortfolioCard>
-          );
-        })}
-        {isPreview ? null : (
-          <AddingPortfolio to={"/portfolio/create"}>
-            <div
-              onClick={() => {
-                dispatch(setPortfolioIndex(index));
-              }}
-            >
-              新增作品集
-            </div>
-          </AddingPortfolio>
-        )}
-      </>
-    </div>
+    <Wrapper>
+      {content.portfolioID?.map((portfolioID, portfolioListIndex) => {
+        return (
+          <PortfolioCard
+            key={portfolioID}
+            to={`/portfolio/${portfolioID}`}
+            onClick={() => {
+              dispatch(setPortfolioListIndex(portfolioListIndex));
+              dispatch(setPortfolioIndex(index));
+            }}
+          >
+            <img src={content.image[portfolioListIndex]} />
+            <p>{content.text[portfolioListIndex]}</p>
+          </PortfolioCard>
+        );
+      })}
+      {isPreview ? null : (
+        <AddingPortfolio
+          to={"/portfolio/create"}
+          onClick={() => {
+            dispatch(setPortfolioIndex(index));
+          }}
+        >
+          <AddingPortfolioBtn>新增作品集</AddingPortfolioBtn>
+        </AddingPortfolio>
+      )}
+    </Wrapper>
   );
 };
 

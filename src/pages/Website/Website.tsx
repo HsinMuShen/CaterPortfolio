@@ -2,8 +2,7 @@ import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPen } from "@fortawesome/free-solid-svg-icons";
-import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { faPen, faEye } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 import { websiteChoice } from "./websiteComponents";
 import PortfolioAreaCom from "./WebsiteComponents/PortfolioAreaCom";
@@ -129,7 +128,11 @@ const Website = () => {
                             {...provided.dragHandleProps}
                             ref={provided.innerRef}
                           >
-                            <TempCom index={index} content={content} />
+                            <TempCom
+                              index={index}
+                              content={content}
+                              userID={userData.userID}
+                            />
                             <Delete addDeleteCom={addDeleteCom} index={index} />
                             <Move />
                           </SineleComponent>
@@ -159,6 +162,7 @@ export default Website;
 
 const WebsiteBody = styled.div`
   width: 100%;
+  min-height: 100vh;
   height: 100%;
   padding: 120px 0;
   background-color: #ffffff;
