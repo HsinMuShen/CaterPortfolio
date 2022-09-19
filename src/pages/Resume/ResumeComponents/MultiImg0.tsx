@@ -34,7 +34,6 @@ const MultiImg0 = ({
             style={{
               width: "390px",
               height: "240px",
-              border: "1px solid",
             }}
           />
         );

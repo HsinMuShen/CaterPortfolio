@@ -1,5 +1,6 @@
 import { AnyAction } from "redux";
 import { ActionType } from ".";
+import { v4 } from "uuid";
 
 interface websiteReducer {
   title: string;
@@ -7,6 +8,8 @@ interface websiteReducer {
     image: string[];
     text: string[];
     type: number;
+    comName: string;
+    id: string;
     portfolioID?: string[];
   }[];
   name: string;
@@ -31,7 +34,9 @@ const WebsiteReducer = (
   switch (action.type) {
     case ActionType.WEBSITE.ADD_COMPONENT: {
       const tempContentArr = websiteData.content;
-      tempContentArr.push(action.payload.content);
+      const tempContent = { ...action.payload.content };
+      tempContent.id = v4();
+      tempContentArr.push(tempContent);
       const newResumeData = { ...websiteData, content: tempContentArr };
       return newResumeData;
     }
@@ -81,6 +86,13 @@ const WebsiteReducer = (
       tempResumeData = {
         ...websiteData,
         [action.payload.type]: action.payload.text,
+      };
+      return tempResumeData;
+    }
+    case ActionType.WEBSITE.RENEW_CONTENT: {
+      const tempResumeData = {
+        ...websiteData,
+        content: action.payload.content,
       };
       return tempResumeData;
     }

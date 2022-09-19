@@ -19,6 +19,8 @@ export const resumeAddCom = (content: {
   image: string[];
   text: string[] | null[];
   type: number;
+  comName: string;
+  id: string;
 }) => {
   return {
     type: ActionType.RESUME.ADD_COMPONENT,
@@ -35,7 +37,7 @@ export const resumeDeleteCom = (index: number) => {
 
 export const resumeFillContent = (index: number, textArr: string[]) => {
   return {
-    type: ActionType.RESUME.FILL_CONTENT,
+    type: ActionType.RESUME.FILL_TEXT,
     payload: { index, textArr },
   };
 };
@@ -54,12 +56,29 @@ export const resumeAddSetting = (type: string, text: string) => {
   };
 };
 
+export const resumeRenewContent = (
+  content: {
+    image: string[];
+    text: string[];
+    type: number;
+    comName: string;
+    id: string;
+  }[]
+) => {
+  return {
+    type: ActionType.RESUME.RENEW_CONTENT,
+    payload: { content },
+  };
+};
+
 export const resumeLoading = (data: DocumentData) => {
   return {
     type: ActionType.RESUME.LOADING,
     payload: { data },
   };
 };
+
+//------------------------ WEBSITE ----------------------------//
 
 export const websiteAddCom = (content: {
   image: string[];
@@ -117,6 +136,22 @@ export const websiteAddSetting = (type: string, text: string) => {
   return {
     type: ActionType.WEBSITE.ADD_SETTING,
     payload: { type, text },
+  };
+};
+
+export const websiteRenewContent = (
+  content: {
+    image: string[];
+    text: string[];
+    type: number;
+    comName: string;
+    id: string;
+    portfolioID?: string[];
+  }[]
+) => {
+  return {
+    type: ActionType.WEBSITE.RENEW_CONTENT,
+    payload: { content },
   };
 };
 

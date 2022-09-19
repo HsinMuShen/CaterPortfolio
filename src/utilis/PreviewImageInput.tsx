@@ -8,7 +8,11 @@ const ImageContainer = styled.div`
   flex-wrap: wrap;
 `;
 
-const ImagePreview = styled.div<{ previewUrl: string; style: any }>`
+const ImagePreview = styled.div<{
+  previewUrl: string;
+  style: any;
+  isPreview: boolean;
+}>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -16,6 +20,7 @@ const ImagePreview = styled.div<{ previewUrl: string; style: any }>`
   background-image: url(${(props) => props.previewUrl});
   background-size: cover;
   ${(props) => props.style}
+  border: ${(props) => (props.isPreview ? "0px solid" : "1px solid")}
 `;
 const ImageLabel = styled.label`
   font-size: 150%;
@@ -42,10 +47,10 @@ const PreviewImageInput = ({
   const isPreview = useSelector(
     (state: RootState) => state.IsPreviewReducer.resume
   );
-  const previewUrl = imageFile ? URL.createObjectURL(imageFile) : image;
+
   return (
     <ImageContainer>
-      <ImagePreview previewUrl={previewUrl} style={style}>
+      <ImagePreview previewUrl={image} style={style} isPreview={isPreview}>
         <ImageLabel>
           {isPreview ? null : "+"}
 

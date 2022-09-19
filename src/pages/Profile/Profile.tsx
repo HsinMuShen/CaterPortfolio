@@ -92,22 +92,18 @@ const Profile: React.FC = () => {
   }, [profileUserID, userData.followMembers]);
   return (
     <Wrapper>
-      {isLogin ? (
-        <>
-          <MemberIntro
-            profileData={profileData}
-            setProfileData={setProfileData}
-          />
-          <CreaterArea>
-            <ResumeArea to={`/resume/${profileUserID}`}>
-              <PreviewImg src={resumeData.coverImage} />
-            </ResumeArea>
-            <WebsiteArea to={`/website/${profileUserID}`}>Website</WebsiteArea>
-          </CreaterArea>
-        </>
-      ) : (
-        <LoginArea />
-      )}
+      <>
+        <MemberIntro
+          profileData={profileData}
+          setProfileData={setProfileData}
+        />
+        <CreaterArea>
+          <ResumeArea to={`/resume/${profileUserID}`}>
+            <PreviewImg src={resumeData.coverImage} />
+          </ResumeArea>
+          <WebsiteArea to={`/website/${profileUserID}`}>Website</WebsiteArea>
+        </CreaterArea>
+      </>
     </Wrapper>
   );
 };

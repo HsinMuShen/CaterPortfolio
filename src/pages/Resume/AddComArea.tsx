@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { RootState } from "../../reducers";
 import { useSelector } from "react-redux";
-import { resumeChoice } from "./resumeComponents";
 
 import imgOnly from "../../images/imgOnly.jpeg";
 import multipleImg from "../../images/multipleImg.jpeg";

@@ -205,13 +205,13 @@ const MemberIntro = ({ profileData, setProfileData }: UserReducer) => {
               <EditBtn to={"#"}>
                 <FollowBtn profileData={profileData} />
               </EditBtn>
-              <EditBtn to={`/follow/${profileData.userID}`}>
-                <p>查看追蹤名單</p>
-              </EditBtn>
+
+              <ChatButton profileData={profileData} />
             </>
           )}
-
-          <ChatButton profileData={profileData} />
+          <EditBtn to={`/follow/${profileData.userID}`}>
+            <p>查看追蹤名單</p>
+          </EditBtn>
         </EditArea>
       </ImageContainer>
     </Wrapper>

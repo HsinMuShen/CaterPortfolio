@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { v4 } from "uuid";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPen, faEye } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 
 import InitialSetup from "./InitialSetup";
-import PortfolioCom1 from "./PortfolioComponents/PortfolioCom1";
-import PortfolioCom2 from "./PortfolioComponents/PortfolioCom2";
-import PortfolioCom3 from "./PortfolioComponents/PortfolioCom3";
 import Delete from "../Resume/Delete";
 import CreatePortfolioCom from "./CreatePortfolioCom";
 import SideBar from "../../utilis/SideBar";
@@ -21,56 +20,24 @@ import {
   portfolioAddSetting,
   portfolioInitialSetup,
   isPreviewPortfolio,
+  isPreviewTrue,
 } from "../../action";
+import { PortfolioComponents } from "./portfolioComponents";
+import { portfolioChoice } from "./portfolioComponents";
+import Move from "../../utilis/Move";
+import InitialImg from "../../utilis/cater.png";
 
 const Preview = styled.div``;
-
-const SineleComponent = styled.div`
-  display: flex;
-`;
 
 export interface portfolioComContent {
   image: string[];
   text: string[];
   type: number;
+  comName: string;
+  id: string;
 }
 
-export const portfolioChoice = [
-  {
-    name: 0,
-    comIndex: 0,
-    comContent: {
-      image: [""],
-      text: ["<h2>標題</h2><p>令人眼睛一亮的介紹</p><p>令人眼睛一亮的介紹</p>"],
-      type: 0,
-    },
-  },
-  {
-    name: 1,
-    comIndex: 1,
-    comContent: {
-      image: ["", ""],
-      text: [],
-      type: 1,
-    },
-  },
-  {
-    name: 2,
-    comIndex: 2,
-    comContent: {
-      image: [],
-      text: [
-        "<h3>標題</h3><p>您的英勇事蹟</p><p>您的英勇事蹟</p>",
-        "<h3>標題</h3><p>您的英勇事蹟</p><p>您的英勇事蹟</p>",
-        "<h3>標題</h3><p>您的英勇事蹟</p><p>您的英勇事蹟</p>",
-      ],
-      type: 2,
-    },
-  },
-];
-
 const Portfolio = () => {
-  const [portfolioCom, setPortfolioCom] = useState<portfolioComContent[]>([]);
   const [userID, setUserID] = useState("");
   const dispatch = useDispatch();
   const isPreview = useSelector(
@@ -86,19 +53,15 @@ const Portfolio = () => {
   const userData = useSelector((state: RootState) => state.UserReducer);
   const portfolioID = useParams().id;
 
-  const addWebsiteCom = (conIndex: number) => {
+  const addPortfolioCom = (conIndex: number) => {
     dispatch(portfolioAddCom(portfolioChoice[conIndex].comContent));
-    setPortfolioCom([...portfolioCom, portfolioChoice[conIndex].comContent]);
   };
 
   const addDeleteCom = (deleteIndex: number) => {
     dispatch(portfolioDeleteCom(deleteIndex));
-    const tempArr = [...portfolioCom];
-    tempArr.splice(deleteIndex, 1);
-    setPortfolioCom(tempArr);
   };
 
-  const uploadWebsite = () => {
+  const uploadPortfolio = () => {
     const tempPortfolioData = portfolioData;
     const timestamp = Date.now();
     tempPortfolioData.time = timestamp;
@@ -117,13 +80,9 @@ const Portfolio = () => {
         `${portfolioID}`
       );
       if (portfolioData) {
+        console.log(portfolioData);
         dispatch(portfolioLoading(portfolioData));
-        const tempArr: portfolioComContent[] = [];
-        portfolioData.content.forEach((content: portfolioComContent) => {
-          tempArr.push(content);
-        });
         setUserID(portfolioData.userID);
-        setPortfolioCom(tempArr);
       }
     };
 
@@ -131,8 +90,8 @@ const Portfolio = () => {
       dispatch(isPreviewPortfolio());
       const portID = v4();
       const initialPortfolioData = {
-        title: "",
-        mainImage: "",
+        title: "title",
+        mainImage: InitialImg,
         content: [],
         name: userData.name,
         followers: [],
@@ -149,66 +108,149 @@ const Portfolio = () => {
     } else {
       loadPortfolio();
     }
-  }, [userData]);
+    return () => {
+      dispatch(isPreviewTrue("portfolio"));
+    };
+  }, []);
 
   return (
-    <>
-      {userID === localStorage.getItem("userID") || portfolioID === "create" ? (
-        <Preview
-          onClick={() => {
-            dispatch(isPreviewPortfolio());
-          }}
-        >
-          Preview
-        </Preview>
-      ) : null}
+    <PortfolioBody>
+      <Wrapper>
+        {userData.userID === userID || portfolioID === "create" ? (
+          <PreviewBtn
+            onClick={() => {
+              dispatch(isPreviewPortfolio());
+            }}
+          >
+            {isPreview ? (
+              <>
+                <FontAwesomeIcon icon={faPen} />
+                <span> 編輯</span>
+              </>
+            ) : (
+              <>
+                <FontAwesomeIcon icon={faEye} />
+                <span> 預覽</span>
+              </>
+            )}
+          </PreviewBtn>
+        ) : null}
 
+        {isPreview ? null : (
+          <>
+            <InitialSetup portfolioID={portfolioID} />
+          </>
+        )}
+
+        <PortfolioLayouts>
+          <PreviewDiv style={{ zIndex: isPreview ? "2" : "-1" }}></PreviewDiv>
+          {portfolioData.content.map(
+            (content: portfolioComContent, index: number) => {
+              const TempCom =
+                PortfolioComponents[
+                  content.comName as keyof typeof PortfolioComponents
+                ];
+              return (
+                <SingleComponent key={content.id}>
+                  <TempCom index={index} content={content} />
+                  <Delete addDeleteCom={addDeleteCom} index={index} />
+                  <Move />
+                </SingleComponent>
+              );
+            }
+          )}
+        </PortfolioLayouts>
+        <CreatePortfolioCom addPortfolioCom={addPortfolioCom} />
+      </Wrapper>
       {isPreview ? null : (
-        <>
-          <InitialSetup portfolioID={portfolioID} />
-          <hr />
-        </>
+        <ResumeBtn onClick={uploadPortfolio}>上架作品集!</ResumeBtn>
       )}
+      <ToWebsiteBtn to={`/website/${portfolioData.userID}`}>
+        <ResumeBtn>回到{portfolioData.name}的網站</ResumeBtn>
+      </ToWebsiteBtn>
 
-      <div>
-        {portfolioCom.map((content, index) => {
-          switch (content.type) {
-            case 0: {
-              return (
-                <SineleComponent key={index}>
-                  <PortfolioCom1 content={content} index={index} />
-                  <Delete addDeleteCom={addDeleteCom} index={index} />
-                </SineleComponent>
-              );
-            }
-            case 1: {
-              return (
-                <SineleComponent key={index}>
-                  <PortfolioCom2 content={content} index={index} />
-                  <Delete addDeleteCom={addDeleteCom} index={index} />
-                </SineleComponent>
-              );
-            }
-            case 2: {
-              return (
-                <SineleComponent key={index}>
-                  <PortfolioCom3 content={content} index={index} />
-                  <Delete addDeleteCom={addDeleteCom} index={index} />
-                </SineleComponent>
-              );
-            }
-            default:
-              return null;
-          }
-        })}
-      </div>
-      <CreatePortfolioCom
-        addWebsiteCom={addWebsiteCom}
-        uploadWebsite={uploadWebsite}
-      />
       <SideBar type={"portfolio"} data={portfolioData} />
-    </>
+    </PortfolioBody>
   );
 };
 
 export default Portfolio;
+
+const PortfolioBody = styled.div`
+  width: 100%;
+  min-height: 100vh;
+  height: 100%;
+  padding: 120px 0;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+`;
+
+const Wrapper = styled.div`
+  width: 960px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  /* border: 1px solid; */
+`;
+
+const PreviewBtn = styled.div`
+  position: fixed;
+  top: 180px;
+  right: 25px;
+  background-color: #ffffff;
+  padding: 5px 8px;
+  border-radius: 10px;
+  border: 1px solid;
+  cursor: pointer;
+  &:hover {
+    background-color: #555555;
+    color: #ffffff;
+  }
+`;
+
+const PortfolioLayouts = styled.div`
+  position: relative;
+  display: flex;
+  width: 960px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+`;
+
+const PreviewDiv = styled.div`
+  position: absolute;
+  width: 960px;
+  height: 100%;
+  z-index: 2;
+`;
+
+const SingleComponent = styled.div`
+  display: flex;
+  width: 960px;
+  position: relative;
+  margin: 10px 0;
+`;
+
+const ResumeBtn = styled.div`
+  color: #555555;
+  background-color: #ffffff;
+  padding: 8px;
+  width: 130px;
+  border-radius: 5px;
+  font-weight: 600;
+  border: 2px solid;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 40px auto 20px;
+  cursor: pointer;
+  &:hover {
+    color: #ffffff;
+    background-color: #555555;
+  }
+`;
+
+const ToWebsiteBtn = styled(Link)`
+  text-decoration: none;
+`;

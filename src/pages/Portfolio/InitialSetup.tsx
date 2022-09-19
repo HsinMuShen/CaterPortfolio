@@ -10,23 +10,43 @@ import {
   websiteAddImage,
   websiteAddPortfolioID,
 } from "../../action";
+import InitialImg from "../../utilis/cater.png";
 
 import cater from "../../utilis/cater.png";
+
+const Wrapper = styled.div`
+  display: flex;
+  width: 900px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto 40px;
+  background-color: #eaeaea;
+  border-radius: 15px;
+`;
+
+const Intro = styled.p`
+  margin-top: 40px;
+`;
+
+const SettingArea = styled.div`
+  display: flex;
+  align-items: center;
+`;
 
 const ImageContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  margin: 40px 40px 40px 0;
 `;
 
 const ImagePreview = styled.div<{ previewUrl: string }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100px;
-  height: 100px;
+  width: 210px;
+  height: 210px;
   border: solid 1px black;
-  border-radius: 90px;
   background-position: center;
   background-image: url(${(props) => props.previewUrl});
   background-size: cover;
@@ -39,8 +59,12 @@ const ImageInput = styled.input`
   display: none;
 `;
 
+const InputFrame = styled.input`
+  width: 200px;
+  height: 40px;
+`;
+
 const InitialSetup = ({ portfolioID }: { portfolioID: string | undefined }) => {
-  const [imageFile, setImageFile] = useState<File | null>(null);
   const websiteReducer = useSelector(
     (state: RootState) => state.WebsiteReducer
   );
@@ -51,12 +75,6 @@ const InitialSetup = ({ portfolioID }: { portfolioID: string | undefined }) => {
     (state: RootState) => state.PortfolioIndex
   );
   const dispatch = useDispatch();
-
-  const previewUrl = imageFile
-    ? URL.createObjectURL(imageFile)
-    : portfolioID === "create"
-    ? cater
-    : portfolioReducer.mainImage;
 
   const setPortfolioMainImage = async (file: File) => {
     const imageUrl = await firebase.getImageUrl(file);
@@ -75,7 +93,7 @@ const InitialSetup = ({ portfolioID }: { portfolioID: string | undefined }) => {
 
   const setToWebsite = (text: string) => {
     const tempArr = websiteReducer.content[portfolioIndex.index].text;
-    if (portfolioID === undefined) {
+    if (portfolioID === "create") {
       tempArr[
         websiteReducer.content[portfolioIndex.index].portfolioID.length - 1
       ] = text;
@@ -86,44 +104,44 @@ const InitialSetup = ({ portfolioID }: { portfolioID: string | undefined }) => {
     dispatch(websiteFillContent(portfolioIndex.index, tempArr));
   };
 
-  // useEffect(() => {
-  //   if (portfolioID === "create") {
-  //     const portID = v4();
-  //     dispatch(portfolioInitialSetup("portfolioID", portID));
-  //     const tempArr = websiteReducer.content[portfolioIndex.index].portfolioID;
-  //     tempArr[websiteReducer.content[portfolioIndex.index].portfolioID.length] =
-  //       portID;
-  //     dispatch(websiteAddPortfolioID(portfolioIndex.index, tempArr));
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (portfolioID === "create") {
+      setToWebsite("title");
+      const tempArr = websiteReducer.content[portfolioIndex.index].image;
+      tempArr[
+        websiteReducer.content[portfolioIndex.index].portfolioID.length - 1
+      ] = InitialImg;
+      dispatch(websiteAddImage(portfolioIndex.index, tempArr));
+    }
+  }, []);
   return (
-    <div style={{ display: "flex" }}>
-      <ImageContainer>
-        <ImagePreview previewUrl={previewUrl}>
-          <ImageLabel>
-            +
-            <ImageInput
-              type="file"
-              id="postImage"
-              onChange={(e) => {
-                setImageFile(e.target.files![0]);
-                setPortfolioMainImage(e.target.files![0]);
-              }}
-            />
-          </ImageLabel>
-        </ImagePreview>
-      </ImageContainer>
-      <input
-        type="text"
-        placeholder={
-          portfolioID === "create" ? "Title" : portfolioReducer.title
-        }
-        onChange={(e) => {
-          dispatch(portfolioInitialSetup("title", e.target.value));
-          setToWebsite(e.target.value);
-        }}
-      />
-    </div>
+    <Wrapper>
+      <Intro>請先新增顯示在網站頁面的圖片與標題</Intro>
+      <SettingArea>
+        <ImageContainer>
+          <ImagePreview previewUrl={portfolioReducer.mainImage}>
+            <ImageLabel>
+              +
+              <ImageInput
+                type="file"
+                id="postImage"
+                onChange={(e) => {
+                  setPortfolioMainImage(e.target.files![0]);
+                }}
+              />
+            </ImageLabel>
+          </ImagePreview>
+        </ImageContainer>
+        <InputFrame
+          type="text"
+          value={portfolioReducer.title}
+          onChange={(e) => {
+            dispatch(portfolioInitialSetup("title", e.target.value));
+            setToWebsite(e.target.value);
+          }}
+        />
+      </SettingArea>
+    </Wrapper>
   );
 };
 

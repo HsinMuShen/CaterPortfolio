@@ -6,7 +6,41 @@ import { websiteComContent } from "../pages/Website/Website";
 import { RootState } from "../reducers";
 import { useSelector } from "react-redux";
 
-const ImageInput = styled.input``;
+const ImageLabel = styled.label`
+  border: 1px solid;
+  border-radius: 5px;
+  padding: 5px;
+  margin: 5px;
+  cursor: pointer;
+  &:hover {
+    background-color: #555555;
+    color: #ffffff;
+  }
+`;
+
+const ImageInput = styled.input`
+  display: none;
+`;
+
+const BtnsArea = styled.div`
+  display: flex;
+`;
+
+const Wrapper = styled.div<{ style: any }>`
+  ${(props) => props.style}
+`;
+
+const Btns = styled.div`
+  border: 1px solid;
+  border-radius: 5px;
+  padding: 5px;
+  margin: 5px;
+  cursor: pointer;
+  &:hover {
+    background-color: #555555;
+    color: #ffffff;
+  }
+`;
 
 interface canvasProps {
   content: websiteComContent;
@@ -14,6 +48,7 @@ interface canvasProps {
   size: { height: number; width: number };
   setReducerImage: (JSONstring: string, listIndex: number) => void;
   listIndex: number;
+  style?: any;
 }
 
 const Canves = ({
@@ -22,6 +57,7 @@ const Canves = ({
   size,
   setReducerImage,
   listIndex,
+  style,
 }: canvasProps) => {
   const canvas: any = useRef();
   const storageJson = useRef("");
@@ -30,30 +66,13 @@ const Canves = ({
   const addImage = async (file: File) => {
     const imageurl = await firebase.getImageUrl(file);
     const img = new Image();
-    let imgWidth: number;
-    let imgHeight: number;
-    img.addEventListener("load", function () {
-      imgWidth = this.naturalWidth;
-      imgHeight = this.naturalHeight;
-    });
     img.src = imageurl;
     fabric.Image.fromURL(
       imageurl,
-      (img: {
-        set: (arg0: {
-          left: number;
-          top: number;
-          angle: number;
-          width: number;
-          height: number;
-        }) => any;
-      }) => {
+      (img: { set: (arg0: { left: number; top: number }) => any }) => {
         const oImg = img.set({
           left: 0,
           top: 0,
-          angle: 0,
-          width: imgWidth,
-          height: imgHeight,
         });
         // oImg.filters.push(new fabric.Image.filters.Grayscale())
         // oImg.applyFilters()
@@ -72,12 +91,12 @@ const Canves = ({
   }
 
   const storeJson = () => {
-    console.log(JSON.stringify(canvas.current));
+    // console.log(JSON.stringify(canvas.current));
     storageJson.current = JSON.stringify(canvas.current);
   };
 
   const loadJson = () => {
-    console.log(JSON.stringify(canvas.current));
+    // console.log(JSON.stringify(canvas.current));
     canvas.current.loadFromJSON(storageJson.current);
   };
 
@@ -94,7 +113,7 @@ const Canves = ({
   }, []);
 
   return (
-    <div>
+    <Wrapper style={style}>
       <canvas
         id={name}
         style={{
@@ -106,19 +125,23 @@ const Canves = ({
       ></canvas>
 
       {isPreview.website && isPreview.portfolio ? null : (
-        <div>
-          <ImageInput
-            type="file"
-            onChange={(e) => {
-              addImage(e.target.files![0]);
-            }}
-          />
-          <button onClick={deleteObject}>刪除</button>
-          <button onClick={storeJson}>存檔</button>
-          <button onClick={loadJson}>回復往日的美好</button>
-        </div>
+        <BtnsArea>
+          <ImageLabel>
+            新增照片
+            <ImageInput
+              type="file"
+              onChange={(e) => {
+                addImage(e.target.files![0]);
+              }}
+            />
+          </ImageLabel>
+
+          <Btns onClick={deleteObject}>刪除(選取後再按)</Btns>
+          <Btns onClick={storeJson}>存檔</Btns>
+          <Btns onClick={loadJson}>回復往日的美好</Btns>
+        </BtnsArea>
       )}
-    </div>
+    </Wrapper>
   );
 };
 
