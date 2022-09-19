@@ -6,9 +6,6 @@ import { faPen, faEye } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 
 import InitialSetup from "./InitialSetup";
-import PortfolioCom1 from "./PortfolioComponents/PortfolioCom1";
-import PortfolioCom2 from "./PortfolioComponents/PortfolioCom2";
-import PortfolioCom3 from "./PortfolioComponents/PortfolioCom3";
 import Delete from "../Resume/Delete";
 import CreatePortfolioCom from "./CreatePortfolioCom";
 import SideBar from "../../utilis/SideBar";
@@ -24,7 +21,9 @@ import {
   portfolioInitialSetup,
   isPreviewPortfolio,
 } from "../../action";
-import { portfolioComContent } from "./CreatePortfolio";
+import { PortfolioComponents } from "./portfolioComponents";
+import { portfolioChoice } from "./portfolioComponents";
+import Move from "../../utilis/Move";
 
 const Preview = styled.div``;
 
@@ -32,42 +31,15 @@ const SineleComponent = styled.div`
   display: flex;
 `;
 
-export const portfolioChoice = [
-  {
-    name: 0,
-    comIndex: 0,
-    comContent: {
-      image: [""],
-      text: ["<h2>標題</h2><p>令人眼睛一亮的介紹</p><p>令人眼睛一亮的介紹</p>"],
-      type: 0,
-    },
-  },
-  {
-    name: 1,
-    comIndex: 1,
-    comContent: {
-      image: ["", ""],
-      text: [],
-      type: 1,
-    },
-  },
-  {
-    name: 2,
-    comIndex: 2,
-    comContent: {
-      image: [],
-      text: [
-        "<h3>標題</h3><p>您的英勇事蹟</p><p>您的英勇事蹟</p>",
-        "<h3>標題</h3><p>您的英勇事蹟</p><p>您的英勇事蹟</p>",
-        "<h3>標題</h3><p>您的英勇事蹟</p><p>您的英勇事蹟</p>",
-      ],
-      type: 2,
-    },
-  },
-];
+export interface portfolioComContent {
+  image: string[];
+  text: string[];
+  type: number;
+  comName: string;
+  id: string;
+}
 
 const Portfolio = () => {
-  const [portfolioCom, setPortfolioCom] = useState<portfolioComContent[]>([]);
   const [userID, setUserID] = useState("");
   const dispatch = useDispatch();
   const isPreview = useSelector(
@@ -83,19 +55,15 @@ const Portfolio = () => {
   const userData = useSelector((state: RootState) => state.UserReducer);
   const portfolioID = useParams().id;
 
-  const addWebsiteCom = (conIndex: number) => {
+  const addPortfolioCom = (conIndex: number) => {
     dispatch(portfolioAddCom(portfolioChoice[conIndex].comContent));
-    // setPortfolioCom([...portfolioCom, portfolioChoice[conIndex].comContent]);
   };
 
   const addDeleteCom = (deleteIndex: number) => {
     dispatch(portfolioDeleteCom(deleteIndex));
-    const tempArr = [...portfolioCom];
-    tempArr.splice(deleteIndex, 1);
-    setPortfolioCom(tempArr);
   };
 
-  const uploadWebsite = () => {
+  const uploadPortfolio = () => {
     const tempPortfolioData = portfolioData;
     const timestamp = Date.now();
     tempPortfolioData.time = timestamp;
@@ -116,12 +84,7 @@ const Portfolio = () => {
       if (portfolioData) {
         console.log(portfolioData);
         dispatch(portfolioLoading(portfolioData));
-        const tempArr: portfolioComContent[] = [];
-        portfolioData.content.forEach((content: portfolioComContent) => {
-          tempArr.push(content);
-        });
         setUserID(portfolioData.userID);
-        setPortfolioCom(tempArr);
       }
     };
 
@@ -182,42 +145,23 @@ const Portfolio = () => {
         <div>
           {portfolioData.content.map(
             (content: portfolioComContent, index: number) => {
-              switch (content.type) {
-                case 0: {
-                  return (
-                    <SineleComponent key={index}>
-                      <PortfolioCom1 content={content} index={index} />
-                      <Delete addDeleteCom={addDeleteCom} index={index} />
-                    </SineleComponent>
-                  );
-                }
-                case 1: {
-                  return (
-                    <SineleComponent key={index}>
-                      <PortfolioCom2 content={content} index={index} />
-                      <Delete addDeleteCom={addDeleteCom} index={index} />
-                    </SineleComponent>
-                  );
-                }
-                case 2: {
-                  return (
-                    <SineleComponent key={index}>
-                      <PortfolioCom3 content={content} index={index} />
-                      <Delete addDeleteCom={addDeleteCom} index={index} />
-                    </SineleComponent>
-                  );
-                }
-                default:
-                  return null;
-              }
+              const TempCom =
+                PortfolioComponents[
+                  content.comName as keyof typeof PortfolioComponents
+                ];
+              return (
+                <SingleComponent>
+                  <TempCom index={index} content={content} />
+                  <Delete addDeleteCom={addDeleteCom} index={index} />
+                  <Move />
+                </SingleComponent>
+              );
             }
           )}
         </div>
-        <CreatePortfolioCom
-          addWebsiteCom={addWebsiteCom}
-          uploadWebsite={uploadWebsite}
-        />
+        <CreatePortfolioCom addPortfolioCom={addPortfolioCom} />
       </Wrapper>
+      <ResumeBtn onClick={uploadPortfolio}>上架作品集!</ResumeBtn>
       <SideBar type={"portfolio"} data={portfolioData} />
     </PortfolioBody>
   );
@@ -254,5 +198,31 @@ const PreviewBtn = styled.div`
   &:hover {
     background-color: #555555;
     color: #ffffff;
+  }
+`;
+
+const SingleComponent = styled.div`
+  display: flex;
+  width: 960px;
+  position: relative;
+  margin: 10px 0;
+`;
+
+const ResumeBtn = styled.div`
+  color: #555555;
+  background-color: #ffffff;
+  padding: 8px;
+  width: 120px;
+  border-radius: 5px;
+  font-weight: 600;
+  border: 2px solid;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 40px auto 20px;
+  cursor: pointer;
+  &:hover {
+    color: #ffffff;
+    background-color: #555555;
   }
 `;

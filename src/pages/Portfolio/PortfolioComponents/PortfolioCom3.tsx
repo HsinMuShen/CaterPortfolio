@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import EditText from "../../../utilis/EditText";
-import { portfolioComContent } from "../CreatePortfolio";
+import { portfolioComContent } from "../Portfolio";
 import { useDispatch } from "react-redux";
 import { portfolioFillContent } from "../../../action";
 

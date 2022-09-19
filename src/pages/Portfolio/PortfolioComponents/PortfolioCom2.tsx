@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import Canves from "../../../utilis/Canves";
-import { portfolioComContent } from "../CreatePortfolio";
+import { portfolioComContent } from "../Portfolio";
 import { useDispatch } from "react-redux";
 import { portfolioAddImage } from "../../../action";
 

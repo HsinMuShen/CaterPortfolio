@@ -123,7 +123,7 @@ const Website = () => {
                         index={index}
                       >
                         {(provided) => (
-                          <SineleComponent
+                          <SingleComponent
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
                             ref={provided.innerRef}
@@ -135,7 +135,7 @@ const Website = () => {
                             />
                             <Delete addDeleteCom={addDeleteCom} index={index} />
                             <Move />
-                          </SineleComponent>
+                          </SingleComponent>
                         )}
                       </Draggable>
                     );
@@ -209,7 +209,7 @@ const PreviewDiv = styled.div`
   z-index: 2;
 `;
 
-const SineleComponent = styled.div`
+const SingleComponent = styled.div`
   display: flex;
   width: 960px;
   position: relative;
@@ -217,5 +217,20 @@ const SineleComponent = styled.div`
 `;
 
 const ResumeBtn = styled.button`
-  width: 200px;
+  color: #555555;
+  background-color: #ffffff;
+  padding: 8px;
+  width: 120px;
+  border-radius: 5px;
+  font-weight: 600;
+  border: 2px solid;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 40px auto 20px;
+  cursor: pointer;
+  &:hover {
+    color: #ffffff;
+    background-color: #555555;
+  }
 `;
