@@ -36,30 +36,13 @@ const Canves = ({
   const addImage = async (file: File) => {
     const imageurl = await firebase.getImageUrl(file);
     const img = new Image();
-    let imgWidth: number;
-    let imgHeight: number;
-    img.addEventListener("load", function () {
-      imgWidth = this.naturalWidth;
-      imgHeight = this.naturalHeight;
-    });
     img.src = imageurl;
     fabric.Image.fromURL(
       imageurl,
-      (img: {
-        set: (arg0: {
-          left: number;
-          top: number;
-          angle: number;
-          width: number;
-          height: number;
-        }) => any;
-      }) => {
+      (img: { set: (arg0: { left: number; top: number }) => any }) => {
         const oImg = img.set({
           left: 0,
           top: 0,
-          angle: 0,
-          width: imgWidth,
-          height: imgHeight,
         });
         // oImg.filters.push(new fabric.Image.filters.Grayscale())
         // oImg.applyFilters()
@@ -78,12 +61,12 @@ const Canves = ({
   }
 
   const storeJson = () => {
-    console.log(JSON.stringify(canvas.current));
+    // console.log(JSON.stringify(canvas.current));
     storageJson.current = JSON.stringify(canvas.current);
   };
 
   const loadJson = () => {
-    console.log(JSON.stringify(canvas.current));
+    // console.log(JSON.stringify(canvas.current));
     canvas.current.loadFromJSON(storageJson.current);
   };
 
@@ -120,8 +103,8 @@ const Canves = ({
             }}
           />
           <button onClick={deleteObject}>刪除</button>
-          {/* <button onClick={storeJson}>存檔</button>
-          <button onClick={loadJson}>回復往日的美好</button> */}
+          <button onClick={storeJson}>存檔</button>
+          <button onClick={loadJson}>回復往日的美好</button>
         </div>
       )}
     </Wrapper>

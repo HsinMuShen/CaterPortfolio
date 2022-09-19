@@ -1,18 +1,18 @@
 import React from "react";
 import { portfolioComContent } from "./Portfolio";
-import FullImg0 from "../Website/WebsiteComponents/FullImg0";
-import FullImg1 from "../Website/WebsiteComponents/FullImg1";
-import MultiImg0 from "../Website/WebsiteComponents/MultiImg0";
-import MultiImg1 from "../Website/WebsiteComponents/MultiImg1";
-import MultiImg2 from "../Website/WebsiteComponents/MultiImg2";
-import MultiImg3 from "../Website/WebsiteComponents/MultiImg3";
-import TextAndImg1 from "../Website/WebsiteComponents/TextAndImg1";
-import TextAndImg2 from "../Website/WebsiteComponents/TextAndImg2";
-import Text0 from "../Website/WebsiteComponents/Text0";
-import Text1 from "../Website/WebsiteComponents/Text1";
-import Text2 from "../Website/WebsiteComponents/Text2";
-import Text3 from "../Website/WebsiteComponents/Text3";
-import Text4 from "../Website/WebsiteComponents/Text4";
+import FullImg0 from "./PortfolioComponents/FullImg0";
+import FullImg1 from "./PortfolioComponents/FullImg1";
+import MultiImg0 from "./PortfolioComponents/MultiImg0";
+import MultiImg1 from "./PortfolioComponents/MultiImg1";
+import MultiImg2 from "./PortfolioComponents/MultiImg2";
+import MultiImg3 from "./PortfolioComponents/MultiImg3";
+import TextAndImg1 from "./PortfolioComponents/TextAndImg1";
+import TextAndImg2 from "./PortfolioComponents/TextAndImg2";
+import Text0 from "./PortfolioComponents/Text0";
+import Text1 from "./PortfolioComponents/Text1";
+import Text2 from "./PortfolioComponents/Text2";
+import Text3 from "./PortfolioComponents/Text3";
+import Text4 from "./PortfolioComponents/Text4";
 
 export const portfolioChoice = [
   {

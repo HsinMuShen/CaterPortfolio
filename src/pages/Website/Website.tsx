@@ -2,10 +2,13 @@ import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPen, faEye } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPen,
+  faEye,
+  faUpDownLeftRight,
+} from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 import { websiteChoice } from "./websiteComponents";
-import PortfolioAreaCom from "./WebsiteComponents/PortfolioAreaCom";
 import AddWebsiteCom from "./AddWebsiteCom";
 import Delete from "../Resume/Delete";
 import Move from "../../utilis/Move";
@@ -23,7 +26,6 @@ import {
   isPreviewTrue,
 } from "../../action";
 import { WebsiteComponents } from "./websiteComponents";
-import { Link } from "react-router-dom";
 
 export interface websiteComContent {
   image: string[];
@@ -129,7 +131,6 @@ const Website = () => {
                         {(provided) => (
                           <SingleComponent
                             {...provided.draggableProps}
-                            {...provided.dragHandleProps}
                             ref={provided.innerRef}
                           >
                             <TempCom
@@ -138,7 +139,12 @@ const Website = () => {
                               userID={userData.userID}
                             />
                             <Delete addDeleteCom={addDeleteCom} index={index} />
-                            <Move />
+
+                            <MoveBtn {...provided.dragHandleProps}>
+                              {isPreview ? null : (
+                                <FontAwesomeIcon icon={faUpDownLeftRight} />
+                              )}
+                            </MoveBtn>
                           </SingleComponent>
                         )}
                       </Draggable>
@@ -220,6 +226,13 @@ const SingleComponent = styled.div`
   width: 960px;
   position: relative;
   margin: 10px 0;
+`;
+
+const MoveBtn = styled.div`
+  position: absolute;
+  right: 4.5px;
+  top: 60px;
+  font-size: 20px;
 `;
 
 const ResumeBtn = styled.button`

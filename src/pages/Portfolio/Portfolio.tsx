@@ -151,7 +151,7 @@ const Portfolio = () => {
                   content.comName as keyof typeof PortfolioComponents
                 ];
               return (
-                <SingleComponent>
+                <SingleComponent key={content.id}>
                   <TempCom index={index} content={content} />
                   <Delete addDeleteCom={addDeleteCom} index={index} />
                   <Move />
