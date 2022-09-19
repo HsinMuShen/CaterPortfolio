@@ -20,16 +20,14 @@ import {
   portfolioAddSetting,
   portfolioInitialSetup,
   isPreviewPortfolio,
+  isPreviewTrue,
 } from "../../action";
 import { PortfolioComponents } from "./portfolioComponents";
 import { portfolioChoice } from "./portfolioComponents";
 import Move from "../../utilis/Move";
+import InitialImg from "../../utilis/cater.png";
 
 const Preview = styled.div``;
-
-const SineleComponent = styled.div`
-  display: flex;
-`;
 
 export interface portfolioComContent {
   image: string[];
@@ -92,8 +90,8 @@ const Portfolio = () => {
       dispatch(isPreviewPortfolio());
       const portID = v4();
       const initialPortfolioData = {
-        title: "",
-        mainImage: "",
+        title: "title",
+        mainImage: InitialImg,
         content: [],
         name: userData.name,
         followers: [],
@@ -110,6 +108,9 @@ const Portfolio = () => {
     } else {
       loadPortfolio();
     }
+    return () => {
+      dispatch(isPreviewTrue("portfolio"));
+    };
   }, [userData]);
 
   return (
@@ -138,11 +139,11 @@ const Portfolio = () => {
         {isPreview ? null : (
           <>
             <InitialSetup portfolioID={portfolioID} />
-            <hr />
           </>
         )}
 
-        <div>
+        <PortfolioLayouts>
+          <PreviewDiv style={{ zIndex: isPreview ? "2" : "-1" }}></PreviewDiv>
           {portfolioData.content.map(
             (content: portfolioComContent, index: number) => {
               const TempCom =
@@ -158,7 +159,7 @@ const Portfolio = () => {
               );
             }
           )}
-        </div>
+        </PortfolioLayouts>
         <CreatePortfolioCom addPortfolioCom={addPortfolioCom} />
       </Wrapper>
       <ResumeBtn onClick={uploadPortfolio}>上架作品集!</ResumeBtn>
@@ -183,7 +184,7 @@ const Wrapper = styled.div`
   width: 960px;
   margin: 0 auto;
   background-color: #ffffff;
-  border: 1px solid;
+  /* border: 1px solid; */
 `;
 
 const PreviewBtn = styled.div`
@@ -201,11 +202,28 @@ const PreviewBtn = styled.div`
   }
 `;
 
+const PortfolioLayouts = styled.div`
+  position: relative;
+  display: flex;
+  width: 900px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+`;
+
+const PreviewDiv = styled.div`
+  position: absolute;
+  width: 900px;
+  height: 100%;
+  z-index: 2;
+`;
+
 const SingleComponent = styled.div`
   display: flex;
-  width: 960px;
+  width: 900px;
   position: relative;
-  margin: 10px 0;
+  margin: 10px auto;
 `;
 
 const ResumeBtn = styled.div`

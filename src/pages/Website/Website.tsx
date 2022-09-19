@@ -20,6 +20,7 @@ import {
   websiteRenewContent,
   websiteLoading,
   isPreviewWebsite,
+  isPreviewTrue,
 } from "../../action";
 import { WebsiteComponents } from "./websiteComponents";
 import { Link } from "react-router-dom";
@@ -76,6 +77,9 @@ const Website = () => {
       }
     };
     loadWebsite();
+    return () => {
+      dispatch(isPreviewTrue("website"));
+    };
   }, [userData]);
 
   return (

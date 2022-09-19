@@ -90,6 +90,9 @@ const Resume: React.FC = () => {
       }
     };
     loadResume();
+    return () => {
+      dispatch(isPreviewTrue("resume"));
+    };
   }, [userData]);
 
   return (

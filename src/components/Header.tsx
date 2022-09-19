@@ -31,7 +31,7 @@ const Wrapper = styled.div`
   top: 0px;
   border-bottom: 1px solid;
   /* box-shadow: 0 3px #888888b3; */
-  z-index: 3;
+  z-index: 5;
 `;
 
 const MainNav = styled.div`

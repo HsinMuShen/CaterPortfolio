@@ -10,26 +10,50 @@ import {
   setPortfolioIndex,
   setPortfolioListIndex,
 } from "../../../action";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBook } from "@fortawesome/free-solid-svg-icons";
 
 const Wrapper = styled.div`
   display: flex;
   width: 900px;
   flex-wrap: wrap;
   margin: 0 auto;
+  z-index: 3;
 `;
 
-const PortfolioCard = styled(Link)``;
+const PortfolioCard = styled(Link)`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  margin: 20px 5px;
+`;
+
+const PortfolioImg = styled.div<{ img: string }>`
+  width: 210px;
+  height: 210px;
+  background-image: url(${(props) => props.img});
+  background-size: cover;
+  background-position: center;
+  margin: 10px 0;
+`;
+
+const PortfolioTitle = styled.p`
+  color: #555555;
+  font-size: 20px;
+`;
 
 const AddingPortfolio = styled(Link)`
   display: flex;
   justify-content: center;
   align-items: center;
   width: 210px;
-  height: 210px;
+  height: 270px;
   border: 2px solid;
   border-radius: 5px;
   text-decoration: none;
   color: #555555;
+  margin: 20px 5px;
   &:hover {
     color: #ffffff;
     background-color: #555555;
@@ -77,8 +101,8 @@ const PortfolioAreaCom = ({
               dispatch(setPortfolioIndex(index));
             }}
           >
-            <img src={content.image[portfolioListIndex]} />
-            <p>{content.text[portfolioListIndex]}</p>
+            <PortfolioImg img={content.image[portfolioListIndex]} />
+            <PortfolioTitle>{content.text[portfolioListIndex]}</PortfolioTitle>
           </PortfolioCard>
         );
       })}
@@ -89,7 +113,10 @@ const PortfolioAreaCom = ({
             dispatch(setPortfolioIndex(index));
           }}
         >
-          <AddingPortfolioBtn>新增作品集</AddingPortfolioBtn>
+          <AddingPortfolioBtn>
+            <FontAwesomeIcon icon={faBook} />
+            {" 新增作品集"}
+          </AddingPortfolioBtn>
         </AddingPortfolio>
       )}
     </Wrapper>
