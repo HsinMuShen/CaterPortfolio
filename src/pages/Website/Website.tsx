@@ -71,7 +71,9 @@ const Website = () => {
   useEffect(() => {
     const loadWebsite = async () => {
       const websiteData = await firebase.readData("websites", `${websiteID}`);
+
       if (websiteData) {
+        console.log(websiteData);
         dispatch(websiteLoading(websiteData));
       } else {
         dispatch(websiteAddSetting("name", userData.name));

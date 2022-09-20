@@ -76,57 +76,6 @@ const Nav = styled.p`
   font-size: 28px;
 `;
 
-const initialUserData = {
-  name: "",
-  email: "",
-  password: "",
-  userID: "",
-  userImage: "",
-  backgroundImage: "",
-  introduction: "",
-  chatRoom: [],
-  followers: [],
-  interestingTags: [],
-  tags: [],
-  followMembers: [],
-  followResumes: [],
-  followPortfolios: [],
-  followWebsites: [],
-};
-
-const initialPortfolioData = {
-  title: "Title",
-  mainImage: "",
-  content: [],
-  name: "",
-  followers: [],
-  tags: [],
-  time: null,
-  userID: "",
-  portfolioID: "",
-};
-
-const initialResumeData = {
-  title: "",
-  coverImage: "",
-  content: [],
-  name: "",
-  followers: [],
-  tags: [],
-  time: null,
-  userID: "",
-};
-
-const initialWebsiteData = {
-  title: "",
-  content: [],
-  name: "",
-  followers: [],
-  tags: [],
-  time: null,
-  userID: "",
-};
-
 const Header = () => {
   const [isSideBar, setIsSideBar] = useState<boolean>(false);
   const auth = getAuth(firebaseApp);
@@ -146,10 +95,6 @@ const Header = () => {
         }
         dispatch(changeLoginState(true));
       } else {
-        dispatch(userLoading(initialUserData));
-        dispatch(portfolioLoading(initialPortfolioData));
-        dispatch(websiteLoading(initialWebsiteData));
-        dispatch(resumeLoading(initialResumeData));
         dispatch(changeLoginState(false));
       }
     });

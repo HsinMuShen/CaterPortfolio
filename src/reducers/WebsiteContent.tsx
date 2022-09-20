@@ -97,7 +97,8 @@ const WebsiteReducer = (
       return tempResumeData;
     }
     case ActionType.WEBSITE.LOADING: {
-      const tempWebsiteData = action.payload.data;
+      const tempWebsiteData = { ...action.payload.data };
+      console.log(tempWebsiteData);
       return tempWebsiteData;
     }
     default:

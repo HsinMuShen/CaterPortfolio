@@ -6,6 +6,13 @@ import { UserReducer } from "../reducers";
 import { signOut } from "firebase/auth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import {
+  userLoading,
+  portfolioLoading,
+  websiteLoading,
+  resumeLoading,
+} from "../action";
+import { useDispatch } from "react-redux";
 
 const Wrapper = styled.div<{ isSideBar: boolean }>`
   position: fixed;
@@ -39,6 +46,57 @@ const Nav = styled.p`
   left: 20px;
 `;
 
+const initialUserData = {
+  name: "",
+  email: "",
+  password: "",
+  userID: "",
+  userImage: "",
+  backgroundImage: "",
+  introduction: "",
+  chatRoom: [],
+  followers: [],
+  interestingTags: [],
+  tags: [],
+  followMembers: [],
+  followResumes: [],
+  followPortfolios: [],
+  followWebsites: [],
+};
+
+const initialPortfolioData = {
+  title: "Title",
+  mainImage: "",
+  content: [],
+  name: "",
+  followers: [],
+  tags: [],
+  time: null,
+  userID: "",
+  portfolioID: "",
+};
+
+const initialResumeData = {
+  title: "",
+  coverImage: "",
+  content: [],
+  name: "",
+  followers: [],
+  tags: [],
+  time: null,
+  userID: "",
+};
+
+const initialWebsiteData = {
+  title: "",
+  content: [],
+  name: "",
+  followers: [],
+  tags: [],
+  time: null,
+  userID: "",
+};
+
 const HeaderSidebar = ({
   userData,
   auth,
@@ -46,6 +104,7 @@ const HeaderSidebar = ({
   setIsSideBar,
 }: UserReducer) => {
   const nevigate = useNavigate();
+  const dispatch = useDispatch();
   return (
     <Wrapper isSideBar={isSideBar}>
       <Nav
@@ -65,6 +124,10 @@ const HeaderSidebar = ({
           onClick={() => {
             signOut(auth);
             alert("成功登出會員!");
+            dispatch(userLoading(initialUserData));
+            dispatch(portfolioLoading(initialPortfolioData));
+            dispatch(websiteLoading(initialWebsiteData));
+            dispatch(resumeLoading(initialResumeData));
             nevigate("/");
           }}
         >

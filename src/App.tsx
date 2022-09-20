@@ -46,6 +46,7 @@ const GlobalStyle = createGlobalStyle`
     background-color: #F6F6F699;
   }
 
+
   ul,
   ol {
     padding: 0 25px;
