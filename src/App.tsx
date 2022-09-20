@@ -43,7 +43,7 @@ const GlobalStyle = createGlobalStyle`
 
   body {
     font-family: NotoSansTC;
-    background-color: #F6F6F699;
+    background-color: #E7E7E799;
   }
 
 
@@ -67,7 +67,8 @@ const App: React.FC = () => {
     <>
       <GlobalStyle />
 
-      {isLoading ? <Loading /> : <Header />}
+      {/* {isLoading ? <Loading /> : <Header />} */}
+      <Header />
       <Outlet />
     </>
   );

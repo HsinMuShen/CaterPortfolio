@@ -3,11 +3,11 @@ import styled from "styled-components";
 import { RootState } from "../../reducers";
 import { useSelector } from "react-redux";
 
-import imgOnly from "../../images/imgOnly.jpeg";
-import multipleImg from "../../images/multipleImg.jpeg";
-import textAndImg from "../../images/textandImg.jpeg";
-import textOnly from "../../images/textOnly.jpeg";
-import portfolioImg from "../../images/layers.png";
+import imgOnly from "../../images/imgOnly.jpg";
+import multipleImg from "../../images/multipleImg.jpg";
+import textAndImg from "../../images/textandImg.jpg";
+import textOnly from "../../images/textOnly.jpg";
+import portfolioImg from "../../images/layers.jpg";
 import fullImg0 from "../../images/fullImg0.jpg";
 import fullImg1 from "../../images/fullImg1.jpg";
 import multiImg0 from "../../images/multiImg0.jpg";

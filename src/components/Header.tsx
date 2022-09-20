@@ -14,12 +14,15 @@ import {
   resumeLoading,
 } from "../action";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUserAstronaut } from "@fortawesome/free-solid-svg-icons";
-import { faComment } from "@fortawesome/free-solid-svg-icons";
+import {
+  faUserAstronaut,
+  faComment,
+  faBars,
+} from "@fortawesome/free-solid-svg-icons";
 
 import HeaderSidebar from "./HeaderSidebar";
 import Fish from "../images/fish.png";
-import Bulb from "../images/bulb.png";
+import Logo from "../images/caterportfolio_logo.png";
 
 const Wrapper = styled.div`
   width: 100vw;
@@ -39,19 +42,20 @@ const MainNav = styled.div`
   align-items: center;
 `;
 
-const SideNav = styled.div`
-  display: flex;
+const SideNav = styled.div<{ isMobile: boolean }>`
+  display: ${(props) => (props.isMobile ? "none" : "flex")};
   align-items: center;
   margin-right: 20px;
 `;
 
-const Logo = styled(Link)<{ img: string }>`
+const LogoArea = styled(Link)<{ img: string }>`
   color: #333333;
   text-decoration: none;
-  width: 120px;
-  height: 25px;
+  width: 30px;
+  height: 30px;
   background-position: center;
   background-size: contain;
+  background-repeat: no-repeat;
   margin: 0 0px 0 20px;
   background-image: url(${(props) => props.img});
 `;
@@ -106,12 +110,12 @@ const Header = () => {
   return (
     <Wrapper>
       <MainNav>
-        <Logo to={`/`} img={Fish}></Logo>
+        <LogoArea to={`/`} img={Logo}></LogoArea>
         <Tag to={`/`}>CaterPortfolio</Tag>
         <Tag to={`/allresumes`}>All Resumes</Tag>
       </MainNav>
       {userIsLogin ? (
-        <SideNav>
+        <SideNav isMobile={false}>
           <ChatTag to={`/chatroom/${userData.userID}`}>
             <FontAwesomeIcon icon={faComment} />
           </ChatTag>
@@ -124,10 +128,13 @@ const Header = () => {
           </Nav>
         </SideNav>
       ) : (
-        <SideNav>
+        <SideNav isMobile={false}>
           <Tag to={`/login`}>Login</Tag>
         </SideNav>
       )}
+      <SideNav isMobile={true}>
+        <FontAwesomeIcon icon={faBars} />
+      </SideNav>
       <HeaderSidebar
         userData={userData}
         auth={auth}
