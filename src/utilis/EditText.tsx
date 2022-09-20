@@ -2,10 +2,6 @@ import { EditorContent, useEditor } from "@tiptap/react";
 import { Color } from "@tiptap/extension-color";
 import TextStyle from "@tiptap/extension-text-style";
 import StarterKit from "@tiptap/starter-kit";
-import Document from "@tiptap/extension-document";
-import Heading from "@tiptap/extension-heading";
-import Paragraph from "@tiptap/extension-paragraph";
-import Text from "@tiptap/extension-text";
 import TextAlign from "@tiptap/extension-text-align";
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
@@ -200,10 +196,6 @@ export default ({ text, setReducerText, listIndex, style }: props) => {
   const editor = useEditor({
     extensions: [
       StarterKit,
-      Document,
-      Paragraph,
-      Text,
-      Heading,
       TextStyle,
       Color,
       TextAlign.configure({

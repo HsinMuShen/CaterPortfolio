@@ -11,6 +11,7 @@ const ImageLabel = styled.label`
   border-radius: 5px;
   padding: 5px;
   margin: 5px;
+  font-size: 12px;
   cursor: pointer;
   &:hover {
     background-color: #555555;
@@ -24,6 +25,7 @@ const ImageInput = styled.input`
 
 const BtnsArea = styled.div`
   display: flex;
+  flex-wrap: wrap;
 `;
 
 const Wrapper = styled.div<{ style: any }>`
@@ -35,6 +37,7 @@ const Btns = styled.div`
   border-radius: 5px;
   padding: 5px;
   margin: 5px;
+  font-size: 12px;
   cursor: pointer;
   &:hover {
     background-color: #555555;
@@ -138,7 +141,7 @@ const Canves = ({
 
           <Btns onClick={deleteObject}>刪除(選取後再按)</Btns>
           <Btns onClick={storeJson}>存檔</Btns>
-          <Btns onClick={loadJson}>回復往日的美好</Btns>
+          <Btns onClick={loadJson}>回復</Btns>
         </BtnsArea>
       )}
     </Wrapper>

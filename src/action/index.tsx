@@ -109,7 +109,7 @@ export const websiteFillContent = (
   };
 };
 
-export const websiteAddPortfolioID = (
+export const websiteChangePortfolioID = (
   index: number,
   textArr: string[] | null[]
 ) => {
