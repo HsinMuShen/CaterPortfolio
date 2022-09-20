@@ -7,12 +7,7 @@ import { RootState } from "../reducers";
 import { useSelector, useDispatch } from "react-redux";
 import { changeLoginState } from "../action";
 import firebase from "../utilis/firebase";
-import {
-  userLoading,
-  portfolioLoading,
-  websiteLoading,
-  resumeLoading,
-} from "../action";
+import { userLoading } from "../action";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUserAstronaut,

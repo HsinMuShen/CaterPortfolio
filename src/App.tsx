@@ -47,6 +47,12 @@ const GlobalStyle = createGlobalStyle`
   }
 
 
+  hr {
+    border-top: 2px solid rgba(#0D0D0D, 0.1);
+    margin: 2rem 0;
+  }
+
+
   ul,
   ol {
     padding: 0 25px;
