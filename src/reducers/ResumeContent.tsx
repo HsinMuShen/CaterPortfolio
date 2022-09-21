@@ -35,23 +35,29 @@ const ResumeReducer = (
 ) => {
   switch (action.type) {
     case ActionType.RESUME.ADD_COMPONENT: {
-      const tempContentArr = resumeData.content;
+      const tempContentArr = [...resumeData.content];
       const tempContent = { ...action.payload.content };
       tempContent.id = v4();
       tempContentArr.push(tempContent);
-
+      const newResumeData = { ...resumeData, content: tempContentArr };
+      return newResumeData;
+    }
+    case ActionType.RESUME.ADD_TEMPLATE: {
+      const tempContentArr = [...resumeData.content];
+      const templateArr = [...action.payload.templateArr];
+      tempContentArr.push(...templateArr);
       const newResumeData = { ...resumeData, content: tempContentArr };
       return newResumeData;
     }
     case ActionType.RESUME.DELETE_COMPONENT: {
-      const tempContentArr = resumeData.content;
+      const tempContentArr = [...resumeData.content];
       const index = action.payload.index;
       tempContentArr.splice(index, 1);
       const newResumeData = { ...resumeData, content: tempContentArr };
       return newResumeData;
     }
     case ActionType.RESUME.FILL_TEXT: {
-      const tempContentArr = resumeData.content;
+      const tempContentArr = [...resumeData.content];
       const index = action.payload.index;
       tempContentArr[index] = {
         ...resumeData.content[index],

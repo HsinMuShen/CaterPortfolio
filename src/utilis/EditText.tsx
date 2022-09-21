@@ -218,7 +218,11 @@ export default ({ text, setReducerText, listIndex, style }: props) => {
           "ProseMirror ProseMirror-focused" ||
         e.path[0].parentElement.parentElement.className ===
           "ProseMirror ProseMirror-focused" ||
-        e.path[0].parentElement.parentElement.className === "text"
+        e.path[0].parentElement.parentElement.className === "text" ||
+        e.path[0].parentElement.parentElement.parentElement.className ===
+          "ProseMirror ProseMirror-focused" ||
+        e.path[0].parentElement.parentElement.parentElement.parentElement
+          .className === "ProseMirror ProseMirror-focused"
       ) {
         return;
       }

@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { RootState } from "../../reducers";
-import { useSelector } from "react-redux";
+import { resumeAddTemplate } from "../../action";
+import { useSelector, useDispatch } from "react-redux";
+
+import { resumeTemplate0 } from "../../utilis/sampleLayout";
 
 import imgOnly from "../../images/imgOnly.jpg";
 import multipleImg from "../../images/multipleImg.jpg";
 import textAndImg from "../../images/textandImg.jpg";
 import textOnly from "../../images/textOnly.jpg";
+import template from "../../images/template.jpg";
 import fullImg0 from "../../images/fullImg0.jpg";
 import fullImg1 from "../../images/fullImg1.jpg";
 import multiImg0 from "../../images/multiImg0.jpg";
@@ -16,6 +20,8 @@ import textAndImg1 from "../../images/textandimg1.jpg";
 import textAndImg2 from "../../images/textandimg2.jpg";
 import text0 from "../../images/text0.jpg";
 import text1 from "../../images/text1.jpg";
+import text2 from "../../images/text4.jpg";
+import template0 from "../../images/resumeTemplate0.jpg";
 
 const Wrapper = styled.div`
   display: flex;
@@ -103,7 +109,13 @@ const selectArr = [
     arr: [
       { img: text0, index: 7 },
       { img: text1, index: 8 },
+      { img: text2, index: 9 },
     ],
+  },
+  {
+    img: template,
+    text: "履歷模板",
+    arr: [{ img: template0, index: -1 }],
   },
 ];
 
@@ -118,6 +130,7 @@ const AddComArea = ({
   const isPreview = useSelector(
     (state: RootState) => state.IsPreviewReducer.resume
   );
+  const dispatch = useDispatch();
 
   return isPreview ? null : (
     <Wrapper>
@@ -147,7 +160,11 @@ const AddComArea = ({
           return (
             <ImgSection
               onClick={() => {
-                addResumeCom(item.index);
+                if (item.index === -1) {
+                  dispatch(resumeAddTemplate(resumeTemplate0));
+                } else {
+                  addResumeCom(item.index);
+                }
               }}
               key={item.index}
               backgroundImg={item.img}

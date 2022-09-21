@@ -12,7 +12,7 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 
-const Text0 = ({
+const Text2 = ({
   index,
   content,
 }: {
@@ -21,7 +21,20 @@ const Text0 = ({
 }) => {
   const { imageFileList, textList, setResumeReducerImage, setReducerText } =
     useUpdateResumeData({ index, content });
-
+  const styleArr = [
+    {
+      width: "250px",
+      padding: " 0 10px",
+    },
+    {
+      width: "250px",
+      padding: " 0 10px",
+    },
+    {
+      width: "250px",
+      padding: " 0 10px",
+    },
+  ];
   return (
     <Wrapper>
       {textList.map((_, listIndex) => {
@@ -31,10 +44,7 @@ const Text0 = ({
             text={content.text[listIndex]}
             listIndex={listIndex}
             setReducerText={setReducerText}
-            style={{
-              width: "800px",
-              padding: "0 10px",
-            }}
+            style={styleArr[listIndex]}
           />
         );
       })}
@@ -42,4 +52,4 @@ const Text0 = ({
   );
 };
 
-export default Text0;
+export default Text2;

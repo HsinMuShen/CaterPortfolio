@@ -63,7 +63,7 @@ const upAnimation = keyframes`0% {
 
 const TrashBtn = styled.div`
   position: absolute;
-  top: 20px;
+  top: 0px;
   right: 6px;
   display: flex;
   font-size: 20px;

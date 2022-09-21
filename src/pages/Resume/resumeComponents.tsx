@@ -11,6 +11,7 @@ import MultiImg0 from "./ResumeComponents/MultiImg0";
 import MultiImg1 from "./ResumeComponents/MultiImg1";
 import Text0 from "./ResumeComponents/Text0";
 import Text1 from "./ResumeComponents/Text1";
+import Text2 from "./ResumeComponents/Text2";
 
 export const resumeChoice = [
   {
@@ -21,7 +22,7 @@ export const resumeChoice = [
       text: [],
       type: 0,
       comName: "FullImg0",
-      id: v4(),
+      id: "",
     },
   },
   {
@@ -32,7 +33,7 @@ export const resumeChoice = [
       text: [],
       type: 1,
       comName: "FullImg1",
-      id: v4(),
+      id: "",
     },
   },
   {
@@ -43,7 +44,7 @@ export const resumeChoice = [
       text: [],
       type: 2,
       comName: "MultiImg0",
-      id: v4(),
+      id: "",
     },
   },
   {
@@ -54,7 +55,7 @@ export const resumeChoice = [
       text: [],
       type: 3,
       comName: "MultiImg1",
-      id: v4(),
+      id: "",
     },
   },
   {
@@ -65,7 +66,7 @@ export const resumeChoice = [
       text: ["<h2>您的姓名</h2><p>職位名稱</p><p>聯絡資訊</p>"],
       type: 4,
       comName: "TextAndImg0",
-      id: v4(),
+      id: "",
     },
   },
   {
@@ -76,7 +77,7 @@ export const resumeChoice = [
       text: ["<h2>您的姓名</h2><p>職位名稱</p><p>聯絡資訊</p>"],
       type: 5,
       comName: "TextAndImg1",
-      id: v4(),
+      id: "",
     },
   },
   {
@@ -87,7 +88,7 @@ export const resumeChoice = [
       text: ["<h2>您的姓名</h2><p>職位名稱</p><p>聯絡資訊</p>"],
       type: 6,
       comName: "TextAndImg2",
-      id: v4(),
+      id: "",
     },
   },
   {
@@ -98,7 +99,7 @@ export const resumeChoice = [
       text: ["<h2>您的姓名</h2><p>職位名稱</p><p>聯絡資訊</p>"],
       type: 7,
       comName: "Text0",
-      id: v4(),
+      id: "",
     },
   },
   {
@@ -112,7 +113,22 @@ export const resumeChoice = [
       ],
       type: 8,
       comName: "Text1",
-      id: v4(),
+      id: "",
+    },
+  },
+  {
+    name: "Text2",
+    comIndex: 9,
+    comContent: {
+      image: [],
+      text: [
+        "<h3>工作經驗</h3><hr><ol><li><p>酪梨牧場 豬仔</p></li><li><p>西瓜農場 作業員</p></li><li><p>骨灰墳場 清潔員</p><p></p></li></ol>",
+        "<p></p><p>2016 - 2019</p><p>2019 - 2021</p>",
+        "<p></p><p>2016 - 2019</p><p>2019 - 2021</p>",
+      ],
+      type: 9,
+      comName: "Text2",
+      id: "",
     },
   },
 ];
@@ -198,5 +214,14 @@ export const ResumeComponents = {
     content: resumeComContent;
   }) {
     return <Text1 index={index} content={content} />;
+  },
+  Text2: function Text({
+    index,
+    content,
+  }: {
+    index: number;
+    content: resumeComContent;
+  }) {
+    return <Text2 index={index} content={content} />;
   },
 };
