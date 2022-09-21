@@ -8,7 +8,7 @@ import {
 } from "firebase/auth";
 import { RootState } from "../../reducers";
 import { useSelector, useDispatch } from "react-redux";
-import { initialSetUserData } from "../../action";
+import { initialSetUserData, setAlert } from "../../action";
 import { useNavigate } from "react-router-dom";
 import firebase from "../../utilis/firebase";
 
@@ -111,7 +111,10 @@ const Login = () => {
       signInWithEmailAndPassword(auth, userData.email, userData.password)
         .then((userCredential) => {
           const user = userCredential.user;
-          alert("成功登入會員!");
+          dispatch(setAlert({ isAlert: true, text: "成功登入!" }));
+          setTimeout(() => {
+            dispatch(setAlert({ isAlert: false, text: "" }));
+          }, 3000);
           const tempData = userData;
           tempData.userID = user.uid;
           navigate("/");
@@ -124,7 +127,10 @@ const Login = () => {
       createUserWithEmailAndPassword(auth, userData.email, userData.password)
         .then((userCredential) => {
           const user = userCredential.user;
-          alert("成功註冊會員!");
+          dispatch(setAlert({ isAlert: true, text: "成功註冊!" }));
+          setTimeout(() => {
+            dispatch(setAlert({ isAlert: false, text: "" }));
+          }, 3000);
           const tempData = userData;
           tempData.userID = user.uid;
           firebase.uploadDoc("users", user.uid, tempData);

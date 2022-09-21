@@ -11,6 +11,7 @@ import {
   portfolioLoading,
   websiteLoading,
   resumeLoading,
+  setAlert,
 } from "../action";
 import { useDispatch } from "react-redux";
 
@@ -123,7 +124,10 @@ const HeaderSidebar = ({
           to={"#"}
           onClick={() => {
             signOut(auth);
-            alert("成功登出會員!");
+            dispatch(setAlert({ isAlert: true, text: "成功登出!" }));
+            setTimeout(() => {
+              dispatch(setAlert({ isAlert: false, text: "" }));
+            }, 3000);
             dispatch(userLoading(initialUserData));
             dispatch(portfolioLoading(initialPortfolioData));
             dispatch(websiteLoading(initialWebsiteData));
