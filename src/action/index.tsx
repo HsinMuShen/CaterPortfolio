@@ -280,6 +280,13 @@ export const setChatRoomID = (chatRoomID: string, name: string) => {
   };
 };
 
+export const setAlert = (alertData: { isAlert: boolean; text: string }) => {
+  return {
+    type: ActionType.ISPREVIEW.SET_ALERT,
+    payload: { alertData },
+  };
+};
+
 export const setPortfolioIndex = (index: number) => {
   return {
     type: ActionType.PORTFOLIOINDEX.SET_INDEX,

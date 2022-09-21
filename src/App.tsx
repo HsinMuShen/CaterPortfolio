@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
 import Header from "./components/Header";
+import Alert from "./components/Alert";
 import Loading from "./utilis/Loading";
 
 import PingFangTCRegular from "./fonts/PingFang-TC-Regular-2.otf";
@@ -75,6 +76,7 @@ const App: React.FC = () => {
 
       {/* {isLoading ? <Loading /> : <Header />} */}
       <Header />
+      <Alert />
       <Outlet />
     </>
   );

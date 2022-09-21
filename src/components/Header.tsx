@@ -27,7 +27,6 @@ const Wrapper = styled.div<{ isPopup: boolean }>`
   position: fixed;
   top: 0px;
   border-bottom: 1px solid;
-  /* box-shadow: 0 3px #888888b3; */
   z-index: ${(props) => (props.isPopup ? 1 : 5)};
 `;
 

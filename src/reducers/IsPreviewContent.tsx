@@ -1,6 +1,5 @@
 import { AnyAction } from "redux";
 import { ActionType } from ".";
-import { Timestamp } from "firebase/firestore";
 
 interface isPreviewReducer {
   userIsLogin: boolean;
@@ -10,6 +9,10 @@ interface isPreviewReducer {
   portfolio: boolean;
   nowChatRoom: { chatRoomID: string; name: string };
   popup: boolean;
+  alert: {
+    isAlert: boolean;
+    text: string;
+  };
 }
 
 const IsPreviewReducer = (
@@ -21,6 +24,10 @@ const IsPreviewReducer = (
     portfolio: true,
     nowChatRoom: { chatRoomID: "", name: "" },
     popup: false,
+    alert: {
+      isAlert: false,
+      text: "",
+    },
   },
   action: AnyAction
 ) => {
@@ -89,6 +96,14 @@ const IsPreviewReducer = (
           chatRoomID: action.payload.chatRoomID,
           name: action.payload.name,
         },
+      };
+      return tempIsPreview;
+    }
+    case ActionType.ISPREVIEW.SET_ALERT: {
+      let tempIsPreview = isPreview;
+      tempIsPreview = {
+        ...tempIsPreview,
+        alert: action.payload.alertData,
       };
       return tempIsPreview;
     }
