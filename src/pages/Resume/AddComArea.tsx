@@ -13,6 +13,7 @@ import textOnly from "../../images/textOnly.jpg";
 import template from "../../images/template.jpg";
 import fullImg0 from "../../images/fullImg0.jpg";
 import fullImg1 from "../../images/fullImg1.jpg";
+import fullImg2 from "../../images/fullImg2.jpg";
 import multiImg0 from "../../images/multiImg0.jpg";
 import multiImg1 from "../../images/multiImg1.jpg";
 import textAndImg0 from "../../images/textandimg0.jpg";
@@ -84,32 +85,33 @@ const selectArr = [
     arr: [
       { img: fullImg0, index: 0 },
       { img: fullImg1, index: 1 },
+      { img: fullImg2, index: 2 },
     ],
   },
   {
     img: multipleImg,
     text: "相片拼貼",
     arr: [
-      { img: multiImg0, index: 2 },
-      { img: multiImg1, index: 3 },
+      { img: multiImg0, index: 3 },
+      { img: multiImg1, index: 4 },
     ],
   },
   {
     img: textAndImg,
     text: "圖文並茂",
     arr: [
-      { img: textAndImg0, index: 4 },
-      { img: textAndImg1, index: 5 },
-      { img: textAndImg2, index: 6 },
+      { img: textAndImg0, index: 5 },
+      { img: textAndImg1, index: 6 },
+      { img: textAndImg2, index: 7 },
     ],
   },
   {
     img: textOnly,
     text: "純文字",
     arr: [
-      { img: text0, index: 7 },
-      { img: text1, index: 8 },
-      { img: text2, index: 9 },
+      { img: text0, index: 8 },
+      { img: text1, index: 9 },
+      { img: text2, index: 10 },
     ],
   },
   {
