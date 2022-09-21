@@ -16,10 +16,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import HeaderSidebar from "./HeaderSidebar";
-import Fish from "../images/fish.png";
 import Logo from "../images/caterportfolio_logo.png";
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ isPopup: boolean }>`
   width: 100vw;
   height: 60px;
   background-color: #ffffff;
@@ -29,7 +28,7 @@ const Wrapper = styled.div`
   top: 0px;
   border-bottom: 1px solid;
   /* box-shadow: 0 3px #888888b3; */
-  z-index: 5;
+  z-index: ${(props) => (props.isPopup ? 1 : 5)};
 `;
 
 const MainNav = styled.div`
@@ -82,6 +81,9 @@ const Header = () => {
   const userIsLogin = useSelector(
     (state: RootState) => state.IsPreviewReducer.userIsLogin
   );
+  const isPopup = useSelector(
+    (state: RootState) => state.IsPreviewReducer.popup
+  );
   const dispatch = useDispatch();
   const location = useLocation();
 
@@ -103,7 +105,7 @@ const Header = () => {
     setIsSideBar(false);
   }, [location]);
   return (
-    <Wrapper>
+    <Wrapper isPopup={isPopup}>
       <MainNav>
         <LogoArea to={`/`} img={Logo}></LogoArea>
         <Tag to={`/`}>CaterPortfolio</Tag>

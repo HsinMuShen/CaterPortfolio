@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -11,6 +11,8 @@ import {
   websiteChangePortfolioID,
   websiteAddImage,
   websiteFillContent,
+  isPreviewTrue,
+  isPreviewFalse,
 } from "../../../action";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBook, faTrash } from "@fortawesome/free-solid-svg-icons";
@@ -104,18 +106,40 @@ const PortfolioAreaCom = ({
   index: number;
   userID: string | undefined;
 }) => {
-  const [isPop, setIsPop] = useState<boolean>(false);
+  // const [isPop, setIsPop] = useState<boolean>(false);
   const dispatch = useDispatch();
+  const deletePortfolioData = useRef<{
+    portfolioID: string;
+    portfolioListIndex: number;
+  }>();
   const websiteData = useSelector((state: RootState) => state.WebsiteReducer);
   const isPreview = useSelector(
     (state: RootState) => state.IsPreviewReducer.website
   );
+  const isPop = useSelector((state: RootState) => state.IsPreviewReducer.popup);
+
+  const handleDelete = (portfolioID: string, portfolioListIndex: number) => {
+    dispatch(isPreviewTrue("popup"));
+    deletePortfolioData.current = { portfolioID, portfolioListIndex };
+  };
+
+  const sureToDelete = (isSure: boolean) => {
+    if (isSure) {
+      // deleteSinglePortfolio(
+      //   deletePortfolioData.current!.portfolioID,
+      //   deletePortfolioData.current!.portfolioListIndex
+      // );
+      alert(`確定刪除:${deletePortfolioData.current!.portfolioID}`);
+    }
+    dispatch(isPreviewFalse("popup"));
+  };
 
   const deleteSinglePortfolio = (
     portfolioID: string,
     portfolioListIndex: number
   ) => {
     firebase.deletePortfolio(portfolioID);
+
     const tempPortArr = [...websiteData.content[index].portfolioID];
     tempPortArr.splice(portfolioListIndex, 1);
     dispatch(websiteChangePortfolioID(index, tempPortArr));
@@ -157,7 +181,7 @@ const PortfolioAreaCom = ({
             {isPreview ? null : (
               <DeleteBtn
                 onClick={() => {
-                  setIsPop(true);
+                  handleDelete(portfolioID, portfolioListIndex);
                   // deleteSinglePortfolio(portfolioID, portfolioListIndex);
                 }}
               >
@@ -167,6 +191,7 @@ const PortfolioAreaCom = ({
             <PopUp
               isPopup={isPop}
               text={"是否確定要刪除? 一旦刪除將無法回復"}
+              sureToDelete={sureToDelete}
             ></PopUp>
           </PortfolioShowing>
         );

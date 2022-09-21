@@ -266,6 +266,13 @@ export const isPreviewTrue = (type: string) => {
   };
 };
 
+export const isPreviewFalse = (type: string) => {
+  return {
+    type: ActionType.ISPREVIEW.FALSE,
+    payload: { type },
+  };
+};
+
 export const setChatRoomID = (chatRoomID: string, name: string) => {
   return {
     type: ActionType.ISPREVIEW.SET_CHAT_ROOM,

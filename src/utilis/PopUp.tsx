@@ -50,17 +50,29 @@ const SelectBtn = styled.div`
 interface PopupProps {
   isPopup: boolean;
   text: string;
-  // function?: () => void;
+  sureToDelete: (isSure: boolean) => void;
 }
 
-const PopUp = ({ isPopup, text }: PopupProps) => {
+const PopUp = ({ isPopup, text, sureToDelete }: PopupProps) => {
   return isPopup ? (
     <Wrapper>
       <PopFrame>
         <WarnningText>{text}</WarnningText>
         <BtnArea>
-          <SelectBtn>確認</SelectBtn>
-          <SelectBtn>取消</SelectBtn>
+          <SelectBtn
+            onClick={() => {
+              sureToDelete(true);
+            }}
+          >
+            確認
+          </SelectBtn>
+          <SelectBtn
+            onClick={() => {
+              sureToDelete(false);
+            }}
+          >
+            取消
+          </SelectBtn>
         </BtnArea>
       </PopFrame>
     </Wrapper>
