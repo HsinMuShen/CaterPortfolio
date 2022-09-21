@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,7 +11,7 @@ import styled from "styled-components";
 import { websiteChoice } from "./websiteComponents";
 import AddWebsiteCom from "./AddWebsiteCom";
 import Delete from "../Resume/Delete";
-import Move from "../../utilis/Move";
+import PopUp from "../../utilis/PopUp";
 
 import firebase from "../../utilis/firebase";
 import { RootState } from "../../reducers";
@@ -24,8 +24,11 @@ import {
   websiteLoading,
   isPreviewWebsite,
   isPreviewTrue,
+  isPreviewFalse,
 } from "../../action";
 import { WebsiteComponents } from "./websiteComponents";
+import { deleteDoc, doc } from "firebase/firestore";
+import { db } from "../../firebaseConfig";
 
 export interface websiteComContent {
   image: string[];
@@ -37,6 +40,7 @@ export interface websiteComContent {
 }
 
 const Website = () => {
+  const deletePortfolioContent = useRef<number>();
   const websiteID = useParams().id;
   const dispatch = useDispatch();
   const websiteData = useSelector((state: RootState) => state.WebsiteReducer);
@@ -44,6 +48,7 @@ const Website = () => {
     (state: RootState) => state.IsPreviewReducer.website
   );
   const userData = useSelector((state: RootState) => state.UserReducer);
+  const isPop = useSelector((state: RootState) => state.IsPreviewReducer.popup);
 
   const addWebsiteCom = (conIndex: number) => {
     dispatch(websiteAddCom(websiteChoice[conIndex].comContent));
@@ -51,6 +56,33 @@ const Website = () => {
 
   const addDeleteCom = (deleteIndex: number) => {
     dispatch(websiteDeleteCom(deleteIndex));
+  };
+
+  const sureToDelete = (isSure: boolean) => {
+    if (isSure) {
+      deletePortCom(deletePortfolioContent.current!);
+      console.log(deletePortfolioContent.current);
+    }
+    dispatch(isPreviewFalse("popup"));
+  };
+
+  const deletePortCom = async (deleteIndex: number) => {
+    let deletePromiswArr: Promise<void>[] = [];
+    websiteData.content[deleteIndex].portfolioID.forEach(
+      (portfolioID: string) => {
+        deletePromiswArr.push(deleteDoc(doc(db, "portfolios", portfolioID)));
+      }
+    );
+    await Promise.all(deletePromiswArr);
+
+    dispatch(websiteDeleteCom(deleteIndex));
+
+    const tempContentArr = [...websiteData.content];
+    console.log(tempContentArr);
+    tempContentArr.splice(deleteIndex, 1);
+    const newResumeData = { ...websiteData, content: tempContentArr };
+    console.log(newResumeData.content);
+    firebase.uploadDoc("websites", userData.userID, newResumeData);
   };
 
   const uploadWebsite = () => {
@@ -73,7 +105,7 @@ const Website = () => {
       const websiteData = await firebase.readData("websites", `${websiteID}`);
 
       if (websiteData) {
-        console.log(websiteData);
+        console.log(websiteData.content);
         dispatch(websiteLoading(websiteData));
       } else {
         dispatch(websiteAddSetting("name", userData.name));
@@ -140,7 +172,24 @@ const Website = () => {
                               content={content}
                               userID={userData.userID}
                             />
-                            <Delete addDeleteCom={addDeleteCom} index={index} />
+                            <Delete
+                              addDeleteCom={
+                                content.comName === "Portfolio0"
+                                  ? () => {
+                                      deletePortfolioContent.current = index;
+                                      dispatch(isPreviewTrue("popup"));
+                                    }
+                                  : addDeleteCom
+                              }
+                              index={index}
+                            />
+                            <PopUp
+                              isPopup={isPop}
+                              text={
+                                "是否確定要刪除此作品集列? 一旦刪除將無法回復"
+                              }
+                              sureToDelete={sureToDelete}
+                            ></PopUp>
 
                             <MoveBtn {...provided.dragHandleProps}>
                               {isPreview ? null : (

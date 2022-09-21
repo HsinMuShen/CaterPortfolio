@@ -20,7 +20,7 @@ const PopFrame = styled.div`
   flex-direction: column;
   align-items: center;
   background-color: #ffffff;
-  width: 400px;
+  width: 420px;
   height: 200px;
   border: 2px solid;
   border-radius: 15px;

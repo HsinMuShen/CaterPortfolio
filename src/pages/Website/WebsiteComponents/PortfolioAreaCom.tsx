@@ -106,7 +106,6 @@ const PortfolioAreaCom = ({
   index: number;
   userID: string | undefined;
 }) => {
-  // const [isPop, setIsPop] = useState<boolean>(false);
   const dispatch = useDispatch();
   const deletePortfolioData = useRef<{
     portfolioID: string;
@@ -125,11 +124,10 @@ const PortfolioAreaCom = ({
 
   const sureToDelete = (isSure: boolean) => {
     if (isSure) {
-      // deleteSinglePortfolio(
-      //   deletePortfolioData.current!.portfolioID,
-      //   deletePortfolioData.current!.portfolioListIndex
-      // );
-      alert(`確定刪除:${deletePortfolioData.current!.portfolioID}`);
+      deleteSinglePortfolio(
+        deletePortfolioData.current!.portfolioID,
+        deletePortfolioData.current!.portfolioListIndex
+      );
     }
     dispatch(isPreviewFalse("popup"));
   };
@@ -164,7 +162,7 @@ const PortfolioAreaCom = ({
     <Wrapper>
       {content.portfolioID?.map((portfolioID, portfolioListIndex) => {
         return (
-          <PortfolioShowing>
+          <PortfolioShowing key={portfolioID}>
             <PortfolioCard
               key={portfolioID}
               to={`/portfolio/${portfolioID}`}
@@ -190,7 +188,7 @@ const PortfolioAreaCom = ({
             )}
             <PopUp
               isPopup={isPop}
-              text={"是否確定要刪除? 一旦刪除將無法回復"}
+              text={"是否確定要刪除此作品集? 一旦刪除將無法回復"}
               sureToDelete={sureToDelete}
             ></PopUp>
           </PortfolioShowing>

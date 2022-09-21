@@ -41,14 +41,14 @@ const WebsiteReducer = (
       return newResumeData;
     }
     case ActionType.WEBSITE.DELETE_COMPONENT: {
-      const tempContentArr = websiteData.content;
+      const tempContentArr = [...websiteData.content];
       const index = action.payload.index;
       tempContentArr.splice(index, 1);
       const newResumeData = { ...websiteData, content: tempContentArr };
       return newResumeData;
     }
     case ActionType.WEBSITE.FILL_CONTENT: {
-      const tempContentArr = websiteData.content;
+      const tempContentArr = [...websiteData.content];
       const index = action.payload.index;
       tempContentArr[index] = {
         ...websiteData.content[index],
@@ -58,7 +58,7 @@ const WebsiteReducer = (
       return newWebsiteData;
     }
     case ActionType.WEBSITE.ADD_IMAGE: {
-      const tempContentArr = websiteData.content;
+      const tempContentArr = [...websiteData.content];
       const index = action.payload.index;
       tempContentArr[index] = {
         ...websiteData.content[index],
@@ -68,7 +68,7 @@ const WebsiteReducer = (
       return newWebsiteData;
     }
     case ActionType.WEBSITE.ADD_PORTFOLIO_ID: {
-      const tempContentArr = websiteData.content;
+      const tempContentArr = [...websiteData.content];
       const index = action.payload.index;
       tempContentArr[index] = {
         ...websiteData.content[index],
@@ -82,7 +82,7 @@ const WebsiteReducer = (
       return tempObj;
     }
     case ActionType.WEBSITE.ADD_SETTING: {
-      let tempResumeData = websiteData;
+      let tempResumeData = { ...websiteData };
       tempResumeData = {
         ...websiteData,
         [action.payload.type]: action.payload.text,
@@ -98,7 +98,6 @@ const WebsiteReducer = (
     }
     case ActionType.WEBSITE.LOADING: {
       const tempWebsiteData = { ...action.payload.data };
-      console.log(tempWebsiteData);
       return tempWebsiteData;
     }
     default:
