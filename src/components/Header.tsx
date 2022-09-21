@@ -7,21 +7,18 @@ import { RootState } from "../reducers";
 import { useSelector, useDispatch } from "react-redux";
 import { changeLoginState } from "../action";
 import firebase from "../utilis/firebase";
-import {
-  userLoading,
-  portfolioLoading,
-  websiteLoading,
-  resumeLoading,
-} from "../action";
+import { userLoading } from "../action";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUserAstronaut } from "@fortawesome/free-solid-svg-icons";
-import { faComment } from "@fortawesome/free-solid-svg-icons";
+import {
+  faUserAstronaut,
+  faComment,
+  faBars,
+} from "@fortawesome/free-solid-svg-icons";
 
 import HeaderSidebar from "./HeaderSidebar";
-import Fish from "../images/fish.png";
-import Bulb from "../images/bulb.png";
+import Logo from "../images/caterportfolio_logo.png";
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ isPopup: boolean }>`
   width: 100vw;
   height: 60px;
   background-color: #ffffff;
@@ -31,7 +28,7 @@ const Wrapper = styled.div`
   top: 0px;
   border-bottom: 1px solid;
   /* box-shadow: 0 3px #888888b3; */
-  z-index: 5;
+  z-index: ${(props) => (props.isPopup ? 1 : 5)};
 `;
 
 const MainNav = styled.div`
@@ -39,19 +36,20 @@ const MainNav = styled.div`
   align-items: center;
 `;
 
-const SideNav = styled.div`
-  display: flex;
+const SideNav = styled.div<{ isMobile: boolean }>`
+  display: ${(props) => (props.isMobile ? "none" : "flex")};
   align-items: center;
   margin-right: 20px;
 `;
 
-const Logo = styled(Link)<{ img: string }>`
+const LogoArea = styled(Link)<{ img: string }>`
   color: #333333;
   text-decoration: none;
-  width: 120px;
-  height: 25px;
+  width: 30px;
+  height: 30px;
   background-position: center;
   background-size: contain;
+  background-repeat: no-repeat;
   margin: 0 0px 0 20px;
   background-image: url(${(props) => props.img});
 `;
@@ -76,63 +74,15 @@ const Nav = styled.p`
   font-size: 28px;
 `;
 
-const initialUserData = {
-  name: "",
-  email: "",
-  password: "",
-  userID: "",
-  userImage: "",
-  backgroundImage: "",
-  introduction: "",
-  chatRoom: [],
-  followers: [],
-  interestingTags: [],
-  tags: [],
-  followMembers: [],
-  followResumes: [],
-  followPortfolios: [],
-  followWebsites: [],
-};
-
-const initialPortfolioData = {
-  title: "Title",
-  mainImage: "",
-  content: [],
-  name: "",
-  followers: [],
-  tags: [],
-  time: null,
-  userID: "",
-  portfolioID: "",
-};
-
-const initialResumeData = {
-  title: "",
-  coverImage: "",
-  content: [],
-  name: "",
-  followers: [],
-  tags: [],
-  time: null,
-  userID: "",
-};
-
-const initialWebsiteData = {
-  title: "",
-  content: [],
-  name: "",
-  followers: [],
-  tags: [],
-  time: null,
-  userID: "",
-};
-
 const Header = () => {
   const [isSideBar, setIsSideBar] = useState<boolean>(false);
   const auth = getAuth(firebaseApp);
   const userData = useSelector((state: RootState) => state.UserReducer);
   const userIsLogin = useSelector(
     (state: RootState) => state.IsPreviewReducer.userIsLogin
+  );
+  const isPopup = useSelector(
+    (state: RootState) => state.IsPreviewReducer.popup
   );
   const dispatch = useDispatch();
   const location = useLocation();
@@ -146,10 +96,6 @@ const Header = () => {
         }
         dispatch(changeLoginState(true));
       } else {
-        dispatch(userLoading(initialUserData));
-        dispatch(portfolioLoading(initialPortfolioData));
-        dispatch(websiteLoading(initialWebsiteData));
-        dispatch(resumeLoading(initialResumeData));
         dispatch(changeLoginState(false));
       }
     });
@@ -159,14 +105,14 @@ const Header = () => {
     setIsSideBar(false);
   }, [location]);
   return (
-    <Wrapper>
+    <Wrapper isPopup={isPopup}>
       <MainNav>
-        <Logo to={`/`} img={Fish}></Logo>
+        <LogoArea to={`/`} img={Logo}></LogoArea>
         <Tag to={`/`}>CaterPortfolio</Tag>
         <Tag to={`/allresumes`}>All Resumes</Tag>
       </MainNav>
       {userIsLogin ? (
-        <SideNav>
+        <SideNav isMobile={false}>
           <ChatTag to={`/chatroom/${userData.userID}`}>
             <FontAwesomeIcon icon={faComment} />
           </ChatTag>
@@ -179,10 +125,13 @@ const Header = () => {
           </Nav>
         </SideNav>
       ) : (
-        <SideNav>
+        <SideNav isMobile={false}>
           <Tag to={`/login`}>Login</Tag>
         </SideNav>
       )}
+      <SideNav isMobile={true}>
+        <FontAwesomeIcon icon={faBars} />
+      </SideNav>
       <HeaderSidebar
         userData={userData}
         auth={auth}

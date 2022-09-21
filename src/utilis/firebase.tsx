@@ -10,6 +10,7 @@ import {
   updateDoc,
   arrayUnion,
   arrayRemove,
+  deleteDoc,
 } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import {
@@ -230,6 +231,10 @@ const firebase = {
         userID: userData.userID,
       }),
     });
+  },
+
+  async deletePortfolio(portfolioID: string) {
+    await deleteDoc(doc(db, "portfolios", portfolioID));
   },
 };
 

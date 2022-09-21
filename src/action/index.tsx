@@ -109,7 +109,7 @@ export const websiteFillContent = (
   };
 };
 
-export const websiteAddPortfolioID = (
+export const websiteChangePortfolioID = (
   index: number,
   textArr: string[] | null[]
 ) => {
@@ -262,6 +262,13 @@ export const isPreviewPortfolio = () => {
 export const isPreviewTrue = (type: string) => {
   return {
     type: ActionType.ISPREVIEW.TRUE,
+    payload: { type },
+  };
+};
+
+export const isPreviewFalse = (type: string) => {
+  return {
+    type: ActionType.ISPREVIEW.FALSE,
     payload: { type },
   };
 };

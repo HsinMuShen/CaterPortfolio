@@ -13,7 +13,7 @@ import firebase from "../../utilis/firebase";
 import { RootState } from "../../reducers";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  websiteAddPortfolioID,
+  websiteChangePortfolioID,
   portfolioAddCom,
   portfolioDeleteCom,
   portfolioLoading,
@@ -104,7 +104,7 @@ const Portfolio = () => {
       const tempArr = websiteData.content[portfolioIndex.index].portfolioID;
       tempArr[websiteData.content[portfolioIndex.index].portfolioID.length] =
         portID;
-      dispatch(websiteAddPortfolioID(portfolioIndex.index, tempArr));
+      dispatch(websiteChangePortfolioID(portfolioIndex.index, tempArr));
     } else {
       loadPortfolio();
     }

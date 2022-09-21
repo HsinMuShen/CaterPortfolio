@@ -8,7 +8,7 @@ import {
   portfolioInitialSetup,
   websiteFillContent,
   websiteAddImage,
-  websiteAddPortfolioID,
+  websiteChangePortfolioID,
 } from "../../action";
 import InitialImg from "../../utilis/cater.png";
 
@@ -79,7 +79,7 @@ const InitialSetup = ({ portfolioID }: { portfolioID: string | undefined }) => {
   const setPortfolioMainImage = async (file: File) => {
     const imageUrl = await firebase.getImageUrl(file);
     dispatch(portfolioInitialSetup("mainImage", imageUrl));
-    const tempArr = websiteReducer.content[portfolioIndex.index].image;
+    const tempArr = [...websiteReducer.content[portfolioIndex.index].image];
     if (portfolioID === "create") {
       tempArr[
         websiteReducer.content[portfolioIndex.index].portfolioID.length - 1
@@ -92,7 +92,7 @@ const InitialSetup = ({ portfolioID }: { portfolioID: string | undefined }) => {
   };
 
   const setToWebsite = (text: string) => {
-    const tempArr = websiteReducer.content[portfolioIndex.index].text;
+    const tempArr = [...websiteReducer.content[portfolioIndex.index].text];
     if (portfolioID === "create") {
       tempArr[
         websiteReducer.content[portfolioIndex.index].portfolioID.length - 1
