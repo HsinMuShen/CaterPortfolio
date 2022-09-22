@@ -100,11 +100,12 @@ const Chats = ({
   userImage: string;
 }) => {
   const [sendMsg, setSendMsg] = useState("");
-  const [allMsg, setAllMsg] = useState<{ msg: string; userID: string }[]>([]);
+  const [allMsg, setAllMsg] = useState<
+    { msg: string; userID: string; name: string }[]
+  >([]);
   const userData = useSelector((state: RootState) => state.UserReducer);
   const submitMsg = () => {
     if (sendMsg !== "") {
-      console.log(chatRoomID);
       firebase.addMsg(userData, chatRoomID, sendMsg);
       setSendMsg("");
     } else {
@@ -114,7 +115,6 @@ const Chats = ({
   useEffect(() => {
     if (chatRoomID !== "") {
       onSnapshot(doc(db, "chatrooms", chatRoomID), (doc) => {
-        console.log(doc.data());
         setAllMsg(doc.data()!.message);
       });
     }
@@ -127,16 +127,16 @@ const Chats = ({
       </NameArea>
 
       <MessageArea>
-        {allMsg.map((data) => {
+        {allMsg.map((data, index) => {
           if (data.userID === userData.userID) {
             return (
-              <UserMsgDialog>
+              <UserMsgDialog key={index}>
                 <UserMsg>{data.msg}</UserMsg>
               </UserMsgDialog>
             );
           } else {
             return (
-              <MsgDialog>
+              <MsgDialog key={index}>
                 <p>{data.msg}</p>
               </MsgDialog>
             );

@@ -72,12 +72,13 @@ const GlobalStyle = createGlobalStyle`
 const App: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const location = useLocation();
-  useEffect(() => {
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 2500);
-  }, [location]);
+  // useEffect(() => {
+  //   setIsLoading(true);
+  //   setTimeout(() => {
+  //     setIsLoading(false);
+  //   }, 2500);
+  // }, [location]);
+
   return (
     <>
       <GlobalStyle />

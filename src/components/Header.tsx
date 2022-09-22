@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { firebaseApp } from "../firebaseConfig";
+import { db, firebaseApp } from "../firebaseConfig";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { RootState } from "../reducers";
 import { useSelector, useDispatch } from "react-redux";
-import { changeLoginState } from "../action";
+import { changeLoginState, setAlert } from "../action";
 import firebase from "../utilis/firebase";
 import { userLoading } from "../action";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -14,6 +14,7 @@ import {
   faComment,
   faBars,
 } from "@fortawesome/free-solid-svg-icons";
+import { collection, onSnapshot, query, where } from "firebase/firestore";
 
 import HeaderSidebar from "./HeaderSidebar";
 import Logo from "../images/caterportfolio_logo.png";
@@ -99,6 +100,34 @@ const Header = () => {
       }
     });
   }, []);
+
+  useEffect(() => {
+    const userChatData = { name: userData.name, userID: userData.userID };
+    const q = query(
+      collection(db, "chatrooms"),
+      where("userData", "array-contains", userChatData)
+    );
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      snapshot.docChanges().forEach((change) => {
+        console.log(change);
+        if (change.type === "modified") {
+          const name =
+            change.doc.data().message[change.doc.data().message.length - 1]
+              .name;
+          console.log(change.doc.data().message);
+
+          if (name !== userData.name) {
+            dispatch(
+              setAlert({ isAlert: true, text: `${name}傳送了訊息給你!` })
+            );
+            setTimeout(() => {
+              dispatch(setAlert({ isAlert: false, text: "" }));
+            }, 3000);
+          }
+        }
+      });
+    });
+  }, [userData]);
 
   useEffect(() => {
     setIsSideBar(false);
