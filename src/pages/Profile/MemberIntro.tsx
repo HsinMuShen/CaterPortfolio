@@ -9,6 +9,9 @@ import { Link } from "react-router-dom";
 import firebase from "../../utilis/firebase";
 import FollowBtn from "./FollowBtn";
 import ChatButton from "./ChatButton";
+import { portfolioReducer } from "../../reducers/PortfolioContent";
+import { doc, updateDoc } from "firebase/firestore";
+import { db } from "../../firebaseConfig";
 
 const Wrapper = styled.div``;
 
@@ -107,6 +110,19 @@ const MemberIntro = ({ profileData, setProfileData }: UserReducer) => {
     dispatch(initialSetUserData(type, imageUrl));
   };
 
+  const reNewPortfolioCollection = async () => {
+    const userPortfolio = await firebase.searchUserPortfolio(userData.userID);
+    let portfolioPromiswArr: any[] = [];
+    userPortfolio.forEach((portfolioData) => {
+      portfolioPromiswArr.push(
+        updateDoc(doc(db, `portfolios`, `${portfolioData.portfolioID}`), {
+          userImage: userData.userImage,
+        })
+      );
+    });
+    await Promise.all(portfolioPromiswArr);
+  };
+
   return (
     <Wrapper>
       <ImagePreview
@@ -176,14 +192,15 @@ const MemberIntro = ({ profileData, setProfileData }: UserReducer) => {
                       `${userData.userID}`,
                       userData
                     );
+                    firebase.changeUserImage("websites", userData);
+                    firebase.changeUserImage("resumes", userData);
+                    reNewPortfolioCollection();
                     dispatch(
                       setAlert({ isAlert: true, text: "成功更新個人檔案!" })
                     );
                     setTimeout(() => {
                       dispatch(setAlert({ isAlert: false, text: "" }));
                     }, 3000);
-                    firebase.changeUserImage("websites", userData);
-                    firebase.changeUserImage("resumes", userData);
                   } catch (e) {
                     dispatch(setAlert({ isAlert: true, text: `${e}` }));
                     setTimeout(() => {

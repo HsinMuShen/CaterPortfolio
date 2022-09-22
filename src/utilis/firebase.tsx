@@ -11,6 +11,7 @@ import {
   arrayUnion,
   arrayRemove,
   deleteDoc,
+  DocumentData,
 } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import {
@@ -237,6 +238,17 @@ const firebase = {
 
   async deletePortfolio(portfolioID: string) {
     await deleteDoc(doc(db, "portfolios", portfolioID));
+  },
+
+  async searchUserPortfolio(userID: string) {
+    const tempArr: DocumentData[] = [];
+    const searchCollection = collection(db, "portfolios");
+    const q = query(searchCollection, where("userID", "==", userID));
+    const querySnapshotName = await getDocs(q);
+    querySnapshotName.forEach((doc) => {
+      tempArr.push(doc.data());
+    });
+    return tempArr;
   },
 };
 
