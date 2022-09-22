@@ -126,7 +126,7 @@ const MemberIntro = ({ profileData, setProfileData }: UserReducer) => {
   return (
     <Wrapper>
       <ImagePreview
-        previewUrl={userData.backgroundImage}
+        previewUrl={profileData.backgroundImage}
         width={"100vw"}
         height={"240px"}
         borderRadius={"0"}
@@ -147,7 +147,7 @@ const MemberIntro = ({ profileData, setProfileData }: UserReducer) => {
       <ImageContainer>
         <MainImageArea>
           <ImagePreview
-            previewUrl={userData.userImage}
+            previewUrl={profileData.userImage}
             width={"100px"}
             height={"100px"}
             borderRadius={"90px"}

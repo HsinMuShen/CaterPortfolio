@@ -83,11 +83,7 @@ const FollowingPortfolioCard = ({
             to={`/profile/${data.userID}`}
             $backgroundImg={data.userImage}
           ></IntroImg>
-          <Intro
-            to={`/profile/${data.portfolioID}`}
-            size={"14px"}
-            weight={"400"}
-          >
+          <Intro to={`/profile/${data.userID}`} size={"14px"} weight={"400"}>
             {data.name}
           </Intro>
         </UserArea>
