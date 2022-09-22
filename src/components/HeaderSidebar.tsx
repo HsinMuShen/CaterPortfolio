@@ -121,18 +121,18 @@ const HeaderSidebar = ({
         <Tag to={`/website/${userData.userID}`}>Website</Tag>
         <Tag to={`/chatroom/${userData.userID}`}>Chatroom</Tag>
         <Tag
-          to={"#"}
+          to={"/"}
           onClick={() => {
             signOut(auth);
-            dispatch(setAlert({ isAlert: true, text: "成功登出!" }));
-            setTimeout(() => {
-              dispatch(setAlert({ isAlert: false, text: "" }));
-            }, 3000);
+            nevigate("/");
             dispatch(userLoading(initialUserData));
             dispatch(portfolioLoading(initialPortfolioData));
             dispatch(websiteLoading(initialWebsiteData));
             dispatch(resumeLoading(initialResumeData));
-            nevigate("/");
+            dispatch(setAlert({ isAlert: true, text: "成功登出!" }));
+            setTimeout(() => {
+              dispatch(setAlert({ isAlert: false, text: "" }));
+            }, 3000);
           }}
         >
           登出

@@ -25,7 +25,6 @@ function useUpdateResumeData({
   const setReducerText = async (text: string, listIndex: number) => {
     const tempArr = [...textList];
     tempArr[listIndex] = text;
-    console.log(tempArr);
     setTextList(tempArr);
     diapatch(resumeFillContent(index, tempArr));
   };

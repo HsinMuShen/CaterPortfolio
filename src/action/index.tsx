@@ -28,6 +28,21 @@ export const resumeAddCom = (content: {
   };
 };
 
+export const resumeAddTemplate = (
+  templateArr: {
+    image: string[];
+    text: string[] | null[];
+    type: number;
+    comName: string;
+    id: string;
+  }[]
+) => {
+  return {
+    type: ActionType.RESUME.ADD_TEMPLATE,
+    payload: { templateArr },
+  };
+};
+
 export const resumeDeleteCom = (index: number) => {
   return {
     type: ActionType.RESUME.DELETE_COMPONENT,

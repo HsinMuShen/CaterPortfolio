@@ -14,6 +14,7 @@ export const ActionType: {
   };
   RESUME: {
     ADD_COMPONENT: string;
+    ADD_TEMPLATE: string;
     DELETE_COMPONENT: string;
     FILL_TEXT: string;
     ADD_IMAGE: string;
@@ -65,6 +66,7 @@ export const ActionType: {
   },
   RESUME: {
     ADD_COMPONENT: "RESUME_ADD_COMPONENT",
+    ADD_TEMPLATE: "RESUME_ADD_TEMPLATE",
     DELETE_COMPONENT: "RESUME_DELETE_COMPONENT",
     FILL_TEXT: "RESUME_FILL_TEXT",
     ADD_IMAGE: "RESUME_ADD_IMAGE",

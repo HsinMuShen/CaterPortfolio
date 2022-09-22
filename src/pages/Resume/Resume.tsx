@@ -25,7 +25,7 @@ import { resumeChoice } from "./resumeComponents";
 import { ResumeComponents } from "./resumeComponents";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPen } from "@fortawesome/free-solid-svg-icons";
+import { faPen, faUpDownLeftRight } from "@fortawesome/free-solid-svg-icons";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { faUserAstronaut } from "@fortawesome/free-solid-svg-icons";
 
@@ -83,6 +83,7 @@ const Resume: React.FC = () => {
     const loadResume = async () => {
       const resumeData = await firebase.readData("resumes", `${resumeID}`);
       if (resumeData) {
+        console.log(resumeData.content);
         dispatch(resumeLoading(resumeData));
       } else {
         dispatch(resumeAddSetting("name", userData.name));
@@ -143,7 +144,6 @@ const Resume: React.FC = () => {
                           {(provided) => (
                             <SineleComponent
                               {...provided.draggableProps}
-                              {...provided.dragHandleProps}
                               ref={provided.innerRef}
                             >
                               <TempCom index={index} content={content} />
@@ -151,7 +151,11 @@ const Resume: React.FC = () => {
                                 addDeleteCom={addDeleteCom}
                                 index={index}
                               />
-                              <Move />
+                              <MoveBtn {...provided.dragHandleProps}>
+                                {isPreview ? null : (
+                                  <FontAwesomeIcon icon={faUpDownLeftRight} />
+                                )}
+                              </MoveBtn>
                             </SineleComponent>
                           )}
                         </Draggable>
@@ -249,6 +253,13 @@ const SineleComponent = styled.div`
   width: 880px;
   position: relative;
   margin: 10px 0;
+`;
+
+const MoveBtn = styled.div`
+  position: absolute;
+  right: 4.5px;
+  top: 30px;
+  font-size: 20px;
 `;
 
 const UpoloadBtn = styled.div<{ width: string }>`

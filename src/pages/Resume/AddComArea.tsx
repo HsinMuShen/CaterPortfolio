@@ -1,14 +1,19 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { RootState } from "../../reducers";
-import { useSelector } from "react-redux";
+import { resumeAddTemplate } from "../../action";
+import { useSelector, useDispatch } from "react-redux";
+
+import { resumeTemplate0, resumeTemplate1 } from "../../utilis/sampleLayout";
 
 import imgOnly from "../../images/imgOnly.jpg";
 import multipleImg from "../../images/multipleImg.jpg";
 import textAndImg from "../../images/textandImg.jpg";
 import textOnly from "../../images/textOnly.jpg";
+import template from "../../images/template.jpg";
 import fullImg0 from "../../images/fullImg0.jpg";
 import fullImg1 from "../../images/fullImg1.jpg";
+import fullImg2 from "../../images/fullImg2.jpg";
 import multiImg0 from "../../images/multiImg0.jpg";
 import multiImg1 from "../../images/multiImg1.jpg";
 import textAndImg0 from "../../images/textandimg0.jpg";
@@ -16,6 +21,9 @@ import textAndImg1 from "../../images/textandimg1.jpg";
 import textAndImg2 from "../../images/textandimg2.jpg";
 import text0 from "../../images/text0.jpg";
 import text1 from "../../images/text1.jpg";
+import text2 from "../../images/text4.jpg";
+import template0 from "../../images/resumeTemplate0.jpg";
+import template1 from "../../images/resumeTemplate1.jpg";
 
 const Wrapper = styled.div`
   display: flex;
@@ -78,31 +86,41 @@ const selectArr = [
     arr: [
       { img: fullImg0, index: 0 },
       { img: fullImg1, index: 1 },
+      { img: fullImg2, index: 2 },
     ],
   },
   {
     img: multipleImg,
     text: "相片拼貼",
     arr: [
-      { img: multiImg0, index: 2 },
-      { img: multiImg1, index: 3 },
+      { img: multiImg0, index: 3 },
+      { img: multiImg1, index: 4 },
     ],
   },
   {
     img: textAndImg,
     text: "圖文並茂",
     arr: [
-      { img: textAndImg0, index: 4 },
-      { img: textAndImg1, index: 5 },
-      { img: textAndImg2, index: 6 },
+      { img: textAndImg0, index: 5 },
+      { img: textAndImg1, index: 6 },
+      { img: textAndImg2, index: 7 },
     ],
   },
   {
     img: textOnly,
     text: "純文字",
     arr: [
-      { img: text0, index: 7 },
-      { img: text1, index: 8 },
+      { img: text0, index: 8 },
+      { img: text1, index: 9 },
+      { img: text2, index: 10 },
+    ],
+  },
+  {
+    img: template,
+    text: "履歷模板",
+    arr: [
+      { img: template0, index: -1 },
+      { img: template1, index: -2 },
     ],
   },
 ];
@@ -118,6 +136,7 @@ const AddComArea = ({
   const isPreview = useSelector(
     (state: RootState) => state.IsPreviewReducer.resume
   );
+  const dispatch = useDispatch();
 
   return isPreview ? null : (
     <Wrapper>
@@ -147,7 +166,13 @@ const AddComArea = ({
           return (
             <ImgSection
               onClick={() => {
-                addResumeCom(item.index);
+                if (item.index === -1) {
+                  dispatch(resumeAddTemplate(resumeTemplate0));
+                } else if (item.index === -2) {
+                  dispatch(resumeAddTemplate(resumeTemplate1));
+                } else {
+                  addResumeCom(item.index);
+                }
               }}
               key={item.index}
               backgroundImg={item.img}
