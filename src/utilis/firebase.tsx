@@ -50,8 +50,6 @@ const firebase = {
       .then(() => {
         if (collection === "websites") {
           alert("成功上架網站!");
-        } else if (collection === "users") {
-          alert("成功更新個人資料!");
         } else if (collection === "chatrooms") {
           alert("成功開啟對話");
         }
@@ -91,6 +89,12 @@ const firebase = {
       console.log("No such document!");
       return null;
     }
+  },
+
+  async changeUserImage(type: string, userData: UserReducer) {
+    await updateDoc(doc(db, `${type}`, `${userData.userID}`), {
+      userImage: userData.userImage,
+    });
   },
 
   async addResumeFollowing(data: ResumeReducer, userData: UserReducer) {

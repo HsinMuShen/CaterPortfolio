@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { RootState } from "../../reducers";
 import { useSelector, useDispatch } from "react-redux";
-import { isPreviewProfile, initialSetUserData } from "../../action";
+import { isPreviewProfile, initialSetUserData, setAlert } from "../../action";
 import { UserReducer } from "../../reducers";
 import { Link } from "react-router-dom";
 
@@ -96,25 +96,11 @@ const EditBtn = styled(Link)`
 `;
 
 const MemberIntro = ({ profileData, setProfileData }: UserReducer) => {
-  const [imageFile, setImageFile] = useState<{
-    headshot: File | null;
-    backgroundImage: File | null;
-  }>({
-    headshot: null,
-    backgroundImage: null,
-  });
   const userData = useSelector((state: RootState) => state.UserReducer);
   const isPreviewContent = useSelector(
     (state: RootState) => state.IsPreviewReducer
   );
   const dispatch = useDispatch();
-
-  const previewHeadshotUrl = imageFile.headshot
-    ? URL.createObjectURL(imageFile.headshot)
-    : profileData.userImage;
-  const previewBackUrl = imageFile.backgroundImage
-    ? URL.createObjectURL(imageFile.backgroundImage)
-    : profileData.backgroundImage;
 
   const renewImageUrl = async (type: string, file: File) => {
     const imageUrl = await firebase.getImageUrl(file);
@@ -124,7 +110,7 @@ const MemberIntro = ({ profileData, setProfileData }: UserReducer) => {
   return (
     <Wrapper>
       <ImagePreview
-        previewUrl={previewBackUrl}
+        previewUrl={userData.backgroundImage}
         width={"100vw"}
         height={"240px"}
         borderRadius={"0"}
@@ -137,10 +123,6 @@ const MemberIntro = ({ profileData, setProfileData }: UserReducer) => {
             id="postImage"
             disabled={isPreviewContent.profileIntro}
             onChange={(e) => {
-              setImageFile({
-                ...imageFile,
-                backgroundImage: e.target.files![0],
-              });
               renewImageUrl("backgroundImage", e.target.files![0]);
             }}
           />
@@ -149,7 +131,7 @@ const MemberIntro = ({ profileData, setProfileData }: UserReducer) => {
       <ImageContainer>
         <MainImageArea>
           <ImagePreview
-            previewUrl={previewHeadshotUrl}
+            previewUrl={userData.userImage}
             width={"100px"}
             height={"100px"}
             borderRadius={"90px"}
@@ -162,10 +144,6 @@ const MemberIntro = ({ profileData, setProfileData }: UserReducer) => {
                 id="postImage"
                 disabled={isPreviewContent.profileIntro}
                 onChange={(e) => {
-                  setImageFile({
-                    ...imageFile,
-                    headshot: e.target.files![0],
-                  });
                   renewImageUrl("userImage", e.target.files![0]);
                 }}
               />
@@ -189,10 +167,29 @@ const MemberIntro = ({ profileData, setProfileData }: UserReducer) => {
           {profileData.userID === userData.userID ? (
             <EditBtn
               to={"#"}
-              onClick={() => {
+              onClick={async () => {
                 dispatch(isPreviewProfile());
                 if (!isPreviewContent.profileIntro) {
-                  firebase.uploadDoc("users", `${userData.userID}`, userData);
+                  try {
+                    await firebase.uploadDoc(
+                      "users",
+                      `${userData.userID}`,
+                      userData
+                    );
+                    dispatch(
+                      setAlert({ isAlert: true, text: "成功更新個人檔案!" })
+                    );
+                    setTimeout(() => {
+                      dispatch(setAlert({ isAlert: false, text: "" }));
+                    }, 3000);
+                    firebase.changeUserImage("websites", userData);
+                    firebase.changeUserImage("resumes", userData);
+                  } catch (e) {
+                    dispatch(setAlert({ isAlert: true, text: `${e}` }));
+                    setTimeout(() => {
+                      dispatch(setAlert({ isAlert: false, text: "" }));
+                    }, 3000);
+                  }
                 }
               }}
             >

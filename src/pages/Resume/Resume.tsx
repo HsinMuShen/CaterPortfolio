@@ -100,7 +100,7 @@ const Resume: React.FC = () => {
       } else {
         dispatch(resumeAddSetting("name", userData.name));
         dispatch(resumeAddSetting("userID", userData.userID));
-        dispatch(resumeAddSetting("userImage", userData.userID));
+        dispatch(resumeAddSetting("userImage", userData.userImg));
       }
     };
     loadResume();

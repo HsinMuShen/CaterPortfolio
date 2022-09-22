@@ -8,8 +8,8 @@ import { faFaceSmile } from "@fortawesome/free-solid-svg-icons";
 const Wrapper = styled.div<{ isAlert: boolean }>`
   position: fixed;
   top: 70px;
-  right: ${(props) => (props.isAlert ? "20px" : "-200px")};
-  width: 200px;
+  right: ${(props) => (props.isAlert ? "20px" : "-240px")};
+  width: 240px;
   height: 80px;
   border: 2px solid;
   border-radius: 20px;

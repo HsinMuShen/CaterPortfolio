@@ -14,6 +14,8 @@ import {
   setAlert,
 } from "../action";
 import { useDispatch } from "react-redux";
+import initialUserImage from "../images/user.png";
+import initialBackgroundImg from "../images/initialBackgroundImg.jpg";
 
 const Wrapper = styled.div<{ isSideBar: boolean }>`
   position: fixed;
