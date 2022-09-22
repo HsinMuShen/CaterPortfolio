@@ -74,6 +74,7 @@ const initialPortfolioData = {
   tags: [],
   time: null,
   userID: "",
+  userImage: "",
   portfolioID: "",
 };
 
@@ -86,6 +87,7 @@ const initialResumeData = {
   tags: [],
   time: null,
   userID: "",
+  userImage: "",
 };
 
 const initialWebsiteData = {
@@ -96,6 +98,7 @@ const initialWebsiteData = {
   tags: [],
   time: null,
   userID: "",
+  userImage: "",
 };
 
 const HeaderSidebar = ({

@@ -50,8 +50,6 @@ const firebase = {
       .then(() => {
         if (collection === "websites") {
           alert("成功上架網站!");
-        } else if (collection === "resumes") {
-          alert("成功新增履歷!");
         } else if (collection === "users") {
           alert("成功更新個人資料!");
         } else if (collection === "chatrooms") {
@@ -59,7 +57,7 @@ const firebase = {
         }
       })
       .catch((error) => {
-        console.log(error);
+        alert(error);
       });
   },
 

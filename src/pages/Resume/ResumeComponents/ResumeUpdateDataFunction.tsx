@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import firebase from "../../../utilis/firebase";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { resumeAddImage, resumeFillContent } from "../../../action";
 import { resumeComContent } from "../Resume";
+import { RootState } from "../../../reducers";
 
 function useUpdateResumeData({
   index,
@@ -11,8 +12,8 @@ function useUpdateResumeData({
   index: number;
   content: resumeComContent;
 }) {
+  const resumeData = useSelector((state: RootState) => state.ResumeReducer);
   const [imageFileList, setImageFileList] = useState<string[]>(content.image);
-  const [textList, setTextList] = useState<string[]>(content.text);
   const diapatch = useDispatch();
   const setResumeReducerImage = async (file: File, listIndex: number) => {
     const tempArr = [...imageFileList];
@@ -23,15 +24,14 @@ function useUpdateResumeData({
   };
 
   const setReducerText = async (text: string, listIndex: number) => {
-    const tempArr = [...textList];
+    // console.log(resumeData.content[index].text);
+    const tempArr = [...resumeData.content[index].text];
     tempArr[listIndex] = text;
-    setTextList(tempArr);
     diapatch(resumeFillContent(index, tempArr));
   };
 
   return {
     imageFileList: imageFileList,
-    textList: textList,
     setResumeReducerImage: setResumeReducerImage,
     setReducerText: setReducerText,
   };
