@@ -72,7 +72,7 @@ const ChatButton = ({ profileData }: UserReducer) => {
       }
     }
   };
-  return <EditBtn onClick={toChatRoom}>ChatButton</EditBtn>;
+  return <EditBtn onClick={toChatRoom}></EditBtn>;
 };
 
 export default ChatButton;
