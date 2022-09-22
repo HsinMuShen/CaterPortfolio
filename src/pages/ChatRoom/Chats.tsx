@@ -23,6 +23,18 @@ const NameArea = styled.div`
   font-size: 20px;
 `;
 
+const IntroImg = styled.div<{ $backgroundImg: string }>`
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid;
+  margin: 5px 10px 5px 0;
+  background-image: url(${(props) => props.$backgroundImg});
+  background-size: cover;
+  background-position: center;
+  background-color: #ffffff;
+`;
+
 const MessageArea = styled.div`
   height: 600px;
   width: 600px;
@@ -81,9 +93,11 @@ const MessageSubmit = styled.button`
 const Chats = ({
   chatRoomID,
   chattingName,
+  userImage,
 }: {
   chatRoomID: string;
   chattingName: string | null;
+  userImage: string;
 }) => {
   const [sendMsg, setSendMsg] = useState("");
   const [allMsg, setAllMsg] = useState<{ msg: string; userID: string }[]>([]);
@@ -108,6 +122,7 @@ const Chats = ({
   return (
     <Wrapper>
       <NameArea>
+        <IntroImg $backgroundImg={userImage}></IntroImg>
         <p>{chattingName + " 聊天室"}</p>
       </NameArea>
 

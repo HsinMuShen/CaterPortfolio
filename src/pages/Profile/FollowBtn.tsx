@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { RootState } from "../../reducers";
 import { useDispatch, useSelector } from "react-redux";
 import { UserReducer } from "../../reducers";
-import { userLoading } from "../../action";
+import { setAlert, userLoading } from "../../action";
 import styled from "styled-components";
 import firebase from "../../utilis/firebase";
 
@@ -15,21 +15,20 @@ const FollowBtn = ({ profileData }: UserReducer) => {
   const followPortfolio = async () => {
     {
       if (isFollow) {
+        setIsFollow(false);
         await firebase.cancelMemberFollowing(profileData, userData);
-        alert("取消追蹤!");
+        dispatch(setAlert({ isAlert: true, text: "取消追蹤!" }));
+        setTimeout(() => {
+          dispatch(setAlert({ isAlert: false, text: "" }));
+        }, 3000);
       } else {
-        console.log(profileData, userData);
+        setIsFollow(true);
         await firebase.addMemberFollowing(profileData, userData);
-        alert("加入追蹤!");
+        dispatch(setAlert({ isAlert: true, text: "加入追蹤!" }));
+        setTimeout(() => {
+          dispatch(setAlert({ isAlert: false, text: "" }));
+        }, 3000);
       }
-
-      //   const renewPortfolioData = await firebase.readPortfolioData(
-      //     "portfolios",
-      //     `${data.portfolioID}`
-      //   );
-      //   if (renewPortfolioData) {
-      //     dispatch(portfolioLoading(renewPortfolioData));
-      //   }
     }
 
     const renewUserData = await firebase.readData("users", userData.userID);
@@ -51,10 +50,10 @@ const FollowBtn = ({ profileData }: UserReducer) => {
     return () => {
       setIsFollow(false);
     };
-  }, [profileData, userData]);
+  }, [userData]);
   return (
     <FollowButton onClick={followPortfolio}>
-      {isFollow ? "cancel follow" : "follow this guy"}
+      {isFollow ? "取消追蹤" : `追蹤${profileData.name}`}
     </FollowButton>
   );
 };

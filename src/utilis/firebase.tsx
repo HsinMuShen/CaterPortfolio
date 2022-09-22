@@ -51,8 +51,6 @@ const firebase = {
       .then(() => {
         if (collection === "websites") {
           alert("成功上架網站!");
-        } else if (collection === "chatrooms") {
-          alert("成功開啟對話");
         }
       })
       .catch((error) => {
@@ -224,6 +222,7 @@ const firebase = {
         chatRoomID: chatRoomID,
         userID: otherData.userID,
         name: otherData.name,
+        userImage: otherData.userImage,
       }),
     });
     await updateDoc(doc(db, `users`, `${otherData.userID}`), {
@@ -231,6 +230,7 @@ const firebase = {
         chatRoomID: chatRoomID,
         userID: userData.userID,
         name: userData.name,
+        userImage: userData.userImage,
       }),
     });
   },
