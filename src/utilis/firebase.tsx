@@ -104,12 +104,14 @@ const firebase = {
         name: data.name,
         userID: data.userID,
         coverImage: data.coverImage,
+        userImage: data.userImage,
       }),
     });
     await updateDoc(doc(db, `resumes`, `${data.userID}`), {
       followers: arrayUnion({
         userID: userData.userID,
         name: userData.name,
+        userImage: userData.userImage,
       }),
     });
   },
@@ -120,12 +122,14 @@ const firebase = {
         name: data.name,
         userID: data.userID,
         coverImage: data.coverImage,
+        userImage: data.userImage,
       }),
     });
     await updateDoc(doc(db, `resumes`, `${data.userID}`), {
       followers: arrayRemove({
         userID: userData.userID,
         name: userData.name,
+        userImage: userData.userImage,
       }),
     });
   },
@@ -138,12 +142,14 @@ const firebase = {
         userID: data.userID,
         mainImage: data.mainImage,
         title: data.title,
+        userImage: data.userImage,
       }),
     });
     await updateDoc(doc(db, `portfolios`, `${data.portfolioID}`), {
       followers: arrayUnion({
         userID: userData.userID,
         name: userData.name,
+        userImage: userData.userImage,
       }),
     });
   },
@@ -159,12 +165,14 @@ const firebase = {
         userID: data.userID,
         mainImage: data.mainImage,
         title: data.title,
+        userImage: data.userImage,
       }),
     });
     await updateDoc(doc(db, `portfolios/${data.portfolioID}`), {
       followers: arrayRemove({
         userID: userData.userID,
         name: userData.name,
+        userImage: userData.userImage,
       }),
     });
   },

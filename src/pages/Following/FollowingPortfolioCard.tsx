@@ -24,6 +24,22 @@ const IntroArea = styled.div`
   margin: 20px 0 0 10px;
 `;
 
+const UserArea = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const IntroImg = styled(Link)<{ $backgroundImg: string }>`
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  border: 1px solid;
+  margin: 5px 10px 5px 0;
+  background-image: url(${(props) => props.$backgroundImg});
+  background-size: cover;
+  background-position: center;
+`;
+
 const Intro = styled(Link)<{ size: string; weight: string }>`
   font-size: ${(props) => props.size};
   text-decoration: none;
@@ -62,9 +78,19 @@ const FollowingPortfolioCard = ({
         >
           {data.title}
         </Intro>
-        <Intro to={`/profile/${data.portfolioID}`} size={"14px"} weight={"400"}>
-          {data.name}
-        </Intro>
+        <UserArea>
+          <IntroImg
+            to={`/profile/${data.userID}`}
+            $backgroundImg={data.userImage}
+          ></IntroImg>
+          <Intro
+            to={`/profile/${data.portfolioID}`}
+            size={"14px"}
+            weight={"400"}
+          >
+            {data.name}
+          </Intro>
+        </UserArea>
 
         {/* <p>
           {isFollow ? `❤️` : `❤`}

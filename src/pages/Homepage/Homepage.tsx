@@ -23,12 +23,12 @@ const Wrapper = styled.div`
 const SearchArea = styled.div`
   position: fixed;
   top: 10px;
-  right: 160px;
+  right: 240px;
   display: flex;
   width: 240px;
   margin: 0 auto;
   justify-content: flex-start;
-  z-index: 6;
+  z-index: 5;
 `;
 
 const SearchInput = styled.input`
