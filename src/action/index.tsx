@@ -288,10 +288,14 @@ export const isPreviewFalse = (type: string) => {
   };
 };
 
-export const setChatRoomID = (chatRoomID: string, name: string) => {
+export const setChatRoomID = (
+  chatRoomID: string,
+  name: string,
+  userImage: string
+) => {
   return {
     type: ActionType.ISPREVIEW.SET_CHAT_ROOM,
-    payload: { chatRoomID, name },
+    payload: { chatRoomID, name, userImage },
   };
 };
 

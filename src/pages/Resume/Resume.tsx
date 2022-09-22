@@ -14,6 +14,7 @@ import {
   resumeRenewContent,
   isPreviewResume,
   isPreviewTrue,
+  setAlert,
 } from "../../action";
 
 import firebase from "../../utilis/firebase";
@@ -55,12 +56,23 @@ const Resume: React.FC = () => {
     dispatch(resumeDeleteCom(deleteIndex));
   };
   const uploadResume = async () => {
-    html2canvas(refPhoto.current!).then(function (canvas) {
+    html2canvas(refPhoto.current!).then(async function (canvas) {
       const dataUrl = canvas.toDataURL("image/png");
       dispatch(resumeAddSetting("coverImage", dataUrl));
       const tempData = resumeData;
       tempData.coverImage = dataUrl;
-      firebase.uploadDoc("resumes", `${resumeID}`, tempData);
+      try {
+        await firebase.uploadDoc("resumes", `${resumeID}`, tempData);
+        dispatch(setAlert({ isAlert: true, text: "成功更新履歷!" }));
+        setTimeout(() => {
+          dispatch(setAlert({ isAlert: false, text: "" }));
+        }, 3000);
+      } catch (e) {
+        dispatch(setAlert({ isAlert: true, text: `${e}` }));
+        setTimeout(() => {
+          dispatch(setAlert({ isAlert: false, text: "" }));
+        }, 3000);
+      }
     });
   };
   const getCoverImage = () => {
@@ -88,6 +100,7 @@ const Resume: React.FC = () => {
       } else {
         dispatch(resumeAddSetting("name", userData.name));
         dispatch(resumeAddSetting("userID", userData.userID));
+        dispatch(resumeAddSetting("userImage", userData.userImg));
       }
     };
     loadResume();

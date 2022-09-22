@@ -7,7 +7,7 @@ interface isPreviewReducer {
   resume: boolean;
   website: boolean;
   portfolio: boolean;
-  nowChatRoom: { chatRoomID: string; name: string };
+  nowChatRoom: { chatRoomID: string; name: string; userImage: string };
   popup: boolean;
   alert: {
     isAlert: boolean;
@@ -22,7 +22,7 @@ const IsPreviewReducer = (
     resume: true,
     website: true,
     portfolio: true,
-    nowChatRoom: { chatRoomID: "", name: "" },
+    nowChatRoom: { chatRoomID: "", name: "", userImage: "" },
     popup: false,
     alert: {
       isAlert: false,
@@ -95,6 +95,7 @@ const IsPreviewReducer = (
         nowChatRoom: {
           chatRoomID: action.payload.chatRoomID,
           name: action.payload.name,
+          userImage: action.payload.userImage,
         },
       };
       return tempIsPreview;

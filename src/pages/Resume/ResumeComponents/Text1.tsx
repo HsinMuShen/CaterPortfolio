@@ -19,7 +19,7 @@ const Text1 = ({
   index: number;
   content: resumeComContent;
 }) => {
-  const { imageFileList, textList, setResumeReducerImage, setReducerText } =
+  const { imageFileList, setResumeReducerImage, setReducerText } =
     useUpdateResumeData({ index, content });
   const styleArr = [
     {
@@ -34,7 +34,7 @@ const Text1 = ({
   ];
   return (
     <Wrapper>
-      {textList.map((_, listIndex) => {
+      {content.text.map((_, listIndex) => {
         return (
           <EditText
             key={listIndex}

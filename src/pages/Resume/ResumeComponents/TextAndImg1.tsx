@@ -19,7 +19,7 @@ const TextAndImg1 = ({
   index: number;
   content: resumeComContent;
 }) => {
-  const { imageFileList, textList, setResumeReducerImage, setReducerText } =
+  const { imageFileList, setResumeReducerImage, setReducerText } =
     useUpdateResumeData({ index, content });
 
   return (
@@ -40,7 +40,7 @@ const TextAndImg1 = ({
         );
       })}
 
-      {textList.map((_, listIndex) => {
+      {content.text.map((_, listIndex) => {
         return (
           <EditText
             key={listIndex}

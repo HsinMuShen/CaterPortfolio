@@ -1,5 +1,7 @@
 import { AnyAction } from "redux";
 import { ActionType } from ".";
+import initialUserImage from "../images/user.png";
+import initialBackgroundImg from "../images/initialBackgroundImg.jpg";
 
 export interface userReducer {
   name: string;
@@ -48,8 +50,8 @@ const UserReducer = (
     email: "",
     password: "",
     userID: "",
-    userImage: "",
-    backgroundImage: "",
+    userImage: initialUserImage,
+    backgroundImage: initialBackgroundImg,
     introduction: "",
     chatRoom: [],
     followers: [],

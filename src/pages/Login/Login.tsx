@@ -121,7 +121,10 @@ const Login = () => {
         })
         .catch((error) => {
           const errorMessage = error.message;
-          console.log(errorMessage);
+          dispatch(setAlert({ isAlert: true, text: `${errorMessage}` }));
+          setTimeout(() => {
+            dispatch(setAlert({ isAlert: false, text: "" }));
+          }, 3000);
         });
     } else if (activeItem === "register") {
       createUserWithEmailAndPassword(auth, userData.email, userData.password)
@@ -138,7 +141,10 @@ const Login = () => {
         })
         .catch((error) => {
           const errorMessage = error.message;
-          alert(errorMessage);
+          dispatch(setAlert({ isAlert: true, text: `${errorMessage}` }));
+          setTimeout(() => {
+            dispatch(setAlert({ isAlert: false, text: "" }));
+          }, 3000);
         });
     }
   };

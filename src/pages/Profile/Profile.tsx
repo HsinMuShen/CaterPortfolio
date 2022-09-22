@@ -85,6 +85,7 @@ const Profile: React.FC = () => {
       }
       const userData = await firebase.readData("users", `${profileUserID}`);
       if (userData) {
+        console.log(userData);
         setProfileData(userData);
       }
     };

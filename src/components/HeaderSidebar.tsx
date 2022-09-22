@@ -14,6 +14,8 @@ import {
   setAlert,
 } from "../action";
 import { useDispatch } from "react-redux";
+import initialUserImage from "../images/user.png";
+import initialBackgroundImg from "../images/initialBackgroundImg.jpg";
 
 const Wrapper = styled.div<{ isSideBar: boolean }>`
   position: fixed;
@@ -74,6 +76,7 @@ const initialPortfolioData = {
   tags: [],
   time: null,
   userID: "",
+  userImage: "",
   portfolioID: "",
 };
 
@@ -86,6 +89,7 @@ const initialResumeData = {
   tags: [],
   time: null,
   userID: "",
+  userImage: "",
 };
 
 const initialWebsiteData = {
@@ -96,6 +100,7 @@ const initialWebsiteData = {
   tags: [],
   time: null,
   userID: "",
+  userImage: "",
 };
 
 const HeaderSidebar = ({
