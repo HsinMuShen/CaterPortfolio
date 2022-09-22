@@ -18,7 +18,7 @@ const FullImg1 = ({
   index: number;
   content: resumeComContent;
 }) => {
-  const { imageFileList, textList, setResumeReducerImage, setReducerText } =
+  const { imageFileList, setResumeReducerImage, setReducerText } =
     useUpdateResumeData({ index, content });
 
   return (

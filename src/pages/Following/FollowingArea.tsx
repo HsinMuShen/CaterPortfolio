@@ -40,12 +40,14 @@ export interface followPortfolios {
   mainImage: string;
   userID: string;
   portfolioID: string;
+  userImage: string;
 }
 
 export interface followResumes {
   name: string;
   userID: string;
   coverImage: string;
+  userImage: string;
 }
 
 export interface followMembers {

@@ -110,6 +110,7 @@ const Website = () => {
       } else {
         dispatch(websiteAddSetting("name", userData.name));
         dispatch(websiteAddSetting("userID", userData.userID));
+        dispatch(websiteAddSetting("userImage", userData.userImage));
       }
     };
     loadWebsite();

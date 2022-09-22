@@ -3,7 +3,7 @@ import { RootState } from "../../reducers";
 import { useSelector, useDispatch } from "react-redux";
 import { UserReducer } from "../../reducers";
 import { useNavigate } from "react-router-dom";
-import { setChatRoomID, userLoading } from "../../action";
+import { setAlert, setChatRoomID, userLoading } from "../../action";
 
 import { v4 } from "uuid";
 import firebase from "../../utilis/firebase";
@@ -13,6 +13,7 @@ export interface chatRoom {
   chatRoomID: string;
   userID: string;
   name: string;
+  userImage: string;
 }
 
 const EditBtn = styled.div`
@@ -43,7 +44,7 @@ const ChatButton = ({ profileData }: UserReducer) => {
     userData.chatRoom.forEach((data: chatRoom) => {
       if (data.userID === profileData.userID) {
         navigate(`/chatroom/${userData.userID}`);
-        dispatch(setChatRoomID(data.chatRoomID, data.name));
+        dispatch(setChatRoomID(data.chatRoomID, data.name, data.userImage));
         hasChat = true;
         return;
       }
@@ -51,7 +52,9 @@ const ChatButton = ({ profileData }: UserReducer) => {
 
     if (!hasChat) {
       const chatRoomID = v4();
-      dispatch(setChatRoomID(chatRoomID, profileData.name));
+      dispatch(
+        setChatRoomID(chatRoomID, profileData.name, profileData.userImage)
+      );
       const user = [
         { name: profileData.name, userID: profileData.userID },
         { name: userData.name, userID: userData.userID },
@@ -64,6 +67,10 @@ const ChatButton = ({ profileData }: UserReducer) => {
       //新增chats collection, user chatroom []
       await firebase.uploadDoc("chatrooms", chatRoomID, chatRoomData);
       await firebase.initialChat(profileData, userData, chatRoomID);
+      dispatch(setAlert({ isAlert: true, text: "成功開啟對話!" }));
+      setTimeout(() => {
+        dispatch(setAlert({ isAlert: false, text: "" }));
+      }, 3000);
       navigate(`/chatroom/${userData.userID}`);
 
       const newUserData = await firebase.readData("users", userData.userID);
@@ -72,7 +79,7 @@ const ChatButton = ({ profileData }: UserReducer) => {
       }
     }
   };
-  return <EditBtn onClick={toChatRoom}>ChatButton</EditBtn>;
+  return <EditBtn onClick={toChatRoom}>開始與{profileData.name}對話</EditBtn>;
 };
 
 export default ChatButton;

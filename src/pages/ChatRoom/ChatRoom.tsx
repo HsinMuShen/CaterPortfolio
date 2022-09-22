@@ -41,9 +41,22 @@ const UserBtn = styled.button<{ backgroundColor: string; color: string }>`
   }
 `;
 
+const IntroImg = styled.div<{ $backgroundImg: string }>`
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid;
+  margin: 5px 10px 5px 0;
+  background-image: url(${(props) => props.$backgroundImg});
+  background-size: cover;
+  background-position: center;
+  background-color: #ffffff;
+`;
+
 const ChatRoom = () => {
   const [showingChatID, setShowingChatID] = useState<string>("");
   const [chattingName, setChattingName] = useState<string>("");
+  const [chattingImage, setChattingImage] = useState<string>("");
   const [selectIndex, setSelectIndex] = useState<number | null>(null);
   const userData = useSelector((state: RootState) => state.UserReducer);
   const initialChatRoomData = useSelector(
@@ -54,6 +67,7 @@ const ChatRoom = () => {
     if (initialChatRoomData.chatRoomID && initialChatRoomData.name) {
       setShowingChatID(initialChatRoomData.chatRoomID);
       setChattingName(initialChatRoomData.name);
+      setChattingImage(initialChatRoomData.userImage);
     }
     return () => {
       setShowingChatID("");
@@ -71,6 +85,7 @@ const ChatRoom = () => {
                   onClick={() => {
                     setShowingChatID(data.chatRoomID);
                     setChattingName(data.name);
+                    setChattingImage(data.userImage);
                     setSelectIndex(index);
                   }}
                   key={data.name}
@@ -79,12 +94,17 @@ const ChatRoom = () => {
                   }
                   color={index === selectIndex ? "#ffffff" : "#555555"}
                 >
+                  <IntroImg $backgroundImg={data.userImage}></IntroImg>
                   {data.name}
                 </UserBtn>
               );
             })}
           </UserList>
-          <Chats chatRoomID={showingChatID} chattingName={chattingName} />
+          <Chats
+            chatRoomID={showingChatID}
+            chattingName={chattingName}
+            userImage={chattingImage}
+          />
         </ChatRoomArea>
       ) : (
         <p>這不是你該來的地方</p>

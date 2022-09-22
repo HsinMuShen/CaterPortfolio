@@ -23,8 +23,24 @@ const SinglePin = styled.div<{ size: number }>`
 const IntroArea = styled.div`
   display: flex;
   flex-direction: column;
-  height: 60px;
+  height: 80px;
   margin: 10px 10px 20px;
+`;
+
+const UserArea = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const IntroImg = styled(Link)<{ $backgroundImg: string }>`
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid;
+  margin: 5px 10px 5px 0;
+  background-image: url(${(props) => props.$backgroundImg});
+  background-size: cover;
+  background-position: center;
 `;
 
 const Intro = styled(Link)`
@@ -80,7 +96,14 @@ const Pin = ({ size, data }: { size: number; data: DocumentData }) => {
         mainimage={data.mainImage}
       />
       <IntroArea>
-        <Intro to={`/profile/${data.userID}`}>{data.name}</Intro>
+        <UserArea>
+          <IntroImg
+            to={`/profile/${data.userID}`}
+            $backgroundImg={data.userImage}
+          ></IntroImg>
+          <Intro to={`/profile/${data.userID}`}>{data.name}</Intro>
+        </UserArea>
+
         <Intro to={`/portfolio/${data.portfolioID}`}>{data.title}</Intro>
 
         <p>

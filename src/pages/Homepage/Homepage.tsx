@@ -8,20 +8,52 @@ import {
   getDocs,
 } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 
 import Pin from "./Pin";
-import Loading from "../../utilis/Loading";
+import firebase from "../../utilis/firebase";
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
 `;
 
+const SearchArea = styled.div`
+  position: fixed;
+  top: 10px;
+  right: 240px;
+  display: flex;
+  width: 240px;
+  margin: 0 auto;
+  justify-content: flex-start;
+  z-index: 5;
+`;
+
+const SearchInput = styled.input`
+  width: 240px;
+  height: 40px;
+  padding: 3px;
+  border-radius: 10px;
+  font-size: 20px;
+`;
+
+const SearchBtn = styled.div`
+  position: absolute;
+  right: 10px;
+  top: 7px;
+  font-size: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+`;
+
 const PinContainer = styled.div`
   width: 80vw;
 
-  margin: 40px auto 0;
+  margin: 120px auto 0;
   display: grid;
   grid-template-columns: repeat(auto-fill, 240px);
   grid-auto-rows: 10px;
@@ -73,20 +105,23 @@ const Homepage = () => {
   }, []);
   return (
     <Wrapper>
-      <input
-        type="text"
-        defaultValue={searchText.current}
-        onChange={(e) => {
-          searchText.current = e.target.value;
-        }}
-      />
-      <button
-        onClick={() => {
-          searchData();
-        }}
-      >
-        搜尋
-      </button>
+      <SearchArea>
+        <SearchInput
+          type="text"
+          defaultValue={searchText.current}
+          onChange={(e) => {
+            searchText.current = e.target.value;
+          }}
+        />
+        <SearchBtn
+          onClick={() => {
+            searchData();
+          }}
+        >
+          <FontAwesomeIcon icon={faMagnifyingGlass} />
+        </SearchBtn>
+      </SearchArea>
+
       <PinContainer>
         {portfolioArr.map((data) => {
           return (

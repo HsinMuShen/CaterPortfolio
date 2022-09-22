@@ -13,7 +13,7 @@ const SinglePin = styled.div<{ size: number }>`
   background-color: #ffffff;
   border: 1px solid;
   width: 240px;
-  height: 280px;
+  height: 300px;
   display: flex;
   flex-direction: column;
 `;
@@ -21,12 +21,30 @@ const SinglePin = styled.div<{ size: number }>`
 const IntroArea = styled.div`
   display: flex;
   flex-direction: column;
-  height: 60px;
+  height: 80px;
   margin: 10px 10px 5px;
 `;
 
 const Intro = styled(Link)`
   text-decoration: none;
+  color: #555555;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+`;
+
+const IntroImg = styled.div<{ backgroundImg: string }>`
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid;
+  margin: 5px 10px 5px 0;
+  background-image: url(${(props) => props.backgroundImg});
+  background-size: cover;
+  background-position: center;
+`;
+
+const IntroName = styled.p`
   color: #555555;
   font-size: 20px;
 `;
@@ -44,21 +62,23 @@ const ResumeCard = ({ size, data }: { size: number; data: DocumentData }) => {
   const userData = useSelector((state: RootState) => state.UserReducer);
   const dispatch = useDispatch();
 
-  const followPortfolio = async () => {
-    if (isFollow) {
-      await firebase.cancelPortfolioFollowing(data, userData);
-    } else {
-      await firebase.addPortfolioFollowing(data, userData);
-    }
+  // const followPortfolio = async () => {
+  //   if (isFollow) {
+  //     await firebase.cancelPortfolioFollowing(data, userData);
+  //   } else {
+  //     await firebase.addPortfolioFollowing(data, userData);
+  //   }
 
-    const renewPortfolioData = await firebase.readPortfolioData(
-      "portfolios",
-      `${data.portfolioID}`
-    );
-    if (renewPortfolioData) {
-      dispatch(portfolioLoading(renewPortfolioData));
-    }
-  };
+  //   const renewPortfolioData = await firebase.readPortfolioData(
+  //     "portfolios",
+  //     `${data.portfolioID}`
+  //   );
+  //   if (renewPortfolioData) {
+  //     dispatch(portfolioLoading(renewPortfolioData));
+  //   }
+  // };
+
+  console.log(data);
 
   useEffect(() => {
     data.followers.forEach((followersData: { userID: string | null }) => {
@@ -74,7 +94,10 @@ const ResumeCard = ({ size, data }: { size: number; data: DocumentData }) => {
     <SinglePin size={size}>
       <PinImage to={`/resume/${data.userID}`} mainimage={data.coverImage} />
       <IntroArea>
-        <Intro to={`/profile/${data.userID}`}>{data.name}</Intro>
+        <Intro to={`/profile/${data.userID}`}>
+          <IntroImg backgroundImg={data.userImage}></IntroImg>
+          <IntroName>{data.name}</IntroName>
+        </Intro>
         <p>
           {isFollow ? `❤️` : `❤`}
           {data.followers.length}

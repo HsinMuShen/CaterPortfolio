@@ -11,6 +11,7 @@ import {
   arrayUnion,
   arrayRemove,
   deleteDoc,
+  DocumentData,
 } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import {
@@ -50,16 +51,10 @@ const firebase = {
       .then(() => {
         if (collection === "websites") {
           alert("成功上架網站!");
-        } else if (collection === "resumes") {
-          alert("成功新增履歷!");
-        } else if (collection === "users") {
-          alert("成功更新個人資料!");
-        } else if (collection === "chatrooms") {
-          alert("成功開啟對話");
         }
       })
       .catch((error) => {
-        console.log(error);
+        alert(error);
       });
   },
 
@@ -95,18 +90,26 @@ const firebase = {
     }
   },
 
+  async changeUserImage(type: string, userData: UserReducer) {
+    await updateDoc(doc(db, `${type}`, `${userData.userID}`), {
+      userImage: userData.userImage,
+    });
+  },
+
   async addResumeFollowing(data: ResumeReducer, userData: UserReducer) {
     await updateDoc(doc(db, `users`, `${userData.userID}`), {
       followResumes: arrayUnion({
         name: data.name,
         userID: data.userID,
         coverImage: data.coverImage,
+        userImage: data.userImage,
       }),
     });
     await updateDoc(doc(db, `resumes`, `${data.userID}`), {
       followers: arrayUnion({
         userID: userData.userID,
         name: userData.name,
+        userImage: userData.userImage,
       }),
     });
   },
@@ -117,12 +120,14 @@ const firebase = {
         name: data.name,
         userID: data.userID,
         coverImage: data.coverImage,
+        userImage: data.userImage,
       }),
     });
     await updateDoc(doc(db, `resumes`, `${data.userID}`), {
       followers: arrayRemove({
         userID: userData.userID,
         name: userData.name,
+        userImage: userData.userImage,
       }),
     });
   },
@@ -135,12 +140,14 @@ const firebase = {
         userID: data.userID,
         mainImage: data.mainImage,
         title: data.title,
+        userImage: data.userImage,
       }),
     });
     await updateDoc(doc(db, `portfolios`, `${data.portfolioID}`), {
       followers: arrayUnion({
         userID: userData.userID,
         name: userData.name,
+        userImage: userData.userImage,
       }),
     });
   },
@@ -156,12 +163,14 @@ const firebase = {
         userID: data.userID,
         mainImage: data.mainImage,
         title: data.title,
+        userImage: data.userImage,
       }),
     });
     await updateDoc(doc(db, `portfolios/${data.portfolioID}`), {
       followers: arrayRemove({
         userID: userData.userID,
         name: userData.name,
+        userImage: userData.userImage,
       }),
     });
   },
@@ -213,6 +222,7 @@ const firebase = {
         chatRoomID: chatRoomID,
         userID: otherData.userID,
         name: otherData.name,
+        userImage: otherData.userImage,
       }),
     });
     await updateDoc(doc(db, `users`, `${otherData.userID}`), {
@@ -220,6 +230,7 @@ const firebase = {
         chatRoomID: chatRoomID,
         userID: userData.userID,
         name: userData.name,
+        userImage: userData.userImage,
       }),
     });
   },
@@ -235,6 +246,17 @@ const firebase = {
 
   async deletePortfolio(portfolioID: string) {
     await deleteDoc(doc(db, "portfolios", portfolioID));
+  },
+
+  async searchUserPortfolio(userID: string) {
+    const tempArr: DocumentData[] = [];
+    const searchCollection = collection(db, "portfolios");
+    const q = query(searchCollection, where("userID", "==", userID));
+    const querySnapshotName = await getDocs(q);
+    querySnapshotName.forEach((doc) => {
+      tempArr.push(doc.data());
+    });
+    return tempArr;
   },
 };
 

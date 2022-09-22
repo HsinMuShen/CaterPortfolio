@@ -2,6 +2,7 @@ import { AnyAction } from "redux";
 import { ActionType } from ".";
 import { Timestamp } from "firebase/firestore";
 import { v4 } from "uuid";
+import initialUserImage from "../images/user.png";
 
 interface resumeReducer {
   title: string;
@@ -18,6 +19,7 @@ interface resumeReducer {
   tags: string[];
   time: null | Timestamp;
   userID: string;
+  userImage: string;
 }
 
 const ResumeReducer = (
@@ -30,6 +32,7 @@ const ResumeReducer = (
     tags: [],
     time: null,
     userID: "",
+    userImage: initialUserImage,
   },
   action: AnyAction
 ) => {
@@ -59,7 +62,6 @@ const ResumeReducer = (
     case ActionType.RESUME.FILL_TEXT: {
       const tempContentArr = [...resumeData.content];
       const index = action.payload.index;
-      console.log(index);
       tempContentArr[index] = {
         ...resumeData.content[index],
         text: action.payload.textArr,

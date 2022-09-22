@@ -25,12 +25,16 @@ const IntroArea = styled.div`
   align-items: center;
 `;
 
-const Intro = styled(Link)<{ size: string; weight: string; marginTop: string }>`
+const Intro = styled(Link)<{
+  size: string;
+  weight: string;
+  $marginTop: string;
+}>`
   font-size: ${(props) => props.size};
   text-decoration: none;
   color: #555555;
   font-weight: ${(props) => props.weight};
-  margin: ${(props) => props.marginTop} 0;
+  margin: ${(props) => props.$marginTop} 0;
 `;
 
 const PinImage = styled(Link)<{ mainimage: string }>`
@@ -61,7 +65,7 @@ const FollowingMemberCard = ({
           to={`/profile/${data.userID}`}
           size={"20px"}
           weight={"600"}
-          marginTop={"8px"}
+          $marginTop={"8px"}
         >
           {data.name}
         </Intro>
@@ -69,7 +73,7 @@ const FollowingMemberCard = ({
           to={`/resume/${data.userID}`}
           size={"12px"}
           weight={"400"}
-          marginTop={"3px"}
+          $marginTop={"3px"}
         >
           Resume
         </Intro>
@@ -77,7 +81,7 @@ const FollowingMemberCard = ({
           to={`/resume/${data.userID}`}
           size={"12px"}
           weight={"400"}
-          marginTop={"3px"}
+          $marginTop={"3px"}
         >
           Website
         </Intro>

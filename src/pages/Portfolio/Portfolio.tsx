@@ -99,6 +99,7 @@ const Portfolio = () => {
         time: null,
         userID: userData.userID,
         portfolioID: portID,
+        userImage: userData.userImage,
       };
       dispatch(portfolioLoading(initialPortfolioData));
       const tempArr = websiteData.content[portfolioIndex.index].portfolioID;
