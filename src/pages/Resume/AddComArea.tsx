@@ -4,7 +4,7 @@ import { RootState } from "../../reducers";
 import { resumeAddTemplate } from "../../action";
 import { useSelector, useDispatch } from "react-redux";
 
-import { resumeTemplate0 } from "../../utilis/sampleLayout";
+import { resumeTemplate0, resumeTemplate1 } from "../../utilis/sampleLayout";
 
 import imgOnly from "../../images/imgOnly.jpg";
 import multipleImg from "../../images/multipleImg.jpg";
@@ -23,6 +23,7 @@ import text0 from "../../images/text0.jpg";
 import text1 from "../../images/text1.jpg";
 import text2 from "../../images/text4.jpg";
 import template0 from "../../images/resumeTemplate0.jpg";
+import template1 from "../../images/resumeTemplate1.jpg";
 
 const Wrapper = styled.div`
   display: flex;
@@ -117,7 +118,10 @@ const selectArr = [
   {
     img: template,
     text: "履歷模板",
-    arr: [{ img: template0, index: -1 }],
+    arr: [
+      { img: template0, index: -1 },
+      { img: template1, index: -2 },
+    ],
   },
 ];
 
@@ -164,6 +168,8 @@ const AddComArea = ({
               onClick={() => {
                 if (item.index === -1) {
                   dispatch(resumeAddTemplate(resumeTemplate0));
+                } else if (item.index === -2) {
+                  dispatch(resumeAddTemplate(resumeTemplate1));
                 } else {
                   addResumeCom(item.index);
                 }

@@ -59,6 +59,7 @@ const ResumeReducer = (
     case ActionType.RESUME.FILL_TEXT: {
       const tempContentArr = [...resumeData.content];
       const index = action.payload.index;
+      console.log(index);
       tempContentArr[index] = {
         ...resumeData.content[index],
         text: action.payload.textArr,
