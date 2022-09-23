@@ -10,9 +10,11 @@ import {
 import { db } from "../../firebaseConfig";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+
 import styled from "styled-components";
 
 import Pin from "./Pin";
+import QusetionMark from "../../utilis/QusetionMark";
 import firebase from "../../utilis/firebase";
 
 const Wrapper = styled.div`
@@ -62,6 +64,7 @@ const PinContainer = styled.div`
 
 const Homepage = () => {
   const [portfolioArr, setPortfolioArr] = useState<DocumentData[]>([]);
+
   const searchText = useRef<string>("");
   // const [searchText, setSearchText] = useState<string>("");
   const random = (numbers: number[]) => {
@@ -94,6 +97,7 @@ const Homepage = () => {
 
     searchText.current = "";
   };
+
   useEffect(() => {
     onSnapshot(collection(db, "portfolios"), (doc) => {
       const postArr: DocumentData[] = [];
@@ -129,6 +133,7 @@ const Homepage = () => {
           );
         })}
       </PinContainer>
+      <QusetionMark />
     </Wrapper>
   );
 };

@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import html2canvas from "html2canvas";
+import * as htmlToImage from "html-to-image";
+import { toPng, toJpeg } from "html-to-image";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
@@ -56,24 +58,27 @@ const Resume: React.FC = () => {
     dispatch(resumeDeleteCom(deleteIndex));
   };
   const uploadResume = async () => {
-    html2canvas(refPhoto.current!).then(async function (canvas) {
-      const dataUrl = canvas.toDataURL("image/png");
-      dispatch(resumeAddSetting("coverImage", dataUrl));
-      const tempData = resumeData;
-      tempData.coverImage = dataUrl;
-      try {
-        await firebase.uploadDoc("resumes", `${resumeID}`, tempData);
-        dispatch(setAlert({ isAlert: true, text: "成功更新履歷!" }));
-        setTimeout(() => {
-          dispatch(setAlert({ isAlert: false, text: "" }));
-        }, 3000);
-      } catch (e) {
-        dispatch(setAlert({ isAlert: true, text: `${e}` }));
-        setTimeout(() => {
-          dispatch(setAlert({ isAlert: false, text: "" }));
-        }, 3000);
-      }
+    htmlToImage.toPng(refPhoto.current!).then(function (dataUrl) {
+      console.log(dataUrl);
     });
+    // html2canvas(refPhoto.current!).then(async function (canvas) {
+    //   const dataUrl = canvas.toDataURL("image/png");
+    //   dispatch(resumeAddSetting("coverImage", dataUrl));
+    //   const tempData = resumeData;
+    //   tempData.coverImage = dataUrl;
+    //   try {
+    //     await firebase.uploadDoc("resumes", `${resumeID}`, tempData);
+    //     dispatch(setAlert({ isAlert: true, text: "成功更新履歷!" }));
+    //     setTimeout(() => {
+    //       dispatch(setAlert({ isAlert: false, text: "" }));
+    //     }, 3000);
+    //   } catch (e) {
+    //     dispatch(setAlert({ isAlert: true, text: `${e}` }));
+    //     setTimeout(() => {
+    //       dispatch(setAlert({ isAlert: false, text: "" }));
+    //     }, 3000);
+    //   }
+    // });
   };
   const getCoverImage = () => {
     html2canvas(refPhoto.current!).then(function (canvas) {
@@ -95,7 +100,6 @@ const Resume: React.FC = () => {
     const loadResume = async () => {
       const resumeData = await firebase.readData("resumes", `${resumeID}`);
       if (resumeData) {
-        console.log(resumeData.content);
         dispatch(resumeLoading(resumeData));
       } else {
         dispatch(resumeAddSetting("name", userData.name));

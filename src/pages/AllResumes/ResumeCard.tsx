@@ -78,8 +78,6 @@ const ResumeCard = ({ size, data }: { size: number; data: DocumentData }) => {
   //   }
   // };
 
-  console.log(data);
-
   useEffect(() => {
     data.followers.forEach((followersData: { userID: string | null }) => {
       if (followersData.userID === userData.userID) {
