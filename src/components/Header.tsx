@@ -135,9 +135,13 @@ const Header = () => {
   return (
     <Wrapper isPopup={isPopup}>
       <MainNav>
-        <LogoArea to={`/`} img={Logo}></LogoArea>
-        <Tag to={`/`}>CaterPortfolio</Tag>
-        <Tag to={`/allresumes`}>All Resumes</Tag>
+        <LogoArea to={`/`} img={Logo} id="logo"></LogoArea>
+        <Tag to={`/`} id="allPortfolios">
+          CaterPortfolio
+        </Tag>
+        <Tag to={`/allresumes`} id="allResumes">
+          All Resumes
+        </Tag>
       </MainNav>
       {userIsLogin ? (
         <SideNav isMobile={false}>

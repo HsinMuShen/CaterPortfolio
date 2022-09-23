@@ -13,6 +13,7 @@ function useUpdateResumeData({
   content: resumeComContent;
 }) {
   const resumeData = useSelector((state: RootState) => state.ResumeReducer);
+  // console.log(resumeData.content[index].text);
   const [imageFileList, setImageFileList] = useState<string[]>(content.image);
   const diapatch = useDispatch();
   const setResumeReducerImage = async (file: File, listIndex: number) => {
@@ -27,7 +28,7 @@ function useUpdateResumeData({
     // console.log(resumeData.content[index].text);
     const tempArr = [...resumeData.content[index].text];
     tempArr[listIndex] = text;
-    diapatch(resumeFillContent(index, tempArr));
+    diapatch(resumeFillContent(index, text, listIndex));
   };
 
   return {

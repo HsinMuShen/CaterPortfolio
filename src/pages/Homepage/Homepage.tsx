@@ -109,7 +109,7 @@ const Homepage = () => {
   }, []);
   return (
     <Wrapper>
-      <SearchArea>
+      <SearchArea id="searchBtn">
         <SearchInput
           type="text"
           defaultValue={searchText.current}

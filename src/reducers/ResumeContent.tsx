@@ -60,11 +60,16 @@ const ResumeReducer = (
       return newResumeData;
     }
     case ActionType.RESUME.FILL_TEXT: {
-      const tempContentArr = [...resumeData.content];
       const index = action.payload.index;
+      const listIndex = action.payload.listIndex;
+      const tempContentArr = [...resumeData.content];
+
+      const tempTextArr = [...resumeData.content[index].text];
+      tempTextArr[listIndex] = action.payload.text;
+
       tempContentArr[index] = {
         ...resumeData.content[index],
-        text: action.payload.textArr,
+        text: tempTextArr,
       };
       const newResumeData = { ...resumeData, content: tempContentArr };
       return newResumeData;

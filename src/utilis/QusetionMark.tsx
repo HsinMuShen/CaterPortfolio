@@ -27,14 +27,24 @@ const QusetionMark = () => {
         target: "body",
       },
       {
-        content: <h2>Sticky elements</h2>,
-        placement: "center",
-        target: "body",
+        content: "點擊Logo! 回到首頁",
+        target: "logo",
+        placement: "bottom",
       },
       {
-        content: "These are our super awesome projects!",
-        target: "body",
-        title: "Our projects",
+        content: "點擊Logo! 回到首頁",
+        target: "logo",
+        placement: "bottom",
+      },
+      {
+        content: "點擊Logo! 回到首頁",
+        target: "logo",
+        placement: "bottom",
+      },
+      {
+        content: "輸入關鍵字可以找尋到符合標題與創作者姓名的作品集",
+        target: "#searchBtn",
+        placement: "bottom",
       },
     ],
   });
