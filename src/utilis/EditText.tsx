@@ -213,17 +213,7 @@ export default ({ text, setReducerText, listIndex, style }: props) => {
 
   useEffect(() => {
     const closeBtn = (e: any) => {
-      if (
-        e.path[0].parentElement.className ===
-          "ProseMirror ProseMirror-focused" ||
-        e.path[0].parentElement.parentElement.className ===
-          "ProseMirror ProseMirror-focused" ||
-        e.path[0].parentElement.parentElement.className === "text" ||
-        e.path[0].parentElement.parentElement.parentElement.className ===
-          "ProseMirror ProseMirror-focused" ||
-        e.path[0].parentElement.parentElement.parentElement.parentElement
-          .className === "ProseMirror ProseMirror-focused"
-      ) {
+      if (e.target.closest(".text") !== null) {
         return;
       }
       setIsShowBtn(false);
