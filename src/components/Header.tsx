@@ -145,19 +145,20 @@ const Header = () => {
       </MainNav>
       {userIsLogin ? (
         <SideNav isMobile={false}>
-          <ChatTag to={`/chatroom/${userData.userID}`}>
+          <ChatTag to={`/chatroom/${userData.userID}`} id="chatroomIcon">
             <FontAwesomeIcon icon={faComment} />
           </ChatTag>
           <Nav
             onClick={() => {
               setIsSideBar(true);
             }}
+            id="profileIcon"
           >
             <FontAwesomeIcon icon={faUserAstronaut} />
           </Nav>
         </SideNav>
       ) : (
-        <SideNav isMobile={false}>
+        <SideNav isMobile={false} id="login">
           <Tag to={`/login`}>Login</Tag>
         </SideNav>
       )}
