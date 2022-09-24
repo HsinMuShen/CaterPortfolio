@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import html2canvas from "html2canvas";
+import * as htmlToImage from "html-to-image";
+import { toPng, toJpeg } from "html-to-image";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
@@ -22,6 +24,7 @@ import Delete from "./Delete";
 import Move from "../../utilis/Move";
 import AddComArea from "./AddComArea";
 import SideBar from "../../utilis/SideBar";
+import QusetionMark, { introSteps } from "../../utilis/QusetionMark";
 import { resumeChoice } from "./resumeComponents";
 import { ResumeComponents } from "./resumeComponents";
 
@@ -56,10 +59,10 @@ const Resume: React.FC = () => {
     dispatch(resumeDeleteCom(deleteIndex));
   };
   const uploadResume = async () => {
-    html2canvas(refPhoto.current!).then(async function (canvas) {
-      const dataUrl = canvas.toDataURL("image/png");
+    htmlToImage.toPng(refPhoto.current!).then(async function (dataUrl) {
+      console.log(dataUrl);
       dispatch(resumeAddSetting("coverImage", dataUrl));
-      const tempData = resumeData;
+      const tempData = { ...resumeData };
       tempData.coverImage = dataUrl;
       try {
         await firebase.uploadDoc("resumes", `${resumeID}`, tempData);
@@ -74,6 +77,24 @@ const Resume: React.FC = () => {
         }, 3000);
       }
     });
+    // html2canvas(refPhoto.current!).then(async function (canvas) {
+    //   const dataUrl = canvas.toDataURL("image/png");
+    //   dispatch(resumeAddSetting("coverImage", dataUrl));
+    //   const tempData = resumeData;
+    //   tempData.coverImage = dataUrl;
+    //   try {
+    //     await firebase.uploadDoc("resumes", `${resumeID}`, tempData);
+    //     dispatch(setAlert({ isAlert: true, text: "成功更新履歷!" }));
+    //     setTimeout(() => {
+    //       dispatch(setAlert({ isAlert: false, text: "" }));
+    //     }, 3000);
+    //   } catch (e) {
+    //     dispatch(setAlert({ isAlert: true, text: `${e}` }));
+    //     setTimeout(() => {
+    //       dispatch(setAlert({ isAlert: false, text: "" }));
+    //     }, 3000);
+    //   }
+    // });
   };
   const getCoverImage = () => {
     html2canvas(refPhoto.current!).then(function (canvas) {
@@ -95,12 +116,21 @@ const Resume: React.FC = () => {
     const loadResume = async () => {
       const resumeData = await firebase.readData("resumes", `${resumeID}`);
       if (resumeData) {
-        console.log(resumeData.content);
         dispatch(resumeLoading(resumeData));
       } else {
-        dispatch(resumeAddSetting("name", userData.name));
-        dispatch(resumeAddSetting("userID", userData.userID));
-        dispatch(resumeAddSetting("userImage", userData.userImg));
+        dispatch(
+          resumeLoading({
+            title: "",
+            coverImage: "",
+            content: [],
+            name: userData.name,
+            followers: [],
+            tags: [],
+            time: null,
+            userID: userData.userID,
+            userImage: userData.userImg,
+          })
+        );
       }
     };
     loadResume();
@@ -117,6 +147,7 @@ const Resume: React.FC = () => {
             onClick={() => {
               dispatch(isPreviewResume());
             }}
+            id="resumePreviewBtn"
           >
             {isPreview ? (
               <>
@@ -184,8 +215,12 @@ const Resume: React.FC = () => {
         </ResumeEditor>
 
         {isPreview ? (
-          <UpoloadBtn onClick={uploadResume} width={"120px"}>
-            送出!
+          <UpoloadBtn
+            onClick={uploadResume}
+            width={"120px"}
+            className="resumeUpload"
+          >
+            將履歷上架!
           </UpoloadBtn>
         ) : (
           <UpoloadBtn
@@ -193,12 +228,13 @@ const Resume: React.FC = () => {
               dispatch(isPreviewTrue("resume"));
             }}
             width={"200px"}
+            className="resumeUpload"
           >
             確定完成編輯? 預覽檢查
           </UpoloadBtn>
         )}
 
-        <ToProfileLink to={`/profile/${resumeID}`}>
+        <ToProfileLink to={`/profile/${resumeID}`} id="resumeToProfile">
           <FontAwesomeIcon
             icon={faUserAstronaut}
             style={{ marginRight: "10px" }}
@@ -206,6 +242,14 @@ const Resume: React.FC = () => {
           前往{resumeData.name}的個人頁面
         </ToProfileLink>
       </Wrapper>
+      <QusetionMark
+        stepType={
+          resumeID === userData.userID
+            ? introSteps.resumeUser
+            : introSteps.resumeOthers
+        }
+        type={resumeID === userData.userID ? "resume" : ""}
+      />
       <SideBar type={"resume"} data={resumeData} />
     </>
   );

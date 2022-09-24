@@ -10,10 +10,14 @@ import {
 import { db } from "../../firebaseConfig";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+
 import styled from "styled-components";
 
 import Pin from "./Pin";
+import QusetionMark, { introSteps } from "../../utilis/QusetionMark";
 import firebase from "../../utilis/firebase";
+import { useSelector } from "react-redux";
+import { RootState } from "../../reducers";
 
 const Wrapper = styled.div`
   display: flex;
@@ -63,7 +67,10 @@ const PinContainer = styled.div`
 const Homepage = () => {
   const [portfolioArr, setPortfolioArr] = useState<DocumentData[]>([]);
   const searchText = useRef<string>("");
-  // const [searchText, setSearchText] = useState<string>("");
+  const userIsLogin = useSelector(
+    (state: RootState) => state.IsPreviewReducer.userIsLogin
+  );
+
   const random = (numbers: number[]) => {
     return numbers[Math.floor(Math.random() * numbers.length)];
   };
@@ -94,6 +101,7 @@ const Homepage = () => {
 
     searchText.current = "";
   };
+
   useEffect(() => {
     onSnapshot(collection(db, "portfolios"), (doc) => {
       const postArr: DocumentData[] = [];
@@ -105,7 +113,7 @@ const Homepage = () => {
   }, []);
   return (
     <Wrapper>
-      <SearchArea>
+      <SearchArea id="searchBtn">
         <SearchInput
           type="text"
           defaultValue={searchText.current}
@@ -122,13 +130,18 @@ const Homepage = () => {
         </SearchBtn>
       </SearchArea>
 
-      <PinContainer>
+      <PinContainer id="portfoliosContainer">
         {portfolioArr.map((data) => {
           return (
             <Pin key={data.portfolioID} size={random(numbers)} data={data} />
           );
         })}
       </PinContainer>
+      <QusetionMark
+        stepType={
+          userIsLogin ? introSteps.homepageLogin : introSteps.homepageLogout
+        }
+      />
     </Wrapper>
   );
 };

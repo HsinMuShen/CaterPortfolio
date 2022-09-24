@@ -50,10 +50,14 @@ export const resumeDeleteCom = (index: number) => {
   };
 };
 
-export const resumeFillContent = (index: number, textArr: string[]) => {
+export const resumeFillContent = (
+  index: number,
+  text: string,
+  listIndex: number
+) => {
   return {
     type: ActionType.RESUME.FILL_TEXT,
-    payload: { index, textArr },
+    payload: { index, text, listIndex },
   };
 };
 

@@ -119,7 +119,9 @@ const SideBar = ({ type, data }: { type: string; data: portfolioReducer }) => {
   }, [data]);
   return (
     <SideBarArea>
-      <SideBarTag onClick={showingBar}>{showBarInfo.title}</SideBarTag>
+      <SideBarTag onClick={showingBar} id="sideBar">
+        {showBarInfo.title}
+      </SideBarTag>
       <Options style={{ left: showBarInfo.showBar ? "0px" : "-200px" }}>
         <OptionsBtn>{data.name}</OptionsBtn>
         <OptionsBtn onClick={followPortfolio}>

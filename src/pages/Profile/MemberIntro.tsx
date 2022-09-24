@@ -210,7 +210,7 @@ const MemberIntro = ({ profileData, setProfileData }: UserReducer) => {
                 }
               }}
             >
-              <p>
+              <p id="editProfileData">
                 {isPreviewContent.profileIntro ? "編輯個人資料" : "儲存編輯"}
               </p>
             </EditBtn>
@@ -224,7 +224,7 @@ const MemberIntro = ({ profileData, setProfileData }: UserReducer) => {
             </>
           )}
           <EditBtn to={`/follow/${profileData.userID}`}>
-            <p>查看追蹤名單</p>
+            <p id="checkFollowingList">查看追蹤名單</p>
           </EditBtn>
         </EditArea>
       </ImageContainer>

@@ -79,7 +79,12 @@ const ChatButton = ({ profileData }: UserReducer) => {
       }
     }
   };
-  return <EditBtn onClick={toChatRoom}>開始與{profileData.name}對話</EditBtn>;
+
+  return (
+    <EditBtn onClick={toChatRoom} id="chatroomButton">
+      開始與{profileData.name}對話
+    </EditBtn>
+  );
 };
 
 export default ChatButton;

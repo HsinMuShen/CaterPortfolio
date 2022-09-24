@@ -240,6 +240,7 @@ const firebase = {
       message: arrayUnion({
         msg: msg,
         userID: userData.userID,
+        name: userData.name,
       }),
     });
   },

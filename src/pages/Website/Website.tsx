@@ -1,11 +1,12 @@
 import React, { useEffect, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPen,
   faEye,
   faUpDownLeftRight,
+  faUserAstronaut,
 } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 import { websiteChoice } from "./websiteComponents";
@@ -29,6 +30,7 @@ import {
 import { WebsiteComponents } from "./websiteComponents";
 import { deleteDoc, doc } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
+import QusetionMark, { introSteps } from "../../utilis/QusetionMark";
 
 export interface websiteComContent {
   image: string[];
@@ -105,19 +107,27 @@ const Website = () => {
       const websiteData = await firebase.readData("websites", `${websiteID}`);
 
       if (websiteData) {
-        console.log(websiteData.content);
         dispatch(websiteLoading(websiteData));
       } else {
-        dispatch(websiteAddSetting("name", userData.name));
-        dispatch(websiteAddSetting("userID", userData.userID));
-        dispatch(websiteAddSetting("userImage", userData.userImage));
+        dispatch(
+          websiteLoading({
+            title: "",
+            content: [],
+            name: userData.name,
+            followers: [],
+            tags: [],
+            time: null,
+            userID: userData.userID,
+            userImage: userData.userImage,
+          })
+        );
       }
     };
     loadWebsite();
     return () => {
       dispatch(isPreviewTrue("website"));
     };
-  }, [userData]);
+  }, [userData, websiteID]);
 
   return (
     <WebsiteBody>
@@ -127,6 +137,7 @@ const Website = () => {
             onClick={() => {
               dispatch(isPreviewWebsite());
             }}
+            id="websitePreviewBtn"
           >
             {isPreview ? (
               <>
@@ -216,8 +227,25 @@ const Website = () => {
         )}
       </Wrapper>
       {isPreview ? null : (
-        <ResumeBtn onClick={uploadWebsite}>上架網站!</ResumeBtn>
+        <ResumeBtn onClick={uploadWebsite} className="websiteUpload">
+          上架網站!
+        </ResumeBtn>
       )}
+      <ToProfileLink to={`/profile/${websiteID}`} id="websiteToProfile">
+        <FontAwesomeIcon
+          icon={faUserAstronaut}
+          style={{ marginRight: "10px" }}
+        />
+        前往{websiteData.name}的個人頁面
+      </ToProfileLink>
+      <QusetionMark
+        stepType={
+          websiteID === userData.userID
+            ? introSteps.websiteUser
+            : introSteps.websiteOthers
+        }
+        type={websiteID === userData.userID ? "website" : ""}
+      />
     </WebsiteBody>
   );
 };
@@ -304,4 +332,14 @@ const ResumeBtn = styled.button`
     color: #ffffff;
     background-color: #555555;
   }
+`;
+
+const ToProfileLink = styled(Link)`
+  margin: 40px 0 20px;
+  text-decoration: none;
+  color: #ffffff;
+  background-color: #555555;
+  border: 1px solid;
+  padding: 8px;
+  border-radius: 5px;
 `;

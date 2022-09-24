@@ -52,7 +52,7 @@ const FollowBtn = ({ profileData }: UserReducer) => {
     };
   }, [userData]);
   return (
-    <FollowButton onClick={followPortfolio}>
+    <FollowButton onClick={followPortfolio} id="followButton">
       {isFollow ? "取消追蹤" : `追蹤${profileData.name}`}
     </FollowButton>
   );
