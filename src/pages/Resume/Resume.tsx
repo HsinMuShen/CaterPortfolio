@@ -103,9 +103,19 @@ const Resume: React.FC = () => {
       if (resumeData) {
         dispatch(resumeLoading(resumeData));
       } else {
-        dispatch(resumeAddSetting("name", userData.name));
-        dispatch(resumeAddSetting("userID", userData.userID));
-        dispatch(resumeAddSetting("userImage", userData.userImg));
+        dispatch(
+          resumeLoading({
+            title: "",
+            coverImage: "",
+            content: [],
+            name: userData.name,
+            followers: [],
+            tags: [],
+            time: null,
+            userID: userData.userID,
+            userImage: userData.userImg,
+          })
+        );
       }
     };
     loadResume();

@@ -37,8 +37,8 @@ const QusetionMark = ({
 
   const handleClickStart = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
-    if (type === "resume") {
-      dispatch(isPreviewFalse("resume"));
+    if (type) {
+      dispatch(isPreviewFalse(type));
     }
 
     setState({
@@ -244,7 +244,7 @@ export const introSteps: {
       disableBeacon: true,
     },
     {
-      content: "點擊進入個人頁面",
+      content: "可選擇想加入履歷的版面",
       target: "#resumeAddComArea",
       placement: "bottom",
     },
@@ -262,7 +262,7 @@ export const introSteps: {
       disableBeacon: true,
     },
     {
-      content: "點擊進入個人頁面",
+      content: "點擊進入創作者個人頁面",
       target: "#resumeToProfile",
       placement: "bottom",
     },
@@ -271,31 +271,26 @@ export const introSteps: {
     {
       content: "點擊切換履歷編輯與預覽狀態",
       placement: "bottom",
-      target: "#resumePreviewBtn",
+      target: "#websitePreviewBtn",
       disableBeacon: true,
     },
     {
       content: "點擊進入個人頁面",
-      target: "#resumeAddComArea",
+      target: "#websiteAddComArea",
       placement: "bottom",
     },
     {
       content: "完成編輯，將履歷儲存上架!",
-      target: ".resumeUpload",
+      target: ".websiteUpload",
       placement: "bottom",
     },
   ],
   websiteOthers: [
     {
-      content: "點擊開啟追蹤履歷面板",
+      content: "點擊進入創作者個人頁面",
       placement: "bottom",
-      target: "#sideBar",
+      target: "#websiteToProfile",
       disableBeacon: true,
-    },
-    {
-      content: "點擊進入個人頁面",
-      target: "#resumeToProfile",
-      placement: "bottom",
     },
   ],
 };
