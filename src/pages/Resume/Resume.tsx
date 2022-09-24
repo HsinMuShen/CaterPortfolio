@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import html2canvas from "html2canvas";
 import * as htmlToImage from "html-to-image";
-import { toPng, toJpeg } from "html-to-image";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
@@ -59,7 +58,7 @@ const Resume: React.FC = () => {
     dispatch(resumeDeleteCom(deleteIndex));
   };
   const uploadResume = async () => {
-    htmlToImage.toPng(refPhoto.current!).then(async function (dataUrl) {
+    htmlToImage.toPng(refPhoto.current!).then(async (dataUrl) => {
       console.log(dataUrl);
       dispatch(resumeAddSetting("coverImage", dataUrl));
       const tempData = { ...resumeData };
@@ -77,24 +76,6 @@ const Resume: React.FC = () => {
         }, 3000);
       }
     });
-    // html2canvas(refPhoto.current!).then(async function (canvas) {
-    //   const dataUrl = canvas.toDataURL("image/png");
-    //   dispatch(resumeAddSetting("coverImage", dataUrl));
-    //   const tempData = resumeData;
-    //   tempData.coverImage = dataUrl;
-    //   try {
-    //     await firebase.uploadDoc("resumes", `${resumeID}`, tempData);
-    //     dispatch(setAlert({ isAlert: true, text: "成功更新履歷!" }));
-    //     setTimeout(() => {
-    //       dispatch(setAlert({ isAlert: false, text: "" }));
-    //     }, 3000);
-    //   } catch (e) {
-    //     dispatch(setAlert({ isAlert: true, text: `${e}` }));
-    //     setTimeout(() => {
-    //       dispatch(setAlert({ isAlert: false, text: "" }));
-    //     }, 3000);
-    //   }
-    // });
   };
   const getCoverImage = () => {
     html2canvas(refPhoto.current!).then(function (canvas) {
@@ -163,76 +144,69 @@ const Resume: React.FC = () => {
           </PreviewBtn>
         ) : null}
 
-        <ResumeEditor ref={refPhoto}>
+        <ResumeEditor>
           <PreviewDiv style={{ zIndex: isPreview ? "2" : "-1" }}></PreviewDiv>
           <DragDropContext onDragEnd={handleOnDragEnd}>
-            <Droppable droppableId="characters">
-              {(provided) => (
-                <ResumeHeader
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                >
-                  {resumeData.content?.map(
-                    (content: resumeComContent, index: number) => {
-                      const TempCom =
-                        ResumeComponents[
-                          content.comName as keyof typeof ResumeComponents
-                        ];
+            <div ref={refPhoto}>
+              <Droppable droppableId="characters">
+                {(provided) => (
+                  <ResumeHeader
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                  >
+                    {resumeData.content?.map(
+                      (content: resumeComContent, index: number) => {
+                        const TempCom =
+                          ResumeComponents[
+                            content.comName as keyof typeof ResumeComponents
+                          ];
 
-                      return (
-                        <Draggable
-                          key={content.id}
-                          draggableId={content.id}
-                          index={index}
-                        >
-                          {(provided) => (
-                            <SineleComponent
-                              {...provided.draggableProps}
-                              ref={provided.innerRef}
-                            >
-                              <TempCom index={index} content={content} />
-                              <Delete
-                                addDeleteCom={addDeleteCom}
-                                index={index}
-                              />
-                              <MoveBtn {...provided.dragHandleProps}>
-                                {isPreview ? null : (
-                                  <FontAwesomeIcon icon={faUpDownLeftRight} />
-                                )}
-                              </MoveBtn>
-                            </SineleComponent>
-                          )}
-                        </Draggable>
-                      );
-                    }
-                  )}
-                  {provided.placeholder}
-                </ResumeHeader>
-              )}
-            </Droppable>
+                        return (
+                          <Draggable
+                            key={content.id}
+                            draggableId={content.id}
+                            index={index}
+                          >
+                            {(provided) => (
+                              <SineleComponent
+                                {...provided.draggableProps}
+                                ref={provided.innerRef}
+                              >
+                                <TempCom index={index} content={content} />
+                                <Delete
+                                  addDeleteCom={addDeleteCom}
+                                  index={index}
+                                />
+                                <MoveBtn {...provided.dragHandleProps}>
+                                  {isPreview ? null : (
+                                    <FontAwesomeIcon icon={faUpDownLeftRight} />
+                                  )}
+                                </MoveBtn>
+                              </SineleComponent>
+                            )}
+                          </Draggable>
+                        );
+                      }
+                    )}
+                    {provided.placeholder}
+                  </ResumeHeader>
+                )}
+              </Droppable>
+            </div>
           </DragDropContext>
           <AddComArea addResumeCom={addResumeCom} uploadResume={uploadResume} />
         </ResumeEditor>
 
-        {isPreview ? (
-          <UpoloadBtn
-            onClick={uploadResume}
-            width={"120px"}
-            className="resumeUpload"
-          >
-            將履歷上架!
-          </UpoloadBtn>
-        ) : (
-          <UpoloadBtn
-            onClick={() => {
-              dispatch(isPreviewTrue("resume"));
-            }}
-            width={"200px"}
-            className="resumeUpload"
-          >
-            確定完成編輯? 預覽檢查
-          </UpoloadBtn>
-        )}
+        <UpoloadBtn
+          onClick={() => {
+            dispatch(isPreviewTrue("resume"));
+            uploadResume();
+          }}
+          width={"160px"}
+          className="resumeUpload"
+        >
+          將履歷儲存上架!
+        </UpoloadBtn>
 
         <ToProfileLink to={`/profile/${resumeID}`} id="resumeToProfile">
           <FontAwesomeIcon
