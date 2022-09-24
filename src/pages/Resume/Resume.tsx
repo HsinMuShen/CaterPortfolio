@@ -24,6 +24,7 @@ import Delete from "./Delete";
 import Move from "../../utilis/Move";
 import AddComArea from "./AddComArea";
 import SideBar from "../../utilis/SideBar";
+import QusetionMark, { introSteps } from "../../utilis/QusetionMark";
 import { resumeChoice } from "./resumeComponents";
 import { ResumeComponents } from "./resumeComponents";
 
@@ -121,6 +122,7 @@ const Resume: React.FC = () => {
             onClick={() => {
               dispatch(isPreviewResume());
             }}
+            id="resumePreviewBtn"
           >
             {isPreview ? (
               <>
@@ -188,8 +190,12 @@ const Resume: React.FC = () => {
         </ResumeEditor>
 
         {isPreview ? (
-          <UpoloadBtn onClick={uploadResume} width={"120px"}>
-            送出!
+          <UpoloadBtn
+            onClick={uploadResume}
+            width={"120px"}
+            className="resumeUpload"
+          >
+            將履歷上架!
           </UpoloadBtn>
         ) : (
           <UpoloadBtn
@@ -197,12 +203,13 @@ const Resume: React.FC = () => {
               dispatch(isPreviewTrue("resume"));
             }}
             width={"200px"}
+            className="resumeUpload"
           >
             確定完成編輯? 預覽檢查
           </UpoloadBtn>
         )}
 
-        <ToProfileLink to={`/profile/${resumeID}`}>
+        <ToProfileLink to={`/profile/${resumeID}`} id="resumeToProfile">
           <FontAwesomeIcon
             icon={faUserAstronaut}
             style={{ marginRight: "10px" }}
@@ -210,6 +217,14 @@ const Resume: React.FC = () => {
           前往{resumeData.name}的個人頁面
         </ToProfileLink>
       </Wrapper>
+      <QusetionMark
+        stepType={
+          resumeID === userData.userID
+            ? introSteps.resumeUser
+            : introSteps.resumeOthers
+        }
+        type={resumeID === userData.userID ? "resume" : ""}
+      />
       <SideBar type={"resume"} data={resumeData} />
     </>
   );

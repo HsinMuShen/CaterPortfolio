@@ -139,7 +139,7 @@ const AddComArea = ({
   const dispatch = useDispatch();
 
   return isPreview ? null : (
-    <Wrapper>
+    <Wrapper id="resumeAddComArea">
       <Title>新增圖文內容</Title>
       <Instruction>（選擇橫幅樣式，點擊即可新增、編輯圖文區塊）</Instruction>
       <SelectionArea>

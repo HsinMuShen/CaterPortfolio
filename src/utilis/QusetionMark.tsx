@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Joyride, { CallBackProps, STATUS, Step } from "react-joyride";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleQuestion } from "@fortawesome/free-solid-svg-icons";
-import { useLocation } from "react-router-dom";
+import { isPreviewFalse } from "../action";
+import { useDispatch } from "react-redux";
 
 const QusetionMarkWrapper = styled.div`
   position: fixed;
@@ -20,14 +21,26 @@ interface State {
   steps: Step[];
 }
 
-const QusetionMark = ({ stepType }: { stepType: Step[] }) => {
+const QusetionMark = ({
+  stepType,
+  type,
+}: {
+  stepType: Step[];
+  type?: string;
+}) => {
   const [{ run, steps }, setState] = useState<State>({
     run: false,
     steps: stepType,
   });
 
+  const dispatch = useDispatch();
+
   const handleClickStart = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
+    if (type === "resume") {
+      dispatch(isPreviewFalse("resume"));
+    }
+
     setState({
       run: true,
       steps,
@@ -42,6 +55,13 @@ const QusetionMark = ({ stepType }: { stepType: Step[] }) => {
       setState({ run: false, steps });
     }
   };
+
+  useEffect(() => {
+    setState({
+      run: false,
+      steps: stepType,
+    });
+  }, [stepType]);
 
   return (
     <QusetionMarkWrapper onClick={handleClickStart}>
@@ -71,7 +91,6 @@ const style = {
     zIndex: 11,
     color: "#555555",
     primaryColor: "#555555",
-    arrowColor: "#456673",
   },
 };
 
@@ -80,6 +99,10 @@ export const introSteps: {
   homepageLogout: Step[];
   profileUser: Step[];
   profileOthers: Step[];
+  resumeUser: Step[];
+  resumeOthers: Step[];
+  websiteUser: Step[];
+  websiteOthers: Step[];
 } = {
   homepageLogin: [
     {
@@ -210,6 +233,68 @@ export const introSteps: {
     {
       content: "點擊查看這位創作者的網站",
       target: "#websiteArea",
+      placement: "bottom",
+    },
+  ],
+  resumeUser: [
+    {
+      content: "點擊切換履歷編輯與預覽狀態",
+      placement: "bottom",
+      target: "#resumePreviewBtn",
+      disableBeacon: true,
+    },
+    {
+      content: "點擊進入個人頁面",
+      target: "#resumeAddComArea",
+      placement: "bottom",
+    },
+    {
+      content: "完成編輯，將履歷儲存上架!",
+      target: ".resumeUpload",
+      placement: "bottom",
+    },
+  ],
+  resumeOthers: [
+    {
+      content: "點擊開啟追蹤履歷面板",
+      placement: "bottom",
+      target: "#sideBar",
+      disableBeacon: true,
+    },
+    {
+      content: "點擊進入個人頁面",
+      target: "#resumeToProfile",
+      placement: "bottom",
+    },
+  ],
+  websiteUser: [
+    {
+      content: "點擊切換履歷編輯與預覽狀態",
+      placement: "bottom",
+      target: "#resumePreviewBtn",
+      disableBeacon: true,
+    },
+    {
+      content: "點擊進入個人頁面",
+      target: "#resumeAddComArea",
+      placement: "bottom",
+    },
+    {
+      content: "完成編輯，將履歷儲存上架!",
+      target: ".resumeUpload",
+      placement: "bottom",
+    },
+  ],
+  websiteOthers: [
+    {
+      content: "點擊開啟追蹤履歷面板",
+      placement: "bottom",
+      target: "#sideBar",
+      disableBeacon: true,
+    },
+    {
+      content: "點擊進入個人頁面",
+      target: "#resumeToProfile",
       placement: "bottom",
     },
   ],
