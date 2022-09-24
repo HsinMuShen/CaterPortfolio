@@ -7,10 +7,12 @@ import { useLocation } from "react-router-dom";
 
 const QusetionMarkWrapper = styled.div`
   position: fixed;
-  top: 130px;
-  right: 40px;
-  font-size: 24px;
+  top: 9px;
+  right: 175px;
+  font-size: 28px;
+  color: #333333;
   cursor: pointer;
+  z-index: 6;
 `;
 
 interface State {
@@ -42,7 +44,7 @@ const QusetionMark = ({ stepType }: { stepType: Step[] }) => {
   };
 
   return (
-    <QusetionMarkWrapper>
+    <QusetionMarkWrapper onClick={handleClickStart}>
       <Joyride
         callback={handleJoyrideCallback}
         continuous
@@ -56,9 +58,8 @@ const QusetionMark = ({ stepType }: { stepType: Step[] }) => {
           options: style.options,
         }}
       />
-      <div onClick={handleClickStart}>
-        <FontAwesomeIcon icon={faCircleQuestion} />
-      </div>
+
+      <FontAwesomeIcon icon={faCircleQuestion} />
     </QusetionMarkWrapper>
   );
 };
@@ -74,7 +75,12 @@ const style = {
   },
 };
 
-export const introSteps: { homepageLogin: Step[]; homepageLogout: Step[] } = {
+export const introSteps: {
+  homepageLogin: Step[];
+  homepageLogout: Step[];
+  profileUser: Step[];
+  profileOthers: Step[];
+} = {
   homepageLogin: [
     {
       content: "歡迎來到Caterportfolio!",
@@ -154,6 +160,57 @@ export const introSteps: { homepageLogin: Step[]; homepageLogout: Step[] } = {
       content: "作品集區，點擊單一作品集可以進入該作品集頁面",
       target: "#portfoliosContainer",
       placement: "top-start",
+    },
+  ],
+  profileUser: [
+    {
+      content: "點擊編輯個人基本資料",
+      placement: "bottom",
+      target: "#editProfileData",
+      disableBeacon: true,
+    },
+    {
+      content: "點擊進入追蹤名單頁面",
+      target: "#checkFollowingList",
+      placement: "bottom",
+    },
+    {
+      content: "點擊進入履歷編輯頁面",
+      target: "#resumeArea",
+      placement: "bottom",
+    },
+    {
+      content: "點擊進入網站編輯頁面",
+      target: "#websiteArea",
+      placement: "bottom",
+    },
+  ],
+  profileOthers: [
+    {
+      content: "點擊追蹤這位創作者",
+      placement: "bottom",
+      target: "#followButton",
+      disableBeacon: true,
+    },
+    {
+      content: "點擊與這位創作者對話",
+      target: "#chatroomButton",
+      placement: "bottom",
+    },
+    {
+      content: "點擊查看這位創作者的追蹤名單",
+      target: "#checkFollowingList",
+      placement: "bottom",
+    },
+    {
+      content: "點擊查看這位創作者的履歷",
+      target: "#resumeArea",
+      placement: "bottom",
+    },
+    {
+      content: "點擊查看這位創作者的網站",
+      target: "#websiteArea",
+      placement: "bottom",
     },
   ],
 };

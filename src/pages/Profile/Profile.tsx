@@ -10,7 +10,7 @@ import { UserReducer } from "../../reducers";
 
 import firebase from "../../utilis/firebase";
 import styled from "styled-components";
-import LoginArea from "./LoginArea";
+import QusetionMark, { introSteps } from "../../utilis/QusetionMark";
 import MemberIntro from "./MemberIntro";
 import ChatButton from "./ChatButton";
 
@@ -52,8 +52,6 @@ const WebsiteArea = styled(Link)`
   align-items: center;
 `;
 
-const FollowingArea = styled(Link)``;
-
 const Profile: React.FC = () => {
   const [profileData, setProfileData] = useState<UserReducer | {}>({});
   const userData = useSelector((state: RootState) => state.UserReducer);
@@ -85,7 +83,6 @@ const Profile: React.FC = () => {
       }
       const userData = await firebase.readData("users", `${profileUserID}`);
       if (userData) {
-        console.log(userData);
         setProfileData(userData);
       }
     };
@@ -99,11 +96,20 @@ const Profile: React.FC = () => {
           setProfileData={setProfileData}
         />
         <CreaterArea>
-          <ResumeArea to={`/resume/${profileUserID}`}>
+          <ResumeArea to={`/resume/${profileUserID}`} id="resumeArea">
             <PreviewImg src={resumeData.coverImage} />
           </ResumeArea>
-          <WebsiteArea to={`/website/${profileUserID}`}>Website</WebsiteArea>
+          <WebsiteArea to={`/website/${profileUserID}`} id="websiteArea">
+            Website
+          </WebsiteArea>
         </CreaterArea>
+        <QusetionMark
+          stepType={
+            profileData.userID === userData.userID
+              ? introSteps.profileUser
+              : introSteps.profileOthers
+          }
+        />
       </>
     </Wrapper>
   );
