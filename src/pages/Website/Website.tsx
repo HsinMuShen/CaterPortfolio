@@ -107,7 +107,6 @@ const Website = () => {
       const websiteData = await firebase.readData("websites", `${websiteID}`);
 
       if (websiteData) {
-        console.log(websiteData.content);
         dispatch(websiteLoading(websiteData));
       } else {
         dispatch(

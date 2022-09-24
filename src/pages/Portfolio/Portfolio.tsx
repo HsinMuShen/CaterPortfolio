@@ -75,13 +75,11 @@ const Portfolio = () => {
 
   useEffect(() => {
     const loadPortfolio = async () => {
-      console.log(portfolioID);
       const portfolioData = await firebase.readPortfolioData(
         "portfolios",
         `${portfolioID}`
       );
       if (portfolioData) {
-        console.log(portfolioData);
         dispatch(portfolioLoading(portfolioData));
         setUserID(portfolioData.userID);
       }
