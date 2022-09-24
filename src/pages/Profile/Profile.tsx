@@ -4,8 +4,7 @@ import { useParams } from "react-router-dom";
 import { RootState } from "../../reducers";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { resumeLoading, userLoading } from "../../action";
-import Resume from "../Resume/Resume";
+import { resumeLoading, userLoading, websiteLoading } from "../../action";
 import { UserReducer } from "../../reducers";
 
 import firebase from "../../utilis/firebase";
@@ -47,7 +46,7 @@ const ImgArea = styled.div`
 `;
 
 const PreviewImg = styled.img<{ width: string }>`
-  object-fit: cover;
+  object-fit: scale-down;
   object-position: center 0%;
   width: ${(props) => props.width};
   height: 360px;
@@ -84,10 +83,18 @@ const WebsiteArea = styled(Link)`
   overflow: hidden;
 `;
 
+const WebsiteDiv = styled.div`
+  width: 620px;
+  height: 360px;
+  scale: 0.8;
+  overflow: hidden;
+`;
+
 const Profile: React.FC = () => {
   const [profileData, setProfileData] = useState<UserReducer | {}>({});
   const userData = useSelector((state: RootState) => state.UserReducer);
   const resumeData = useSelector((state: RootState) => state.ResumeReducer);
+  const websiteData = useSelector((state: RootState) => state.WebsiteReducer);
   const isLogin = useSelector(
     (state: RootState) => state.IsPreviewReducer.userIsLogin
   );
@@ -107,12 +114,35 @@ const Profile: React.FC = () => {
             content: [],
             name: "",
             followers: [],
-            tags: ["design"],
+            tags: [],
+            time: null,
+            userID: "",
+            userImage: "",
+          })
+        );
+      }
+
+      const websiteData = await firebase.readData(
+        "websites",
+        `${profileUserID}`
+      );
+      if (websiteData) {
+        dispatch(websiteLoading(websiteData));
+      } else {
+        dispatch(
+          websiteLoading({
+            title: "",
+            coverImage: "",
+            content: [],
+            name: "",
+            followers: [],
+            tags: [],
             time: null,
             userID: "",
           })
         );
       }
+
       const userData = await firebase.readData("users", `${profileUserID}`);
       if (userData) {
         setProfileData(userData);
@@ -120,6 +150,7 @@ const Profile: React.FC = () => {
     };
     loadData();
   }, [profileUserID, userData.followMembers]);
+
   return (
     <Wrapper>
       <>
@@ -145,7 +176,9 @@ const Profile: React.FC = () => {
             <ImgArea>
               <PreviewImg
                 src={
-                  resumeData.coverImage ? resumeData.coverImage : initialWebsite
+                  websiteData.coverImage
+                    ? websiteData.coverImage
+                    : initialWebsite
                 }
                 width={"620px"}
               />

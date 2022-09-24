@@ -1,9 +1,11 @@
 import { AnyAction } from "redux";
 import { ActionType } from ".";
 import { v4 } from "uuid";
+import initialUserImage from "../images/user.png";
 
 interface websiteReducer {
   title: string;
+  coverImage: string;
   content: {
     image: string[];
     text: string[];
@@ -22,6 +24,7 @@ interface websiteReducer {
 const WebsiteReducer = (
   websiteData: websiteReducer = {
     title: "",
+    coverImage: "",
     content: [],
     name: "",
     followers: [],

@@ -1,5 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { Link, useParams } from "react-router-dom";
+import html2canvas from "html2canvas";
+import * as htmlToImage from "html-to-image";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -26,11 +28,13 @@ import {
   isPreviewWebsite,
   isPreviewTrue,
   isPreviewFalse,
+  setAlert,
 } from "../../action";
 import { WebsiteComponents } from "./websiteComponents";
 import { deleteDoc, doc } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
 import QusetionMark, { introSteps } from "../../utilis/QusetionMark";
+import WebsiteInitialSetup from "./WebsiteInitialSetup";
 
 export interface websiteComContent {
   image: string[];
@@ -42,6 +46,7 @@ export interface websiteComContent {
 }
 
 const Website = () => {
+  const refPhoto = useRef<HTMLDivElement>(null);
   const deletePortfolioContent = useRef<number>();
   const websiteID = useParams().id;
   const dispatch = useDispatch();
@@ -63,7 +68,6 @@ const Website = () => {
   const sureToDelete = (isSure: boolean) => {
     if (isSure) {
       deletePortCom(deletePortfolioContent.current!);
-      console.log(deletePortfolioContent.current);
     }
     dispatch(isPreviewFalse("popup"));
   };
@@ -87,10 +91,21 @@ const Website = () => {
     firebase.uploadDoc("websites", userData.userID, newResumeData);
   };
 
-  const uploadWebsite = () => {
-    const tempWebsiteData = websiteData;
-    tempWebsiteData.time = Date.now();
-    firebase.uploadDoc("websites", userData.userID, websiteData);
+  const uploadWebsite = async () => {
+    const tempData = { ...websiteData };
+    tempData.time = Date.now();
+    try {
+      await firebase.uploadDoc("websites", `${websiteID}`, tempData);
+      dispatch(setAlert({ isAlert: true, text: "成功更新網站!" }));
+      setTimeout(() => {
+        dispatch(setAlert({ isAlert: false, text: "" }));
+      }, 3000);
+    } catch (e) {
+      dispatch(setAlert({ isAlert: true, text: `${e}` }));
+      setTimeout(() => {
+        dispatch(setAlert({ isAlert: false, text: "" }));
+      }, 3000);
+    }
   };
 
   const handleOnDragEnd = (result: any) => {
@@ -112,13 +127,13 @@ const Website = () => {
         dispatch(
           websiteLoading({
             title: "",
+            coverImage: "",
             content: [],
             name: userData.name,
             followers: [],
             tags: [],
             time: null,
             userID: userData.userID,
-            userImage: userData.userImage,
           })
         );
       }
@@ -152,72 +167,76 @@ const Website = () => {
             )}
           </PreviewBtn>
         ) : null}
-        <DragDropContext onDragEnd={handleOnDragEnd}>
-          <Droppable droppableId="characters">
-            {(provided) => (
-              <WebsiteLayouts
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-              >
-                <PreviewDiv
-                  style={{ zIndex: isPreview ? "2" : "-1" }}
-                ></PreviewDiv>
-                {websiteData.content?.map(
-                  (content: websiteComContent, index: number) => {
-                    const TempCom =
-                      WebsiteComponents[
-                        content.comName as keyof typeof WebsiteComponents
-                      ];
-                    return (
-                      <Draggable
-                        key={content.id}
-                        draggableId={content.id}
-                        index={index}
-                      >
-                        {(provided) => (
-                          <SingleComponent
-                            {...provided.draggableProps}
-                            ref={provided.innerRef}
-                          >
-                            <TempCom
-                              index={index}
-                              content={content}
-                              userID={userData.userID}
-                            />
-                            <Delete
-                              addDeleteCom={
-                                content.comName === "Portfolio0"
-                                  ? () => {
-                                      deletePortfolioContent.current = index;
-                                      dispatch(isPreviewTrue("popup"));
-                                    }
-                                  : addDeleteCom
-                              }
-                              index={index}
-                            />
-                            <PopUp
-                              isPopup={isPop}
-                              text={
-                                "是否確定要刪除此作品集列? 一旦刪除將無法回復"
-                              }
-                              sureToDelete={sureToDelete}
-                            ></PopUp>
+        {isPreview ? null : <WebsiteInitialSetup />}
 
-                            <MoveBtn {...provided.dragHandleProps}>
-                              {isPreview ? null : (
-                                <FontAwesomeIcon icon={faUpDownLeftRight} />
-                              )}
-                            </MoveBtn>
-                          </SingleComponent>
-                        )}
-                      </Draggable>
-                    );
-                  }
-                )}
-                {provided.placeholder}
-              </WebsiteLayouts>
-            )}
-          </Droppable>
+        <DragDropContext onDragEnd={handleOnDragEnd}>
+          <div ref={refPhoto}>
+            <Droppable droppableId="characters">
+              {(provided) => (
+                <WebsiteLayouts
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                >
+                  <PreviewDiv
+                    style={{ zIndex: isPreview ? "2" : "-1" }}
+                  ></PreviewDiv>
+                  {websiteData.content?.map(
+                    (content: websiteComContent, index: number) => {
+                      const TempCom =
+                        WebsiteComponents[
+                          content.comName as keyof typeof WebsiteComponents
+                        ];
+                      return (
+                        <Draggable
+                          key={content.id}
+                          draggableId={content.id}
+                          index={index}
+                        >
+                          {(provided) => (
+                            <SingleComponent
+                              {...provided.draggableProps}
+                              ref={provided.innerRef}
+                            >
+                              <TempCom
+                                index={index}
+                                content={content}
+                                userID={userData.userID}
+                              />
+                              <Delete
+                                addDeleteCom={
+                                  content.comName === "Portfolio0"
+                                    ? () => {
+                                        deletePortfolioContent.current = index;
+                                        dispatch(isPreviewTrue("popup"));
+                                      }
+                                    : addDeleteCom
+                                }
+                                index={index}
+                              />
+                              <PopUp
+                                isPopup={isPop}
+                                text={
+                                  "是否確定要刪除此作品集列? 一旦刪除將無法回復"
+                                }
+                                sureToDelete={sureToDelete}
+                              ></PopUp>
+
+                              <MoveBtn {...provided.dragHandleProps}>
+                                {isPreview ? null : (
+                                  <FontAwesomeIcon icon={faUpDownLeftRight} />
+                                )}
+                              </MoveBtn>
+                            </SingleComponent>
+                          )}
+                        </Draggable>
+                      );
+                    }
+                  )}
+                  {provided.placeholder}
+                </WebsiteLayouts>
+              )}
+            </Droppable>
+          </div>
         </DragDropContext>
         {isPreview ? null : (
           <AddWebsiteCom
@@ -227,8 +246,14 @@ const Website = () => {
         )}
       </Wrapper>
       {isPreview ? null : (
-        <ResumeBtn onClick={uploadWebsite} className="websiteUpload">
-          上架網站!
+        <ResumeBtn
+          onClick={() => {
+            dispatch(isPreviewTrue("website"));
+            uploadWebsite();
+          }}
+          className="websiteUpload"
+        >
+          將網站儲存上架!
         </ResumeBtn>
       )}
       <ToProfileLink to={`/profile/${websiteID}`} id="websiteToProfile">

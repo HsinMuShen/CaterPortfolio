@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
-import html2canvas from "html2canvas";
 import * as htmlToImage from "html-to-image";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { Link } from "react-router-dom";
@@ -77,12 +76,6 @@ const Resume: React.FC = () => {
       }
     });
   };
-  const getCoverImage = () => {
-    html2canvas(refPhoto.current!).then(function (canvas) {
-      const dataUrl = canvas.toDataURL("image/png");
-      dispatch(resumeAddSetting("coverImage", dataUrl));
-    });
-  };
 
   const handleOnDragEnd = (result: any) => {
     if (!result.destination) return;
@@ -109,7 +102,7 @@ const Resume: React.FC = () => {
             tags: [],
             time: null,
             userID: userData.userID,
-            userImage: userData.userImg,
+            userImage: userData.userImage,
           })
         );
       }
@@ -118,7 +111,7 @@ const Resume: React.FC = () => {
     return () => {
       dispatch(isPreviewTrue("resume"));
     };
-  }, [userData]);
+  }, [userData, resumeID]);
 
   return (
     <>
