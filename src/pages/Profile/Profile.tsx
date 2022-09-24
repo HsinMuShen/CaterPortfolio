@@ -12,7 +12,8 @@ import firebase from "../../utilis/firebase";
 import styled from "styled-components";
 import QusetionMark, { introSteps } from "../../utilis/QusetionMark";
 import MemberIntro from "./MemberIntro";
-import ChatButton from "./ChatButton";
+import initialResume from "../../images/initialResume.png";
+import initialWebsite from "../../images/initialWebsite.png";
 
 const Wrapper = styled.div`
   display: flex;
@@ -24,32 +25,63 @@ const Wrapper = styled.div`
 
 const CreaterArea = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   margin-top: 40px;
-  border-radius: 15px;
-  border: 2px solid;
-  overflow: hidden;
+  width: 960px;
 `;
 const ResumeArea = styled(Link)`
-  width: 300px;
+  width: 320px;
   height: 400px;
-  border: 1px solid;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  border: 1px solid #555555;
+  border-radius: 15px;
+  text-decoration: none;
+  overflow: hidden;
 `;
-const PreviewImg = styled.img`
+
+const ImgArea = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  overflow: hidden;
+`;
+
+const PreviewImg = styled.img<{ width: string }>`
   object-fit: cover;
-  width: 300px;
-  height: 400px;
+  object-position: center 0%;
+  width: ${(props) => props.width};
+  height: 360px;
+  background-color: #ffffff;
+  border: 0px solid;
+  transition: scale 0.5s, background-color 0.5s;
+  &:hover {
+    scale: 1.05;
+    background-color: #55555540;
+  }
 `;
-const WebsiteArea = styled(Link)`
-  width: 600px;
-  height: 400px;
-  border: 1px solid;
+
+const CreaterLabelArea = styled.div`
+  width: 100%;
+  height: 40px;
   display: flex;
   justify-content: center;
-  align-items: center;
+
+  background-color: #ffffff;
+`;
+
+const CreaterLabel = styled.p`
+  color: #555555;
+  font-weight: 500;
+  margin-top: 5px;
+`;
+
+const WebsiteArea = styled(Link)`
+  width: 620px;
+  height: 400px;
+  border: 1px solid #555555;
+  border-radius: 15px;
+  text-decoration: none;
+  overflow: hidden;
 `;
 
 const Profile: React.FC = () => {
@@ -97,10 +129,30 @@ const Profile: React.FC = () => {
         />
         <CreaterArea>
           <ResumeArea to={`/resume/${profileUserID}`} id="resumeArea">
-            <PreviewImg src={resumeData.coverImage} />
+            <ImgArea>
+              <PreviewImg
+                src={
+                  resumeData.coverImage ? resumeData.coverImage : initialResume
+                }
+                width={"320px"}
+              />
+            </ImgArea>
+            <CreaterLabelArea>
+              <CreaterLabel>{profileData.name}的履歷</CreaterLabel>
+            </CreaterLabelArea>
           </ResumeArea>
           <WebsiteArea to={`/website/${profileUserID}`} id="websiteArea">
-            Website
+            <ImgArea>
+              <PreviewImg
+                src={
+                  resumeData.coverImage ? resumeData.coverImage : initialWebsite
+                }
+                width={"620px"}
+              />
+            </ImgArea>
+            <CreaterLabelArea>
+              <CreaterLabel>{profileData.name}的網站</CreaterLabel>
+            </CreaterLabelArea>
           </WebsiteArea>
         </CreaterArea>
         <QusetionMark
