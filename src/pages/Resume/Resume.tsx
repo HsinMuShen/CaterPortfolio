@@ -59,8 +59,23 @@ const Resume: React.FC = () => {
     dispatch(resumeDeleteCom(deleteIndex));
   };
   const uploadResume = async () => {
-    htmlToImage.toPng(refPhoto.current!).then(function (dataUrl) {
+    htmlToImage.toPng(refPhoto.current!).then(async function (dataUrl) {
       console.log(dataUrl);
+      dispatch(resumeAddSetting("coverImage", dataUrl));
+      const tempData = { ...resumeData };
+      tempData.coverImage = dataUrl;
+      try {
+        await firebase.uploadDoc("resumes", `${resumeID}`, tempData);
+        dispatch(setAlert({ isAlert: true, text: "成功更新履歷!" }));
+        setTimeout(() => {
+          dispatch(setAlert({ isAlert: false, text: "" }));
+        }, 3000);
+      } catch (e) {
+        dispatch(setAlert({ isAlert: true, text: `${e}` }));
+        setTimeout(() => {
+          dispatch(setAlert({ isAlert: false, text: "" }));
+        }, 3000);
+      }
     });
     // html2canvas(refPhoto.current!).then(async function (canvas) {
     //   const dataUrl = canvas.toDataURL("image/png");

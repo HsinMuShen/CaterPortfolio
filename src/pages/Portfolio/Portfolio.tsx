@@ -26,6 +26,7 @@ import { PortfolioComponents } from "./portfolioComponents";
 import { portfolioChoice } from "./portfolioComponents";
 import Move from "../../utilis/Move";
 import InitialImg from "../../utilis/cater.png";
+import QusetionMark, { introSteps } from "../../utilis/QusetionMark";
 
 const Preview = styled.div``;
 
@@ -122,6 +123,7 @@ const Portfolio = () => {
             onClick={() => {
               dispatch(isPreviewPortfolio());
             }}
+            id="portfolioPreviewBtn"
           >
             {isPreview ? (
               <>
@@ -164,12 +166,23 @@ const Portfolio = () => {
         <CreatePortfolioCom addPortfolioCom={addPortfolioCom} />
       </Wrapper>
       {isPreview ? null : (
-        <ResumeBtn onClick={uploadPortfolio}>上架作品集!</ResumeBtn>
+        <ResumeBtn onClick={uploadPortfolio} className="portfolioUpload">
+          上架作品集!
+        </ResumeBtn>
       )}
       <ToWebsiteBtn to={`/website/${portfolioData.userID}`}>
-        <ResumeBtn>回到{portfolioData.name}的網站</ResumeBtn>
+        <ResumeBtn id="portfolioToWebsite">
+          回到{portfolioData.name}的網站
+        </ResumeBtn>
       </ToWebsiteBtn>
-
+      <QusetionMark
+        stepType={
+          userData.userID === userID
+            ? introSteps.portfolioUser
+            : introSteps.portfolioOthers
+        }
+        type={userData.userID === userID ? "portfolio" : ""}
+      />
       <SideBar type={"portfolio"} data={portfolioData} />
     </PortfolioBody>
   );

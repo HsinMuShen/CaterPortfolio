@@ -103,6 +103,8 @@ export const introSteps: {
   resumeOthers: Step[];
   websiteUser: Step[];
   websiteOthers: Step[];
+  portfolioUser: Step[];
+  portfolioOthers: Step[];
 } = {
   homepageLogin: [
     {
@@ -269,18 +271,18 @@ export const introSteps: {
   ],
   websiteUser: [
     {
-      content: "點擊切換履歷編輯與預覽狀態",
+      content: "點擊切換網站編輯與預覽狀態",
       placement: "bottom",
       target: "#websitePreviewBtn",
       disableBeacon: true,
     },
     {
-      content: "點擊進入個人頁面",
+      content: "可選擇想加入網站的版面",
       target: "#websiteAddComArea",
       placement: "bottom",
     },
     {
-      content: "完成編輯，將履歷儲存上架!",
+      content: "完成編輯，將網站儲存上架!",
       target: ".websiteUpload",
       placement: "bottom",
     },
@@ -291,6 +293,37 @@ export const introSteps: {
       placement: "bottom",
       target: "#websiteToProfile",
       disableBeacon: true,
+    },
+  ],
+  portfolioUser: [
+    {
+      content: "點擊切換作品集編輯與預覽狀態",
+      placement: "bottom",
+      target: "#portfolioPreviewBtn",
+      disableBeacon: true,
+    },
+    {
+      content: "可選擇想加入作品集的版面",
+      target: "#portfolioAddComArea",
+      placement: "bottom",
+    },
+    {
+      content: "完成編輯，將作品集儲存上架!",
+      target: ".portfolioUpload",
+      placement: "bottom",
+    },
+  ],
+  portfolioOthers: [
+    {
+      content: "點擊開啟追蹤作品集面板",
+      placement: "bottom",
+      target: "#sideBar",
+      disableBeacon: true,
+    },
+    {
+      content: "點擊進入創作者個人網站",
+      target: "#portfolioToWebsite",
+      placement: "bottom",
     },
   ],
 };
