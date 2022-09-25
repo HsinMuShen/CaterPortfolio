@@ -18,6 +18,7 @@ import {
 } from "../../action";
 
 import firebase from "../../utilis/firebase";
+import Loading from "../../utilis/Loading";
 import Delete from "./Delete";
 import AddComArea from "./AddComArea";
 import SideBar from "../../utilis/SideBar";
@@ -39,6 +40,7 @@ export interface resumeComContent {
 }
 
 const Resume: React.FC = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const refPhoto = useRef<HTMLDivElement>(null);
   const resumeID = useParams().id;
   const resumeData = useSelector((state: RootState) => state.ResumeReducer);
@@ -87,6 +89,7 @@ const Resume: React.FC = () => {
 
   useEffect(() => {
     const loadResume = async () => {
+      setIsLoading(true);
       const resumeData = await firebase.readData("resumes", `${resumeID}`);
       if (resumeData) {
         dispatch(resumeLoading(resumeData));
@@ -105,6 +108,7 @@ const Resume: React.FC = () => {
           })
         );
       }
+      setIsLoading(false);
     };
     loadResume();
     return () => {
@@ -146,6 +150,7 @@ const Resume: React.FC = () => {
                     {...provided.droppableProps}
                     ref={provided.innerRef}
                   >
+                    {isLoading ? <Loading /> : null}
                     {resumeData.content?.map(
                       (content: resumeComContent, index: number) => {
                         const TempCom =

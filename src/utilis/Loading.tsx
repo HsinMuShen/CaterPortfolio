@@ -1,65 +1,37 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
+import LogoImg from "../images/caterportfolio_logo.png";
 
-import Fish from "../images/fish.png";
-
-const float = keyframes`{
-	0% {
-		transform: translatey(0px);
-	}
-	50% {
-		transform: translatey(40px);
-	}
-	100% {
-		transform: translatey(0px);
-	}
-}`;
-const swim = keyframes`{
-	0% {margin-left: -400px}
-	80% {margin-left: 100%;}
-	100% {margin-left: 100%;}
+const spin = keyframes`{
+	100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); }
 }`;
 
 const Wrapper = styled.div`
-  position: fixed;
   display: flex;
-  top: 0;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   z-index: 10;
-  width: 100vw;
-  height: 100vh;
-  background-color: #f6f6f6;
+  width: 100px;
+  height: 100px;
+  margin: 0 auto;
 `;
 
-const Logo = styled.img<{ delay: string }>`
-  position: absolute;
-  top: 45%;
+const Logo = styled.img`
   color: #333333;
   text-decoration: none;
-  width: 80px;
-  height: 45px;
+  width: 60px;
+  height: 60px;
   object-fit: contain;
-  margin: 0 0px 0 20px;
-  animation: ${float} 2s ease-in-out infinite, ${swim} 8s linear infinite;
-  animation-delay: ${(props) => props.delay};
-`;
-
-const LoadingP = styled.p`
-  position: absolute;
-  top: 45%;
-  color: #333333;
-  font-size: 40px;
-  animation: ${float} 2s ease-in-out infinite, ${swim} 8s linear infinite;
-  animation-delay: -2s;
+  margin: 20px;
+  animation: ${spin} 4s linear infinite;
+  opacity: 0.6;
 `;
 
 const Loading = () => {
   return (
     <Wrapper>
-      <Logo src={Fish} delay={"0s"}></Logo>
-      <Logo src={Fish} delay={"-0.4s"}></Logo>
-      <Logo src={Fish} delay={"-2.2s"}></Logo>
-      <Logo src={Fish} delay={"-3s"}></Logo>
+      <Logo src={LogoImg}></Logo>
     </Wrapper>
   );
 };
