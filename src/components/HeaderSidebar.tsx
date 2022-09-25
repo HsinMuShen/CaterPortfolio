@@ -121,10 +121,10 @@ const HeaderSidebar = ({
         <FontAwesomeIcon icon={faXmark} />
       </Nav>
       <TagArea>
-        <Tag to={`/profile/${userData.userID}`}>profile</Tag>
-        <Tag to={`/resume/${userData.userID}`}>Resume</Tag>
-        <Tag to={`/website/${userData.userID}`}>Website</Tag>
-        <Tag to={`/chatroom/${userData.userID}`}>Chatroom</Tag>
+        <Tag to={`/profile/${userData.userID}`}>個人頁面</Tag>
+        <Tag to={`/resume/${userData.userID}`}>個人履歷</Tag>
+        <Tag to={`/website/${userData.userID}`}>個人網站</Tag>
+        <Tag to={`/chatroom/${userData.userID}`}>聊天室</Tag>
         <Tag
           to={"/"}
           onClick={() => {

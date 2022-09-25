@@ -15,7 +15,6 @@ import styled from "styled-components";
 
 import Pin from "./Pin";
 import QusetionMark, { introSteps } from "../../utilis/QusetionMark";
-import firebase from "../../utilis/firebase";
 import { useSelector } from "react-redux";
 import { RootState } from "../../reducers";
 
@@ -129,7 +128,6 @@ const Homepage = () => {
           <FontAwesomeIcon icon={faMagnifyingGlass} />
         </SearchBtn>
       </SearchArea>
-
       <PinContainer id="portfoliosContainer">
         {portfolioArr.map((data) => {
           return (

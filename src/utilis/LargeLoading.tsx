@@ -6,7 +6,7 @@ const spin = keyframes`{
 	100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); }
 }`;
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ backgroundColor: string }>`
   position: fixed;
   display: flex;
   flex-direction: column;
@@ -16,8 +16,8 @@ const Wrapper = styled.div`
   width: 100vw;
   height: 100vh;
   margin: 0 auto;
-  background-color: #ffffff;
-  margin-top: 60px;
+  background-color: ${(props) => props.backgroundColor};
+  top: 60px;
 `;
 
 const Logo = styled.img`
@@ -31,9 +31,9 @@ const Logo = styled.img`
   opacity: 0.6;
 `;
 
-const LargeLoading = () => {
+const LargeLoading = ({ backgroundColor }: { backgroundColor: string }) => {
   return (
-    <Wrapper>
+    <Wrapper backgroundColor={backgroundColor}>
       <Logo src={LogoImg}></Logo>
     </Wrapper>
   );

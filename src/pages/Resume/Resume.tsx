@@ -19,6 +19,7 @@ import {
 
 import firebase from "../../utilis/firebase";
 import Loading from "../../utilis/Loading";
+import LargeLoading from "../../utilis/LargeLoading";
 import Delete from "./Delete";
 import AddComArea from "./AddComArea";
 import SideBar from "../../utilis/SideBar";
@@ -41,6 +42,7 @@ export interface resumeComContent {
 
 const Resume: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLargeLoading, setIsLargeLoading] = useState<boolean>(false);
   const refPhoto = useRef<HTMLDivElement>(null);
   const resumeID = useParams().id;
   const resumeData = useSelector((state: RootState) => state.ResumeReducer);
@@ -65,6 +67,7 @@ const Resume: React.FC = () => {
       tempData.coverImage = dataUrl;
       try {
         await firebase.uploadDoc("resumes", `${resumeID}`, tempData);
+        setIsLargeLoading(false);
         dispatch(setAlert({ isAlert: true, text: "成功更新履歷!" }));
         setTimeout(() => {
           dispatch(setAlert({ isAlert: false, text: "" }));
@@ -199,6 +202,7 @@ const Resume: React.FC = () => {
 
         <UpoloadBtn
           onClick={() => {
+            setIsLargeLoading(true);
             dispatch(isPreviewTrue("resume"));
             uploadResume();
           }}
@@ -216,6 +220,7 @@ const Resume: React.FC = () => {
           前往{resumeData.name}的個人頁面
         </ToProfileLink>
       </Wrapper>
+      {isLargeLoading ? <LargeLoading backgroundColor={"#ffffffb3"} /> : null}
       <QusetionMark
         stepType={
           resumeID === userData.userID

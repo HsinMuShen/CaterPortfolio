@@ -200,7 +200,7 @@ const Profile: React.FC = () => {
           }
         />
       </>
-      {isLoading ? <LargeLoading /> : null}
+      {isLoading ? <LargeLoading backgroundColor={"#ffffff"} /> : null}
     </Wrapper>
   );
 };
