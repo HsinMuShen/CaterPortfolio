@@ -151,6 +151,9 @@ const Resume: React.FC = () => {
                     ref={provided.innerRef}
                   >
                     {isLoading ? <Loading /> : null}
+                    {resumeData.content.length === 0 ? (
+                      <p>尚未建立履歷</p>
+                    ) : null}
                     {resumeData.content?.map(
                       (content: resumeComContent, index: number) => {
                         const TempCom =

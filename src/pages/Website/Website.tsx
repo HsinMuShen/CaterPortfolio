@@ -1,7 +1,5 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import html2canvas from "html2canvas";
-import * as htmlToImage from "html-to-image";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -12,6 +10,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 import { websiteChoice } from "./websiteComponents";
+import Loading from "../../utilis/Loading";
 import AddWebsiteCom from "./AddWebsiteCom";
 import Delete from "../Resume/Delete";
 import PopUp from "../../utilis/PopUp";
@@ -46,6 +45,7 @@ export interface websiteComContent {
 }
 
 const Website = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const refPhoto = useRef<HTMLDivElement>(null);
   const deletePortfolioContent = useRef<number>();
   const websiteID = useParams().id;
@@ -118,9 +118,9 @@ const Website = () => {
   };
 
   useEffect(() => {
+    setIsLoading(true);
     const loadWebsite = async () => {
       const websiteData = await firebase.readData("websites", `${websiteID}`);
-
       if (websiteData) {
         dispatch(websiteLoading(websiteData));
       } else {
@@ -137,6 +137,7 @@ const Website = () => {
           })
         );
       }
+      setIsLoading(false);
     };
     loadWebsite();
     return () => {
@@ -180,6 +181,10 @@ const Website = () => {
                   <PreviewDiv
                     style={{ zIndex: isPreview ? "2" : "-1" }}
                   ></PreviewDiv>
+                  {isLoading ? <Loading /> : null}
+                  {websiteData.content.length === 0 ? (
+                    <p>尚未建立網站</p>
+                  ) : null}
                   {websiteData.content?.map(
                     (content: websiteComContent, index: number) => {
                       const TempCom =
