@@ -228,7 +228,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 120px 0;
+  margin: 80px 0;
 `;
 
 const PreviewBtn = styled.div`

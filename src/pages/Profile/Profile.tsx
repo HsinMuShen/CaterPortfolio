@@ -35,6 +35,9 @@ const ResumeArea = styled(Link)`
   border-radius: 15px;
   text-decoration: none;
   overflow: hidden;
+  &:hover {
+    box-shadow: 0px 0px 10px #777777;
+  }
 `;
 
 const ImgArea = styled.div`
@@ -46,7 +49,7 @@ const ImgArea = styled.div`
 `;
 
 const PreviewImg = styled.img<{ width: string }>`
-  object-fit: scale-down;
+  object-fit: cover;
   object-position: center 0%;
   width: ${(props) => props.width};
   height: 360px;
@@ -55,7 +58,8 @@ const PreviewImg = styled.img<{ width: string }>`
   transition: scale 0.5s, background-color 0.5s;
   &:hover {
     scale: 1.05;
-    background-color: #55555540;
+
+    /* background-color: #55555540; */
   }
 `;
 
@@ -81,13 +85,9 @@ const WebsiteArea = styled(Link)`
   border-radius: 15px;
   text-decoration: none;
   overflow: hidden;
-`;
-
-const WebsiteDiv = styled.div`
-  width: 620px;
-  height: 360px;
-  scale: 0.8;
-  overflow: hidden;
+  &:hover {
+    box-shadow: 0px 0px 10px #777777;
+  }
 `;
 
 const Profile: React.FC = () => {

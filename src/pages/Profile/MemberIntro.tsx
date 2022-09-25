@@ -128,7 +128,7 @@ const MemberIntro = ({ profileData, setProfileData }: UserReducer) => {
     <Wrapper>
       <ImagePreview
         previewUrl={profileData.backgroundImage}
-        width={"100vw"}
+        width={"960px"}
         height={"240px"}
         borderRadius={"0"}
         borderWidth={"0"}
