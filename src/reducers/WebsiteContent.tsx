@@ -1,7 +1,6 @@
 import { AnyAction } from "redux";
 import { ActionType } from ".";
 import { v4 } from "uuid";
-import initialUserImage from "../images/user.png";
 
 interface websiteReducer {
   title: string;

@@ -19,7 +19,6 @@ import {
 
 import firebase from "../../utilis/firebase";
 import Delete from "./Delete";
-import Move from "../../utilis/Move";
 import AddComArea from "./AddComArea";
 import SideBar from "../../utilis/SideBar";
 import QusetionMark, { introSteps } from "../../utilis/QusetionMark";

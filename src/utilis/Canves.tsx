@@ -139,9 +139,9 @@ const Canves = ({
             />
           </ImageLabel>
 
-          <Btns onClick={deleteObject}>刪除(選取後再按)</Btns>
-          <Btns onClick={storeJson}>存檔</Btns>
-          <Btns onClick={loadJson}>回復</Btns>
+          <Btns onClick={deleteObject}>刪除選取照片</Btns>
+          {/* <Btns onClick={storeJson}>存檔</Btns>
+          <Btns onClick={loadJson}>回復</Btns> */}
         </BtnsArea>
       )}
     </Wrapper>
