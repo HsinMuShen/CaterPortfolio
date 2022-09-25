@@ -171,7 +171,7 @@ const Header = () => {
         </SideNav>
       ) : (
         <SideNav isMobile={false} id="login">
-          <Tag to={`/login`}>Login</Tag>
+          <Tag to={`/login`}>登入</Tag>
         </SideNav>
       )}
       <SideNav isMobile={true}>

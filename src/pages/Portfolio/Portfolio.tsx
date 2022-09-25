@@ -24,6 +24,7 @@ import {
 } from "../../action";
 import { PortfolioComponents } from "./portfolioComponents";
 import { portfolioChoice } from "./portfolioComponents";
+import Loading from "../../utilis/Loading";
 import Move from "../../utilis/Move";
 import InitialImg from "../../utilis/cater.png";
 import QusetionMark, { introSteps } from "../../utilis/QusetionMark";
@@ -39,6 +40,7 @@ export interface portfolioComContent {
 }
 
 const Portfolio = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [userID, setUserID] = useState("");
   const dispatch = useDispatch();
   const isPreview = useSelector(
@@ -74,6 +76,7 @@ const Portfolio = () => {
   };
 
   useEffect(() => {
+    setIsLoading(true);
     const loadPortfolio = async () => {
       const portfolioData = await firebase.readPortfolioData(
         "portfolios",
@@ -108,6 +111,7 @@ const Portfolio = () => {
     } else {
       loadPortfolio();
     }
+    setIsLoading(false);
     return () => {
       dispatch(isPreviewTrue("portfolio"));
     };
@@ -145,6 +149,8 @@ const Portfolio = () => {
 
         <PortfolioLayouts>
           <PreviewDiv style={{ zIndex: isPreview ? "2" : "-1" }}></PreviewDiv>
+          {isLoading ? <Loading /> : null}
+          {portfolioData.content.length === 0 ? <p>尚未建立此作品集</p> : null}
           {portfolioData.content.map(
             (content: portfolioComContent, index: number) => {
               const TempCom =

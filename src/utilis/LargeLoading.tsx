@@ -6,15 +6,18 @@ const spin = keyframes`{
 	100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); }
 }`;
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ backgroundColor: string }>`
+  position: fixed;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   z-index: 10;
-  width: 100px;
-  height: 100px;
+  width: 100vw;
+  height: 100vh;
   margin: 0 auto;
+  background-color: ${(props) => props.backgroundColor};
+  top: 60px;
 `;
 
 const Logo = styled.img`
@@ -23,17 +26,17 @@ const Logo = styled.img`
   width: 60px;
   height: 60px;
   object-fit: contain;
-  margin: 20px;
+  margin-bottom: 60px;
   animation: ${spin} 4s linear infinite;
   opacity: 0.6;
 `;
 
-const Loading = () => {
+const LargeLoading = ({ backgroundColor }: { backgroundColor: string }) => {
   return (
-    <Wrapper>
+    <Wrapper backgroundColor={backgroundColor}>
       <Logo src={LogoImg}></Logo>
     </Wrapper>
   );
 };
 
-export default Loading;
+export default LargeLoading;

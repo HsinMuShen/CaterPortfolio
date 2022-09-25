@@ -18,6 +18,8 @@ import {
 } from "../../action";
 
 import firebase from "../../utilis/firebase";
+import Loading from "../../utilis/Loading";
+import LargeLoading from "../../utilis/LargeLoading";
 import Delete from "./Delete";
 import AddComArea from "./AddComArea";
 import SideBar from "../../utilis/SideBar";
@@ -39,6 +41,8 @@ export interface resumeComContent {
 }
 
 const Resume: React.FC = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLargeLoading, setIsLargeLoading] = useState<boolean>(false);
   const refPhoto = useRef<HTMLDivElement>(null);
   const resumeID = useParams().id;
   const resumeData = useSelector((state: RootState) => state.ResumeReducer);
@@ -63,6 +67,7 @@ const Resume: React.FC = () => {
       tempData.coverImage = dataUrl;
       try {
         await firebase.uploadDoc("resumes", `${resumeID}`, tempData);
+        setIsLargeLoading(false);
         dispatch(setAlert({ isAlert: true, text: "成功更新履歷!" }));
         setTimeout(() => {
           dispatch(setAlert({ isAlert: false, text: "" }));
@@ -87,6 +92,7 @@ const Resume: React.FC = () => {
 
   useEffect(() => {
     const loadResume = async () => {
+      setIsLoading(true);
       const resumeData = await firebase.readData("resumes", `${resumeID}`);
       if (resumeData) {
         dispatch(resumeLoading(resumeData));
@@ -105,6 +111,7 @@ const Resume: React.FC = () => {
           })
         );
       }
+      setIsLoading(false);
     };
     loadResume();
     return () => {
@@ -146,6 +153,10 @@ const Resume: React.FC = () => {
                     {...provided.droppableProps}
                     ref={provided.innerRef}
                   >
+                    {isLoading ? <Loading /> : null}
+                    {resumeData.content.length === 0 ? (
+                      <p>尚未建立履歷</p>
+                    ) : null}
                     {resumeData.content?.map(
                       (content: resumeComContent, index: number) => {
                         const TempCom =
@@ -191,6 +202,7 @@ const Resume: React.FC = () => {
 
         <UpoloadBtn
           onClick={() => {
+            setIsLargeLoading(true);
             dispatch(isPreviewTrue("resume"));
             uploadResume();
           }}
@@ -208,6 +220,7 @@ const Resume: React.FC = () => {
           前往{resumeData.name}的個人頁面
         </ToProfileLink>
       </Wrapper>
+      {isLargeLoading ? <LargeLoading backgroundColor={"#ffffffb3"} /> : null}
       <QusetionMark
         stepType={
           resumeID === userData.userID

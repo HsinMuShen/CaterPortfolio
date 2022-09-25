@@ -13,6 +13,7 @@ import QusetionMark, { introSteps } from "../../utilis/QusetionMark";
 import MemberIntro from "./MemberIntro";
 import initialResume from "../../images/initialResume.png";
 import initialWebsite from "../../images/initialWebsite.png";
+import LargeLoading from "../../utilis/LargeLoading";
 
 const Wrapper = styled.div`
   display: flex;
@@ -91,6 +92,7 @@ const WebsiteArea = styled(Link)`
 `;
 
 const Profile: React.FC = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [profileData, setProfileData] = useState<UserReducer | {}>({});
   const userData = useSelector((state: RootState) => state.UserReducer);
   const resumeData = useSelector((state: RootState) => state.ResumeReducer);
@@ -103,6 +105,7 @@ const Profile: React.FC = () => {
 
   useEffect(() => {
     const loadData = async () => {
+      setIsLoading(true);
       const resumeData = await firebase.readData("resumes", `${profileUserID}`);
       if (resumeData) {
         dispatch(resumeLoading(resumeData));
@@ -147,6 +150,7 @@ const Profile: React.FC = () => {
       if (userData) {
         setProfileData(userData);
       }
+      setIsLoading(false);
     };
     loadData();
   }, [profileUserID, userData.followMembers]);
@@ -196,6 +200,7 @@ const Profile: React.FC = () => {
           }
         />
       </>
+      {isLoading ? <LargeLoading backgroundColor={"#ffffff"} /> : null}
     </Wrapper>
   );
 };

@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
 import Header from "./components/Header";
 import Alert from "./components/Alert";
-import Loading from "./utilis/Loading";
 
 import PingFangTCRegular from "./fonts/PingFang-TC-Regular-2.otf";
 import PingFangTCThin from "./fonts/PingFang-TC-Thin-2.otf";
 import NotoSansTCRegular from "./fonts/NotoSansTC-Regular.otf";
 import NotoSansTCBold from "./fonts/NotoSansTC-Bold.otf";
+import LargeLoading from "./utilis/LargeLoading";
 
 const GlobalStyle = createGlobalStyle`
 
@@ -72,19 +72,12 @@ const GlobalStyle = createGlobalStyle`
 const App: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const location = useLocation();
-  // useEffect(() => {
-  //   setIsLoading(true);
-  //   setTimeout(() => {
-  //     setIsLoading(false);
-  //   }, 2500);
-  // }, [location]);
 
   return (
     <>
       <GlobalStyle />
-
-      {/* {isLoading ? <Loading /> : <Header />} */}
       <Header />
+      {/* <LargeLoading /> */}
       <Alert />
       <Outlet />
     </>

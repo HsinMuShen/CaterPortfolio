@@ -68,6 +68,7 @@ const Label = styled.label`
 const Input = styled.input`
   width: 360px;
   height: 30px;
+  padding-left: 5px;
 `;
 
 const SubmitBtn = styled.button`
@@ -189,7 +190,7 @@ const Login = () => {
           ) : null}
 
           <SingleInputArea>
-            <Label>Email</Label>
+            <Label>電子信箱</Label>
             <Input
               type="text"
               onChange={(e) => {
@@ -198,9 +199,9 @@ const Login = () => {
             />
           </SingleInputArea>
           <SingleInputArea>
-            <Label>Password</Label>
+            <Label>密碼</Label>
             <Input
-              type="text"
+              type="password"
               onChange={(e) => {
                 dispatch(initialSetUserData("password", e.target.value));
               }}
