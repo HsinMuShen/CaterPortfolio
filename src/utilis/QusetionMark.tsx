@@ -8,12 +8,14 @@ import { useDispatch } from "react-redux";
 
 const QusetionMarkWrapper = styled.div`
   position: fixed;
-  top: 9px;
-  right: 175px;
+  top: 125px;
+  right: 30px;
   font-size: 28px;
   color: #333333;
   cursor: pointer;
-  z-index: 6;
+  & :hover {
+    color: #6d6d6d;
+  }
 `;
 
 interface State {

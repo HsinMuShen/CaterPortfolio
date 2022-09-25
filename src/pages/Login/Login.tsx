@@ -14,6 +14,8 @@ import firebase from "../../utilis/firebase";
 
 import signinImg from "./loginimg.jpg";
 import registerImg from "./registerimg.jpg";
+import initialUserImage from "../../images/user.png";
+import initialBackgroundImg from "../../images/initialBackgroundImg.jpg";
 
 const auth = getAuth(firebaseApp);
 
@@ -134,8 +136,10 @@ const Login = () => {
           setTimeout(() => {
             dispatch(setAlert({ isAlert: false, text: "" }));
           }, 3000);
-          const tempData = userData;
+          const tempData = { ...userData };
           tempData.userID = user.uid;
+          tempData.userImage = initialUserImage;
+          tempData.backgroundImage = initialBackgroundImg;
           firebase.uploadDoc("users", user.uid, tempData);
           navigate("/profile");
         })

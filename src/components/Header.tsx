@@ -52,11 +52,17 @@ const LogoArea = styled(Link)<{ img: string }>`
   background-repeat: no-repeat;
   margin: 0 0px 0 20px;
   background-image: url(${(props) => props.img});
+  & :hover {
+    color: #6d6d6d;
+  }
 `;
 const Tag = styled(Link)`
   color: #333333;
   text-decoration: none;
   margin: 0 20px;
+  &:hover {
+    color: #6d6d6d;
+  }
 `;
 
 const ChatTag = styled(Link)`
@@ -65,6 +71,9 @@ const ChatTag = styled(Link)`
   cursor: pointer;
   margin: 0 20px;
   font-size: 28px;
+  & :hover {
+    color: #6d6d6d;
+  }
 `;
 
 const Nav = styled.p`
@@ -72,6 +81,9 @@ const Nav = styled.p`
   cursor: pointer;
   margin: 0 20px;
   font-size: 28px;
+  & :hover {
+    color: #6d6d6d;
+  }
 `;
 
 const Header = () => {

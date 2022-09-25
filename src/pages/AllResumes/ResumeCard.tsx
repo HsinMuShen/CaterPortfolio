@@ -12,10 +12,13 @@ const SinglePin = styled.div<{ size: number }>`
   border-radius: 16px;
   background-color: #ffffff;
   border: 1px solid;
-  width: 240px;
-  height: 300px;
+  width: 270px;
+  height: 360px;
   display: flex;
   flex-direction: column;
+  &:hover {
+    box-shadow: 0px 0px 10px #777777;
+  }
 `;
 
 const IntroArea = styled.div`
@@ -53,8 +56,7 @@ const PinImage = styled(Link)<{ mainimage: string }>`
   flex: auto;
   background-image: url(${(props) => props.mainimage});
   background-size: cover;
-  background-position: center;
-  border-radius: 16px 16px 0 0;
+  background-position: top;
 `;
 
 const ResumeCard = ({ size, data }: { size: number; data: DocumentData }) => {

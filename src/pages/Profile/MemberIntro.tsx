@@ -39,6 +39,7 @@ const ImagePreview = styled.div<{
   background-position: center;
   background-image: url(${(props) => props.previewUrl});
   background-size: cover;
+  background-color: #ffffff;
 `;
 const ImageLabel = styled.label`
   font-size: 150%;
@@ -127,7 +128,7 @@ const MemberIntro = ({ profileData, setProfileData }: UserReducer) => {
     <Wrapper>
       <ImagePreview
         previewUrl={profileData.backgroundImage}
-        width={"100vw"}
+        width={"960px"}
         height={"240px"}
         borderRadius={"0"}
         borderWidth={"0"}

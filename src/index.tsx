@@ -9,7 +9,6 @@ import { Provider } from "react-redux";
 import App from "./App";
 import Homepage from "./pages/Homepage/Homepage";
 import AllResumes from "./pages/AllResumes/AllResumes";
-import Input from "./pages/Homepage/Input";
 import Profile from "./pages/Profile/Profile";
 import FollowingArea from "./pages/Following/FollowingArea";
 import Resume from "./pages/Resume/Resume";
