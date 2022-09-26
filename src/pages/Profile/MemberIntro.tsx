@@ -6,6 +6,7 @@ import { isPreviewProfile, initialSetUserData, setAlert } from "../../action";
 import { UserReducer } from "../../reducers";
 import { Link } from "react-router-dom";
 
+import LargeLoading from "../../utilis/LargeLoading";
 import firebase from "../../utilis/firebase";
 import FollowBtn from "./FollowBtn";
 import ChatButton from "./ChatButton";
@@ -99,7 +100,11 @@ const EditBtn = styled(Link)`
   }
 `;
 
-const MemberIntro = ({ profileData, setProfileData }: UserReducer) => {
+const MemberIntro = ({
+  profileData,
+  setProfileData,
+  setIsLargeLoading,
+}: UserReducer) => {
   const userData = useSelector((state: RootState) => state.UserReducer);
   const isPreviewContent = useSelector(
     (state: RootState) => state.IsPreviewReducer
@@ -107,8 +112,10 @@ const MemberIntro = ({ profileData, setProfileData }: UserReducer) => {
   const dispatch = useDispatch();
 
   const renewImageUrl = async (type: string, file: File) => {
+    setIsLargeLoading(true);
     const imageUrl = await firebase.getImageUrl(file);
     dispatch(initialSetUserData(type, imageUrl));
+    setIsLargeLoading(false);
   };
 
   const reNewPortfolioCollection = async () => {

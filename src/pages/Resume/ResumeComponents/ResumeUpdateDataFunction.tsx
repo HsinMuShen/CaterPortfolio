@@ -17,7 +17,7 @@ function useUpdateResumeData({
   const [imageFileList, setImageFileList] = useState<string[]>(content.image);
   const diapatch = useDispatch();
   const setResumeReducerImage = async (file: File, listIndex: number) => {
-    const tempArr = [...imageFileList];
+    const tempArr = [...resumeData.content[index].image];
     const imageUrl = await firebase.getImageUrl(file);
     tempArr[listIndex] = imageUrl;
     setImageFileList(tempArr);

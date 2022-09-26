@@ -16,14 +16,14 @@ function useUpdateResumeData({
   const diapatch = useDispatch();
   const setReducerImage = async (JSONstring: string, listIndex: number) => {
     console.log(JSONstring);
-    const tempArr = [...imageFileList];
+    const tempArr = [...content.image];
     tempArr[listIndex] = JSONstring;
     setImageFileList(tempArr);
     diapatch(websiteAddImage(index, tempArr));
   };
 
   const setReducerText = async (text: string, listIndex: number) => {
-    const tempArr = [...textList];
+    const tempArr = [...content.text];
     tempArr[listIndex] = text;
     setTextList(tempArr);
     diapatch(websiteFillContent(index, tempArr));

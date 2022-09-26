@@ -8,11 +8,11 @@ import { RootState } from "../../reducers";
 import firebase from "../../utilis/firebase";
 
 const SinglePin = styled.div<{ size: number }>`
-  margin: 15px 10px;
+  margin: 15px 15px;
   border-radius: 16px;
   background-color: #ffffff;
   border: 1px solid;
-  width: 270px;
+  width: 320px;
   height: 360px;
   display: flex;
   flex-direction: column;

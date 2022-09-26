@@ -93,6 +93,7 @@ const WebsiteArea = styled(Link)`
 
 const Profile: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLargeLoading, setIsLargeLoading] = useState<boolean>(false);
   const [profileData, setProfileData] = useState<UserReducer | {}>({});
   const userData = useSelector((state: RootState) => state.UserReducer);
   const resumeData = useSelector((state: RootState) => state.ResumeReducer);
@@ -155,12 +156,17 @@ const Profile: React.FC = () => {
     loadData();
   }, [profileUserID, userData.followMembers]);
 
+  useEffect(() => {
+    setProfileData(userData);
+  }, [userData.userImage, userData.backgroundImage]);
+
   return (
     <Wrapper>
       <>
         <MemberIntro
           profileData={profileData}
           setProfileData={setProfileData}
+          setIsLargeLoading={setIsLargeLoading}
         />
         <CreaterArea>
           <ResumeArea to={`/resume/${profileUserID}`} id="resumeArea">
@@ -201,6 +207,7 @@ const Profile: React.FC = () => {
         />
       </>
       {isLoading ? <LargeLoading backgroundColor={"#ffffff"} /> : null}
+      {isLargeLoading ? <LargeLoading backgroundColor={"#ffffffb3"} /> : null}
     </Wrapper>
   );
 };

@@ -47,15 +47,7 @@ const firebase = {
     data: ResumeReducer | WebsiteReducer | UserReducer | chatRoom
   ) {
     const collectionDoc = doc(db, collection, docID);
-    setDoc(collectionDoc, data)
-      .then(() => {
-        if (collection === "websites") {
-          alert("成功上架網站!");
-        }
-      })
-      .catch((error) => {
-        alert(error);
-      });
+    setDoc(collectionDoc, data);
   },
 
   async readData(type: string, id: string) {
@@ -73,7 +65,7 @@ const firebase = {
   uploadPortfolio(data: PortfolioReducer) {
     const portfolios = doc(db, `portfolios`, data.portfolioID);
     setDoc(portfolios, data)
-      .then(() => alert("成功新增作品集!"))
+      .then(() => console.log())
       .catch((error) => {
         console.log(error);
       });
