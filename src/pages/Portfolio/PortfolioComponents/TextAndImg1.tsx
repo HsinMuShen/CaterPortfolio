@@ -20,11 +20,13 @@ const TextAndImg1 = ({
   content: portfolioComContent;
   index: number;
 }) => {
-  const { imageFileList, textList, setReducerImage, setReducerText } =
-    useUpdateResumeData({ index, content });
+  const { setReducerImage, setReducerText } = useUpdateResumeData({
+    index,
+    content,
+  });
   return (
     <Wrapper>
-      {imageFileList.map((_, listIndex) => {
+      {content.image.map((_, listIndex) => {
         return (
           <Canves
             key={listIndex}
@@ -36,7 +38,7 @@ const TextAndImg1 = ({
           />
         );
       })}
-      {textList.map((_, listIndex) => {
+      {content.text.map((_, listIndex) => {
         return (
           <EditText
             key={listIndex}

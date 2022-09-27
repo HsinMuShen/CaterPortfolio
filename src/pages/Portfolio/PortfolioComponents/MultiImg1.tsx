@@ -19,11 +19,13 @@ const MultiImg1 = ({
   content: portfolioComContent;
   index: number;
 }) => {
-  const { imageFileList, textList, setReducerImage, setReducerText } =
-    useUpdateResumeData({ index, content });
+  const { setReducerImage, setReducerText } = useUpdateResumeData({
+    index,
+    content,
+  });
   return (
     <Wrapper>
-      {imageFileList.map((_, listIndex) => {
+      {content.image.map((_, listIndex) => {
         return (
           <Canves
             key={listIndex}

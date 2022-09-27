@@ -12,6 +12,7 @@ const QusetionMarkWrapper = styled.div`
   right: 30px;
   font-size: 28px;
   color: #333333;
+
   cursor: pointer;
   & :hover {
     color: #6d6d6d;
