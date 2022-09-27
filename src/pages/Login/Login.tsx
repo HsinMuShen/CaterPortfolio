@@ -124,10 +124,17 @@ const Login = () => {
         })
         .catch((error) => {
           const errorMessage = error.message;
-          dispatch(setAlert({ isAlert: true, text: `${errorMessage}` }));
-          setTimeout(() => {
-            dispatch(setAlert({ isAlert: false, text: "" }));
-          }, 3000);
+          if (errorMessage === "Firebase: Error (auth/user-not-found).") {
+            dispatch(
+              setAlert({
+                isAlert: true,
+                text: `找不到使用者，請檢察輸入信箱與密碼是否正確`,
+              })
+            );
+            setTimeout(() => {
+              dispatch(setAlert({ isAlert: false, text: "" }));
+            }, 3000);
+          }
         });
     } else if (activeItem === "register") {
       createUserWithEmailAndPassword(auth, userData.email, userData.password)

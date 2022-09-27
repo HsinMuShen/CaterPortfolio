@@ -34,8 +34,8 @@ const Alert = () => {
   return (
     <Wrapper isAlert={alertData.isAlert}>
       <AlertText>
+        {`${alertData.text}\xa0\xa0`}
         <FontAwesomeIcon icon={faFaceSmile} />
-        {`\xa0\xa0${alertData.text}`}
       </AlertText>
     </Wrapper>
   );

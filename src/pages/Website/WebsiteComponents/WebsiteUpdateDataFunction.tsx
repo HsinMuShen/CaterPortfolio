@@ -1,5 +1,3 @@
-import React, { useState } from "react";
-import firebase from "../../../utilis/firebase";
 import { useDispatch } from "react-redux";
 import { websiteAddImage, websiteFillContent } from "../../../action";
 import { websiteComContent } from "../Website";
