@@ -36,7 +36,7 @@ const IntroImg = styled.div<{ $backgroundImg: string }>`
 `;
 
 const MessageArea = styled.div`
-  height: 600px;
+  height: 400px;
   width: 600px;
   overflow: scroll;
 `;

@@ -9,7 +9,7 @@ const Wrapper = styled.div<{ isAlert: boolean }>`
   position: fixed;
   top: 70px;
   right: ${(props) => (props.isAlert ? "20px" : "-240px")};
-  width: 240px;
+  width: 320px;
   height: 80px;
   border: 2px solid;
   border-radius: 20px;

@@ -50,6 +50,17 @@ const ImageInput = styled.input`
   display: none;
 `;
 
+const AddImgBtn = styled.div`
+  width: 40px;
+  height: 40px;
+
+  border-radius: 50%;
+  background-color: #ffffffb3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 const MainImageArea = styled.div`
   display: flex;
   flex-direction: column;
@@ -141,7 +152,7 @@ const MemberIntro = ({
         borderWidth={"0"}
       >
         <ImageLabel>
-          {isPreviewContent.profileIntro ? "" : "+"}
+          {isPreviewContent.profileIntro ? "" : <AddImgBtn>+</AddImgBtn>}
           <ImageInput
             type="file"
             id="postImage"
@@ -162,7 +173,7 @@ const MemberIntro = ({
             borderWidth={"1px"}
           >
             <ImageLabel>
-              {isPreviewContent.profileIntro ? "" : "+"}
+              {isPreviewContent.profileIntro ? "" : <AddImgBtn>+</AddImgBtn>}
               <ImageInput
                 type="file"
                 id="postImage"

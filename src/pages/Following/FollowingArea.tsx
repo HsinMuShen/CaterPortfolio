@@ -7,6 +7,7 @@ import styled from "styled-components";
 
 import firebase from "../../utilis/firebase";
 
+import LargeLoading from "../../utilis/LargeLoading";
 import FollowingPortfolioCard from "./FollowingPortfolioCard";
 import FollowingResumeCard from "./FollowingResumeCard";
 import FollowingMemberCard from "./FollowingMemberCard";
@@ -29,6 +30,7 @@ const Title = styled.p`
 `;
 
 const CardsArea = styled.div`
+  width: 960px;
   display: flex;
 `;
 
@@ -58,54 +60,76 @@ export interface followMembers {
 
 const FollowingArea = () => {
   const [userData, setUserData] = useState<DocumentData>();
+  const [isLargeLoading, setIsLargeLoading] = useState<boolean>(false);
   const followID = useParams().id;
 
   useEffect(() => {
     const loadData = async () => {
+      setIsLargeLoading(true);
       const userData = await firebase.readData("users", `${followID}`);
       if (userData) {
         setUserData(userData);
+        setIsLargeLoading(false);
       }
     };
     loadData();
   }, []);
   return (
-    <Wrapper>
-      <TypeWrapper>
-        <Title>Portfolios : </Title>
-        <CardsArea>
-          {userData?.followPortfolios.map(
-            (data: followPortfolios, index: number) => {
-              return (
-                <FollowingPortfolioCard
-                  key={data.portfolioID}
-                  data={data}
-                  index={index}
-                />
-              );
-            }
-          )}
-        </CardsArea>
-      </TypeWrapper>
+    <>
+      <Wrapper>
+        <TypeWrapper>
+          <Title>作品集 : </Title>
+          <CardsArea>
+            {userData?.followPortfolios.map(
+              (data: followPortfolios, index: number) => {
+                return (
+                  <FollowingPortfolioCard
+                    key={data.portfolioID}
+                    data={data}
+                    index={index}
+                  />
+                );
+              }
+            )}
+          </CardsArea>
+        </TypeWrapper>
 
-      <TypeWrapper>
-        <Title>Resumes : </Title>
-        {userData?.followResumes.map((data: followResumes, index: number) => {
-          return (
-            <FollowingResumeCard key={data.userID} data={data} index={index} />
-          );
-        })}
-      </TypeWrapper>
+        <TypeWrapper>
+          <Title>履歷 : </Title>
+          <CardsArea>
+            {userData?.followResumes.map(
+              (data: followResumes, index: number) => {
+                return (
+                  <FollowingResumeCard
+                    key={data.userID}
+                    data={data}
+                    index={index}
+                  />
+                );
+              }
+            )}
+          </CardsArea>
+        </TypeWrapper>
 
-      <TypeWrapper>
-        <Title>Members : </Title>
-        {userData?.followMembers.map((data: followMembers, index: number) => {
-          return (
-            <FollowingMemberCard key={data.userID} data={data} index={index} />
-          );
-        })}
-      </TypeWrapper>
-    </Wrapper>
+        <TypeWrapper>
+          <Title>創作者 : </Title>
+          <CardsArea>
+            {userData?.followMembers.map(
+              (data: followMembers, index: number) => {
+                return (
+                  <FollowingMemberCard
+                    key={data.userID}
+                    data={data}
+                    index={index}
+                  />
+                );
+              }
+            )}
+          </CardsArea>
+        </TypeWrapper>
+      </Wrapper>
+      {isLargeLoading ? <LargeLoading backgroundColor={"#ffffff"} /> : null}
+    </>
   );
 };
 

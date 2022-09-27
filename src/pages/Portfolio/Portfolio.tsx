@@ -91,8 +91,8 @@ const Portfolio = () => {
   };
 
   useEffect(() => {
-    setIsLoading(true);
     const loadPortfolio = async () => {
+      setIsLoading(true);
       const portfolioData = await firebase.readPortfolioData(
         "portfolios",
         `${portfolioID}`
@@ -108,6 +108,7 @@ const Portfolio = () => {
           dispatch(websiteLoading(websiteData));
         }
       }
+      setIsLoading(false);
     };
 
     if (portfolioID === "create") {
@@ -133,7 +134,7 @@ const Portfolio = () => {
     } else {
       loadPortfolio();
     }
-    setIsLoading(false);
+
     return () => {
       dispatch(isPreviewTrue("portfolio"));
     };
@@ -168,27 +169,33 @@ const Portfolio = () => {
             <InitialSetup portfolioID={portfolioID} />
           </>
         )}
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <PortfolioLayouts>
+            <PreviewDiv style={{ zIndex: isPreview ? "2" : "-1" }}></PreviewDiv>
 
-        <PortfolioLayouts>
-          <PreviewDiv style={{ zIndex: isPreview ? "2" : "-1" }}></PreviewDiv>
-          {isLoading ? <Loading /> : null}
-          {portfolioData.content.length === 0 ? <p>尚未建立此作品集</p> : null}
-          {portfolioData.content.map(
-            (content: portfolioComContent, index: number) => {
-              const TempCom =
-                PortfolioComponents[
-                  content.comName as keyof typeof PortfolioComponents
-                ];
-              return (
-                <SingleComponent key={content.id}>
-                  <TempCom index={index} content={content} />
-                  <Delete addDeleteCom={addDeleteCom} index={index} />
-                  <Move />
-                </SingleComponent>
-              );
-            }
-          )}
-        </PortfolioLayouts>
+            {portfolioData.content.length === 0 ? (
+              <p>尚未建立此作品集</p>
+            ) : null}
+            {portfolioData.content.map(
+              (content: portfolioComContent, index: number) => {
+                const TempCom =
+                  PortfolioComponents[
+                    content.comName as keyof typeof PortfolioComponents
+                  ];
+                return (
+                  <SingleComponent key={content.id}>
+                    <TempCom index={index} content={content} />
+                    <Delete addDeleteCom={addDeleteCom} index={index} />
+                    <Move />
+                  </SingleComponent>
+                );
+              }
+            )}
+          </PortfolioLayouts>
+        )}
+
         <CreatePortfolioCom addPortfolioCom={addPortfolioCom} />
       </Wrapper>
       {isPreview ? null : (
@@ -276,7 +283,7 @@ const ResumeBtn = styled.div`
   color: #555555;
   background-color: #ffffff;
   padding: 8px;
-  width: 130px;
+  width: 180px;
   border-radius: 5px;
   font-weight: 600;
   border: 2px solid;
