@@ -124,7 +124,6 @@ const HeaderSidebar = ({
         <Tag to={`/profile/${userData.userID}`}>個人頁面</Tag>
         <Tag to={`/resume/${userData.userID}`}>個人履歷</Tag>
         <Tag to={`/website/${userData.userID}`}>個人網站</Tag>
-        <Tag to={`/chatroom/${userData.userID}`}>聊天室</Tag>
         <Tag
           to={"/"}
           onClick={() => {
