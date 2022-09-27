@@ -19,8 +19,10 @@ const Text0 = ({
   index: number;
   content: resumeComContent;
 }) => {
-  const { imageFileList, setResumeReducerImage, setReducerText } =
-    useUpdateResumeData({ index, content });
+  const { setResumeReducerImage, setReducerText } = useUpdateResumeData({
+    index,
+    content,
+  });
 
   return (
     <Wrapper>
