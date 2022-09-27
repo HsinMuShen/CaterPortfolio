@@ -4,7 +4,12 @@ import { portfolioReducer } from "../reducers/PortfolioContent";
 import firebase from "./firebase";
 import { RootState } from "../reducers";
 import { useDispatch, useSelector } from "react-redux";
-import { portfolioLoading, resumeLoading, userLoading } from "../action";
+import {
+  portfolioLoading,
+  resumeLoading,
+  setAlert,
+  userLoading,
+} from "../action";
 
 const SideBarArea = styled.div`
   position: fixed;
@@ -69,10 +74,16 @@ const SideBar = ({ type, data }: { type: string; data: portfolioReducer }) => {
     if (type === "portfolio") {
       if (isFollow) {
         await firebase.cancelPortfolioFollowing(data, userData);
-        alert("取消追蹤!");
+        dispatch(setAlert({ isAlert: true, text: "取消追蹤!" }));
+        setTimeout(() => {
+          dispatch(setAlert({ isAlert: false, text: "" }));
+        }, 3000);
       } else {
         await firebase.addPortfolioFollowing(data, userData);
-        alert("加入追蹤!");
+        dispatch(setAlert({ isAlert: true, text: "加入追蹤!" }));
+        setTimeout(() => {
+          dispatch(setAlert({ isAlert: false, text: "" }));
+        }, 3000);
       }
 
       const renewPortfolioData = await firebase.readPortfolioData(
@@ -86,10 +97,16 @@ const SideBar = ({ type, data }: { type: string; data: portfolioReducer }) => {
       if (isFollow) {
         console.log(data, userData);
         await firebase.cancelResumeFollowing(data, userData);
-        alert("取消追蹤!");
+        dispatch(setAlert({ isAlert: true, text: "取消追蹤!" }));
+        setTimeout(() => {
+          dispatch(setAlert({ isAlert: false, text: "" }));
+        }, 3000);
       } else {
         await firebase.addResumeFollowing(data, userData);
-        alert("加入追蹤!");
+        dispatch(setAlert({ isAlert: true, text: "加入追蹤!" }));
+        setTimeout(() => {
+          dispatch(setAlert({ isAlert: false, text: "" }));
+        }, 3000);
       }
 
       const renewResumeData = await firebase.readData(

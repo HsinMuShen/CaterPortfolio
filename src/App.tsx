@@ -40,12 +40,15 @@ const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    outline: 0;
   }
 
   body {
     font-family: NotoSansTC;
     background-color: #E7E7E799;
   }
+
+
 
 
   hr {

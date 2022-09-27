@@ -1,4 +1,5 @@
 import { v4 } from "uuid";
+import userImg from "../images/user.png";
 
 export const resumeTemplate0 = [
   {
@@ -8,9 +9,7 @@ export const resumeTemplate0 = [
     text: [
       '<h2>潘提耘</h2><p></p><ul><li><p><span style="color: #000000">德國出生，在澳洲蒙納許大學計算機科學畢業，現定居於台灣。</span></p></li><li><p><span style="color: #000000">畢業後從事工程師，專案經理到工程師主管，有8年資訊軟體產業經驗。</span></p></li><li><p><span style="color: #000000">曾參與國際知名品牌專案，於韓國、日本、新加坡等地出差，與當地團隊合作進行推廣活動。</span></p></li></ul>',
     ],
-    image: [
-      "https://firebasestorage.googleapis.com/v0/b/caterprotfolio.appspot.com/o/images%2F1663754832607100889015_3208676355817859_6084356585407119360_n.jpg?alt=media&token=b1234736-e3ed-48e2-8456-5b94a5339071",
-    ],
+    image: [userImg],
   },
   {
     id: v4(),
@@ -90,9 +89,7 @@ export const resumeTemplate0 = [
 
 export const resumeTemplate1 = [
   {
-    image: [
-      "https://firebasestorage.googleapis.com/v0/b/caterprotfolio.appspot.com/o/images%2F1663766546635business-head-shot.jpg?alt=media&token=7b225f37-5ac9-4a98-8531-454c76d2a377",
-    ],
+    image: [userImg],
     text: [],
     type: 2,
     id: v4(),

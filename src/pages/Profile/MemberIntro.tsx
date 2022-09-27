@@ -6,6 +6,7 @@ import { isPreviewProfile, initialSetUserData, setAlert } from "../../action";
 import { UserReducer } from "../../reducers";
 import { Link } from "react-router-dom";
 
+import LargeLoading from "../../utilis/LargeLoading";
 import firebase from "../../utilis/firebase";
 import FollowBtn from "./FollowBtn";
 import ChatButton from "./ChatButton";
@@ -47,6 +48,17 @@ const ImageLabel = styled.label`
 `;
 const ImageInput = styled.input`
   display: none;
+`;
+
+const AddImgBtn = styled.div`
+  width: 40px;
+  height: 40px;
+
+  border-radius: 50%;
+  background-color: #ffffffb3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const MainImageArea = styled.div`
@@ -99,7 +111,11 @@ const EditBtn = styled(Link)`
   }
 `;
 
-const MemberIntro = ({ profileData, setProfileData }: UserReducer) => {
+const MemberIntro = ({
+  profileData,
+  setProfileData,
+  setIsLargeLoading,
+}: UserReducer) => {
   const userData = useSelector((state: RootState) => state.UserReducer);
   const isPreviewContent = useSelector(
     (state: RootState) => state.IsPreviewReducer
@@ -107,8 +123,10 @@ const MemberIntro = ({ profileData, setProfileData }: UserReducer) => {
   const dispatch = useDispatch();
 
   const renewImageUrl = async (type: string, file: File) => {
+    setIsLargeLoading(true);
     const imageUrl = await firebase.getImageUrl(file);
     dispatch(initialSetUserData(type, imageUrl));
+    setIsLargeLoading(false);
   };
 
   const reNewPortfolioCollection = async () => {
@@ -134,7 +152,7 @@ const MemberIntro = ({ profileData, setProfileData }: UserReducer) => {
         borderWidth={"0"}
       >
         <ImageLabel>
-          {isPreviewContent.profileIntro ? "" : "+"}
+          {isPreviewContent.profileIntro ? "" : <AddImgBtn>+</AddImgBtn>}
           <ImageInput
             type="file"
             id="postImage"
@@ -155,7 +173,7 @@ const MemberIntro = ({ profileData, setProfileData }: UserReducer) => {
             borderWidth={"1px"}
           >
             <ImageLabel>
-              {isPreviewContent.profileIntro ? "" : "+"}
+              {isPreviewContent.profileIntro ? "" : <AddImgBtn>+</AddImgBtn>}
               <ImageInput
                 type="file"
                 id="postImage"

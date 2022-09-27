@@ -6,7 +6,7 @@ import styled from "styled-components";
 import ResumeCard from "./ResumeCard";
 
 const PinContainer = styled.div`
-  width: 1040px;
+  width: 1050px;
   margin: 120px auto 0;
   display: flex;
   flex-wrap: wrap;

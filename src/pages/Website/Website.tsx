@@ -341,7 +341,7 @@ const SingleComponent = styled.div`
 const MoveBtn = styled.div`
   position: absolute;
   right: 4.5px;
-  top: 60px;
+  top: 25px;
   font-size: 20px;
 `;
 
