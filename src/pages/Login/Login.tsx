@@ -131,10 +131,10 @@ const Login = () => {
                 text: `找不到使用者，請檢察輸入信箱與密碼是否正確`,
               })
             );
-            setTimeout(() => {
-              dispatch(setAlert({ isAlert: false, text: "" }));
-            }, 3000);
           }
+          setTimeout(() => {
+            dispatch(setAlert({ isAlert: false, text: "" }));
+          }, 3000);
         });
     } else if (activeItem === "register") {
       createUserWithEmailAndPassword(auth, userData.email, userData.password)
@@ -153,7 +153,49 @@ const Login = () => {
         })
         .catch((error) => {
           const errorMessage = error.message;
-          dispatch(setAlert({ isAlert: true, text: `${errorMessage}` }));
+          console.log(errorMessage);
+          if (userData.name === "") {
+            dispatch(
+              setAlert({
+                isAlert: true,
+                text: `請輸入使用者名稱`,
+              })
+            );
+          } else if (errorMessage === "Firebase: Error (auth/missing-email).") {
+            dispatch(
+              setAlert({
+                isAlert: true,
+                text: `電子信箱欄位不得空白`,
+              })
+            );
+          } else if (errorMessage === "Firebase: Error (auth/invalid-email).") {
+            dispatch(
+              setAlert({
+                isAlert: true,
+                text: `電子信箱格式錯誤`,
+              })
+            );
+          } else if (
+            errorMessage === "Firebase: Error (auth/internal-error)." ||
+            errorMessage ===
+              "Firebase: Password should be at least 6 characters (auth/weak-password)."
+          ) {
+            dispatch(
+              setAlert({
+                isAlert: true,
+                text: `請輸入至少六位數密碼`,
+              })
+            );
+          } else if (
+            errorMessage === "Firebase: Error (auth/email-already-in-use)."
+          ) {
+            dispatch(
+              setAlert({
+                isAlert: true,
+                text: `電子信箱已經被註冊過了`,
+              })
+            );
+          }
           setTimeout(() => {
             dispatch(setAlert({ isAlert: false, text: "" }));
           }, 3000);
@@ -191,6 +233,7 @@ const Login = () => {
                   onChange={(e) => {
                     dispatch(initialSetUserData("name", e.target.value));
                   }}
+                  required
                 />
               </SingleInputArea>
             </div>
@@ -203,6 +246,7 @@ const Login = () => {
               onChange={(e) => {
                 dispatch(initialSetUserData("email", e.target.value));
               }}
+              required
             />
           </SingleInputArea>
           <SingleInputArea>
@@ -212,6 +256,7 @@ const Login = () => {
               onChange={(e) => {
                 dispatch(initialSetUserData("password", e.target.value));
               }}
+              required
             />
           </SingleInputArea>
         </InputArea>

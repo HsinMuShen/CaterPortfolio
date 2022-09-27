@@ -71,12 +71,16 @@ const MainImageArea = styled.div`
 const IntroInput = styled.textarea`
   width: 420px;
   height: 80px;
+  padding: 5px;
 `;
 
 const IntroTextArea = styled.div`
   width: 420px;
   font-size: 14px;
   margin-right: 40px;
+  white-space: pre;
+  display: flex;
+  justify-content: center;
 `;
 
 const NameTag = styled.p`
