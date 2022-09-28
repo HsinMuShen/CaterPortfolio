@@ -18,6 +18,7 @@ const Wrapper = styled.div<{ backgroundColor: string }>`
   margin: 0 auto;
   background-color: ${(props) => props.backgroundColor};
   top: 60px;
+  left: 0;
 `;
 
 const Logo = styled.img`

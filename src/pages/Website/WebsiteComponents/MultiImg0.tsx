@@ -20,18 +20,17 @@ const MultiImg0 = ({
   content: websiteComContent;
   index: number;
 }) => {
-  const { setReducerImage, setPreviewReducerImage, setReducerText } =
-    useUpdateResumeData({
-      index,
-      content,
-    });
+  const { setReducerImage, setReducerText } = useUpdateResumeData({
+    index,
+    content,
+  });
   return (
     <Wrapper>
       {content.image.map((_, listIndex) => {
         return (
           <PreviewImageInput
             key={listIndex}
-            setPreviewReducerImage={setPreviewReducerImage}
+            setReducerImage={setReducerImage}
             listIndex={listIndex}
             image={content.image[listIndex]}
             style={{

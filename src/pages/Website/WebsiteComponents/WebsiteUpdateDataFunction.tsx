@@ -11,16 +11,13 @@ function useUpdateResumeData({
   content: websiteComContent;
 }) {
   const diapatch = useDispatch();
-  const setReducerImage = async (JSONstring: string, listIndex: number) => {
-    const tempArr = [...content.image];
-    tempArr[listIndex] = JSONstring;
-    diapatch(websiteAddImage(index, tempArr));
-  };
 
-  const setPreviewReducerImage = async (file: File, listIndex: number) => {
+  const setReducerImage = async (
+    JSONstringOrImageUrl: string,
+    listIndex: number
+  ) => {
     const tempArr = [...content.image];
-    const imageUrl = await firebase.getImageUrl(file);
-    tempArr[listIndex] = imageUrl;
+    tempArr[listIndex] = JSONstringOrImageUrl;
     diapatch(websiteAddImage(index, tempArr));
   };
 
@@ -32,7 +29,6 @@ function useUpdateResumeData({
 
   return {
     setReducerImage: setReducerImage,
-    setPreviewReducerImage: setPreviewReducerImage,
     setReducerText: setReducerText,
   };
 }

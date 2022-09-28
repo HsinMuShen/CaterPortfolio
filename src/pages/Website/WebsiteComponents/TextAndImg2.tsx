@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Canves from "../../../utilis/Canves";
 import EditText from "../../../utilis/EditText";
+import PreviewImageInput from "../../../utilis/PreviewImageInput";
 import { websiteComContent } from "../Website";
 import useUpdateResumeData from "./WebsiteUpdateDataFunction";
 
@@ -44,13 +45,15 @@ const TextAndImg2 = ({
       })}
       {content.image.map((_, listIndex) => {
         return (
-          <Canves
+          <PreviewImageInput
             key={listIndex}
-            content={content}
-            name={`${index}-${listIndex}`}
-            size={{ height: 240, width: 440 }}
             setReducerImage={setReducerImage}
             listIndex={listIndex}
+            image={content.image[listIndex]}
+            style={{
+              width: "440px",
+              height: "240px",
+            }}
           />
         );
       })}

@@ -15,10 +15,13 @@ function useUpdateResumeData({
   const resumeData = useSelector((state: RootState) => state.ResumeReducer);
 
   const diapatch = useDispatch();
-  const setPreviewReducerImage = async (file: File, listIndex: number) => {
+
+  const setReducerImage = async (
+    JSONstringOrImageUrl: string,
+    listIndex: number
+  ) => {
     const tempArr = [...content.image];
-    const imageUrl = await firebase.getImageUrl(file);
-    tempArr[listIndex] = imageUrl;
+    tempArr[listIndex] = JSONstringOrImageUrl;
     diapatch(resumeAddImage(index, tempArr));
   };
 
@@ -29,7 +32,7 @@ function useUpdateResumeData({
   };
 
   return {
-    setPreviewReducerImage: setPreviewReducerImage,
+    setReducerImage: setReducerImage,
     setReducerText: setReducerText,
   };
 }

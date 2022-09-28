@@ -6,6 +6,9 @@ import { isPreviewReducer } from "../reducers/IsPreviewContent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
+import LargeLoading from "./LargeLoading";
+import firebase from "./firebase";
+
 const ImageContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -51,14 +54,14 @@ const ImageInput = styled.input`
 `;
 
 interface PreviewImageInputProps {
-  setPreviewReducerImage: (file: File, listIndex: number) => void;
+  setReducerImage: (file: string, listIndex: number) => void;
   listIndex: number;
   image: string;
   style?: any;
 }
 
 const PreviewImageInput = ({
-  setPreviewReducerImage,
+  setReducerImage,
   listIndex,
   image,
   style,
@@ -66,6 +69,7 @@ const PreviewImageInput = ({
   const isPreviewData = useSelector(
     (state: RootState) => state.IsPreviewReducer
   );
+  const [isLargeLoading, setIsLargeLoading] = useState<boolean>(false);
 
   return (
     <ImageContainer>
@@ -86,12 +90,16 @@ const PreviewImageInput = ({
           <ImageInput
             type="file"
             id="postImage"
-            onChange={(e) => {
-              setPreviewReducerImage(e.target.files![0], listIndex);
+            onChange={async (e) => {
+              setIsLargeLoading(true);
+              const imageUrl = await firebase.getImageUrl(e.target.files![0]);
+              setReducerImage(imageUrl, listIndex);
+              setIsLargeLoading(false);
             }}
           />
         </ImageLabel>
       </ImagePreview>
+      {isLargeLoading ? <LargeLoading backgroundColor={"#ffffffb3"} /> : null}
     </ImageContainer>
   );
 };

@@ -20,11 +20,10 @@ const MultiImg3 = ({
   content: websiteComContent;
   index: number;
 }) => {
-  const { setReducerImage, setPreviewReducerImage, setReducerText } =
-    useUpdateResumeData({
-      index,
-      content,
-    });
+  const { setReducerImage, setReducerText } = useUpdateResumeData({
+    index,
+    content,
+  });
 
   const sizeArr = [
     {
@@ -42,7 +41,7 @@ const MultiImg3 = ({
         return (
           <PreviewImageInput
             key={listIndex}
-            setPreviewReducerImage={setPreviewReducerImage}
+            setReducerImage={setReducerImage}
             listIndex={listIndex}
             image={content.image[listIndex]}
             style={sizeArr[listIndex]}
