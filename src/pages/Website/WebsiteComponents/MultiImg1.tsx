@@ -11,6 +11,11 @@ const Wrapper = styled.div`
   justify-content: space-between;
   margin: 0 auto;
   width: 900px;
+  @media screen and (max-width: 1279px) {
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 `;
 
 const MultiImg1 = ({

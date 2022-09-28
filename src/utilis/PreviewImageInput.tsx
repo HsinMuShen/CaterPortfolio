@@ -31,7 +31,10 @@ const ImagePreview = styled.div<{
     props.isPreviewData.website &&
     props.isPreviewData.portfolio
       ? "0px solid"
-      : "1px solid"}
+      : "1px solid"};
+  @media screen and (max-width: 1279px) {
+    margin: 5px;
+  }
 `;
 const ImageLabel = styled.label`
   font-size: 150%;

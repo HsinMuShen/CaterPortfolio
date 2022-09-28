@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import Canves from "../../../utilis/Canves";
 import PreviewImageInput from "../../../utilis/PreviewImageInput";
 import { websiteComContent } from "../Website";
 import useUpdateResumeData from "./WebsiteUpdateDataFunction";
+import { useMediaQuery } from "../../../utilis/useMediaQuery";
 
 const Wrapper = styled.div`
   display: flex;
@@ -11,6 +11,11 @@ const Wrapper = styled.div`
   justify-content: space-between;
   margin: 0 auto;
   width: 900px;
+  @media screen and (max-width: 1279px) {
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 `;
 
 const MultiImg0 = ({
@@ -20,6 +25,7 @@ const MultiImg0 = ({
   content: websiteComContent;
   index: number;
 }) => {
+  const isRowBased = useMediaQuery("(min-width: 500px)");
   const { setReducerImage, setReducerText } = useUpdateResumeData({
     index,
     content,
@@ -34,7 +40,7 @@ const MultiImg0 = ({
             listIndex={listIndex}
             image={content.image[listIndex]}
             style={{
-              width: "440px",
+              width: isRowBased ? "440px" : "85vw",
               height: "240px",
             }}
           />
