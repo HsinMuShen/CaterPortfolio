@@ -19,7 +19,7 @@ const TextAndImg2 = ({
   index: number;
   content: resumeComContent;
 }) => {
-  const { setResumeReducerImage, setReducerText } = useUpdateResumeData({
+  const { setPreviewReducerImage, setReducerText } = useUpdateResumeData({
     index,
     content,
   });
@@ -45,7 +45,7 @@ const TextAndImg2 = ({
         return (
           <PreviewImageInput
             key={listIndex}
-            setResumeReducerImage={setResumeReducerImage}
+            setPreviewReducerImage={setPreviewReducerImage}
             listIndex={listIndex}
             image={content.image[listIndex]}
             style={{

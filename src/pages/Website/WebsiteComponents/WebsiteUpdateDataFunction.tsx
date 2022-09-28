@@ -1,5 +1,6 @@
 import { useDispatch } from "react-redux";
 import { websiteAddImage, websiteFillContent } from "../../../action";
+import firebase from "../../../utilis/firebase";
 import { websiteComContent } from "../Website";
 
 function useUpdateResumeData({
@@ -16,6 +17,13 @@ function useUpdateResumeData({
     diapatch(websiteAddImage(index, tempArr));
   };
 
+  const setPreviewReducerImage = async (file: File, listIndex: number) => {
+    const tempArr = [...content.image];
+    const imageUrl = await firebase.getImageUrl(file);
+    tempArr[listIndex] = imageUrl;
+    diapatch(websiteAddImage(index, tempArr));
+  };
+
   const setReducerText = async (text: string, listIndex: number) => {
     const tempArr = [...content.text];
     tempArr[listIndex] = text;
@@ -24,6 +32,7 @@ function useUpdateResumeData({
 
   return {
     setReducerImage: setReducerImage,
+    setPreviewReducerImage: setPreviewReducerImage,
     setReducerText: setReducerText,
   };
 }

@@ -20,7 +20,7 @@ const Text2 = ({
   index: number;
   content: resumeComContent;
 }) => {
-  const { setResumeReducerImage, setReducerText } = useUpdateResumeData({
+  const { setPreviewReducerImage, setReducerText } = useUpdateResumeData({
     index,
     content,
   });

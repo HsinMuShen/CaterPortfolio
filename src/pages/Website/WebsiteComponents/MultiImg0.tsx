@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Canves from "../../../utilis/Canves";
+import PreviewImageInput from "../../../utilis/PreviewImageInput";
 import { websiteComContent } from "../Website";
 import useUpdateResumeData from "./WebsiteUpdateDataFunction";
 
@@ -19,32 +20,25 @@ const MultiImg0 = ({
   content: websiteComContent;
   index: number;
 }) => {
-  const { setReducerImage, setReducerText } = useUpdateResumeData({
-    index,
-    content,
-  });
+  const { setReducerImage, setPreviewReducerImage, setReducerText } =
+    useUpdateResumeData({
+      index,
+      content,
+    });
   return (
     <Wrapper>
       {content.image.map((_, listIndex) => {
         return (
-          <Canves
+          <PreviewImageInput
             key={listIndex}
-            content={content}
-            name={`${index}-${listIndex}`}
-            size={{ height: 240, width: 440 }}
-            setReducerImage={setReducerImage}
+            setPreviewReducerImage={setPreviewReducerImage}
             listIndex={listIndex}
+            image={content.image[listIndex]}
+            style={{
+              width: "440px",
+              height: "240px",
+            }}
           />
-          // <PreviewImageInput
-          //   key={listIndex}
-          //   setReducerImage={setReducerImage}
-          //   listIndex={listIndex}
-          //   image={content.image[listIndex]}
-          //   style={{
-          //     width: "440px",
-          //     height: "240px",
-          //   }}
-          // />
         );
       })}
     </Wrapper>
