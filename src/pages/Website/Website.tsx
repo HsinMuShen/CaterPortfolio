@@ -34,6 +34,7 @@ import { deleteDoc, doc } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
 import QusetionMark, { introSteps } from "../../utilis/QusetionMark";
 import WebsiteInitialSetup from "./WebsiteInitialSetup";
+import LargeLoading from "../../utilis/LargeLoading";
 
 export interface websiteComContent {
   image: string[];
@@ -46,6 +47,7 @@ export interface websiteComContent {
 
 const Website = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLargeLoading, setIsLargeLoading] = useState<boolean>(false);
   const refPhoto = useRef<HTMLDivElement>(null);
   const deletePortfolioContent = useRef<number>();
   const websiteID = useParams().id;
@@ -168,7 +170,9 @@ const Website = () => {
             )}
           </PreviewBtn>
         ) : null}
-        {isPreview ? null : <WebsiteInitialSetup />}
+        {isPreview ? null : (
+          <WebsiteInitialSetup setIsLargeLoading={setIsLargeLoading} />
+        )}
 
         <DragDropContext onDragEnd={handleOnDragEnd}>
           <div ref={refPhoto}>
@@ -276,6 +280,7 @@ const Website = () => {
         }
         type={websiteID === userData.userID ? "website" : ""}
       />
+      {isLargeLoading ? <LargeLoading backgroundColor={"#ffffffb3"} /> : null}
     </WebsiteBody>
   );
 };

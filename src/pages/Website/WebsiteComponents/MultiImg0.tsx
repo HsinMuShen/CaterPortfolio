@@ -35,6 +35,16 @@ const MultiImg0 = ({
             setReducerImage={setReducerImage}
             listIndex={listIndex}
           />
+          // <PreviewImageInput
+          //   key={listIndex}
+          //   setReducerImage={setReducerImage}
+          //   listIndex={listIndex}
+          //   image={content.image[listIndex]}
+          //   style={{
+          //     width: "440px",
+          //     height: "240px",
+          //   }}
+          // />
         );
       })}
     </Wrapper>

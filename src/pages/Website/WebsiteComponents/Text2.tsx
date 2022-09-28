@@ -42,6 +42,7 @@ const Text2 = ({
           <EditText
             key={listIndex}
             text={content.text[listIndex]}
+            id={content.id}
             listIndex={listIndex}
             setReducerText={setReducerText}
             style={styleArr[listIndex]}
