@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import EditText from "../../../utilis/EditText";
 import { portfolioComContent } from "../Portfolio";
-import useUpdateResumeData from "./WebsiteUpdateDataFunction";
+import useUpdateResumeData from "./PortfolioUpdateDataFunction";
 
 const Wrapper = styled.div`
   display: flex;
@@ -33,6 +33,7 @@ const Text0 = ({
             id={content.id}
             listIndex={listIndex}
             setReducerText={setReducerText}
+            index={index}
             style={{
               width: "900px",
               padding: " 0 10px",

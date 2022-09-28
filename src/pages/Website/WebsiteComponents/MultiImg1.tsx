@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Canves from "../../../utilis/Canves";
 import PreviewImageInput from "../../../utilis/PreviewImageInput";
+import { useMediaQuery } from "../../../utilis/useMediaQuery";
 import { websiteComContent } from "../Website";
 import useUpdateResumeData from "./WebsiteUpdateDataFunction";
 
@@ -29,6 +30,8 @@ const MultiImg1 = ({
     index,
     content,
   });
+
+  const isRowBased = useMediaQuery("(min-width: 350px)");
   return (
     <Wrapper>
       {content.image.map((_, listIndex) => {
@@ -39,7 +42,7 @@ const MultiImg1 = ({
             listIndex={listIndex}
             image={content.image[listIndex]}
             style={{
-              width: "290px",
+              width: isRowBased ? "290px" : "85vw",
               height: "240px",
             }}
           />

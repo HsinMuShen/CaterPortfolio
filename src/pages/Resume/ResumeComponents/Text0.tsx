@@ -34,6 +34,7 @@ const Text0 = ({
             id={content.id}
             listIndex={listIndex}
             setReducerText={setReducerText}
+            index={index}
             style={{
               width: "800px",
               padding: "0 10px",

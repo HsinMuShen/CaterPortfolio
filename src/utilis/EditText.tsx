@@ -188,32 +188,47 @@ const MenuBar: React.FC<any> = ({ editor, isShowBtn }) => {
 interface props {
   text: string;
   id: string;
-  setReducerText: (text: string, listIndex: number) => void;
+  setReducerText: (text: string, listIndex: number, index: number) => void;
   listIndex: number;
   style?: any;
+  index: number;
 }
 
-export default ({ text, id, setReducerText, listIndex, style }: props) => {
+export default ({
+  text,
+  id,
+  setReducerText,
+  listIndex,
+  style,
+  index,
+}: props) => {
   const [isShowBtn, setIsShowBtn] = useState<boolean>(false);
+
   let isPreviewData = useSelector((state: RootState) => state.IsPreviewReducer);
-  const editor = useEditor({
-    extensions: [
-      StarterKit,
-      TextStyle,
-      Color,
-      TextAlign.configure({
-        types: ["heading", "paragraph"],
-      }),
-    ],
-    content: `
+
+  const setText = (html: string) => {
+    setReducerText(html, listIndex, index);
+  };
+  const editor = useEditor(
+    {
+      extensions: [
+        StarterKit,
+        TextStyle,
+        Color,
+        TextAlign.configure({
+          types: ["heading", "paragraph"],
+        }),
+      ],
+      content: `
       ${text}
     `,
-    onUpdate: ({ editor }) => {
-      const html = editor.getHTML();
-      setReducerText(html, listIndex);
+      onUpdate: ({ editor }) => {
+        const html = editor.getHTML();
+        setReducerText(html, listIndex, index);
+      },
     },
-  });
-
+    [index]
+  );
   useEffect(() => {
     const closeBtn = (e: any) => {
       if (e.target.closest(`.text${id}${listIndex}`) !== null) {

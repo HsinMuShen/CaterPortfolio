@@ -1,9 +1,6 @@
-import React, { useState } from "react";
-import firebase from "../../../utilis/firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { resumeAddImage, resumeFillContent } from "../../../action";
 import { resumeComContent } from "../Resume";
-import { RootState } from "../../../reducers";
 
 function useUpdateResumeData({
   index,
@@ -12,8 +9,6 @@ function useUpdateResumeData({
   index: number;
   content: resumeComContent;
 }) {
-  const resumeData = useSelector((state: RootState) => state.ResumeReducer);
-
   const diapatch = useDispatch();
 
   const setReducerImage = async (
@@ -25,7 +20,11 @@ function useUpdateResumeData({
     diapatch(resumeAddImage(index, tempArr));
   };
 
-  const setReducerText = async (text: string, listIndex: number) => {
+  const setReducerText = async (
+    text: string,
+    listIndex: number,
+    index: number
+  ) => {
     const tempArr = [...content.text];
     tempArr[listIndex] = text;
     diapatch(resumeFillContent(index, text, listIndex));

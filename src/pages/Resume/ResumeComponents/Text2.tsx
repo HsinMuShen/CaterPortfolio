@@ -48,6 +48,7 @@ const Text2 = ({
             id={content.id}
             listIndex={listIndex}
             setReducerText={setReducerText}
+            index={index}
             style={styleArr[listIndex]}
           />
         );

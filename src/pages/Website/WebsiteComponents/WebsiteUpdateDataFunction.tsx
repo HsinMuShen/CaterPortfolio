@@ -21,10 +21,14 @@ function useUpdateResumeData({
     diapatch(websiteAddImage(index, tempArr));
   };
 
-  const setReducerText = async (text: string, listIndex: number) => {
+  const setReducerText = async (
+    text: string,
+    listIndex: number,
+    index: number
+  ) => {
     const tempArr = [...content.text];
     tempArr[listIndex] = text;
-    diapatch(websiteFillContent(index, tempArr));
+    diapatch(websiteFillContent(index, text, listIndex));
   };
 
   return {

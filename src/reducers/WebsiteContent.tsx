@@ -49,12 +49,27 @@ const WebsiteReducer = (
       const newResumeData = { ...websiteData, content: tempContentArr };
       return newResumeData;
     }
-    case ActionType.WEBSITE.FILL_CONTENT: {
+    case ActionType.WEBSITE.CHANGE_TEXT: {
       const tempContentArr = [...websiteData.content];
       const index = action.payload.index;
       tempContentArr[index] = {
         ...websiteData.content[index],
         text: action.payload.textArr,
+      };
+      const newWebsiteData = { ...websiteData, content: tempContentArr };
+      return newWebsiteData;
+    }
+    case ActionType.WEBSITE.FILL_CONTENT: {
+      const index = action.payload.index;
+      const listIndex = action.payload.listIndex;
+      const tempContentArr = [...websiteData.content];
+
+      const tempTextArr = [...websiteData.content[index].text];
+      tempTextArr[listIndex] = action.payload.text;
+
+      tempContentArr[index] = {
+        ...websiteData.content[index],
+        text: tempTextArr,
       };
       const newWebsiteData = { ...websiteData, content: tempContentArr };
       return newWebsiteData;

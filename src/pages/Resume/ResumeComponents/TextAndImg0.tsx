@@ -50,6 +50,7 @@ const TextAndImg0 = ({
             id={content.id}
             listIndex={listIndex}
             setReducerText={setReducerText}
+            index={index}
             style={{
               width: "520px",
             }}

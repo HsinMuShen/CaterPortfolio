@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Canves from "../../../utilis/Canves";
 import EditText from "../../../utilis/EditText";
 import { portfolioComContent } from "../Portfolio";
-import useUpdateResumeData from "./WebsiteUpdateDataFunction";
+import useUpdateResumeData from "./PortfolioUpdateDataFunction";
 
 const Wrapper = styled.div`
   display: flex;
