@@ -20,7 +20,7 @@ const FullImg0 = ({
   content: websiteComContent;
   index: number;
 }) => {
-  const { setReducerImage, setReducerText } = useUpdateResumeData({
+  const { setCanvasImage } = useUpdateResumeData({
     index,
     content,
   });
@@ -33,8 +33,9 @@ const FullImg0 = ({
             content={content}
             name={`${index}-${listIndex}`}
             size={{ height: 400, width: 900 }}
-            setReducerImage={setReducerImage}
+            setCanvasImage={setCanvasImage}
             listIndex={listIndex}
+            index={index}
             style={{
               margin: "0px auto",
             }}

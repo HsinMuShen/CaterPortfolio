@@ -19,7 +19,7 @@ const FullImg1 = ({
   content: portfolioComContent;
   index: number;
 }) => {
-  const { setReducerImage, setReducerText } = useUpdateResumeData({
+  const { setCanvasImage } = useUpdateResumeData({
     index,
     content,
   });
@@ -32,8 +32,9 @@ const FullImg1 = ({
             content={content}
             name={`${index}-${listIndex}`}
             size={{ height: 200, width: 900 }}
-            setReducerImage={setReducerImage}
+            setCanvasImage={setCanvasImage}
             listIndex={listIndex}
+            index={index}
           />
         );
       })}

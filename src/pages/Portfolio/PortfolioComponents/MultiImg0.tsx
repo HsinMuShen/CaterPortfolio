@@ -19,7 +19,7 @@ const MultiImg0 = ({
   content: portfolioComContent;
   index: number;
 }) => {
-  const { setReducerImage, setReducerText } = useUpdateResumeData({
+  const { setCanvasImage } = useUpdateResumeData({
     index,
     content,
   });
@@ -32,8 +32,9 @@ const MultiImg0 = ({
             content={content}
             name={`${index}-${listIndex}`}
             size={{ height: 240, width: 440 }}
-            setReducerImage={setReducerImage}
+            setCanvasImage={setCanvasImage}
             listIndex={listIndex}
+            index={index}
           />
         );
       })}

@@ -12,6 +12,16 @@ function useUpdateResumeData({
 }) {
   const diapatch = useDispatch();
 
+  const setCanvasImage = async (
+    JSONstringOrImageUrl: string,
+    listIndex: number,
+    index: number
+  ) => {
+    const tempArr = [...content.image];
+    tempArr[listIndex] = JSONstringOrImageUrl;
+    diapatch(websiteAddImage(index, tempArr));
+  };
+
   const setReducerImage = async (
     JSONstringOrImageUrl: string,
     listIndex: number
@@ -32,6 +42,7 @@ function useUpdateResumeData({
   };
 
   return {
+    setCanvasImage: setCanvasImage,
     setReducerImage: setReducerImage,
     setReducerText: setReducerText,
   };

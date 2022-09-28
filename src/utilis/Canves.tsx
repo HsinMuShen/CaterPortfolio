@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { fabric } from "fabric";
 import styled from "styled-components";
 import firebase from "./firebase";
@@ -49,8 +49,13 @@ interface canvasProps {
   content: websiteComContent;
   name: string;
   size: { height: number; width: number };
-  setReducerImage: (JSONstring: string, listIndex: number) => void;
+  setCanvasImage: (
+    JSONstring: string,
+    listIndex: number,
+    index: number
+  ) => void;
   listIndex: number;
+  index: number;
   style?: any;
 }
 
@@ -58,12 +63,14 @@ const Canves = ({
   content,
   name,
   size,
-  setReducerImage,
+  setCanvasImage,
   listIndex,
+  index,
   style,
 }: canvasProps) => {
   const canvas: any = useRef();
   const storageJson = useRef("");
+  const [canvasJson, setCanvasJson] = useState<string>("");
   const isPreview = useSelector((state: RootState) => state.IsPreviewReducer);
 
   const addImage = async (file: File) => {
@@ -111,9 +118,10 @@ const Canves = ({
     });
     canvas.current.loadFromJSON(content.image[listIndex]);
     canvas.current.on("object:modified", () => {
-      setReducerImage(JSON.stringify(canvas.current), listIndex);
+      setCanvasImage(JSON.stringify(canvas.current), listIndex, index);
     });
-  }, []);
+    return () => canvas.current.dispose();
+  }, [index]);
 
   return (
     <Wrapper style={style}>

@@ -12,6 +12,17 @@ function useUpdateResumeData({
   content: portfolioComContent;
 }) {
   const diapatch = useDispatch();
+
+  const setCanvasImage = async (
+    JSONstringOrImageUrl: string,
+    listIndex: number,
+    index: number
+  ) => {
+    const tempArr = [...content.image];
+    tempArr[listIndex] = JSONstringOrImageUrl;
+    diapatch(portfolioAddImage(index, tempArr));
+  };
+
   const setReducerImage = async (JSONstring: string, listIndex: number) => {
     const tempArr = [...content.image];
     tempArr[listIndex] = JSONstring;
@@ -25,6 +36,7 @@ function useUpdateResumeData({
   };
 
   return {
+    setCanvasImage: setCanvasImage,
     setReducerImage: setReducerImage,
     setReducerText: setReducerText,
   };

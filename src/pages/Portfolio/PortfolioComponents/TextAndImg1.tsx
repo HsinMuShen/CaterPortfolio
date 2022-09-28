@@ -20,10 +20,11 @@ const TextAndImg1 = ({
   content: portfolioComContent;
   index: number;
 }) => {
-  const { setReducerImage, setReducerText } = useUpdateResumeData({
-    index,
-    content,
-  });
+  const { setReducerImage, setCanvasImage, setReducerText } =
+    useUpdateResumeData({
+      index,
+      content,
+    });
   return (
     <Wrapper>
       {content.image.map((_, listIndex) => {
@@ -33,8 +34,9 @@ const TextAndImg1 = ({
             content={content}
             name={`${index}-${listIndex}`}
             size={{ height: 240, width: 440 }}
-            setReducerImage={setReducerImage}
+            setCanvasImage={setCanvasImage}
             listIndex={listIndex}
+            index={index}
           />
         );
       })}
