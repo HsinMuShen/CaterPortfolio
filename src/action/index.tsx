@@ -68,7 +68,7 @@ export const resumeAddImage = (index: number, imageArr: string[]) => {
   };
 };
 
-export const resumeAddSetting = (type: string, text: string) => {
+export const resumeAddSetting = (type: string, text: string | boolean) => {
   return {
     type: ActionType.RESUME.ADD_SETTING,
     payload: { type, text },

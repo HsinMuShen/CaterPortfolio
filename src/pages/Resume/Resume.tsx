@@ -59,6 +59,11 @@ const Resume: React.FC = () => {
   const addDeleteCom = (deleteIndex: number) => {
     dispatch(resumeDeleteCom(deleteIndex));
   };
+
+  const changePublicMode = () => {
+    dispatch(resumeAddSetting("isPublic", !resumeData.isPublic));
+  };
+
   const uploadResume = async () => {
     htmlToImage.toPng(refPhoto.current!).then(async (dataUrl) => {
       console.log(dataUrl);
@@ -143,11 +148,12 @@ const Resume: React.FC = () => {
             )}
           </PreviewBtn>
         ) : null}
-
         <ResumeEditor>
           <PreviewDiv style={{ zIndex: isPreview ? "2" : "-1" }}></PreviewDiv>
           {isLoading ? (
             <Loading />
+          ) : resumeID !== userData.userID && !resumeData.isPublic ? (
+            "履歷不公開"
           ) : (
             <DragDropContext onDragEnd={handleOnDragEnd}>
               <div ref={refPhoto}>
@@ -216,7 +222,11 @@ const Resume: React.FC = () => {
                   ? "目前履歷為公開模式，是否要切換為隱私模式?"
                   : "目前履歷為隱私模式，是否要切換為公開模式?"}
               </PublicSetText>
-              <UpoloadBtn width="120px">
+              <UpoloadBtn
+                width="100px"
+                backgroundColor="none"
+                onClick={changePublicMode}
+              >
                 {resumeData.isPublic ? "設為隱私" : "設為公開"}
               </UpoloadBtn>
             </PublicSetArea>
@@ -226,10 +236,11 @@ const Resume: React.FC = () => {
                 dispatch(isPreviewTrue("resume"));
                 uploadResume();
               }}
-              width={"160px"}
+              width="160px"
+              backgroundColor="#ffffff"
               className="resumeUpload"
             >
-              將履歷儲存上架!
+              儲存履歷!
             </UpoloadBtn>
           </FinalEditArea>
         )}
@@ -334,11 +345,11 @@ const PublicSetText = styled.p`
   margin: 0 20px;
 `;
 
-const UpoloadBtn = styled.div<{ width: string }>`
+const UpoloadBtn = styled.div<{ width: string; backgroundColor: string }>`
   display: flex;
   justify-content: center;
   width: ${(props) => props.width};
-  background-color: #ffffff;
+  background-color: ${(props) => props.backgroundColor};
   padding: 5px 8px;
   margin: 20px 0;
   border-radius: 10px;
