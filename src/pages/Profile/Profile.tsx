@@ -23,12 +23,26 @@ const Wrapper = styled.div`
   margin: 60px;
 `;
 
+const Hr = styled.hr`
+  border-top: 2px solid #9a9a9a;
+  width: 900px;
+  margin: 20px auto 30px;
+  @media screen and (max-width: 1279px) {
+    width: 80vw;
+  }
+`;
+
 const CreaterArea = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-top: 40px;
   width: 960px;
+  @media screen and (max-width: 1279px) {
+    flex-direction: column;
+    width: 90vw;
+    align-items: center;
+  }
 `;
+
 const ResumeArea = styled(Link)`
   width: 320px;
   height: 400px;
@@ -38,6 +52,11 @@ const ResumeArea = styled(Link)`
   overflow: hidden;
   &:hover {
     box-shadow: 0px 0px 10px #777777;
+  }
+  @media screen and (max-width: 1279px) {
+    height: 240px;
+    width: 60vw;
+    margin: 10px 0;
   }
 `;
 
@@ -59,8 +78,10 @@ const PreviewImg = styled.img<{ width: string }>`
   transition: scale 0.5s, background-color 0.5s;
   &:hover {
     scale: 1.05;
-
-    /* background-color: #55555540; */
+  }
+  @media screen and (max-width: 1279px) {
+    height: 200px;
+    width: 60vw;
   }
 `;
 
@@ -88,6 +109,11 @@ const WebsiteArea = styled(Link)`
   overflow: hidden;
   &:hover {
     box-shadow: 0px 0px 10px #777777;
+  }
+  @media screen and (max-width: 1279px) {
+    height: 240px;
+    width: 60vw;
+    margin: 10px 0;
   }
 `;
 
@@ -172,50 +198,48 @@ const Profile: React.FC = () => {
 
   return (
     <Wrapper>
-      <>
-        <MemberIntro
-          profileData={profileData}
-          setProfileData={setProfileData}
-          setIsLargeLoading={setIsLargeLoading}
-        />
-        <CreaterArea>
-          <ResumeArea to={`/resume/${profileUserID}`} id="resumeArea">
-            <ImgArea>
-              <PreviewImg
-                src={
-                  resumeData.coverImage ? resumeData.coverImage : initialResume
-                }
-                width={"320px"}
-              />
-            </ImgArea>
-            <CreaterLabelArea>
-              <CreaterLabel>{profileData.name}的履歷</CreaterLabel>
-            </CreaterLabelArea>
-          </ResumeArea>
-          <WebsiteArea to={`/website/${profileUserID}`} id="websiteArea">
-            <ImgArea>
-              <PreviewImg
-                src={
-                  websiteData.coverImage
-                    ? websiteData.coverImage
-                    : initialWebsite
-                }
-                width={"620px"}
-              />
-            </ImgArea>
-            <CreaterLabelArea>
-              <CreaterLabel>{profileData.name}的網站</CreaterLabel>
-            </CreaterLabelArea>
-          </WebsiteArea>
-        </CreaterArea>
-        <QusetionMark
-          stepType={
-            profileData.userID === userData.userID
-              ? introSteps.profileUser
-              : introSteps.profileOthers
-          }
-        />
-      </>
+      <MemberIntro
+        profileData={profileData}
+        setProfileData={setProfileData}
+        setIsLargeLoading={setIsLargeLoading}
+      />
+      <Hr />
+      <CreaterArea>
+        <ResumeArea to={`/resume/${profileUserID}`} id="resumeArea">
+          <ImgArea>
+            <PreviewImg
+              src={
+                resumeData.coverImage ? resumeData.coverImage : initialResume
+              }
+              width={"320px"}
+            />
+          </ImgArea>
+          <CreaterLabelArea>
+            <CreaterLabel>{profileData.name}的履歷</CreaterLabel>
+          </CreaterLabelArea>
+        </ResumeArea>
+        <WebsiteArea to={`/website/${profileUserID}`} id="websiteArea">
+          <ImgArea>
+            <PreviewImg
+              src={
+                websiteData.coverImage ? websiteData.coverImage : initialWebsite
+              }
+              width={"620px"}
+            />
+          </ImgArea>
+          <CreaterLabelArea>
+            <CreaterLabel>{profileData.name}的網站</CreaterLabel>
+          </CreaterLabelArea>
+        </WebsiteArea>
+      </CreaterArea>
+      <QusetionMark
+        stepType={
+          profileData.userID === userData.userID
+            ? introSteps.profileUser
+            : introSteps.profileOthers
+        }
+      />
+
       {isLoading ? <LargeLoading backgroundColor={"#ffffff"} /> : null}
       {isLargeLoading ? <LargeLoading backgroundColor={"#ffffffb3"} /> : null}
     </Wrapper>

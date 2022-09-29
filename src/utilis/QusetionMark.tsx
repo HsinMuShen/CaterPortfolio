@@ -17,6 +17,9 @@ const QusetionMarkWrapper = styled.div`
   & :hover {
     color: #6d6d6d;
   }
+  @media screen and (max-width: 1279px) {
+    right: 5px;
+  }
 `;
 
 interface State {

@@ -24,6 +24,7 @@ const FollowBtn = ({ profileData, setIsLargeLoading }: UserReducer) => {
           dispatch(setAlert({ isAlert: false, text: "" }));
         }, 2000);
       } else {
+        setIsLargeLoading(true);
         await firebase.addMemberFollowing(profileData, userData);
         setIsFollow(true);
         setIsLargeLoading(false);
@@ -45,7 +46,6 @@ const FollowBtn = ({ profileData, setIsLargeLoading }: UserReducer) => {
       let followMatch = false;
       profileData.followers.forEach(
         (data: { userID: string; name: string }) => {
-          console.log(data, userData.userID);
           if (data.userID === userData.userID) {
             console.log("follow!");
             setIsFollow(true);
