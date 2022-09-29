@@ -118,13 +118,24 @@ export const websiteDeleteCom = (index: number) => {
   };
 };
 
-export const websiteFillContent = (
+export const websiteChangeText = (
   index: number,
   textArr: string[] | null[]
 ) => {
   return {
-    type: ActionType.WEBSITE.FILL_CONTENT,
+    type: ActionType.WEBSITE.CHANGE_TEXT,
     payload: { index, textArr },
+  };
+};
+
+export const websiteFillContent = (
+  index: number,
+  text: string,
+  listIndex: number
+) => {
+  return {
+    type: ActionType.WEBSITE.FILL_CONTENT,
+    payload: { index, text, listIndex },
   };
 };
 

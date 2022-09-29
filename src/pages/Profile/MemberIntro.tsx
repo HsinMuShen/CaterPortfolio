@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import { RootState } from "../../reducers";
 import { useSelector, useDispatch } from "react-redux";
@@ -6,13 +6,13 @@ import { isPreviewProfile, initialSetUserData, setAlert } from "../../action";
 import { UserReducer } from "../../reducers";
 import { Link } from "react-router-dom";
 
-import LargeLoading from "../../utilis/LargeLoading";
 import firebase from "../../utilis/firebase";
 import FollowBtn from "./FollowBtn";
 import ChatButton from "./ChatButton";
-import { portfolioReducer } from "../../reducers/PortfolioContent";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 const Wrapper = styled.div``;
 
@@ -53,12 +53,12 @@ const ImageInput = styled.input`
 const AddImgBtn = styled.div`
   width: 40px;
   height: 40px;
-
   border-radius: 50%;
   background-color: #ffffffb3;
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 20px;
 `;
 
 const MainImageArea = styled.div`
@@ -71,12 +71,16 @@ const MainImageArea = styled.div`
 const IntroInput = styled.textarea`
   width: 420px;
   height: 80px;
+  padding: 5px;
 `;
 
 const IntroTextArea = styled.div`
   width: 420px;
   font-size: 14px;
   margin-right: 40px;
+  white-space: pre;
+  display: flex;
+  justify-content: center;
 `;
 
 const NameTag = styled.p`
@@ -152,7 +156,13 @@ const MemberIntro = ({
         borderWidth={"0"}
       >
         <ImageLabel>
-          {isPreviewContent.profileIntro ? "" : <AddImgBtn>+</AddImgBtn>}
+          {isPreviewContent.profileIntro ? (
+            ""
+          ) : (
+            <AddImgBtn>
+              <FontAwesomeIcon icon={faPlus} />
+            </AddImgBtn>
+          )}
           <ImageInput
             type="file"
             id="postImage"
@@ -173,7 +183,13 @@ const MemberIntro = ({
             borderWidth={"1px"}
           >
             <ImageLabel>
-              {isPreviewContent.profileIntro ? "" : <AddImgBtn>+</AddImgBtn>}
+              {isPreviewContent.profileIntro ? (
+                ""
+              ) : (
+                <AddImgBtn>
+                  <FontAwesomeIcon icon={faPlus} />
+                </AddImgBtn>
+              )}
               <ImageInput
                 type="file"
                 id="postImage"

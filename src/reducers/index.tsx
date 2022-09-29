@@ -25,6 +25,7 @@ export const ActionType: {
   WEBSITE: {
     ADD_COMPONENT: string;
     DELETE_COMPONENT: string;
+    CHANGE_TEXT: string;
     FILL_CONTENT: string;
     ADD_IMAGE: string;
     ADD_TIME: string;
@@ -77,6 +78,7 @@ export const ActionType: {
   WEBSITE: {
     ADD_COMPONENT: "WEBSITE_ADD_COMPONENT",
     DELETE_COMPONENT: "WEBSITE_DELETE_COMPONENT",
+    CHANGE_TEXT: "WEBSITE_CHANGE_TEXT",
     FILL_CONTENT: "WEBSITE_FILL_CONTENT",
     ADD_IMAGE: "WEBSITE_ADD_IMAGE",
     ADD_TIME: "WEBSITE_ADD_TIME",

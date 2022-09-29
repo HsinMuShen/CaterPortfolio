@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Canves from "../../../utilis/Canves";
+import { useMediaQuery } from "../../../utilis/useMediaQuery";
 import { websiteComContent } from "../Website";
 import useUpdateResumeData from "./WebsiteUpdateDataFunction";
 
@@ -10,6 +11,11 @@ const Wrapper = styled.div`
   justify-content: center;
   margin: 0 auto;
   width: 900px;
+  @media screen and (max-width: 1279px) {
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 `;
 
 const FullImg1 = ({
@@ -19,19 +25,46 @@ const FullImg1 = ({
   content: websiteComContent;
   index: number;
 }) => {
-  const { imageFileList, textList, setReducerImage, setReducerText } =
-    useUpdateResumeData({ index, content });
+  const { setCanvasImage } = useUpdateResumeData({
+    index,
+    content,
+  });
+  const isRowBased0 = useMediaQuery("(min-width: 1020px)");
+  const isRowBased1 = useMediaQuery("(min-width: 925px)");
+  const isRowBased2 = useMediaQuery("(min-width: 825px)");
+  const isRowBased3 = useMediaQuery("(min-width: 725px)");
+  const isRowBased4 = useMediaQuery("(min-width: 625px)");
+  const isRowBased5 = useMediaQuery("(min-width: 525px)");
+  const isRowBased6 = useMediaQuery("(min-width: 425px)");
   return (
     <Wrapper>
-      {imageFileList.map((_, listIndex) => {
+      {content.image.map((_, listIndex) => {
         return (
           <Canves
             key={listIndex}
             content={content}
             name={`${index}-${listIndex}`}
             size={{ height: 200, width: 900 }}
-            setReducerImage={setReducerImage}
+            setCanvasImage={setCanvasImage}
             listIndex={listIndex}
+            index={index}
+            style={{
+              scale: isRowBased0
+                ? "1"
+                : isRowBased1
+                ? "0.9"
+                : isRowBased2
+                ? "0.8"
+                : isRowBased3
+                ? "0.7"
+                : isRowBased4
+                ? "0.6"
+                : isRowBased5
+                ? "0.5"
+                : isRowBased6
+                ? "0.4"
+                : "0.33",
+            }}
           />
         );
       })}

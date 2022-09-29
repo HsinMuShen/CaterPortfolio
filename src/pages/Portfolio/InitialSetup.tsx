@@ -9,6 +9,7 @@ import {
   websiteFillContent,
   websiteAddImage,
   websiteChangePortfolioID,
+  websiteChangeText,
 } from "../../action";
 import InitialImg from "../../utilis/cater.png";
 
@@ -101,7 +102,7 @@ const InitialSetup = ({ portfolioID }: { portfolioID: string | undefined }) => {
       tempArr[portfolioIndex.portfolioListIndex] = text;
     }
 
-    dispatch(websiteFillContent(portfolioIndex.index, tempArr));
+    dispatch(websiteChangeText(portfolioIndex.index, tempArr));
   };
 
   useEffect(() => {

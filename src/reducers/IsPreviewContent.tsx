@@ -1,7 +1,7 @@
 import { AnyAction } from "redux";
 import { ActionType } from ".";
 
-interface isPreviewReducer {
+export interface isPreviewReducer {
   userIsLogin: boolean;
   profileIntro: boolean;
   resume: boolean;

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Canves from "../../../utilis/Canves";
 import EditText from "../../../utilis/EditText";
 import { portfolioComContent } from "../Portfolio";
-import useUpdateResumeData from "./WebsiteUpdateDataFunction";
+import useUpdateResumeData from "./PortfolioUpdateDataFunction";
 
 const Wrapper = styled.div`
   display: flex;
@@ -20,19 +20,22 @@ const FullImg0 = ({
   content: portfolioComContent;
   index: number;
 }) => {
-  const { imageFileList, textList, setReducerImage, setReducerText } =
-    useUpdateResumeData({ index, content });
+  const { setCanvasImage } = useUpdateResumeData({
+    index,
+    content,
+  });
   return (
     <Wrapper>
-      {imageFileList.map((_, listIndex) => {
+      {content.image.map((_, listIndex) => {
         return (
           <Canves
             key={listIndex}
             content={content}
             name={`${index}-${listIndex}`}
             size={{ height: 400, width: 900 }}
-            setReducerImage={setReducerImage}
+            setCanvasImage={setCanvasImage}
             listIndex={listIndex}
+            index={index}
             style={{
               margin: "0px auto",
             }}

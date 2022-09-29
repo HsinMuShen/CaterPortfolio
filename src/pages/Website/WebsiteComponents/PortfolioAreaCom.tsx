@@ -10,9 +10,9 @@ import {
   setPortfolioListIndex,
   websiteChangePortfolioID,
   websiteAddImage,
-  websiteFillContent,
   isPreviewTrue,
   isPreviewFalse,
+  websiteChangeText,
 } from "../../../action";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBook, faTrash } from "@fortawesome/free-solid-svg-icons";
@@ -146,7 +146,7 @@ const PortfolioAreaCom = ({
     dispatch(websiteAddImage(index, tempImgArr));
     const tempTextArr = [...websiteData.content[index].text];
     tempTextArr.splice(portfolioListIndex, 1);
-    dispatch(websiteFillContent(index, tempTextArr));
+    dispatch(websiteChangeText(index, tempTextArr));
 
     const tempWebsiteData = { ...websiteData };
     tempWebsiteData.content[index] = {

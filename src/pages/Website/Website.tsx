@@ -34,6 +34,7 @@ import { deleteDoc, doc } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
 import QusetionMark, { introSteps } from "../../utilis/QusetionMark";
 import WebsiteInitialSetup from "./WebsiteInitialSetup";
+import LargeLoading from "../../utilis/LargeLoading";
 
 export interface websiteComContent {
   image: string[];
@@ -46,6 +47,7 @@ export interface websiteComContent {
 
 const Website = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLargeLoading, setIsLargeLoading] = useState<boolean>(false);
   const refPhoto = useRef<HTMLDivElement>(null);
   const deletePortfolioContent = useRef<number>();
   const websiteID = useParams().id;
@@ -168,7 +170,9 @@ const Website = () => {
             )}
           </PreviewBtn>
         ) : null}
-        {isPreview ? null : <WebsiteInitialSetup />}
+        {isPreview ? null : (
+          <WebsiteInitialSetup setIsLargeLoading={setIsLargeLoading} />
+        )}
 
         <DragDropContext onDragEnd={handleOnDragEnd}>
           <div ref={refPhoto}>
@@ -276,6 +280,7 @@ const Website = () => {
         }
         type={websiteID === userData.userID ? "website" : ""}
       />
+      {isLargeLoading ? <LargeLoading backgroundColor={"#ffffffb3"} /> : null}
     </WebsiteBody>
   );
 };
@@ -297,21 +302,31 @@ const Wrapper = styled.div`
   width: 960px;
   margin: 0 auto;
   background-color: #ffffff;
-  /* border: 1px solid; */
+  @media screen and (max-width: 1279px) {
+    width: 90%;
+  }
 `;
 
 const PreviewBtn = styled.div`
   position: fixed;
   top: 180px;
   right: 25px;
+  width: 80px;
   background-color: #ffffff;
   padding: 5px 8px;
   border-radius: 10px;
   border: 1px solid;
   cursor: pointer;
+  z-index: 3;
   &:hover {
     background-color: #555555;
     color: #ffffff;
+  }
+  @media screen and (max-width: 1279px) {
+    font-size: 14px;
+    width: 70px;
+    padding: 3px 3px;
+    right: 15px;
   }
 `;
 
@@ -322,6 +337,10 @@ const WebsiteLayouts = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin: 0 auto;
+  @media screen and (max-width: 1279px) {
+    width: 100%;
+  }
 `;
 
 const PreviewDiv = styled.div`
@@ -329,6 +348,9 @@ const PreviewDiv = styled.div`
   width: 900px;
   height: 100%;
   z-index: 2;
+  @media screen and (max-width: 1279px) {
+    width: 100%;
+  }
 `;
 
 const SingleComponent = styled.div`
@@ -336,6 +358,10 @@ const SingleComponent = styled.div`
   width: 960px;
   position: relative;
   margin: 10px 0;
+  border: 1px solid;
+  @media screen and (max-width: 1279px) {
+    width: 100%;
+  }
 `;
 
 const MoveBtn = styled.div`

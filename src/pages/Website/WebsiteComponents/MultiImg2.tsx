@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import Canves from "../../../utilis/Canves";
+import PreviewImageInput from "../../../utilis/PreviewImageInput";
+import { useMediaQuery } from "../../../utilis/useMediaQuery";
 import { websiteComContent } from "../Website";
 import useUpdateResumeData from "./WebsiteUpdateDataFunction";
 
@@ -10,6 +12,11 @@ const Wrapper = styled.div`
   justify-content: space-between;
   margin: 0 auto;
   width: 900px;
+  @media screen and (max-width: 1279px) {
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 `;
 
 const MultiImg3 = ({
@@ -19,30 +26,33 @@ const MultiImg3 = ({
   content: websiteComContent;
   index: number;
 }) => {
-  const { imageFileList, textList, setReducerImage, setReducerText } =
-    useUpdateResumeData({ index, content });
+  const isRowBased0 = useMediaQuery("(min-width: 350px)");
+  const isRowBased1 = useMediaQuery("(min-width: 690px)");
+  const { setReducerImage, setReducerText } = useUpdateResumeData({
+    index,
+    content,
+  });
 
   const sizeArr = [
     {
-      height: 240,
-      width: 290,
+      height: "240px",
+      width: isRowBased0 ? "290px" : "85vw",
     },
     {
-      height: 240,
-      width: 590,
+      height: "240px",
+      width: isRowBased1 ? "595px" : "85vw",
     },
   ];
   return (
     <Wrapper>
-      {imageFileList.map((_, listIndex) => {
+      {content.image.map((_, listIndex) => {
         return (
-          <Canves
+          <PreviewImageInput
             key={listIndex}
-            content={content}
-            name={`${index}-${listIndex}`}
-            size={sizeArr[listIndex]}
             setReducerImage={setReducerImage}
             listIndex={listIndex}
+            image={content.image[listIndex]}
+            style={sizeArr[listIndex]}
           />
         );
       })}

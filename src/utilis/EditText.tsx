@@ -14,10 +14,11 @@ import {
   faListUl,
   faListOl,
   faAlignRight,
-  faAlignJustify,
   faAlignLeft,
   faAlignCenter,
 } from "@fortawesome/free-solid-svg-icons";
+import { useSelector } from "react-redux";
+import { RootState } from "../reducers";
 
 const BtnWrapper = styled.div`
   position: absolute;
@@ -186,34 +187,51 @@ const MenuBar: React.FC<any> = ({ editor, isShowBtn }) => {
 
 interface props {
   text: string;
-  setReducerText: (text: string, listIndex: number) => void;
+  id: string;
+  setReducerText: (text: string, listIndex: number, index: number) => void;
   listIndex: number;
   style?: any;
+  index: number;
 }
 
-export default ({ text, setReducerText, listIndex, style }: props) => {
+export default ({
+  text,
+  id,
+  setReducerText,
+  listIndex,
+  style,
+  index,
+}: props) => {
   const [isShowBtn, setIsShowBtn] = useState<boolean>(false);
-  const editor = useEditor({
-    extensions: [
-      StarterKit,
-      TextStyle,
-      Color,
-      TextAlign.configure({
-        types: ["heading", "paragraph"],
-      }),
-    ],
-    content: `
+
+  let isPreviewData = useSelector((state: RootState) => state.IsPreviewReducer);
+
+  const setText = (html: string) => {
+    setReducerText(html, listIndex, index);
+  };
+  const editor = useEditor(
+    {
+      extensions: [
+        StarterKit,
+        TextStyle,
+        Color,
+        TextAlign.configure({
+          types: ["heading", "paragraph"],
+        }),
+      ],
+      content: `
       ${text}
     `,
-    onUpdate: ({ editor }) => {
-      const html = editor.getHTML();
-      setReducerText(html, listIndex);
+      onUpdate: ({ editor }) => {
+        const html = editor.getHTML();
+        setReducerText(html, listIndex, index);
+      },
     },
-  });
-
+    [index]
+  );
   useEffect(() => {
     const closeBtn = (e: any) => {
-      if (e.target.closest(".text") !== null) {
+      if (e.target.closest(`.text${id}${listIndex}`) !== null) {
         return;
       }
       setIsShowBtn(false);
@@ -222,10 +240,18 @@ export default ({ text, setReducerText, listIndex, style }: props) => {
   }, []);
 
   return (
-    <div className="text">
-      <MenuBar editor={editor} isShowBtn={isShowBtn} className="tex2" />
+    <div className={`text${id}${listIndex}`}>
+      <MenuBar editor={editor} isShowBtn={isShowBtn} />
       <EditorContent
-        style={style}
+        style={{
+          ...style,
+          border:
+            isPreviewData.resume &&
+            isPreviewData.website &&
+            isPreviewData.portfolio
+              ? "0px"
+              : "1px solid",
+        }}
         editor={editor}
         onClick={() => {
           setIsShowBtn(true);
@@ -234,9 +260,3 @@ export default ({ text, setReducerText, listIndex, style }: props) => {
     </div>
   );
 };
-
-// onBlur={()=>{setIsShowBtn(false)}}
-// onClick={(e)=>{
-//     const element = (e.target as HTMLElement).parentElement;
-//     console.log(element)}}
-// onFocus={(e)=>{console.log(e.target); setIsShowBtn(true)}}

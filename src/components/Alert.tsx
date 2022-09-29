@@ -8,7 +8,7 @@ import { faFaceSmile } from "@fortawesome/free-solid-svg-icons";
 const Wrapper = styled.div<{ isAlert: boolean }>`
   position: fixed;
   top: 70px;
-  right: ${(props) => (props.isAlert ? "20px" : "-240px")};
+  right: ${(props) => (props.isAlert ? "20px" : "-320px")};
   width: 320px;
   height: 80px;
   border: 2px solid;
@@ -34,8 +34,8 @@ const Alert = () => {
   return (
     <Wrapper isAlert={alertData.isAlert}>
       <AlertText>
+        {`${alertData.text}\xa0\xa0`}
         <FontAwesomeIcon icon={faFaceSmile} />
-        {`\xa0\xa0${alertData.text}`}
       </AlertText>
     </Wrapper>
   );

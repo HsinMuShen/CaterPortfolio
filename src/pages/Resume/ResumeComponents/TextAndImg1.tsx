@@ -19,16 +19,18 @@ const TextAndImg1 = ({
   index: number;
   content: resumeComContent;
 }) => {
-  const { imageFileList, setResumeReducerImage, setReducerText } =
-    useUpdateResumeData({ index, content });
+  const { setReducerImage, setReducerText } = useUpdateResumeData({
+    index,
+    content,
+  });
 
   return (
     <Wrapper>
-      {imageFileList.map((_, listIndex) => {
+      {content.image.map((_, listIndex) => {
         return (
           <PreviewImageInput
             key={listIndex}
-            setResumeReducerImage={setResumeReducerImage}
+            setReducerImage={setReducerImage}
             listIndex={listIndex}
             image={content.image[listIndex]}
             style={{
@@ -45,8 +47,10 @@ const TextAndImg1 = ({
           <EditText
             key={listIndex}
             text={content.text[listIndex]}
+            id={content.id}
             listIndex={listIndex}
             setReducerText={setReducerText}
+            index={index}
             style={{
               width: "390px",
               padding: " 0 10px",

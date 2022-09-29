@@ -11,27 +11,32 @@ function useUpdateResumeData({
   index: number;
   content: portfolioComContent;
 }) {
-  const [imageFileList, setImageFileList] = useState<string[]>(content.image);
-  const [textList, setTextList] = useState<string[]>(content.text);
   const diapatch = useDispatch();
+
+  const setCanvasImage = async (
+    JSONstringOrImageUrl: string,
+    listIndex: number,
+    index: number
+  ) => {
+    const tempArr = [...content.image];
+    tempArr[listIndex] = JSONstringOrImageUrl;
+    diapatch(portfolioAddImage(index, tempArr));
+  };
+
   const setReducerImage = async (JSONstring: string, listIndex: number) => {
-    console.log(JSONstring);
     const tempArr = [...content.image];
     tempArr[listIndex] = JSONstring;
-    setImageFileList(tempArr);
     diapatch(portfolioAddImage(index, tempArr));
   };
 
   const setReducerText = async (text: string, listIndex: number) => {
     const tempArr = [...content.text];
     tempArr[listIndex] = text;
-    setTextList(tempArr);
     diapatch(portfolioFillContent(index, tempArr));
   };
 
   return {
-    imageFileList: imageFileList,
-    textList: textList,
+    setCanvasImage: setCanvasImage,
     setReducerImage: setReducerImage,
     setReducerText: setReducerText,
   };

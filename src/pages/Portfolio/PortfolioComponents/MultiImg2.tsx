@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Canves from "../../../utilis/Canves";
 import { portfolioComContent } from "../Portfolio";
-import useUpdateResumeData from "./WebsiteUpdateDataFunction";
+import useUpdateResumeData from "./PortfolioUpdateDataFunction";
 
 const Wrapper = styled.div`
   display: flex;
@@ -19,8 +19,10 @@ const MultiImg3 = ({
   content: portfolioComContent;
   index: number;
 }) => {
-  const { imageFileList, textList, setReducerImage, setReducerText } =
-    useUpdateResumeData({ index, content });
+  const { setCanvasImage } = useUpdateResumeData({
+    index,
+    content,
+  });
 
   const sizeArr = [
     {
@@ -34,15 +36,16 @@ const MultiImg3 = ({
   ];
   return (
     <Wrapper>
-      {imageFileList.map((_, listIndex) => {
+      {content.image.map((_, listIndex) => {
         return (
           <Canves
             key={listIndex}
             content={content}
             name={`${index}-${listIndex}`}
             size={sizeArr[listIndex]}
-            setReducerImage={setReducerImage}
+            setCanvasImage={setCanvasImage}
             listIndex={listIndex}
+            index={index}
           />
         );
       })}

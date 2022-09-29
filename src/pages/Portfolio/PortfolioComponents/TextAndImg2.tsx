@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Canves from "../../../utilis/Canves";
 import EditText from "../../../utilis/EditText";
 import { portfolioComContent } from "../Portfolio";
-import useUpdateResumeData from "./WebsiteUpdateDataFunction";
+import useUpdateResumeData from "./PortfolioUpdateDataFunction";
 
 const Wrapper = styled.div`
   display: flex;
@@ -20,17 +20,22 @@ const TextAndImg2 = ({
   content: portfolioComContent;
   index: number;
 }) => {
-  const { imageFileList, textList, setReducerImage, setReducerText } =
-    useUpdateResumeData({ index, content });
+  const { setReducerImage, setCanvasImage, setReducerText } =
+    useUpdateResumeData({
+      index,
+      content,
+    });
   return (
     <Wrapper>
-      {textList.map((_, listIndex) => {
+      {content.image.map((_, listIndex) => {
         return (
           <EditText
             key={listIndex}
             text={content.text[listIndex]}
+            id={content.id}
             listIndex={listIndex}
             setReducerText={setReducerText}
+            index={index}
             style={{
               width: "250px",
               padding: " 0 10px",
@@ -39,15 +44,17 @@ const TextAndImg2 = ({
           />
         );
       })}
-      {imageFileList.map((_, listIndex) => {
+      {content.text.map((_, listIndex) => {
         return (
           <Canves
             key={listIndex}
             content={content}
             name={`${index}-${listIndex}`}
             size={{ height: 240, width: 440 }}
-            setReducerImage={setReducerImage}
+            setCanvasImage={setCanvasImage}
+            // setReducerImage={setReducerImage}
             listIndex={listIndex}
+            index={index}
           />
         );
       })}

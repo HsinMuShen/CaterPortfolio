@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { fabric } from "fabric";
 import styled from "styled-components";
 import firebase from "./firebase";
@@ -17,6 +17,27 @@ const ImageLabel = styled.label`
     background-color: #555555;
     color: #ffffff;
   }
+  @media screen and (max-width: 1020px) {
+    font-size: 14px;
+  }
+  @media screen and (max-width: 925px) {
+    font-size: 20px;
+  }
+  @media screen and (max-width: 825px) {
+    font-size: 22px;
+  }
+  @media screen and (max-width: 725px) {
+    font-size: 24px;
+  }
+  @media screen and (max-width: 625px) {
+    font-size: 28px;
+  }
+  @media screen and (max-width: 525px) {
+    font-size: 34px;
+  }
+  @media screen and (max-width: 425px) {
+    font-size: 36px;
+  }
 `;
 
 const ImageInput = styled.input`
@@ -28,9 +49,14 @@ const BtnsArea = styled.div`
   flex-wrap: wrap;
 `;
 
+const CanvasWrapper = styled.div<{ style: any }>`
+  ${(props) => props.style}
+`;
+
 const Wrapper = styled.div<{ style: any }>`
   ${(props) => props.style}
 `;
+// const Wrapper = styled.div``;
 
 const Btns = styled.div`
   border: 1px solid;
@@ -43,14 +69,40 @@ const Btns = styled.div`
     background-color: #555555;
     color: #ffffff;
   }
+  @media screen and (max-width: 1020px) {
+    font-size: 14px;
+  }
+  @media screen and (max-width: 925px) {
+    font-size: 20px;
+  }
+  @media screen and (max-width: 825px) {
+    font-size: 22px;
+  }
+  @media screen and (max-width: 725px) {
+    font-size: 24px;
+  }
+  @media screen and (max-width: 625px) {
+    font-size: 28px;
+  }
+  @media screen and (max-width: 525px) {
+    font-size: 34px;
+  }
+  @media screen and (max-width: 425px) {
+    font-size: 36px;
+  }
 `;
 
 interface canvasProps {
   content: websiteComContent;
   name: string;
   size: { height: number; width: number };
-  setReducerImage: (JSONstring: string, listIndex: number) => void;
+  setCanvasImage: (
+    JSONstring: string,
+    listIndex: number,
+    index: number
+  ) => void;
   listIndex: number;
+  index: number;
   style?: any;
 }
 
@@ -58,8 +110,9 @@ const Canves = ({
   content,
   name,
   size,
-  setReducerImage,
+  setCanvasImage,
   listIndex,
+  index,
   style,
 }: canvasProps) => {
   const canvas: any = useRef();
@@ -111,12 +164,14 @@ const Canves = ({
     });
     canvas.current.loadFromJSON(content.image[listIndex]);
     canvas.current.on("object:modified", () => {
-      setReducerImage(JSON.stringify(canvas.current), listIndex);
+      setCanvasImage(JSON.stringify(canvas.current), listIndex, index);
     });
-  }, []);
+    return () => canvas.current.dispose();
+  }, [index]);
 
   return (
     <Wrapper style={style}>
+      {/* <CanvasWrapper style={style}> */}
       <canvas
         id={name}
         style={{
@@ -126,6 +181,7 @@ const Canves = ({
               : "1px solid",
         }}
       ></canvas>
+      {/* </CanvasWrapper> */}
 
       {isPreview.website && isPreview.portfolio ? null : (
         <BtnsArea>

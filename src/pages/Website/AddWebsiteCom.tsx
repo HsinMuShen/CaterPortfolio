@@ -27,10 +27,15 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+
   background-color: #eaeaea;
   padding: 20px;
   border-radius: 15px;
   margin-top: 40px;
+  margin: 20px auto;
+  @media screen and (max-width: 1279px) {
+    width: 85vw;
+  }
 `;
 
 const Title = styled.p`
@@ -49,6 +54,9 @@ const SelectionArea = styled.div<{ justify: string }>`
   width: 900px;
   flex-direction: row;
   flex-wrap: wrap;
+  @media screen and (max-width: 1279px) {
+    width: 80vw;
+  }
 `;
 
 const SingleSelectArea = styled.div`

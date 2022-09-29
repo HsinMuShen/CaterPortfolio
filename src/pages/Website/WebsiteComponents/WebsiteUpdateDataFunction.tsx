@@ -1,7 +1,6 @@
-import React, { useState } from "react";
-import firebase from "../../../utilis/firebase";
 import { useDispatch } from "react-redux";
 import { websiteAddImage, websiteFillContent } from "../../../action";
+import firebase from "../../../utilis/firebase";
 import { websiteComContent } from "../Website";
 
 function useUpdateResumeData({
@@ -11,27 +10,39 @@ function useUpdateResumeData({
   index: number;
   content: websiteComContent;
 }) {
-  const [imageFileList, setImageFileList] = useState<string[]>(content.image);
-  const [textList, setTextList] = useState<string[]>(content.text);
   const diapatch = useDispatch();
-  const setReducerImage = async (JSONstring: string, listIndex: number) => {
-    console.log(JSONstring);
+
+  const setCanvasImage = async (
+    JSONstringOrImageUrl: string,
+    listIndex: number,
+    index: number
+  ) => {
     const tempArr = [...content.image];
-    tempArr[listIndex] = JSONstring;
-    setImageFileList(tempArr);
+    tempArr[listIndex] = JSONstringOrImageUrl;
     diapatch(websiteAddImage(index, tempArr));
   };
 
-  const setReducerText = async (text: string, listIndex: number) => {
+  const setReducerImage = async (
+    JSONstringOrImageUrl: string,
+    listIndex: number
+  ) => {
+    const tempArr = [...content.image];
+    tempArr[listIndex] = JSONstringOrImageUrl;
+    diapatch(websiteAddImage(index, tempArr));
+  };
+
+  const setReducerText = async (
+    text: string,
+    listIndex: number,
+    index: number
+  ) => {
     const tempArr = [...content.text];
     tempArr[listIndex] = text;
-    setTextList(tempArr);
-    diapatch(websiteFillContent(index, tempArr));
+    diapatch(websiteFillContent(index, text, listIndex));
   };
 
   return {
-    imageFileList: imageFileList,
-    textList: textList,
+    setCanvasImage: setCanvasImage,
     setReducerImage: setReducerImage,
     setReducerText: setReducerText,
   };

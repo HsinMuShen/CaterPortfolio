@@ -20,8 +20,10 @@ const Text2 = ({
   index: number;
   content: resumeComContent;
 }) => {
-  const { imageFileList, setResumeReducerImage, setReducerText } =
-    useUpdateResumeData({ index, content });
+  const { setReducerImage, setReducerText } = useUpdateResumeData({
+    index,
+    content,
+  });
   const styleArr = [
     {
       width: "250px",
@@ -43,8 +45,10 @@ const Text2 = ({
           <EditText
             key={listIndex}
             text={content.text[listIndex]}
+            id={content.id}
             listIndex={listIndex}
             setReducerText={setReducerText}
+            index={index}
             style={styleArr[listIndex]}
           />
         );

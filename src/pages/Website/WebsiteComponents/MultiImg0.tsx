@@ -1,8 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import Canves from "../../../utilis/Canves";
+import PreviewImageInput from "../../../utilis/PreviewImageInput";
 import { websiteComContent } from "../Website";
 import useUpdateResumeData from "./WebsiteUpdateDataFunction";
+import { useMediaQuery } from "../../../utilis/useMediaQuery";
 
 const Wrapper = styled.div`
   display: flex;
@@ -10,6 +11,11 @@ const Wrapper = styled.div`
   justify-content: space-between;
   margin: 0 auto;
   width: 900px;
+  @media screen and (max-width: 1279px) {
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 `;
 
 const MultiImg0 = ({
@@ -19,19 +25,24 @@ const MultiImg0 = ({
   content: websiteComContent;
   index: number;
 }) => {
-  const { imageFileList, textList, setReducerImage, setReducerText } =
-    useUpdateResumeData({ index, content });
+  const isRowBased = useMediaQuery("(min-width: 500px)");
+  const { setReducerImage, setReducerText } = useUpdateResumeData({
+    index,
+    content,
+  });
   return (
     <Wrapper>
-      {imageFileList.map((_, listIndex) => {
+      {content.image.map((_, listIndex) => {
         return (
-          <Canves
+          <PreviewImageInput
             key={listIndex}
-            content={content}
-            name={`${index}-${listIndex}`}
-            size={{ height: 240, width: 440 }}
             setReducerImage={setReducerImage}
             listIndex={listIndex}
+            image={content.image[listIndex]}
+            style={{
+              width: isRowBased ? "440px" : "85vw",
+              height: "240px",
+            }}
           />
         );
       })}
