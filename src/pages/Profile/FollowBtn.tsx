@@ -8,26 +8,29 @@ import firebase from "../../utilis/firebase";
 
 const FollowButton = styled.div``;
 
-const FollowBtn = ({ profileData }: UserReducer) => {
+const FollowBtn = ({ profileData, setIsLargeLoading }: UserReducer) => {
   const [isFollow, setIsFollow] = useState(false);
   const userData = useSelector((state: RootState) => state.UserReducer);
   const dispatch = useDispatch();
   const followPortfolio = async () => {
     {
       if (isFollow) {
-        setIsFollow(false);
+        setIsLargeLoading(true);
         await firebase.cancelMemberFollowing(profileData, userData);
+        setIsFollow(false);
+        setIsLargeLoading(false);
         dispatch(setAlert({ isAlert: true, text: "取消追蹤!" }));
         setTimeout(() => {
           dispatch(setAlert({ isAlert: false, text: "" }));
-        }, 3000);
+        }, 2000);
       } else {
-        setIsFollow(true);
         await firebase.addMemberFollowing(profileData, userData);
+        setIsFollow(true);
+        setIsLargeLoading(false);
         dispatch(setAlert({ isAlert: true, text: "加入追蹤!" }));
         setTimeout(() => {
           dispatch(setAlert({ isAlert: false, text: "" }));
-        }, 3000);
+        }, 2000);
       }
     }
 
@@ -39,18 +42,20 @@ const FollowBtn = ({ profileData }: UserReducer) => {
 
   useEffect(() => {
     if (profileData.followers) {
+      let followMatch = false;
       profileData.followers.forEach(
         (data: { userID: string; name: string }) => {
+          console.log(data, userData.userID);
           if (data.userID === userData.userID) {
+            console.log("follow!");
             setIsFollow(true);
+            followMatch = true;
+            return;
           }
         }
       );
     }
-    return () => {
-      setIsFollow(false);
-    };
-  }, [userData]);
+  }, [profileData]);
   return (
     <FollowButton onClick={followPortfolio} id="followButton">
       {isFollow ? "取消追蹤" : `追蹤${profileData.name}`}

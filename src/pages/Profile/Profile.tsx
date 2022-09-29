@@ -154,7 +154,17 @@ const Profile: React.FC = () => {
       setIsLoading(false);
     };
     loadData();
-  }, [profileUserID, userData.followMembers]);
+  }, [profileUserID]);
+
+  useEffect(() => {
+    const LoadProfile = async () => {
+      const userData = await firebase.readData("users", `${profileUserID}`);
+      if (userData) {
+        setProfileData(userData);
+      }
+    };
+    LoadProfile();
+  }, [userData.followMembers]);
 
   useEffect(() => {
     setProfileData(userData);
