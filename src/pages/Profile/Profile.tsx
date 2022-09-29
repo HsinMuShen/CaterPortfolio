@@ -14,6 +14,7 @@ import MemberIntro from "./MemberIntro";
 import initialResume from "../../images/initialResume.png";
 import initialWebsite from "../../images/initialWebsite.png";
 import LargeLoading from "../../utilis/LargeLoading";
+import FollowingArea from "../Following/FollowingArea";
 
 const Wrapper = styled.div`
   display: flex;
@@ -29,6 +30,7 @@ const Hr = styled.hr`
   margin: 20px auto 30px;
   @media screen and (max-width: 1279px) {
     width: 80vw;
+    margin: 20px 0 30px;
   }
 `;
 
@@ -121,6 +123,7 @@ const Profile: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isLargeLoading, setIsLargeLoading] = useState<boolean>(false);
   const [profileData, setProfileData] = useState<UserReducer | {}>({});
+  const [isCreaterArea, setIsCreaterArea] = useState<boolean>(true);
   const userData = useSelector((state: RootState) => state.UserReducer);
   const resumeData = useSelector((state: RootState) => state.ResumeReducer);
   const websiteData = useSelector((state: RootState) => state.WebsiteReducer);
@@ -180,6 +183,9 @@ const Profile: React.FC = () => {
       setIsLoading(false);
     };
     loadData();
+    return () => {
+      setIsCreaterArea(true);
+    };
   }, [profileUserID]);
 
   useEffect(() => {
@@ -202,36 +208,45 @@ const Profile: React.FC = () => {
         profileData={profileData}
         setProfileData={setProfileData}
         setIsLargeLoading={setIsLargeLoading}
+        isCreaterArea={isCreaterArea}
+        setIsCreaterArea={setIsCreaterArea}
       />
       <Hr />
-      <CreaterArea>
-        <ResumeArea to={`/resume/${profileUserID}`} id="resumeArea">
-          <ImgArea>
-            <PreviewImg
-              src={
-                resumeData.coverImage ? resumeData.coverImage : initialResume
-              }
-              width={"320px"}
-            />
-          </ImgArea>
-          <CreaterLabelArea>
-            <CreaterLabel>{profileData.name}的履歷</CreaterLabel>
-          </CreaterLabelArea>
-        </ResumeArea>
-        <WebsiteArea to={`/website/${profileUserID}`} id="websiteArea">
-          <ImgArea>
-            <PreviewImg
-              src={
-                websiteData.coverImage ? websiteData.coverImage : initialWebsite
-              }
-              width={"620px"}
-            />
-          </ImgArea>
-          <CreaterLabelArea>
-            <CreaterLabel>{profileData.name}的網站</CreaterLabel>
-          </CreaterLabelArea>
-        </WebsiteArea>
-      </CreaterArea>
+      {isCreaterArea ? (
+        <CreaterArea>
+          <ResumeArea to={`/resume/${profileUserID}`} id="resumeArea">
+            <ImgArea>
+              <PreviewImg
+                src={
+                  resumeData.coverImage ? resumeData.coverImage : initialResume
+                }
+                width={"320px"}
+              />
+            </ImgArea>
+            <CreaterLabelArea>
+              <CreaterLabel>{profileData.name}的履歷</CreaterLabel>
+            </CreaterLabelArea>
+          </ResumeArea>
+          <WebsiteArea to={`/website/${profileUserID}`} id="websiteArea">
+            <ImgArea>
+              <PreviewImg
+                src={
+                  websiteData.coverImage
+                    ? websiteData.coverImage
+                    : initialWebsite
+                }
+                width={"620px"}
+              />
+            </ImgArea>
+            <CreaterLabelArea>
+              <CreaterLabel>{profileData.name}的網站</CreaterLabel>
+            </CreaterLabelArea>
+          </WebsiteArea>
+        </CreaterArea>
+      ) : (
+        <FollowingArea followID={profileUserID} />
+      )}
+
       <QusetionMark
         stepType={
           profileData.userID === userData.userID

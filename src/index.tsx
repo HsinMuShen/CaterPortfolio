@@ -31,12 +31,10 @@ root.render(
           <Route path="allresumes" element={<AllResumes />} />
           <Route path="login" element={<Login />} />
           <Route path="profile/:id" element={<Profile />} />
-          <Route path="follow/:id" element={<FollowingArea />} />
           <Route path="resume/:id" element={<Resume />} />
           <Route path="website/:id" element={<Website />} />
           <Route path="portfolio/:id" element={<Portfolio />} />
           <Route path="chatroom/:id" element={<ChatRoom />} />
-          {/* <Route path="portfolio/:id" element={<Portfolio />} /> */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
       </Routes>

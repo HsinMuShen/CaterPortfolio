@@ -145,6 +145,8 @@ const MemberIntro = ({
   profileData,
   setProfileData,
   setIsLargeLoading,
+  isCreaterArea,
+  setIsCreaterArea,
 }: UserReducer) => {
   const userData = useSelector((state: RootState) => state.UserReducer);
   const isPreviewContent = useSelector(
@@ -289,8 +291,15 @@ const MemberIntro = ({
               <ChatButton profileData={profileData} />
             </>
           )}
-          <EditBtn to={`/follow/${profileData.userID}`}>
-            <p id="checkFollowingList">查看追蹤名單</p>
+          <EditBtn
+            to={"#"}
+            onClick={() => {
+              setIsCreaterArea(!isCreaterArea);
+            }}
+          >
+            <p id="checkFollowingList">
+              {isCreaterArea ? "查看收藏名單" : "查看履歷與網站"}
+            </p>
           </EditBtn>
         </EditArea>
       </ImageContainer>
