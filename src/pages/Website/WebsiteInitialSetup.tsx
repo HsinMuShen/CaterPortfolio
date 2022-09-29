@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import firebase from "../../utilis/firebase";
 import { useSelector, useDispatch } from "react-redux";
@@ -17,6 +17,9 @@ const Wrapper = styled.div`
   margin: 0 auto 40px;
   background-color: #eaeaea;
   border-radius: 15px;
+  @media screen and (max-width: 1279px) {
+    width: 85vw;
+  }
 `;
 
 const Intro = styled.p`
@@ -45,6 +48,9 @@ const ImagePreview = styled.div<{ previewUrl: string }>`
   background-image: url(${(props) => props.previewUrl});
   background-size: cover;
   background-color: #ffffff;
+  @media screen and (max-width: 1279px) {
+    width: 80vw;
+  }
 `;
 const ImageLabel = styled.label`
   font-size: 150%;

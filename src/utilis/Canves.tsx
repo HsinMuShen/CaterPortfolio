@@ -17,6 +17,27 @@ const ImageLabel = styled.label`
     background-color: #555555;
     color: #ffffff;
   }
+  @media screen and (max-width: 1020px) {
+    font-size: 14px;
+  }
+  @media screen and (max-width: 925px) {
+    font-size: 20px;
+  }
+  @media screen and (max-width: 825px) {
+    font-size: 22px;
+  }
+  @media screen and (max-width: 725px) {
+    font-size: 24px;
+  }
+  @media screen and (max-width: 625px) {
+    font-size: 28px;
+  }
+  @media screen and (max-width: 525px) {
+    font-size: 34px;
+  }
+  @media screen and (max-width: 425px) {
+    font-size: 36px;
+  }
 `;
 
 const ImageInput = styled.input`
@@ -28,9 +49,14 @@ const BtnsArea = styled.div`
   flex-wrap: wrap;
 `;
 
+const CanvasWrapper = styled.div<{ style: any }>`
+  ${(props) => props.style}
+`;
+
 const Wrapper = styled.div<{ style: any }>`
   ${(props) => props.style}
 `;
+// const Wrapper = styled.div``;
 
 const Btns = styled.div`
   border: 1px solid;
@@ -42,6 +68,27 @@ const Btns = styled.div`
   &:hover {
     background-color: #555555;
     color: #ffffff;
+  }
+  @media screen and (max-width: 1020px) {
+    font-size: 14px;
+  }
+  @media screen and (max-width: 925px) {
+    font-size: 20px;
+  }
+  @media screen and (max-width: 825px) {
+    font-size: 22px;
+  }
+  @media screen and (max-width: 725px) {
+    font-size: 24px;
+  }
+  @media screen and (max-width: 625px) {
+    font-size: 28px;
+  }
+  @media screen and (max-width: 525px) {
+    font-size: 34px;
+  }
+  @media screen and (max-width: 425px) {
+    font-size: 36px;
   }
 `;
 
@@ -70,7 +117,6 @@ const Canves = ({
 }: canvasProps) => {
   const canvas: any = useRef();
   const storageJson = useRef("");
-  const [canvasJson, setCanvasJson] = useState<string>("");
   const isPreview = useSelector((state: RootState) => state.IsPreviewReducer);
 
   const addImage = async (file: File) => {
@@ -125,6 +171,7 @@ const Canves = ({
 
   return (
     <Wrapper style={style}>
+      {/* <CanvasWrapper style={style}> */}
       <canvas
         id={name}
         style={{
@@ -134,6 +181,7 @@ const Canves = ({
               : "1px solid",
         }}
       ></canvas>
+      {/* </CanvasWrapper> */}
 
       {isPreview.website && isPreview.portfolio ? null : (
         <BtnsArea>
