@@ -326,7 +326,7 @@ const PreviewBtn = styled.div`
     font-size: 14px;
     width: 70px;
     padding: 3px 3px;
-    right: 15px;
+    right: 5px;
   }
 `;
 

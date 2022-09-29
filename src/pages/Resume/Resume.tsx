@@ -65,25 +65,35 @@ const Resume: React.FC = () => {
   };
 
   const uploadResume = async () => {
-    htmlToImage.toPng(refPhoto.current!).then(async (dataUrl) => {
-      console.log(dataUrl);
-      dispatch(resumeAddSetting("coverImage", dataUrl));
-      const tempData = { ...resumeData };
-      tempData.coverImage = dataUrl;
-      try {
-        await firebase.uploadDoc("resumes", `${resumeID}`, tempData);
+    setIsLargeLoading(true);
+    htmlToImage
+      .toPng(refPhoto.current!)
+      .then(async (dataUrl) => {
+        dispatch(resumeAddSetting("coverImage", dataUrl));
+        const tempData = { ...resumeData };
+        tempData.coverImage = dataUrl;
+        try {
+          await firebase.uploadDoc("resumes", `${resumeID}`, tempData);
+          setIsLargeLoading(false);
+          dispatch(setAlert({ isAlert: true, text: "成功更新履歷!" }));
+          setTimeout(() => {
+            dispatch(setAlert({ isAlert: false, text: "" }));
+          }, 3000);
+        } catch (e) {
+          dispatch(setAlert({ isAlert: true, text: `${e}` }));
+          setTimeout(() => {
+            dispatch(setAlert({ isAlert: false, text: "" }));
+          }, 3000);
+        }
+      })
+      .catch(async () => {
+        await firebase.uploadDoc("resumes", `${resumeID}`, resumeData);
         setIsLargeLoading(false);
         dispatch(setAlert({ isAlert: true, text: "成功更新履歷!" }));
         setTimeout(() => {
           dispatch(setAlert({ isAlert: false, text: "" }));
         }, 3000);
-      } catch (e) {
-        dispatch(setAlert({ isAlert: true, text: `${e}` }));
-        setTimeout(() => {
-          dispatch(setAlert({ isAlert: false, text: "" }));
-        }, 3000);
-      }
-    });
+      });
   };
 
   const handleOnDragEnd = (result: any) => {
@@ -164,7 +174,7 @@ const Resume: React.FC = () => {
                       ref={provided.innerRef}
                     >
                       {resumeData.content.length === 0 ? (
-                        <p>尚未建立履歷</p>
+                        <p style={{ margin: "0 auto" }}>尚未建立履歷</p>
                       ) : null}
 
                       {resumeData.content?.map(
@@ -232,9 +242,20 @@ const Resume: React.FC = () => {
             </PublicSetArea>
             <UpoloadBtn
               onClick={() => {
-                setIsLargeLoading(true);
-                dispatch(isPreviewTrue("resume"));
-                uploadResume();
+                if (resumeData.content.length === 0) {
+                  dispatch(
+                    setAlert({
+                      isAlert: true,
+                      text: "請先新增內容再將履歷儲存!",
+                    })
+                  );
+                  setTimeout(() => {
+                    dispatch(setAlert({ isAlert: false, text: "" }));
+                  }, 3000);
+                } else {
+                  dispatch(isPreviewTrue("resume"));
+                  uploadResume();
+                }
               }}
               width="160px"
               backgroundColor="#ffffff"
@@ -285,9 +306,16 @@ const PreviewBtn = styled.div`
   border-radius: 10px;
   border: 1px solid;
   cursor: pointer;
+  z-index: 3;
   &:hover {
     background-color: #555555;
     color: #ffffff;
+  }
+  @media screen and (max-width: 1279px) {
+    font-size: 14px;
+    width: 70px;
+    padding: 3px 3px;
+    right: 5px;
   }
 `;
 
@@ -299,6 +327,10 @@ const ResumeEditor = styled.div`
   border-radius: 5px;
   padding: 30px 40px;
   background-color: #ffffff;
+  @media screen and (max-width: 1280px) {
+    width: 85vw;
+    padding: 10px;
+  }
 `;
 
 const PreviewDiv = styled.div`
@@ -314,6 +346,10 @@ const ResumeHeader = styled.div`
   justify-content: center;
   align-items: center;
   width: 880px;
+  margin: 0 auto;
+  @media screen and (max-width: 1279px) {
+    width: 75vw;
+  }
 `;
 
 const SineleComponent = styled.div`
@@ -339,6 +375,9 @@ const FinalEditArea = styled.div`
 const PublicSetArea = styled.div`
   display: flex;
   align-items: center;
+  @media screen and (max-width: 1279px) {
+    flex-direction: column;
+  }
 `;
 
 const PublicSetText = styled.p`
