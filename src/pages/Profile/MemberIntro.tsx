@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { RootState } from "../../reducers";
 import { useSelector, useDispatch } from "react-redux";
@@ -173,6 +173,14 @@ const MemberIntro = ({
     });
     await Promise.all(portfolioPromiswArr);
   };
+
+  useEffect(() => {
+    return () => {
+      if (isPreviewContent.profileIntro) {
+        dispatch(isPreviewProfile());
+      }
+    };
+  }, []);
 
   return (
     <Wrapper>

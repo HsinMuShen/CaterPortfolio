@@ -201,7 +201,7 @@ export const introSteps: {
       disableBeacon: true,
     },
     {
-      content: "點擊進入追蹤名單頁面",
+      content: "點擊進入收藏名單頁面",
       target: "#checkFollowingList",
       placement: "bottom",
     },

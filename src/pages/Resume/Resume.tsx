@@ -108,6 +108,7 @@ const Resume: React.FC = () => {
             time: null,
             userID: userData.userID,
             userImage: userData.userImage,
+            isPublic: false,
           })
         );
       }
@@ -208,17 +209,29 @@ const Resume: React.FC = () => {
         </ResumeEditor>
 
         {isPreview ? null : (
-          <UpoloadBtn
-            onClick={() => {
-              setIsLargeLoading(true);
-              dispatch(isPreviewTrue("resume"));
-              uploadResume();
-            }}
-            width={"160px"}
-            className="resumeUpload"
-          >
-            將履歷儲存上架!
-          </UpoloadBtn>
+          <FinalEditArea>
+            <PublicSetArea>
+              <PublicSetText>
+                {resumeData.isPublic
+                  ? "目前履歷為公開模式，是否要切換為隱私模式?"
+                  : "目前履歷為隱私模式，是否要切換為公開模式?"}
+              </PublicSetText>
+              <UpoloadBtn width="120px">
+                {resumeData.isPublic ? "設為隱私" : "設為公開"}
+              </UpoloadBtn>
+            </PublicSetArea>
+            <UpoloadBtn
+              onClick={() => {
+                setIsLargeLoading(true);
+                dispatch(isPreviewTrue("resume"));
+                uploadResume();
+              }}
+              width={"160px"}
+              className="resumeUpload"
+            >
+              將履歷儲存上架!
+            </UpoloadBtn>
+          </FinalEditArea>
         )}
 
         <ToProfileLink to={`/profile/${resumeID}`} id="resumeToProfile">
@@ -279,7 +292,6 @@ const ResumeEditor = styled.div`
 
 const PreviewDiv = styled.div`
   position: absolute;
-  /* border: 1px solid; */
   width: 880px;
   height: 100%;
   z-index: 2;
@@ -307,12 +319,28 @@ const MoveBtn = styled.div`
   font-size: 20px;
 `;
 
+const FinalEditArea = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const PublicSetArea = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const PublicSetText = styled.p`
+  margin: 0 20px;
+`;
+
 const UpoloadBtn = styled.div<{ width: string }>`
   display: flex;
   justify-content: center;
   width: ${(props) => props.width};
   background-color: #ffffff;
   padding: 5px 8px;
+  margin: 20px 0;
   border-radius: 10px;
   border: 1px solid;
   cursor: pointer;

@@ -19,7 +19,7 @@ const FollowBtn = ({ profileData, setIsLargeLoading }: UserReducer) => {
         await firebase.cancelMemberFollowing(profileData, userData);
         setIsFollow(false);
         setIsLargeLoading(false);
-        dispatch(setAlert({ isAlert: true, text: "取消追蹤!" }));
+        dispatch(setAlert({ isAlert: true, text: "取消收藏!" }));
         setTimeout(() => {
           dispatch(setAlert({ isAlert: false, text: "" }));
         }, 2000);
@@ -28,7 +28,7 @@ const FollowBtn = ({ profileData, setIsLargeLoading }: UserReducer) => {
         await firebase.addMemberFollowing(profileData, userData);
         setIsFollow(true);
         setIsLargeLoading(false);
-        dispatch(setAlert({ isAlert: true, text: "加入追蹤!" }));
+        dispatch(setAlert({ isAlert: true, text: "加入收藏!" }));
         setTimeout(() => {
           dispatch(setAlert({ isAlert: false, text: "" }));
         }, 2000);
@@ -58,7 +58,7 @@ const FollowBtn = ({ profileData, setIsLargeLoading }: UserReducer) => {
   }, [profileData]);
   return (
     <FollowButton onClick={followPortfolio} id="followButton">
-      {isFollow ? "取消追蹤" : `追蹤${profileData.name}`}
+      {isFollow ? "取消收藏" : `收藏${profileData.name}`}
     </FollowButton>
   );
 };

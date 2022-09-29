@@ -90,6 +90,7 @@ const initialResumeData = {
   time: null,
   userID: "",
   userImage: "",
+  isPublic: false,
 };
 
 const initialWebsiteData = {
