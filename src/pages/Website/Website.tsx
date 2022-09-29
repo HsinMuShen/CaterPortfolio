@@ -322,6 +322,12 @@ const PreviewBtn = styled.div`
     background-color: #555555;
     color: #ffffff;
   }
+  @media screen and (max-width: 1279px) {
+    font-size: 14px;
+    width: 70px;
+    padding: 3px 3px;
+    right: 15px;
+  }
 `;
 
 const WebsiteLayouts = styled.div`
