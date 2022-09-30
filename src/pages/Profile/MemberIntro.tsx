@@ -174,14 +174,6 @@ const MemberIntro = ({
     await Promise.all(portfolioPromiswArr);
   };
 
-  useEffect(() => {
-    return () => {
-      if (isPreviewContent.profileIntro) {
-        dispatch(isPreviewProfile());
-      }
-    };
-  }, []);
-
   return (
     <Wrapper>
       <ImagePreview

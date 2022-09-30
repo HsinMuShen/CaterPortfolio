@@ -39,6 +39,9 @@ const MessageArea = styled.div`
   height: 400px;
   width: 600px;
   overflow: scroll;
+  @media screen and (max-width: 900px) {
+    width: calc(80vw - 70px);
+  }
 `;
 
 const MsgDialog = styled.div`
@@ -49,6 +52,10 @@ const MsgDialog = styled.div`
   margin: 10px;
   padding: 5px;
   width: fit-content;
+
+  @media screen and (max-width: 900px) {
+    max-width: 150px;
+  }
 `;
 
 const UserMsgDialog = styled.div`
@@ -60,10 +67,23 @@ const UserMsgDialog = styled.div`
   margin: 10px 15px 10px auto;
   padding: 5px;
   width: fit-content;
+
+  @media screen and (max-width: 900px) {
+    max-width: 150px;
+  }
 `;
 
 const UserMsg = styled.p`
+  display: flex;
+  flex-wrap: wrap;
   margin-left: auto;
+  word-break: break-word;
+`;
+
+const OtherMsg = styled.p`
+  display: flex;
+  flex-wrap: wrap;
+  word-break: break-word;
 `;
 
 const ControlArea = styled.div`
@@ -122,7 +142,7 @@ const Chats = ({
   return (
     <Wrapper>
       <NameArea>
-        <IntroImg $backgroundImg={userImage}></IntroImg>
+        {userImage ? <IntroImg $backgroundImg={userImage}></IntroImg> : null}
         <p>{chattingName + " 聊天室"}</p>
       </NameArea>
 
@@ -137,7 +157,7 @@ const Chats = ({
           } else {
             return (
               <MsgDialog key={index}>
-                <p>{data.msg}</p>
+                <OtherMsg>{data.msg}</OtherMsg>
               </MsgDialog>
             );
           }
@@ -151,6 +171,11 @@ const Chats = ({
             value={sendMsg}
             onChange={(e) => {
               setSendMsg(e.target.value);
+            }}
+            onKeyPress={(e) => {
+              if (e.key === "Enter") {
+                submitMsg();
+              }
             }}
           />
           <MessageSubmit
