@@ -4,12 +4,18 @@ import PreviewImageInput from "../../../utilis/PreviewImageInput";
 import EditText from "../../../utilis/EditText";
 import { resumeComContent } from "../Resume";
 import useUpdateResumeData from "./ResumeUpdateDataFunction";
+import { useMediaQuery } from "../../../utilis/useMediaQuery";
 
 const Wrapper = styled.div`
   display: flex;
   width: 800px;
   margin: 0 auto;
   align-items: center;
+  @media screen and (max-width: 1279px) {
+    width: 71vw;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 `;
 
 const TextAndImg2 = ({
@@ -23,7 +29,7 @@ const TextAndImg2 = ({
     index,
     content,
   });
-
+  const isRowBased = useMediaQuery("(min-width: 560px)");
   return (
     <Wrapper>
       {content.text.map((_, listIndex) => {
@@ -36,8 +42,8 @@ const TextAndImg2 = ({
             setReducerText={setReducerText}
             index={index}
             style={{
-              width: "390px",
-              padding: " 0 10px",
+              width: isRowBased ? "390px" : "70vw",
+              margin: "10px",
             }}
           />
         );
@@ -50,9 +56,9 @@ const TextAndImg2 = ({
             listIndex={listIndex}
             image={content.image[listIndex]}
             style={{
-              width: "390px",
+              width: isRowBased ? "390px" : "70vw",
               height: "200px",
-              margin: "0 0 0 20px",
+              margin: "10px",
             }}
           />
         );

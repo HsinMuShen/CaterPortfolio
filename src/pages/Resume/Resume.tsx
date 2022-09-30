@@ -59,26 +59,41 @@ const Resume: React.FC = () => {
   const addDeleteCom = (deleteIndex: number) => {
     dispatch(resumeDeleteCom(deleteIndex));
   };
+
+  const changePublicMode = () => {
+    dispatch(resumeAddSetting("isPublic", !resumeData.isPublic));
+  };
+
   const uploadResume = async () => {
-    htmlToImage.toPng(refPhoto.current!).then(async (dataUrl) => {
-      console.log(dataUrl);
-      dispatch(resumeAddSetting("coverImage", dataUrl));
-      const tempData = { ...resumeData };
-      tempData.coverImage = dataUrl;
-      try {
-        await firebase.uploadDoc("resumes", `${resumeID}`, tempData);
+    setIsLargeLoading(true);
+    htmlToImage
+      .toPng(refPhoto.current!)
+      .then(async (dataUrl) => {
+        dispatch(resumeAddSetting("coverImage", dataUrl));
+        const tempData = { ...resumeData };
+        tempData.coverImage = dataUrl;
+        try {
+          await firebase.uploadDoc("resumes", `${resumeID}`, tempData);
+          setIsLargeLoading(false);
+          dispatch(setAlert({ isAlert: true, text: "成功更新履歷!" }));
+          setTimeout(() => {
+            dispatch(setAlert({ isAlert: false, text: "" }));
+          }, 3000);
+        } catch (e) {
+          dispatch(setAlert({ isAlert: true, text: `${e}` }));
+          setTimeout(() => {
+            dispatch(setAlert({ isAlert: false, text: "" }));
+          }, 3000);
+        }
+      })
+      .catch(async () => {
+        await firebase.uploadDoc("resumes", `${resumeID}`, resumeData);
         setIsLargeLoading(false);
         dispatch(setAlert({ isAlert: true, text: "成功更新履歷!" }));
         setTimeout(() => {
           dispatch(setAlert({ isAlert: false, text: "" }));
         }, 3000);
-      } catch (e) {
-        dispatch(setAlert({ isAlert: true, text: `${e}` }));
-        setTimeout(() => {
-          dispatch(setAlert({ isAlert: false, text: "" }));
-        }, 3000);
-      }
-    });
+      });
   };
 
   const handleOnDragEnd = (result: any) => {
@@ -108,6 +123,7 @@ const Resume: React.FC = () => {
             time: null,
             userID: userData.userID,
             userImage: userData.userImage,
+            isPublic: false,
           })
         );
       }
@@ -142,11 +158,12 @@ const Resume: React.FC = () => {
             )}
           </PreviewBtn>
         ) : null}
-
         <ResumeEditor>
           <PreviewDiv style={{ zIndex: isPreview ? "2" : "-1" }}></PreviewDiv>
           {isLoading ? (
             <Loading />
+          ) : resumeID !== userData.userID && !resumeData.isPublic ? (
+            "履歷不公開"
           ) : (
             <DragDropContext onDragEnd={handleOnDragEnd}>
               <div ref={refPhoto}>
@@ -157,7 +174,7 @@ const Resume: React.FC = () => {
                       ref={provided.innerRef}
                     >
                       {resumeData.content.length === 0 ? (
-                        <p>尚未建立履歷</p>
+                        <p style={{ margin: "0 auto" }}>尚未建立履歷</p>
                       ) : null}
 
                       {resumeData.content?.map(
@@ -208,17 +225,45 @@ const Resume: React.FC = () => {
         </ResumeEditor>
 
         {isPreview ? null : (
-          <UpoloadBtn
-            onClick={() => {
-              setIsLargeLoading(true);
-              dispatch(isPreviewTrue("resume"));
-              uploadResume();
-            }}
-            width={"160px"}
-            className="resumeUpload"
-          >
-            將履歷儲存上架!
-          </UpoloadBtn>
+          <FinalEditArea>
+            <PublicSetArea>
+              <PublicSetText>
+                {resumeData.isPublic
+                  ? "目前履歷為公開模式，是否要切換為隱私模式?"
+                  : "目前履歷為隱私模式，是否要切換為公開模式?"}
+              </PublicSetText>
+              <UpoloadBtn
+                width="100px"
+                backgroundColor="none"
+                onClick={changePublicMode}
+              >
+                {resumeData.isPublic ? "設為隱私" : "設為公開"}
+              </UpoloadBtn>
+            </PublicSetArea>
+            <UpoloadBtn
+              onClick={() => {
+                if (resumeData.content.length === 0) {
+                  dispatch(
+                    setAlert({
+                      isAlert: true,
+                      text: "請先新增內容再將履歷儲存!",
+                    })
+                  );
+                  setTimeout(() => {
+                    dispatch(setAlert({ isAlert: false, text: "" }));
+                  }, 3000);
+                } else {
+                  dispatch(isPreviewTrue("resume"));
+                  uploadResume();
+                }
+              }}
+              width="160px"
+              backgroundColor="#ffffff"
+              className="resumeUpload"
+            >
+              儲存履歷!
+            </UpoloadBtn>
+          </FinalEditArea>
         )}
 
         <ToProfileLink to={`/profile/${resumeID}`} id="resumeToProfile">
@@ -261,9 +306,16 @@ const PreviewBtn = styled.div`
   border-radius: 10px;
   border: 1px solid;
   cursor: pointer;
+  z-index: 3;
   &:hover {
     background-color: #555555;
     color: #ffffff;
+  }
+  @media screen and (max-width: 1279px) {
+    font-size: 14px;
+    width: 70px;
+    padding: 3px 3px;
+    right: 5px;
   }
 `;
 
@@ -275,11 +327,14 @@ const ResumeEditor = styled.div`
   border-radius: 5px;
   padding: 30px 40px;
   background-color: #ffffff;
+  @media screen and (max-width: 1280px) {
+    width: 85vw;
+    padding: 10px;
+  }
 `;
 
 const PreviewDiv = styled.div`
   position: absolute;
-  /* border: 1px solid; */
   width: 880px;
   height: 100%;
   z-index: 2;
@@ -291,6 +346,10 @@ const ResumeHeader = styled.div`
   justify-content: center;
   align-items: center;
   width: 880px;
+  margin: 0 auto;
+  @media screen and (max-width: 1279px) {
+    width: 75vw;
+  }
 `;
 
 const SineleComponent = styled.div`
@@ -298,6 +357,9 @@ const SineleComponent = styled.div`
   width: 880px;
   position: relative;
   margin: 10px 0;
+  @media screen and (max-width: 1279px) {
+    width: 80vw;
+  }
 `;
 
 const MoveBtn = styled.div`
@@ -307,12 +369,31 @@ const MoveBtn = styled.div`
   font-size: 20px;
 `;
 
-const UpoloadBtn = styled.div<{ width: string }>`
+const FinalEditArea = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const PublicSetArea = styled.div`
+  display: flex;
+  align-items: center;
+  @media screen and (max-width: 1279px) {
+    flex-direction: column;
+  }
+`;
+
+const PublicSetText = styled.p`
+  margin: 0 20px;
+`;
+
+const UpoloadBtn = styled.div<{ width: string; backgroundColor: string }>`
   display: flex;
   justify-content: center;
   width: ${(props) => props.width};
-  background-color: #ffffff;
+  background-color: ${(props) => props.backgroundColor};
   padding: 5px 8px;
+  margin: 20px 0;
   border-radius: 10px;
   border: 1px solid;
   cursor: pointer;

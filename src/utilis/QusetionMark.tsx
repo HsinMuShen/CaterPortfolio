@@ -17,6 +17,9 @@ const QusetionMarkWrapper = styled.div`
   & :hover {
     color: #6d6d6d;
   }
+  @media screen and (max-width: 1279px) {
+    right: 5px;
+  }
 `;
 
 interface State {
@@ -198,7 +201,7 @@ export const introSteps: {
       disableBeacon: true,
     },
     {
-      content: "點擊進入追蹤名單頁面",
+      content: "點擊進入收藏名單頁面",
       target: "#checkFollowingList",
       placement: "bottom",
     },

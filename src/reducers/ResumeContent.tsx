@@ -20,6 +20,7 @@ interface resumeReducer {
   time: null | Timestamp;
   userID: string;
   userImage: string;
+  isPublic: boolean;
 }
 
 const ResumeReducer = (
@@ -33,6 +34,7 @@ const ResumeReducer = (
     time: null,
     userID: "",
     userImage: initialUserImage,
+    isPublic: false,
   },
   action: AnyAction
 ) => {

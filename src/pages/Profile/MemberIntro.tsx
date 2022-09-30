@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { RootState } from "../../reducers";
 import { useSelector, useDispatch } from "react-redux";
@@ -21,6 +21,12 @@ const ImageContainer = styled.div`
   width: 900px;
   margin: 10px auto 0;
   align-items: center;
+  @media screen and (max-width: 1279px) {
+    width: 80vw;
+  }
+  @media screen and (max-width: 720px) {
+    flex-direction: column;
+  }
 `;
 
 const ImagePreview = styled.div<{
@@ -29,6 +35,7 @@ const ImagePreview = styled.div<{
   height: string;
   borderRadius: string;
   borderWidth: string;
+  mobileWidth: string;
 }>`
   display: flex;
   justify-content: center;
@@ -41,6 +48,10 @@ const ImagePreview = styled.div<{
   background-image: url(${(props) => props.previewUrl});
   background-size: cover;
   background-color: #ffffff;
+  margin: 0 auto;
+  @media screen and (max-width: 1279px) {
+    width: ${(props) => props.mobileWidth};
+  }
 `;
 const ImageLabel = styled.label`
   font-size: 150%;
@@ -66,12 +77,18 @@ const MainImageArea = styled.div`
   flex-direction: column;
   align-items: center;
   margin: 20px 120px 0 100px;
+  @media screen and (max-width: 1279px) {
+    margin: 20px 60px 0 60px;
+  }
 `;
 
 const IntroInput = styled.textarea`
   width: 420px;
   height: 80px;
   padding: 5px;
+  @media screen and (max-width: 720px) {
+    margin: 10px 0;
+  }
 `;
 
 const IntroTextArea = styled.div`
@@ -81,6 +98,9 @@ const IntroTextArea = styled.div`
   white-space: pre;
   display: flex;
   justify-content: center;
+  @media screen and (max-width: 720px) {
+    margin: 10px 0;
+  }
 `;
 
 const NameTag = styled.p`
@@ -95,12 +115,18 @@ const EditArea = styled.div`
   width: 200px;
   margin: 0 auto;
   align-items: center;
+  @media screen and (max-width: 1279px) {
+    margin: 0 20px 0 20px;
+  }
+  @media screen and (max-width: 720px) {
+    margin: 10px 20px 10px 20px;
+  }
 `;
 const EditBtn = styled(Link)`
   background-color: #ffffff;
   color: #555555;
   border: 2px solid;
-  width: 120px;
+  width: 180px;
   height: 30px;
   font-size: 14px;
   margin: 5px 0 5px;
@@ -119,6 +145,8 @@ const MemberIntro = ({
   profileData,
   setProfileData,
   setIsLargeLoading,
+  isCreaterArea,
+  setIsCreaterArea,
 }: UserReducer) => {
   const userData = useSelector((state: RootState) => state.UserReducer);
   const isPreviewContent = useSelector(
@@ -146,6 +174,14 @@ const MemberIntro = ({
     await Promise.all(portfolioPromiswArr);
   };
 
+  useEffect(() => {
+    return () => {
+      if (isPreviewContent.profileIntro) {
+        dispatch(isPreviewProfile());
+      }
+    };
+  }, []);
+
   return (
     <Wrapper>
       <ImagePreview
@@ -154,6 +190,7 @@ const MemberIntro = ({
         height={"240px"}
         borderRadius={"0"}
         borderWidth={"0"}
+        mobileWidth={"78vw"}
       >
         <ImageLabel>
           {isPreviewContent.profileIntro ? (
@@ -181,6 +218,7 @@ const MemberIntro = ({
             height={"100px"}
             borderRadius={"90px"}
             borderWidth={"1px"}
+            mobileWidth={"100px"}
           >
             <ImageLabel>
               {isPreviewContent.profileIntro ? (
@@ -252,14 +290,24 @@ const MemberIntro = ({
           ) : (
             <>
               <EditBtn to={"#"}>
-                <FollowBtn profileData={profileData} />
+                <FollowBtn
+                  profileData={profileData}
+                  setIsLargeLoading={setIsLargeLoading}
+                />
               </EditBtn>
 
               <ChatButton profileData={profileData} />
             </>
           )}
-          <EditBtn to={`/follow/${profileData.userID}`}>
-            <p id="checkFollowingList">查看追蹤名單</p>
+          <EditBtn
+            to={"#"}
+            onClick={() => {
+              setIsCreaterArea(!isCreaterArea);
+            }}
+          >
+            <p id="checkFollowingList">
+              {isCreaterArea ? "查看收藏名單" : "查看履歷與網站"}
+            </p>
           </EditBtn>
         </EditArea>
       </ImageContainer>

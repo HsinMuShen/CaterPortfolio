@@ -32,7 +32,10 @@ const Wrapper = styled.div`
   background-color: #eaeaea;
   padding: 20px;
   border-radius: 15px;
-  margin-top: 40px;
+  margin: 40px auto 0;
+  @media screen and (max-width: 1279px) {
+    width: 75vw;
+  }
 `;
 
 const Title = styled.p`
@@ -50,6 +53,12 @@ const SelectionArea = styled.div`
   justify-content: center;
   width: 800px;
   flex-direction: row;
+  flex-wrap: wrap;
+
+  @media screen and (max-width: 1279px) {
+    width: 73vw;
+    justify-content: center;
+  }
 `;
 
 const SingleSelectArea = styled.div`
@@ -70,7 +79,7 @@ const ImgSection = styled.div<{
   background-image: url(${(props) => props.backgroundImg});
   background-position: center;
   background-size: cover;
-  margin: 0 10px;
+  margin: 5px 10px;
   cursor: pointer;
   border-radius: 3px;
   transition: scale 1s;

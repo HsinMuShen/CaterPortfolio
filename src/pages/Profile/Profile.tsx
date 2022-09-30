@@ -14,6 +14,7 @@ import MemberIntro from "./MemberIntro";
 import initialResume from "../../images/initialResume.png";
 import initialWebsite from "../../images/initialWebsite.png";
 import LargeLoading from "../../utilis/LargeLoading";
+import FollowingArea from "../Following/FollowingArea";
 
 const Wrapper = styled.div`
   display: flex;
@@ -23,12 +24,27 @@ const Wrapper = styled.div`
   margin: 60px;
 `;
 
+const Hr = styled.hr`
+  border-top: 2px solid #9a9a9a;
+  width: 900px;
+  margin: 20px auto 30px;
+  @media screen and (max-width: 1279px) {
+    width: 80vw;
+    margin: 20px 0 30px;
+  }
+`;
+
 const CreaterArea = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-top: 40px;
   width: 960px;
+  @media screen and (max-width: 1279px) {
+    flex-direction: column;
+    width: 90vw;
+    align-items: center;
+  }
 `;
+
 const ResumeArea = styled(Link)`
   width: 320px;
   height: 400px;
@@ -38,6 +54,11 @@ const ResumeArea = styled(Link)`
   overflow: hidden;
   &:hover {
     box-shadow: 0px 0px 10px #777777;
+  }
+  @media screen and (max-width: 1279px) {
+    height: 240px;
+    width: 60vw;
+    margin: 10px 0;
   }
 `;
 
@@ -59,8 +80,10 @@ const PreviewImg = styled.img<{ width: string }>`
   transition: scale 0.5s, background-color 0.5s;
   &:hover {
     scale: 1.05;
-
-    /* background-color: #55555540; */
+  }
+  @media screen and (max-width: 1279px) {
+    height: 200px;
+    width: 60vw;
   }
 `;
 
@@ -89,12 +112,18 @@ const WebsiteArea = styled(Link)`
   &:hover {
     box-shadow: 0px 0px 10px #777777;
   }
+  @media screen and (max-width: 1279px) {
+    height: 240px;
+    width: 60vw;
+    margin: 10px 0;
+  }
 `;
 
 const Profile: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isLargeLoading, setIsLargeLoading] = useState<boolean>(false);
   const [profileData, setProfileData] = useState<UserReducer | {}>({});
+  const [isCreaterArea, setIsCreaterArea] = useState<boolean>(true);
   const userData = useSelector((state: RootState) => state.UserReducer);
   const resumeData = useSelector((state: RootState) => state.ResumeReducer);
   const websiteData = useSelector((state: RootState) => state.WebsiteReducer);
@@ -154,7 +183,20 @@ const Profile: React.FC = () => {
       setIsLoading(false);
     };
     loadData();
-  }, [profileUserID, userData.followMembers]);
+    return () => {
+      setIsCreaterArea(true);
+    };
+  }, [profileUserID]);
+
+  useEffect(() => {
+    const LoadProfile = async () => {
+      const userData = await firebase.readData("users", `${profileUserID}`);
+      if (userData) {
+        setProfileData(userData);
+      }
+    };
+    LoadProfile();
+  }, [userData.followMembers]);
 
   useEffect(() => {
     setProfileData(userData);
@@ -162,12 +204,15 @@ const Profile: React.FC = () => {
 
   return (
     <Wrapper>
-      <>
-        <MemberIntro
-          profileData={profileData}
-          setProfileData={setProfileData}
-          setIsLargeLoading={setIsLargeLoading}
-        />
+      <MemberIntro
+        profileData={profileData}
+        setProfileData={setProfileData}
+        setIsLargeLoading={setIsLargeLoading}
+        isCreaterArea={isCreaterArea}
+        setIsCreaterArea={setIsCreaterArea}
+      />
+      <Hr />
+      {isCreaterArea ? (
         <CreaterArea>
           <ResumeArea to={`/resume/${profileUserID}`} id="resumeArea">
             <ImgArea>
@@ -198,14 +243,18 @@ const Profile: React.FC = () => {
             </CreaterLabelArea>
           </WebsiteArea>
         </CreaterArea>
-        <QusetionMark
-          stepType={
-            profileData.userID === userData.userID
-              ? introSteps.profileUser
-              : introSteps.profileOthers
-          }
-        />
-      </>
+      ) : (
+        <FollowingArea followID={profileUserID} />
+      )}
+
+      <QusetionMark
+        stepType={
+          profileData.userID === userData.userID
+            ? introSteps.profileUser
+            : introSteps.profileOthers
+        }
+      />
+
       {isLoading ? <LargeLoading backgroundColor={"#ffffff"} /> : null}
       {isLargeLoading ? <LargeLoading backgroundColor={"#ffffffb3"} /> : null}
     </Wrapper>

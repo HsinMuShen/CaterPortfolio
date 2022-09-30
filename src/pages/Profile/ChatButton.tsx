@@ -20,7 +20,7 @@ const EditBtn = styled.div`
   background-color: #ffffff;
   color: #555555;
   border: 2px solid;
-  width: 120px;
+  width: 180px;
   height: 30px;
   font-size: 14px;
   margin: 5px 0 5px;

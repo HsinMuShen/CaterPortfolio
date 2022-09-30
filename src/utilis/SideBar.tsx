@@ -74,13 +74,13 @@ const SideBar = ({ type, data }: { type: string; data: portfolioReducer }) => {
     if (type === "portfolio") {
       if (isFollow) {
         await firebase.cancelPortfolioFollowing(data, userData);
-        dispatch(setAlert({ isAlert: true, text: "取消追蹤!" }));
+        dispatch(setAlert({ isAlert: true, text: "取消收藏!" }));
         setTimeout(() => {
           dispatch(setAlert({ isAlert: false, text: "" }));
         }, 3000);
       } else {
         await firebase.addPortfolioFollowing(data, userData);
-        dispatch(setAlert({ isAlert: true, text: "加入追蹤!" }));
+        dispatch(setAlert({ isAlert: true, text: "加入收藏!" }));
         setTimeout(() => {
           dispatch(setAlert({ isAlert: false, text: "" }));
         }, 3000);
@@ -97,13 +97,13 @@ const SideBar = ({ type, data }: { type: string; data: portfolioReducer }) => {
       if (isFollow) {
         console.log(data, userData);
         await firebase.cancelResumeFollowing(data, userData);
-        dispatch(setAlert({ isAlert: true, text: "取消追蹤!" }));
+        dispatch(setAlert({ isAlert: true, text: "取消收藏!" }));
         setTimeout(() => {
           dispatch(setAlert({ isAlert: false, text: "" }));
         }, 3000);
       } else {
         await firebase.addResumeFollowing(data, userData);
-        dispatch(setAlert({ isAlert: true, text: "加入追蹤!" }));
+        dispatch(setAlert({ isAlert: true, text: "加入收藏!" }));
         setTimeout(() => {
           dispatch(setAlert({ isAlert: false, text: "" }));
         }, 3000);
@@ -142,7 +142,7 @@ const SideBar = ({ type, data }: { type: string; data: portfolioReducer }) => {
       <Options style={{ left: showBarInfo.showBar ? "0px" : "-200px" }}>
         <OptionsBtn>{data.name}</OptionsBtn>
         <OptionsBtn onClick={followPortfolio}>
-          {isFollow ? `已追蹤 ❤️` : `加入追蹤 ❤`}
+          {isFollow ? `已收藏 ❤️` : `加入收藏 ❤`}
           {data.followers.length}
         </OptionsBtn>
       </Options>

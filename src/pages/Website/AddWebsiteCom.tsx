@@ -54,8 +54,10 @@ const SelectionArea = styled.div<{ justify: string }>`
   width: 900px;
   flex-direction: row;
   flex-wrap: wrap;
+  align-items: flex-end;
   @media screen and (max-width: 1279px) {
     width: 80vw;
+    justify-content: center;
   }
 `;
 
