@@ -3,9 +3,11 @@ import { useParams } from "react-router-dom";
 import { RootState } from "../../reducers";
 import { useSelector } from "react-redux";
 import { chatRoom } from "../Profile/ChatButton";
+import { useDispatch } from "react-redux";
 
 import styled from "styled-components";
 import Chats from "./Chats";
+import { setChatRoomID } from "../../action";
 
 const Wrapper = styled.div``;
 const ChatRoomArea = styled.div`
@@ -16,11 +18,17 @@ const ChatRoomArea = styled.div`
   border-radius: 15px;
   overflow: hidden;
   background-color: #ffffff;
+  @media screen and (max-width: 900px) {
+    width: 80vw;
+  }
 `;
 const UserList = styled.div`
   display: flex;
   flex-direction: column;
   width: 200px;
+  @media screen and (max-width: 900px) {
+    width: 70px;
+  }
 `;
 
 const UserBtn = styled.button<{ backgroundColor: string; color: string }>`
@@ -39,6 +47,9 @@ const UserBtn = styled.button<{ backgroundColor: string; color: string }>`
     background-color: #777777;
     color: #ffffff;
   }
+  @media screen and (max-width: 900px) {
+    width: 70px;
+  }
 `;
 
 const IntroImg = styled.div<{ $backgroundImg: string }>`
@@ -53,6 +64,12 @@ const IntroImg = styled.div<{ $backgroundImg: string }>`
   background-color: #ffffff;
 `;
 
+const ChatName = styled.p`
+  @media screen and (max-width: 900px) {
+    display: none;
+  }
+`;
+
 const ChatRoom = () => {
   const [showingChatID, setShowingChatID] = useState<string>("");
   const [chattingName, setChattingName] = useState<string>("");
@@ -62,18 +79,31 @@ const ChatRoom = () => {
   const initialChatRoomData = useSelector(
     (state: RootState) => state.IsPreviewReducer.nowChatRoom
   );
+  const dispatch = useDispatch();
   const urlID = useParams().id;
   useEffect(() => {
     if (initialChatRoomData.chatRoomID && initialChatRoomData.name) {
       setShowingChatID(initialChatRoomData.chatRoomID);
       setChattingName(initialChatRoomData.name);
       setChattingImage(initialChatRoomData.userImage);
+      userData.chatRoom.forEach((data: chatRoom, index: number) => {
+        if (data.name === initialChatRoomData.name) {
+          setSelectIndex(index);
+        }
+      });
     }
+
     return () => {
       setShowingChatID("");
       setChattingName("");
     };
   }, [initialChatRoomData, userData]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(setChatRoomID("", "", ""));
+    };
+  }, []);
   return (
     <Wrapper>
       {userData.userID === urlID ? (
@@ -95,7 +125,7 @@ const ChatRoom = () => {
                   color={index === selectIndex ? "#ffffff" : "#555555"}
                 >
                   <IntroImg $backgroundImg={data.userImage}></IntroImg>
-                  {data.name}
+                  <ChatName>{data.name}</ChatName>
                 </UserBtn>
               );
             })}

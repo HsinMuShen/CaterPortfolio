@@ -36,12 +36,12 @@ const MainNav = styled.div`
   align-items: center;
 `;
 
-const SideNav = styled.div<{ isMobile: boolean }>`
-  display: ${(props) => (props.isMobile ? "none" : "flex")};
+const SideNav = styled.div<{ $isMobile: boolean }>`
+  display: ${(props) => (props.$isMobile ? "none" : "flex")};
   align-items: center;
   margin-right: 20px;
   @media screen and (max-width: 900px) {
-    display: ${(props) => (props.isMobile ? "flex" : "none")};
+    display: ${(props) => (props.$isMobile ? "flex" : "none")};
   }
 `;
 
@@ -59,7 +59,7 @@ const LogoArea = styled(Link)<{ img: string }>`
     color: #6d6d6d;
   }
 `;
-const Tag = styled(Link)<{ mobileNone: Boolean }>`
+const Tag = styled(Link)<{ $mobileNone: Boolean }>`
   color: #333333;
   text-decoration: none;
   margin: 0 20px;
@@ -67,7 +67,7 @@ const Tag = styled(Link)<{ mobileNone: Boolean }>`
     color: #6d6d6d;
   }
   @media screen and (max-width: 900px) {
-    display: ${(props) => (props.mobileNone ? "none" : "block")};
+    display: ${(props) => (props.$mobileNone ? "none" : "block")};
   }
 `;
 
@@ -157,15 +157,15 @@ const Header = () => {
     <Wrapper isPopup={isPopup}>
       <MainNav>
         <LogoArea to={`/`} img={Logo} id="logo"></LogoArea>
-        <Tag to={`/`} id="allPortfolios" mobileNone={true}>
+        <Tag to={`/`} id="allPortfolios" $mobileNone={true}>
           CaterPortfolio
         </Tag>
-        <Tag to={`/allresumes`} id="allResumes" mobileNone={true}>
+        <Tag to={`/allresumes`} id="allResumes" $mobileNone={true}>
           All Resumes
         </Tag>
       </MainNav>
       {userIsLogin ? (
-        <SideNav isMobile={false}>
+        <SideNav $isMobile={false}>
           <ChatTag to={`/chatroom/${userData.userID}`} id="chatroomIcon">
             <FontAwesomeIcon icon={faComment} />
           </ChatTag>
@@ -179,13 +179,13 @@ const Header = () => {
           </Nav>
         </SideNav>
       ) : (
-        <SideNav isMobile={false} id="login">
-          <Tag to={`/login`} mobileNone={false}>
+        <SideNav $isMobile={false} id="login">
+          <Tag to={`/login`} $mobileNone={false}>
             登入
           </Tag>
         </SideNav>
       )}
-      <SideNav isMobile={true}>
+      <SideNav $isMobile={true}>
         <Nav
           onClick={() => {
             setIsSideBar(true);

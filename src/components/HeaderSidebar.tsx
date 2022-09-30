@@ -32,8 +32,8 @@ const TagArea = styled.div`
   flex-direction: column;
 `;
 
-const Tag = styled(Link)<{ isMobile: Boolean }>`
-  display: ${(props) => (props.isMobile ? "none" : "block")};
+const Tag = styled(Link)<{ $isMobile: Boolean }>`
+  display: ${(props) => (props.$isMobile ? "none" : "block")};
   color: #ffffff;
   text-decoration: none;
   margin: 0 20px 20px;
@@ -124,19 +124,19 @@ const HeaderSidebar = ({
         <FontAwesomeIcon icon={faXmark} />
       </Nav>
       <TagArea>
-        <Tag to={`/`} isMobile={true}>
+        <Tag to={`/`} $isMobile={true}>
           所有作品集
         </Tag>
-        <Tag to={`/allresumes`} isMobile={true}>
+        <Tag to={`/allresumes`} $isMobile={true}>
           所有履歷
         </Tag>
-        <Tag to={`/profile/${userData.userID}`} isMobile={false}>
+        <Tag to={`/profile/${userData.userID}`} $isMobile={false}>
           個人頁面
         </Tag>
-        <Tag to={`/resume/${userData.userID}`} isMobile={false}>
+        <Tag to={`/resume/${userData.userID}`} $isMobile={false}>
           個人履歷
         </Tag>
-        <Tag to={`/website/${userData.userID}`} isMobile={false}>
+        <Tag to={`/website/${userData.userID}`} $isMobile={false}>
           個人網站
         </Tag>
         <Tag
@@ -153,7 +153,7 @@ const HeaderSidebar = ({
               dispatch(setAlert({ isAlert: false, text: "" }));
             }, 3000);
           }}
-          isMobile={false}
+          $isMobile={false}
         >
           登出
         </Tag>
