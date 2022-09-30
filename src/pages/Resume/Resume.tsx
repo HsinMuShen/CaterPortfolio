@@ -357,6 +357,9 @@ const SineleComponent = styled.div`
   width: 880px;
   position: relative;
   margin: 10px 0;
+  @media screen and (max-width: 1279px) {
+    width: 80vw;
+  }
 `;
 
 const MoveBtn = styled.div`

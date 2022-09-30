@@ -3,6 +3,7 @@ import PreviewImageInput from "../../../utilis/PreviewImageInput";
 import { resumeComContent } from "../Resume";
 import useUpdateResumeData from "./ResumeUpdateDataFunction";
 import styled from "styled-components";
+import { useMediaQuery } from "../../../utilis/useMediaQuery";
 
 const Wrapper = styled.div`
   display: flex;
@@ -10,6 +11,11 @@ const Wrapper = styled.div`
   justify-content: space-between;
   width: 800px;
   margin: 0 auto;
+  @media screen and (max-width: 1279px) {
+    width: 71vw;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 `;
 
 const MultiImg0 = ({
@@ -23,7 +29,7 @@ const MultiImg0 = ({
     index,
     content,
   });
-
+  const isRowBased = useMediaQuery("(min-width: 575px)");
   return (
     <Wrapper>
       {content.image.map((_, listIndex) => {
@@ -34,7 +40,7 @@ const MultiImg0 = ({
             listIndex={listIndex}
             image={content.image[listIndex]}
             style={{
-              width: "390px",
+              width: isRowBased ? "390px" : "70vw",
               height: "240px",
             }}
           />
