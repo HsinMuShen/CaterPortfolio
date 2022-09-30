@@ -4,7 +4,12 @@ import { useParams } from "react-router-dom";
 import { RootState } from "../../reducers";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { resumeLoading, userLoading, websiteLoading } from "../../action";
+import {
+  isPreviewProfile,
+  resumeLoading,
+  userLoading,
+  websiteLoading,
+} from "../../action";
 import { UserReducer } from "../../reducers";
 
 import firebase from "../../utilis/firebase";
@@ -130,6 +135,9 @@ const Profile: React.FC = () => {
   const isLogin = useSelector(
     (state: RootState) => state.IsPreviewReducer.userIsLogin
   );
+  const isProfileIntro = useSelector(
+    (state: RootState) => state.IsPreviewReducer.profileIntro
+  );
   const dispatch = useDispatch();
   const profileUserID = useParams().id;
 
@@ -183,6 +191,9 @@ const Profile: React.FC = () => {
       setIsLoading(false);
     };
     loadData();
+    if (!isProfileIntro) {
+      dispatch(isPreviewProfile());
+    }
     return () => {
       setIsCreaterArea(true);
     };

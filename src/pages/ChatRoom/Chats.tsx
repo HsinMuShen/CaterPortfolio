@@ -152,6 +152,9 @@ const Chats = ({
             onChange={(e) => {
               setSendMsg(e.target.value);
             }}
+            onKeyPress={() => {
+              submitMsg();
+            }}
           />
           <MessageSubmit
             onClick={() => {
