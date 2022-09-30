@@ -59,6 +59,14 @@ const SelectionArea = styled.div`
     width: 73vw;
     justify-content: center;
   }
+  @media screen and (max-width: 900px) {
+    width: 440px;
+    justify-content: flex-start;
+  }
+  @media screen and (max-width: 700px) {
+    width: 220px;
+    justify-content: flex-start;
+  }
 `;
 
 const SingleSelectArea = styled.div`
@@ -67,6 +75,9 @@ const SingleSelectArea = styled.div`
   margin: 5px 20px;
   align-items: center;
   cursor: pointer;
+  @media screen and (max-width: 900px) {
+    margin: 5px 10px;
+  }
 `;
 
 const ImgSection = styled.div<{

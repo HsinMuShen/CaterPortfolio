@@ -18,6 +18,12 @@ const PinContainer = styled.div`
   flex-wrap: wrap;
 
   justify-content: flex-start;
+  @media screen and (max-width: 1079px) {
+    width: 700px;
+  }
+  @media screen and (max-width: 800px) {
+    width: 350px;
+  }
 `;
 
 const AllResumes = () => {
