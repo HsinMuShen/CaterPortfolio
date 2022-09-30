@@ -51,13 +51,18 @@ const Instruction = styled.p`
 const SelectionArea = styled.div<{ justify: string }>`
   display: flex;
   justify-content: ${(props) => props.justify};
-  width: 900px;
+  width: 880px;
   flex-direction: row;
   flex-wrap: wrap;
   align-items: flex-end;
-  @media screen and (max-width: 1279px) {
-    width: 80vw;
-    justify-content: center;
+
+  @media screen and (max-width: 1079px) {
+    width: 440px;
+    justify-content: flex-start;
+  }
+  @media screen and (max-width: 700px) {
+    width: 220px;
+    justify-content: flex-start;
   }
 `;
 
@@ -67,6 +72,10 @@ const SingleSelectArea = styled.div`
   margin: 5px 20px;
   align-items: center;
   cursor: pointer;
+  @media screen and (max-width: 1079px) {
+    margin: 5px 10px;
+    justify-content: flex-start;
+  }
 `;
 
 const ImgSection = styled.div<{
