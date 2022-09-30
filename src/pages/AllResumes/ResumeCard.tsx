@@ -97,8 +97,16 @@ const ResumeCard = ({ size, data }: { size: number; data: DocumentData }) => {
     }
     if (isFollow) {
       await firebase.cancelResumeFollowing(data, userData);
+      dispatch(setAlert({ isAlert: true, text: "取消收藏!" }));
+      setTimeout(() => {
+        dispatch(setAlert({ isAlert: false, text: "" }));
+      }, 3000);
     } else {
       await firebase.addResumeFollowing(data, userData);
+      dispatch(setAlert({ isAlert: true, text: "加入收藏!" }));
+      setTimeout(() => {
+        dispatch(setAlert({ isAlert: false, text: "" }));
+      }, 3000);
     }
   };
 

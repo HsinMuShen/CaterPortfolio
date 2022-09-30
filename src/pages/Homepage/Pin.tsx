@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { DocumentData } from "firebase/firestore";
 import { useDispatch, useSelector } from "react-redux";
-import { portfolioLoading } from "../../action";
+import { portfolioLoading, setAlert } from "../../action";
 import { RootState } from "../../reducers";
 import firebase from "../../utilis/firebase";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart } from "@fortawesome/free-solid-svg-icons";
 
 const SinglePin = styled.div<{ size: number }>`
   margin: 15px 10px;
@@ -58,16 +60,52 @@ const PinImage = styled(Link)<{ mainimage: string }>`
   /* border-bottom:1px solid ; */
 `;
 
+const IconArea = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const FollowText = styled.p`
+  margin: 5px;
+  font-size: 14px;
+`;
+
+const FollowIcon = styled.div<{ backgroundColor: string }>`
+  cursor: pointer;
+  margin: 5px;
+  color: ${(props) => props.backgroundColor};
+`;
+
 const Pin = ({ size, data }: { size: number; data: DocumentData }) => {
   const [isFollow, setIsFollow] = useState(false);
   const userData = useSelector((state: RootState) => state.UserReducer);
+  const isLogin = useSelector(
+    (state: RootState) => state.IsPreviewReducer.userIsLogin
+  );
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const followPortfolio = async () => {
+    if (!isLogin) {
+      dispatch(setAlert({ isAlert: true, text: "請先登入再進行操作!" }));
+      navigate(`/login`);
+      setTimeout(() => {
+        dispatch(setAlert({ isAlert: false, text: "" }));
+      }, 3000);
+      return;
+    }
     if (isFollow) {
       await firebase.cancelPortfolioFollowing(data, userData);
+      dispatch(setAlert({ isAlert: true, text: "取消收藏!" }));
+      setTimeout(() => {
+        dispatch(setAlert({ isAlert: false, text: "" }));
+      }, 3000);
     } else {
       await firebase.addPortfolioFollowing(data, userData);
+      dispatch(setAlert({ isAlert: true, text: "加入收藏!" }));
+      setTimeout(() => {
+        dispatch(setAlert({ isAlert: false, text: "" }));
+      }, 3000);
     }
 
     const renewPortfolioData = await firebase.readPortfolioData(
@@ -81,7 +119,7 @@ const Pin = ({ size, data }: { size: number; data: DocumentData }) => {
 
   useEffect(() => {
     data.followers.forEach((followersData: { userID: string | null }) => {
-      if (followersData.userID === localStorage.getItem("userID")) {
+      if (followersData.userID === userData.userID) {
         setIsFollow(true);
       }
     });
@@ -106,10 +144,15 @@ const Pin = ({ size, data }: { size: number; data: DocumentData }) => {
 
         <Intro to={`/portfolio/${data.portfolioID}`}>{data.title}</Intro>
 
-        <p>
-          {isFollow ? `❤️ ` : `❤ `}
-          {data.followers.length}
-        </p>
+        <IconArea>
+          <FollowIcon
+            onClick={followPortfolio}
+            backgroundColor={isFollow ? "#C54545" : "none"}
+          >
+            <FontAwesomeIcon icon={faHeart} />
+          </FollowIcon>
+          <FollowText>{data.followers.length}</FollowText>
+        </IconArea>
       </IntroArea>
     </SinglePin>
   );
