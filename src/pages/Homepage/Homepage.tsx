@@ -40,6 +40,7 @@ const SearchInput = styled.input`
   padding: 3px;
   border-radius: 10px;
   font-size: 20px;
+  font-size: 14px;
 `;
 
 const SearchBtn = styled.div`
@@ -69,11 +70,9 @@ const Homepage = () => {
   const userIsLogin = useSelector(
     (state: RootState) => state.IsPreviewReducer.userIsLogin
   );
-
-  const random = (numbers: number[]) => {
-    return numbers[Math.floor(Math.random() * numbers.length)];
-  };
-  const numbers = [27, 36, 45, 48];
+  const homepageList = useSelector(
+    (state: RootState) => state.IsPreviewReducer.homepageList
+  );
 
   const searchData = async () => {
     const postArr: DocumentData[] = [];
@@ -119,6 +118,7 @@ const Homepage = () => {
           onChange={(e) => {
             searchText.current = e.target.value;
           }}
+          placeholder="創作者姓名、作品集名稱"
         />
         <SearchBtn
           onClick={() => {
@@ -129,9 +129,13 @@ const Homepage = () => {
         </SearchBtn>
       </SearchArea>
       <PinContainer id="portfoliosContainer">
-        {portfolioArr.map((data) => {
+        {portfolioArr.map((data, index) => {
           return (
-            <Pin key={data.portfolioID} size={random(numbers)} data={data} />
+            <Pin
+              key={data.portfolioID}
+              size={homepageList[index % 10]}
+              data={data}
+            />
           );
         })}
       </PinContainer>

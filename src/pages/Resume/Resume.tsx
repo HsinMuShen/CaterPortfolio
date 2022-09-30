@@ -338,6 +338,9 @@ const PreviewDiv = styled.div`
   width: 880px;
   height: 100%;
   z-index: 2;
+  @media screen and (max-width: 1280px) {
+    width: 85vw;
+  }
 `;
 
 const ResumeHeader = styled.div`

@@ -54,6 +54,7 @@ export const ActionType: {
     FALSE: string;
     SET_CHAT_ROOM: string;
     SET_ALERT: string;
+    SET_HOMEPAGE_LIST: string;
   };
   PORTFOLIOINDEX: {
     SET_INDEX: string;
@@ -107,6 +108,7 @@ export const ActionType: {
     FALSE: "ISPREVIEW_FALSE",
     SET_CHAT_ROOM: "ISPREVIEW_SET_CHAT_ROOM",
     SET_ALERT: "ISPREVIEW_SET_ALERT",
+    SET_HOMEPAGE_LIST: "ISPREVIEW_SET_HOMEPAGE_LIST",
   },
   PORTFOLIOINDEX: {
     SET_INDEX: "SET_INDEX",

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { portfolioReducer } from "../reducers/PortfolioContent";
+import { resumeReducer } from "../reducers/ResumeContent";
 import firebase from "./firebase";
 import { RootState } from "../reducers";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,67 +11,78 @@ import {
   setAlert,
   userLoading,
 } from "../action";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
 
 const SideBarArea = styled.div`
   position: fixed;
   top: 45%;
-`;
-
-const SideBarTag = styled.div`
-  position: relative;
-
-  width: 140px;
-  border: 1px solid;
-  border-radius: 5px;
-  padding: 6px;
-  font-size: 16px;
-  background-color: #555555;
-  color: #ffffff;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
+  @media screen and (max-width: 1280px) {
+    top: 65px;
+  }
 `;
 
 const Options = styled.div`
   position: relative;
-  left: -200px;
+  left: 0px;
   top: -5px;
   display: flex;
   flex-direction: column;
   border: 1px solid;
-  border-radius: 0 5px 16px 16px;
+  border-radius: 16px;
   padding: 5px;
   width: 140px;
   background-color: #ffffff;
   transition: left 1s;
 `;
 
-const OptionsBtn = styled.p`
-  cursor: pointer;
+const FollowArea = styled.div`
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
 `;
 
-const SideBar = ({ type, data }: { type: string; data: portfolioReducer }) => {
-  const [showBarInfo, setShowBarInfo] = useState({
-    showBar: false,
-    title: "我喜歡這個作品!",
-  });
+const IconArea = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const FollowText = styled.p`
+  margin: 5px;
+  font-size: 14px;
+`;
+
+const FollowIcon = styled.div<{ backgroundColor: string }>`
+  cursor: pointer;
+  margin: 5px;
+  color: ${(props) => props.backgroundColor};
+`;
+
+const SideBar = ({
+  type,
+  data,
+}: {
+  type: string;
+  data: portfolioReducer | resumeReducer;
+}) => {
   const [isFollow, setIsFollow] = useState(false);
   const userData = useSelector((state: RootState) => state.UserReducer);
+  const isLogin = useSelector(
+    (state: RootState) => state.IsPreviewReducer.userIsLogin
+  );
   const dispatch = useDispatch();
-  const showingBar = () => {
-    if (showBarInfo.showBar) {
-      setShowBarInfo({
-        showBar: false,
-        title: "我喜歡這個作品!",
-      });
-    } else {
-      setShowBarInfo({
-        showBar: true,
-        title: "收起這個東西",
-      });
-    }
-  };
+  const navigate = useNavigate();
+
   const followPortfolio = async () => {
+    if (!isLogin) {
+      dispatch(setAlert({ isAlert: true, text: "請先登入再進行操作!" }));
+      navigate(`/login`);
+      setTimeout(() => {
+        dispatch(setAlert({ isAlert: false, text: "" }));
+      }, 3000);
+      return;
+    }
     if (type === "portfolio") {
       if (isFollow) {
         await firebase.cancelPortfolioFollowing(data, userData);
@@ -85,36 +97,21 @@ const SideBar = ({ type, data }: { type: string; data: portfolioReducer }) => {
           dispatch(setAlert({ isAlert: false, text: "" }));
         }, 3000);
       }
-
-      const renewPortfolioData = await firebase.readPortfolioData(
-        "portfolios",
-        `${data.portfolioID}`
-      );
-      if (renewPortfolioData) {
-        dispatch(portfolioLoading(renewPortfolioData));
-      }
     } else if (type === "resume") {
       if (isFollow) {
-        console.log(data, userData);
         await firebase.cancelResumeFollowing(data, userData);
+        setIsFollow(false);
         dispatch(setAlert({ isAlert: true, text: "取消收藏!" }));
         setTimeout(() => {
           dispatch(setAlert({ isAlert: false, text: "" }));
         }, 3000);
       } else {
         await firebase.addResumeFollowing(data, userData);
+        setIsFollow(true);
         dispatch(setAlert({ isAlert: true, text: "加入收藏!" }));
         setTimeout(() => {
           dispatch(setAlert({ isAlert: false, text: "" }));
         }, 3000);
-      }
-
-      const renewResumeData = await firebase.readData(
-        "resumes",
-        `${data.portfolioID}`
-      );
-      if (renewResumeData) {
-        dispatch(resumeLoading(renewResumeData));
       }
     }
 
@@ -136,15 +133,19 @@ const SideBar = ({ type, data }: { type: string; data: portfolioReducer }) => {
   }, [data]);
   return (
     <SideBarArea>
-      <SideBarTag onClick={showingBar} id="sideBar">
-        {showBarInfo.title}
-      </SideBarTag>
-      <Options style={{ left: showBarInfo.showBar ? "0px" : "-200px" }}>
-        <OptionsBtn>{data.name}</OptionsBtn>
-        <OptionsBtn onClick={followPortfolio}>
-          {isFollow ? `已收藏 ❤️` : `加入收藏 ❤`}
-          {data.followers.length}
-        </OptionsBtn>
+      <Options>
+        <FollowArea>
+          <FollowText>點擊愛心取消收藏!</FollowText>
+          <IconArea>
+            <FollowIcon
+              onClick={followPortfolio}
+              backgroundColor={isFollow ? "#C54545" : "none"}
+            >
+              <FontAwesomeIcon icon={faHeart} />
+            </FollowIcon>
+            <FollowText>{data.followers.length}</FollowText>
+          </IconArea>
+        </FollowArea>
       </Options>
     </SideBarArea>
   );

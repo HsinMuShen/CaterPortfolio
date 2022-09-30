@@ -321,6 +321,13 @@ export const setAlert = (alertData: { isAlert: boolean; text: string }) => {
   };
 };
 
+export const setHomepageList = (arr: number[]) => {
+  return {
+    type: ActionType.ISPREVIEW.SET_HOMEPAGE_LIST,
+    payload: { arr },
+  };
+};
+
 export const setPortfolioIndex = (index: number) => {
   return {
     type: ActionType.PORTFOLIOINDEX.SET_INDEX,

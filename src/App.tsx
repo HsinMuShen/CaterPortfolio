@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
+import { useDispatch } from "react-redux";
 import Header from "./components/Header";
 import Alert from "./components/Alert";
 
@@ -8,7 +9,7 @@ import PingFangTCRegular from "./fonts/PingFang-TC-Regular-2.otf";
 import PingFangTCThin from "./fonts/PingFang-TC-Thin-2.otf";
 import NotoSansTCRegular from "./fonts/NotoSansTC-Regular.otf";
 import NotoSansTCBold from "./fonts/NotoSansTC-Bold.otf";
-import LargeLoading from "./utilis/LargeLoading";
+import { setHomepageList } from "./action";
 
 const GlobalStyle = createGlobalStyle`
 
@@ -73,14 +74,24 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 const App: React.FC = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const location = useLocation();
+  const homepageList: number[] = [];
+  const numbers = [27, 36, 45, 48];
+  const dispatch = useDispatch();
+
+  const random = (numbers: number[]) => {
+    return numbers[Math.floor(Math.random() * numbers.length)];
+  };
+  useEffect(() => {
+    for (let i = 0; i < 10; i++) {
+      homepageList.push(random(numbers));
+    }
+    dispatch(setHomepageList(homepageList));
+  }, []);
 
   return (
     <>
       <GlobalStyle />
       <Header />
-      {/* <LargeLoading /> */}
       <Alert />
       <Outlet />
     </>

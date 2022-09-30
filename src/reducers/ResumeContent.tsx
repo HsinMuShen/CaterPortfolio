@@ -4,7 +4,7 @@ import { Timestamp } from "firebase/firestore";
 import { v4 } from "uuid";
 import initialUserImage from "../images/user.png";
 
-interface resumeReducer {
+export interface resumeReducer {
   title: string;
   coverImage: string;
   content: {
@@ -15,7 +15,11 @@ interface resumeReducer {
     id: string;
   }[];
   name: string;
-  followers: string[];
+  followers: {
+    name: string;
+    userID: string;
+    userImage: string;
+  }[];
   tags: string[];
   time: null | Timestamp;
   userID: string;

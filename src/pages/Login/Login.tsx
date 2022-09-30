@@ -19,19 +19,17 @@ import initialBackgroundImg from "../../images/initialBackgroundImg.jpg";
 
 const auth = getAuth(firebaseApp);
 
-const Wrapper = styled.div`
-  margin: 120px auto 0;
-  width: 960px;
-`;
-
 const LoginArea = styled.div`
   display: flex;
   flex-direction: column;
   border: 2px solid;
   border-radius: 16px;
   overflow: hidden;
-  margin: 0 auto;
+  margin: 120px auto;
   width: 600px;
+  @media screen and (max-width: 749px) {
+    width: 80vw;
+  }
 `;
 const SelectArea = styled.div`
   display: flex;
@@ -52,6 +50,9 @@ const InputArea = styled.div`
   display: flex;
   flex-direction: column;
   margin: 20px 0 20px;
+  @media screen and (max-width: 749px) {
+    margin: 20px auto;
+  }
 `;
 
 const SingleInputArea = styled.div`
@@ -59,6 +60,10 @@ const SingleInputArea = styled.div`
   justify-content: center;
   align-items: center;
   margin: 10px 0;
+  @media screen and (max-width: 749px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 `;
 
 const Label = styled.label`
@@ -69,6 +74,9 @@ const Input = styled.input`
   width: 360px;
   height: 30px;
   padding-left: 5px;
+  @media screen and (max-width: 749px) {
+    width: 60vw;
+  }
 `;
 
 const SubmitBtn = styled.button`
@@ -83,6 +91,9 @@ const SubmitBtn = styled.button`
   &:hover {
     background-color: #555555;
     color: #ffffff;
+  }
+  @media screen and (max-width: 749px) {
+    width: 60vw;
   }
 `;
 
@@ -203,73 +214,64 @@ const Login = () => {
     }
   };
   return (
-    <Wrapper>
-      <LoginArea>
-        <SelectArea>
-          <SelectTag
-            onClick={() => {
-              setActiveItem("signin");
-            }}
-            backgroundColor={activeItem === "register" ? "#ffffff" : "#e9e9e9"}
-          >
-            登入
-          </SelectTag>
-          <SelectTag
-            onClick={() => {
-              setActiveItem("register");
-            }}
-            backgroundColor={activeItem === "register" ? "#e9e9e9" : "#ffffff"}
-          >
-            註冊
-          </SelectTag>
-        </SelectArea>
-        <InputArea>
-          {activeItem === "register" ? (
-            <div>
-              <SingleInputArea>
-                <Label>使用者名稱</Label>
-                <Input
-                  type="text"
-                  onChange={(e) => {
-                    dispatch(initialSetUserData("name", e.target.value));
-                  }}
-                  required
-                />
-              </SingleInputArea>
-            </div>
-          ) : null}
-
+    <LoginArea>
+      <SelectArea>
+        <SelectTag
+          onClick={() => {
+            setActiveItem("signin");
+          }}
+          backgroundColor={activeItem === "register" ? "#E7E7E7" : "#CBCBCB"}
+        >
+          登入
+        </SelectTag>
+        <SelectTag
+          onClick={() => {
+            setActiveItem("register");
+          }}
+          backgroundColor={activeItem === "register" ? "#CBCBCB" : "#E7E7E7"}
+        >
+          註冊
+        </SelectTag>
+      </SelectArea>
+      <InputArea>
+        {activeItem === "register" ? (
           <SingleInputArea>
-            <Label>電子信箱</Label>
+            <Label>使用者名稱</Label>
             <Input
               type="text"
               onChange={(e) => {
-                dispatch(initialSetUserData("email", e.target.value));
+                dispatch(initialSetUserData("name", e.target.value));
               }}
               required
             />
           </SingleInputArea>
-          <SingleInputArea>
-            <Label>密碼</Label>
-            <Input
-              type="password"
-              onChange={(e) => {
-                dispatch(initialSetUserData("password", e.target.value));
-              }}
-              required
-            />
-          </SingleInputArea>
-        </InputArea>
-        <SubmitBtn onClick={onSubmit}>
-          {activeItem === "register" ? "註冊" : "登入"}
-        </SubmitBtn>
-      </LoginArea>
-      <SideArea>
-        <SideImgArea
-          backgroundImg={activeItem === "signin" ? signinImg : registerImg}
-        ></SideImgArea>
-      </SideArea>
-    </Wrapper>
+        ) : null}
+
+        <SingleInputArea>
+          <Label>電子信箱</Label>
+          <Input
+            type="text"
+            onChange={(e) => {
+              dispatch(initialSetUserData("email", e.target.value));
+            }}
+            required
+          />
+        </SingleInputArea>
+        <SingleInputArea>
+          <Label>密碼</Label>
+          <Input
+            type="password"
+            onChange={(e) => {
+              dispatch(initialSetUserData("password", e.target.value));
+            }}
+            required
+          />
+        </SingleInputArea>
+      </InputArea>
+      <SubmitBtn onClick={onSubmit}>
+        {activeItem === "register" ? "註冊" : "登入"}
+      </SubmitBtn>
+    </LoginArea>
   );
 };
 

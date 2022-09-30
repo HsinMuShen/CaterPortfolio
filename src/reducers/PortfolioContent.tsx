@@ -16,6 +16,7 @@ export interface portfolioReducer {
   followers: {
     name: string;
     userID: string;
+    userImage: string;
   }[];
   tags: string[];
   time: null | number;
