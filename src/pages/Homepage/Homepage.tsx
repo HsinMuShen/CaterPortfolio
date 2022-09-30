@@ -32,6 +32,19 @@ const SearchArea = styled.div`
   margin: 0 auto;
   justify-content: flex-start;
   z-index: 5;
+  @media screen and (max-width: 900px) {
+    width: 200px;
+    right: auto;
+    left: 70px;
+  }
+  @media screen and (max-width: 500px) {
+    top: 80px;
+    width: 95vw;
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+  }
 `;
 
 const SearchInput = styled.input`
@@ -41,6 +54,12 @@ const SearchInput = styled.input`
   border-radius: 10px;
   font-size: 20px;
   font-size: 14px;
+  @media screen and (max-width: 900px) {
+    width: 200px;
+  }
+  @media screen and (max-width: 500px) {
+    width: 95vw;
+  }
 `;
 
 const SearchBtn = styled.div`

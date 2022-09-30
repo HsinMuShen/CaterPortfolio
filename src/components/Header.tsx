@@ -40,6 +40,9 @@ const SideNav = styled.div<{ isMobile: boolean }>`
   display: ${(props) => (props.isMobile ? "none" : "flex")};
   align-items: center;
   margin-right: 20px;
+  @media screen and (max-width: 900px) {
+    display: ${(props) => (props.isMobile ? "flex" : "none")};
+  }
 `;
 
 const LogoArea = styled(Link)<{ img: string }>`
@@ -56,12 +59,15 @@ const LogoArea = styled(Link)<{ img: string }>`
     color: #6d6d6d;
   }
 `;
-const Tag = styled(Link)`
+const Tag = styled(Link)<{ mobileNone: Boolean }>`
   color: #333333;
   text-decoration: none;
   margin: 0 20px;
   &:hover {
     color: #6d6d6d;
+  }
+  @media screen and (max-width: 900px) {
+    display: ${(props) => (props.mobileNone ? "none" : "block")};
   }
 `;
 
@@ -83,6 +89,10 @@ const Nav = styled.p`
   font-size: 28px;
   & :hover {
     color: #6d6d6d;
+  }
+  @media screen and (max-width: 900px) {
+    font-size: 20px;
+    margin: 0 5px;
   }
 `;
 
@@ -126,7 +136,6 @@ const Header = () => {
           const name =
             change.doc.data().message[change.doc.data().message.length - 1]
               .name;
-          console.log(change.doc.data().message);
 
           if (name !== userData.name) {
             dispatch(
@@ -148,10 +157,10 @@ const Header = () => {
     <Wrapper isPopup={isPopup}>
       <MainNav>
         <LogoArea to={`/`} img={Logo} id="logo"></LogoArea>
-        <Tag to={`/`} id="allPortfolios">
+        <Tag to={`/`} id="allPortfolios" mobileNone={true}>
           CaterPortfolio
         </Tag>
-        <Tag to={`/allresumes`} id="allResumes">
+        <Tag to={`/allresumes`} id="allResumes" mobileNone={true}>
           All Resumes
         </Tag>
       </MainNav>
@@ -171,11 +180,19 @@ const Header = () => {
         </SideNav>
       ) : (
         <SideNav isMobile={false} id="login">
-          <Tag to={`/login`}>登入</Tag>
+          <Tag to={`/login`} mobileNone={false}>
+            登入
+          </Tag>
         </SideNav>
       )}
       <SideNav isMobile={true}>
-        <FontAwesomeIcon icon={faBars} />
+        <Nav
+          onClick={() => {
+            setIsSideBar(true);
+          }}
+        >
+          <FontAwesomeIcon icon={faBars} />
+        </Nav>
       </SideNav>
       <HeaderSidebar
         userData={userData}
