@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { portfolioReducer } from "../reducers/PortfolioContent";
+import { resumeReducer } from "../reducers/ResumeContent";
 import firebase from "./firebase";
 import { RootState } from "../reducers";
 import { useDispatch, useSelector } from "react-redux";
@@ -58,14 +59,23 @@ const FollowIcon = styled.div<{ backgroundColor: string }>`
   color: ${(props) => props.backgroundColor};
 `;
 
-const SideBar = ({ type, data }: { type: string; data: portfolioReducer }) => {
+const SideBar = ({
+  type,
+  data,
+}: {
+  type: string;
+  data: portfolioReducer | resumeReducer;
+}) => {
   const [isFollow, setIsFollow] = useState(false);
   const userData = useSelector((state: RootState) => state.UserReducer);
+  const isLogin = useSelector(
+    (state: RootState) => state.IsPreviewReducer.userIsLogin
+  );
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const followPortfolio = async () => {
-    if (!userData.userID) {
+    if (!isLogin) {
       dispatch(setAlert({ isAlert: true, text: "請先登入再進行操作!" }));
       navigate(`/login`);
       setTimeout(() => {
@@ -87,14 +97,6 @@ const SideBar = ({ type, data }: { type: string; data: portfolioReducer }) => {
           dispatch(setAlert({ isAlert: false, text: "" }));
         }, 3000);
       }
-
-      const renewPortfolioData = await firebase.readPortfolioData(
-        "portfolios",
-        `${data.portfolioID}`
-      );
-      if (renewPortfolioData) {
-        dispatch(portfolioLoading(renewPortfolioData));
-      }
     } else if (type === "resume") {
       if (isFollow) {
         await firebase.cancelResumeFollowing(data, userData);
@@ -110,14 +112,6 @@ const SideBar = ({ type, data }: { type: string; data: portfolioReducer }) => {
         setTimeout(() => {
           dispatch(setAlert({ isAlert: false, text: "" }));
         }, 3000);
-      }
-
-      const renewResumeData = await firebase.readData(
-        "resumes",
-        `${data.portfolioID}`
-      );
-      if (renewResumeData) {
-        dispatch(resumeLoading(renewResumeData));
       }
     }
 
@@ -140,27 +134,18 @@ const SideBar = ({ type, data }: { type: string; data: portfolioReducer }) => {
   return (
     <SideBarArea>
       <Options>
-        {isFollow ? (
-          <FollowArea>
-            <FollowText>點擊愛心取消收藏!</FollowText>
-            <IconArea>
-              <FollowIcon onClick={followPortfolio} backgroundColor="#C54545">
-                <FontAwesomeIcon icon={faHeart} />
-              </FollowIcon>
-              <FollowText>{data.followers.length}</FollowText>
-            </IconArea>
-          </FollowArea>
-        ) : (
-          <FollowArea>
-            <FollowText>點擊愛心加入收藏!</FollowText>
-            <IconArea>
-              <FollowIcon onClick={followPortfolio} backgroundColor="none">
-                <FontAwesomeIcon icon={faHeart} />
-              </FollowIcon>
-              <FollowText>{data.followers.length}</FollowText>
-            </IconArea>
-          </FollowArea>
-        )}
+        <FollowArea>
+          <FollowText>點擊愛心取消收藏!</FollowText>
+          <IconArea>
+            <FollowIcon
+              onClick={followPortfolio}
+              backgroundColor={isFollow ? "#C54545" : "none"}
+            >
+              <FontAwesomeIcon icon={faHeart} />
+            </FollowIcon>
+            <FollowText>{data.followers.length}</FollowText>
+          </IconArea>
+        </FollowArea>
       </Options>
     </SideBarArea>
   );
