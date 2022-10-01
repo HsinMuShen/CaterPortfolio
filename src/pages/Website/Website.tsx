@@ -48,7 +48,6 @@ export interface websiteComContent {
 const Website = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isLargeLoading, setIsLargeLoading] = useState<boolean>(false);
-  const refPhoto = useRef<HTMLDivElement>(null);
   const deletePortfolioContent = useRef<number>();
   const websiteID = useParams().id;
   const dispatch = useDispatch();
@@ -175,77 +174,73 @@ const Website = () => {
         )}
 
         <DragDropContext onDragEnd={handleOnDragEnd}>
-          <div ref={refPhoto}>
-            <Droppable droppableId="characters">
-              {(provided) => (
-                <WebsiteLayouts
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                >
-                  <PreviewDiv
-                    style={{ zIndex: isPreview ? "2" : "-1" }}
-                  ></PreviewDiv>
-                  {isLoading ? <Loading /> : null}
-                  {websiteData.content.length === 0 ? (
-                    <p>尚未建立網站</p>
-                  ) : null}
-                  {websiteData.content?.map(
-                    (content: websiteComContent, index: number) => {
-                      const TempCom =
-                        WebsiteComponents[
-                          content.comName as keyof typeof WebsiteComponents
-                        ];
-                      return (
-                        <Draggable
-                          key={content.id}
-                          draggableId={content.id}
-                          index={index}
-                        >
-                          {(provided) => (
-                            <SingleComponent
-                              {...provided.draggableProps}
-                              ref={provided.innerRef}
-                            >
-                              <TempCom
-                                index={index}
-                                content={content}
-                                userID={userData.userID}
-                              />
-                              <Delete
-                                addDeleteCom={
-                                  content.comName === "Portfolio0"
-                                    ? () => {
-                                        deletePortfolioContent.current = index;
-                                        dispatch(isPreviewTrue("popup"));
-                                      }
-                                    : addDeleteCom
-                                }
-                                index={index}
-                              />
-                              <PopUp
-                                isPopup={isPop}
-                                text={
-                                  "是否確定要刪除此作品集列? 一旦刪除將無法回復"
-                                }
-                                sureToDelete={sureToDelete}
-                              ></PopUp>
+          <Droppable droppableId="characters">
+            {(provided) => (
+              <WebsiteLayouts
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+              >
+                <PreviewDiv
+                  style={{ zIndex: isPreview ? "2" : "-1" }}
+                ></PreviewDiv>
+                {isLoading ? <Loading /> : null}
+                {websiteData.content.length === 0 ? <p>尚未建立網站</p> : null}
+                {websiteData.content?.map(
+                  (content: websiteComContent, index: number) => {
+                    const TempCom =
+                      WebsiteComponents[
+                        content.comName as keyof typeof WebsiteComponents
+                      ];
+                    return (
+                      <Draggable
+                        key={content.id}
+                        draggableId={content.id}
+                        index={index}
+                      >
+                        {(provided) => (
+                          <SingleComponent
+                            {...provided.draggableProps}
+                            ref={provided.innerRef}
+                          >
+                            <TempCom
+                              index={index}
+                              content={content}
+                              userID={userData.userID}
+                            />
+                            <Delete
+                              addDeleteCom={
+                                content.comName === "Portfolio0"
+                                  ? () => {
+                                      deletePortfolioContent.current = index;
+                                      dispatch(isPreviewTrue("popup"));
+                                    }
+                                  : addDeleteCom
+                              }
+                              index={index}
+                            />
+                            <PopUp
+                              isPopup={isPop}
+                              text={
+                                "是否確定要刪除此作品集列? 一旦刪除將無法回復"
+                              }
+                              sureToDelete={sureToDelete}
+                            ></PopUp>
 
-                              <MoveBtn {...provided.dragHandleProps}>
-                                {isPreview ? null : (
-                                  <FontAwesomeIcon icon={faUpDownLeftRight} />
-                                )}
-                              </MoveBtn>
-                            </SingleComponent>
-                          )}
-                        </Draggable>
-                      );
-                    }
-                  )}
-                  {provided.placeholder}
-                </WebsiteLayouts>
-              )}
-            </Droppable>
-          </div>
+                            <MoveBtn {...provided.dragHandleProps}>
+                              {isPreview ? null : (
+                                <FontAwesomeIcon icon={faUpDownLeftRight} />
+                              )}
+                            </MoveBtn>
+                          </SingleComponent>
+                        )}
+                      </Draggable>
+                    );
+                  }
+                )}
+                {provided.placeholder}
+              </WebsiteLayouts>
+            )}
+          </Droppable>
         </DragDropContext>
         {isPreview ? null : (
           <AddWebsiteCom

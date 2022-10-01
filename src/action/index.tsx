@@ -251,6 +251,21 @@ export const portfolioAddSetting = (type: string, text: string) => {
   };
 };
 
+export const portfolioRenewContent = (
+  content: {
+    image: string[];
+    text: string[];
+    type: number;
+    comName: string;
+    id: string;
+  }[]
+) => {
+  return {
+    type: ActionType.PORTFOLIO.RENEW_CONTENT,
+    payload: { content },
+  };
+};
+
 export const portfolioLoading = (data: DocumentData) => {
   return {
     type: ActionType.PORTFOLIO.LOADING,

@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { v4 } from "uuid";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPen, faEye } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPen,
+  faEye,
+  faUpDownLeftRight,
+} from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 
 import InitialSetup from "./InitialSetup";
@@ -24,6 +29,7 @@ import {
   isPreviewTrue,
   setAlert,
   websiteLoading,
+  portfolioRenewContent,
 } from "../../action";
 import { PortfolioComponents } from "./portfolioComponents";
 import { portfolioChoice } from "./portfolioComponents";
@@ -96,6 +102,15 @@ const Portfolio = () => {
         dispatch(setAlert({ isAlert: false, text: "" }));
       }, 3000);
     }
+  };
+
+  const handleOnDragEnd = (result: any) => {
+    if (!result.destination) return;
+    const items: portfolioComContent[] = [...portfolioData.content];
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+
+    dispatch(portfolioRenewContent(items));
   };
 
   useEffect(() => {
@@ -189,31 +204,62 @@ const Portfolio = () => {
             setIsLargeLoading={setIsLargeLoading}
           />
         )}
+
         {isLoading ? (
           <Loading />
         ) : (
-          <PortfolioLayouts>
-            <PreviewDiv style={{ zIndex: isPreview ? "2" : "-1" }}></PreviewDiv>
+          <DragDropContext onDragEnd={handleOnDragEnd}>
+            <Droppable droppableId="characters">
+              {(provided) => (
+                <PortfolioLayouts
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                >
+                  <PreviewDiv
+                    style={{ zIndex: isPreview ? "2" : "-1" }}
+                  ></PreviewDiv>
+                  {portfolioData.content.length === 0 ? (
+                    <p>尚未建立此作品集</p>
+                  ) : null}
 
-            {portfolioData.content.length === 0 ? (
-              <p>尚未建立此作品集</p>
-            ) : null}
-            {portfolioData.content.map(
-              (content: portfolioComContent, index: number) => {
-                const TempCom =
-                  PortfolioComponents[
-                    content.comName as keyof typeof PortfolioComponents
-                  ];
-                return (
-                  <SingleComponent key={content.id}>
-                    <TempCom index={index} content={content} />
-                    <Delete addDeleteCom={addDeleteCom} index={index} />
-                    <Move />
-                  </SingleComponent>
-                );
-              }
-            )}
-          </PortfolioLayouts>
+                  {portfolioData.content.map(
+                    (content: portfolioComContent, index: number) => {
+                      const TempCom =
+                        PortfolioComponents[
+                          content.comName as keyof typeof PortfolioComponents
+                        ];
+                      return (
+                        <Draggable
+                          key={content.id}
+                          draggableId={content.id}
+                          index={index}
+                        >
+                          {(provided) => (
+                            <SingleComponent
+                              {...provided.draggableProps}
+                              ref={provided.innerRef}
+                            >
+                              <TempCom index={index} content={content} />
+                              <Delete
+                                addDeleteCom={addDeleteCom}
+                                index={index}
+                              />
+                              <MoveBtn {...provided.dragHandleProps}>
+                                {isPreview ? null : (
+                                  <FontAwesomeIcon icon={faUpDownLeftRight} />
+                                )}
+                              </MoveBtn>
+                            </SingleComponent>
+                          )}
+                        </Draggable>
+                      );
+                    }
+                  )}
+                  {provided.placeholder}
+                </PortfolioLayouts>
+              )}
+            </Droppable>
+          </DragDropContext>
         )}
 
         <CreatePortfolioCom addPortfolioCom={addPortfolioCom} />
@@ -317,6 +363,13 @@ const SingleComponent = styled.div`
   @media screen and (max-width: 1279px) {
     width: 100%;
   }
+`;
+
+const MoveBtn = styled.div`
+  position: absolute;
+  right: 4.5px;
+  top: 30px;
+  font-size: 20px;
 `;
 
 const ResumeBtn = styled.div`
