@@ -25,6 +25,15 @@ const Wrapper = styled.div`
   flex-wrap: wrap;
   margin: 0 auto;
   z-index: 3;
+  justify-content: flex-start;
+  @media screen and (max-width: 1079px) {
+    width: 600px;
+    flex-wrap: wrap;
+  }
+  @media screen and (max-width: 699px) {
+    width: 300px;
+    flex-wrap: wrap;
+  }
 `;
 
 const PortfolioShowing = styled.div`
@@ -167,6 +176,14 @@ const PortfolioAreaCom = ({
               key={portfolioID}
               to={`/portfolio/${portfolioID}`}
               onClick={() => {
+                window.localStorage.setItem(
+                  "portfolioListIndex",
+                  JSON.stringify(portfolioListIndex)
+                );
+                window.localStorage.setItem(
+                  "websiteContentIndex",
+                  JSON.stringify(index)
+                );
                 dispatch(setPortfolioListIndex(portfolioListIndex));
                 dispatch(setPortfolioIndex(index));
               }}
@@ -180,7 +197,6 @@ const PortfolioAreaCom = ({
               <DeleteBtn
                 onClick={() => {
                   handleDelete(portfolioID, portfolioListIndex);
-                  // deleteSinglePortfolio(portfolioID, portfolioListIndex);
                 }}
               >
                 <FontAwesomeIcon icon={faTrash} />
@@ -198,6 +214,10 @@ const PortfolioAreaCom = ({
         <AddingPortfolio
           to={"/portfolio/create"}
           onClick={() => {
+            window.localStorage.setItem(
+              "websiteContentIndex",
+              JSON.stringify(index)
+            );
             dispatch(setPortfolioIndex(index));
           }}
         >

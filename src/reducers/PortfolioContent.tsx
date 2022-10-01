@@ -40,7 +40,7 @@ const PortfolioReducer = (
 ) => {
   switch (action.type) {
     case ActionType.PORTFOLIO.INITIAL_SETUP: {
-      let tempData = portfolioData;
+      let tempData = { ...portfolioData };
       if (action.payload.type === "title") {
         tempData = { ...tempData, title: action.payload.text };
       } else if (action.payload.type === "mainImage") {
@@ -51,7 +51,7 @@ const PortfolioReducer = (
       return tempData;
     }
     case ActionType.PORTFOLIO.ADD_COMPONENT: {
-      const tempContentArr = portfolioData.content;
+      const tempContentArr = [...portfolioData.content];
       const tempContent = { ...action.payload.content };
       tempContent.id = v4();
       tempContentArr.push(tempContent);
@@ -59,14 +59,14 @@ const PortfolioReducer = (
       return newResumeData;
     }
     case ActionType.PORTFOLIO.DELETE_COMPONENT: {
-      const tempContentArr = portfolioData.content;
+      const tempContentArr = [...portfolioData.content];
       const index = action.payload.index;
       tempContentArr.splice(index, 1);
       const newResumeData = { ...portfolioData, content: tempContentArr };
       return newResumeData;
     }
     case ActionType.PORTFOLIO.FILL_CONTENT: {
-      const tempContentArr = portfolioData.content;
+      const tempContentArr = [...portfolioData.content];
       const index = action.payload.index;
       tempContentArr[index] = {
         ...portfolioData.content[index],
@@ -76,7 +76,7 @@ const PortfolioReducer = (
       return newWebsiteData;
     }
     case ActionType.PORTFOLIO.ADD_IMAGE: {
-      const tempContentArr = portfolioData.content;
+      const tempContentArr = [...portfolioData.content];
       const index = action.payload.index;
       tempContentArr[index] = {
         ...portfolioData.content[index],
@@ -89,17 +89,24 @@ const PortfolioReducer = (
       const tempObj = { ...portfolioData, time: Date.now() };
       return tempObj;
     }
-    case ActionType.WEBSITE.ADD_SETTING: {
-      let tempResumeData = portfolioData;
-      tempResumeData = {
+    case ActionType.PORTFOLIO.ADD_SETTING: {
+      let tempPortfolioeData = portfolioData;
+      tempPortfolioeData = {
         ...portfolioData,
         [action.payload.type]: action.payload.text,
       };
-      return tempResumeData;
+      return tempPortfolioeData;
+    }
+    case ActionType.PORTFOLIO.RENEW_CONTENT: {
+      const tempPortfolioeData = {
+        ...portfolioData,
+        content: action.payload.content,
+      };
+      return tempPortfolioeData;
     }
     case ActionType.PORTFOLIO.LOADING: {
-      const tempWebsiteData = action.payload.data;
-      return tempWebsiteData;
+      const tempPortfolioeData = action.payload.data;
+      return tempPortfolioeData;
     }
     default:
       return portfolioData;

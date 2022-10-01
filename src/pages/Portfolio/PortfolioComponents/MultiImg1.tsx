@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import Canves from "../../../utilis/Canves";
+import PreviewImageInput from "../../../utilis/PreviewImageInput";
+import { useMediaQuery } from "../../../utilis/useMediaQuery";
 import { portfolioComContent } from "../Portfolio";
 import useUpdateResumeData from "./PortfolioUpdateDataFunction";
 
@@ -10,6 +12,11 @@ const Wrapper = styled.div`
   justify-content: space-between;
   margin: 0 auto;
   width: 900px;
+  @media screen and (max-width: 1279px) {
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 `;
 
 const MultiImg1 = ({
@@ -19,7 +26,8 @@ const MultiImg1 = ({
   content: portfolioComContent;
   index: number;
 }) => {
-  const { setCanvasImage } = useUpdateResumeData({
+  const isRowBased = useMediaQuery("(min-width: 350px)");
+  const { setReducerImage } = useUpdateResumeData({
     index,
     content,
   });
@@ -27,14 +35,15 @@ const MultiImg1 = ({
     <Wrapper>
       {content.image.map((_, listIndex) => {
         return (
-          <Canves
+          <PreviewImageInput
             key={listIndex}
-            content={content}
-            name={`${index}-${listIndex}`}
-            size={{ height: 240, width: 290 }}
-            setCanvasImage={setCanvasImage}
+            setReducerImage={setReducerImage}
             listIndex={listIndex}
-            index={index}
+            image={content.image[listIndex]}
+            style={{
+              width: isRowBased ? "290px" : "85vw",
+              height: "240px",
+            }}
           />
         );
       })}

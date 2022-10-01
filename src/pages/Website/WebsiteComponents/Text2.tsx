@@ -25,15 +25,16 @@ const Text2 = ({
   content: websiteComContent;
   index: number;
 }) => {
+  const isRowBased0 = useMediaQuery("(min-width: 600px)");
+  const isRowBased1 = useMediaQuery("(min-width: 340px)");
   const { setReducerImage, setReducerText } = useUpdateResumeData({
     index,
     content,
   });
-  const isRowBased0 = useMediaQuery("(min-width: 600px)");
-  const isRowBased1 = useMediaQuery("(min-width: 340px)");
+
   const styleArr = [
     {
-      width: isRowBased0 ? "300px" : "85vw",
+      width: isRowBased1 ? "300px" : "85vw",
       padding: " 0 10px",
       margin: "5px",
     },

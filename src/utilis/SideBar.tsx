@@ -18,7 +18,7 @@ import { useNavigate } from "react-router-dom";
 const SideBarArea = styled.div`
   position: fixed;
   top: 45%;
-  @media screen and (max-width: 1280px) {
+  @media screen and (max-width: 1079px) {
     top: 65px;
   }
 `;

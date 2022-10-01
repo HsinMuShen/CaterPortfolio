@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { v4 } from "uuid";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPen, faEye } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPen,
+  faEye,
+  faUpDownLeftRight,
+} from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 
 import InitialSetup from "./InitialSetup";
@@ -24,6 +29,7 @@ import {
   isPreviewTrue,
   setAlert,
   websiteLoading,
+  portfolioRenewContent,
 } from "../../action";
 import { PortfolioComponents } from "./portfolioComponents";
 import { portfolioChoice } from "./portfolioComponents";
@@ -31,6 +37,7 @@ import Loading from "../../utilis/Loading";
 import Move from "../../utilis/Move";
 import InitialImg from "../../utilis/cater.png";
 import QusetionMark, { introSteps } from "../../utilis/QusetionMark";
+import LargeLoading from "../../utilis/LargeLoading";
 
 const Preview = styled.div``;
 
@@ -44,6 +51,7 @@ export interface portfolioComContent {
 
 const Portfolio = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLargeLoading, setIsLargeLoading] = useState<boolean>(false);
   const [userID, setUserID] = useState("");
   const dispatch = useDispatch();
   const isPreview = useSelector(
@@ -55,6 +63,12 @@ const Portfolio = () => {
   );
   const portfolioIndex = useSelector(
     (state: RootState) => state.PortfolioIndex
+  );
+  const websiteContentIndex = Number(
+    window.localStorage.getItem("websiteContentIndex")
+  );
+  const portfolioListIndex = Number(
+    window.localStorage.getItem("portfolioListIndex")
   );
   const userData = useSelector((state: RootState) => state.UserReducer);
   const portfolioID = useParams().id;
@@ -90,6 +104,15 @@ const Portfolio = () => {
     }
   };
 
+  const handleOnDragEnd = (result: any) => {
+    if (!result.destination) return;
+    const items: portfolioComContent[] = [...portfolioData.content];
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+
+    dispatch(portfolioRenewContent(items));
+  };
+
   useEffect(() => {
     const loadPortfolio = async () => {
       setIsLoading(true);
@@ -112,6 +135,7 @@ const Portfolio = () => {
     };
 
     if (portfolioID === "create") {
+      setIsLoading(true);
       dispatch(isPreviewPortfolio());
       const portID = v4();
       const initialPortfolioData = {
@@ -127,10 +151,19 @@ const Portfolio = () => {
         userImage: userData.userImage,
       };
       dispatch(portfolioLoading(initialPortfolioData));
-      const tempArr = websiteData.content[portfolioIndex.index].portfolioID;
-      tempArr[websiteData.content[portfolioIndex.index].portfolioID.length] =
-        portID;
-      dispatch(websiteChangePortfolioID(portfolioIndex.index, tempArr));
+
+      if (websiteData.content.length > 0) {
+        const tempArr = [
+          ...websiteData.content[websiteContentIndex!].portfolioID,
+        ];
+        console.log(
+          websiteData.content[websiteContentIndex!].portfolioID.length
+        );
+        tempArr[websiteData.content[websiteContentIndex!].portfolioID.length] =
+          portID;
+        dispatch(websiteChangePortfolioID(websiteContentIndex!, tempArr));
+      }
+      setIsLoading(false);
     } else {
       loadPortfolio();
     }
@@ -138,7 +171,7 @@ const Portfolio = () => {
     return () => {
       dispatch(isPreviewTrue("portfolio"));
     };
-  }, [userData]);
+  }, [userData, websiteData.content.length]);
 
   return (
     <PortfolioBody>
@@ -165,35 +198,68 @@ const Portfolio = () => {
         ) : null}
 
         {isPreview ? null : (
-          <>
-            <InitialSetup portfolioID={portfolioID} />
-          </>
+          <InitialSetup
+            portfolioID={portfolioID}
+            websiteData={websiteData}
+            setIsLargeLoading={setIsLargeLoading}
+          />
         )}
+
         {isLoading ? (
           <Loading />
         ) : (
-          <PortfolioLayouts>
-            <PreviewDiv style={{ zIndex: isPreview ? "2" : "-1" }}></PreviewDiv>
+          <DragDropContext onDragEnd={handleOnDragEnd}>
+            <Droppable droppableId="characters">
+              {(provided) => (
+                <PortfolioLayouts
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                >
+                  <PreviewDiv
+                    style={{ zIndex: isPreview ? "2" : "-1" }}
+                  ></PreviewDiv>
+                  {portfolioData.content.length === 0 ? (
+                    <p>尚未建立此作品集</p>
+                  ) : null}
 
-            {portfolioData.content.length === 0 ? (
-              <p>尚未建立此作品集</p>
-            ) : null}
-            {portfolioData.content.map(
-              (content: portfolioComContent, index: number) => {
-                const TempCom =
-                  PortfolioComponents[
-                    content.comName as keyof typeof PortfolioComponents
-                  ];
-                return (
-                  <SingleComponent key={content.id}>
-                    <TempCom index={index} content={content} />
-                    <Delete addDeleteCom={addDeleteCom} index={index} />
-                    <Move />
-                  </SingleComponent>
-                );
-              }
-            )}
-          </PortfolioLayouts>
+                  {portfolioData.content.map(
+                    (content: portfolioComContent, index: number) => {
+                      const TempCom =
+                        PortfolioComponents[
+                          content.comName as keyof typeof PortfolioComponents
+                        ];
+                      return (
+                        <Draggable
+                          key={content.id}
+                          draggableId={content.id}
+                          index={index}
+                        >
+                          {(provided) => (
+                            <SingleComponent
+                              {...provided.draggableProps}
+                              ref={provided.innerRef}
+                            >
+                              <TempCom index={index} content={content} />
+                              <Delete
+                                addDeleteCom={addDeleteCom}
+                                index={index}
+                              />
+                              <MoveBtn {...provided.dragHandleProps}>
+                                {isPreview ? null : (
+                                  <FontAwesomeIcon icon={faUpDownLeftRight} />
+                                )}
+                              </MoveBtn>
+                            </SingleComponent>
+                          )}
+                        </Draggable>
+                      );
+                    }
+                  )}
+                  {provided.placeholder}
+                </PortfolioLayouts>
+              )}
+            </Droppable>
+          </DragDropContext>
         )}
 
         <CreatePortfolioCom addPortfolioCom={addPortfolioCom} />
@@ -203,10 +269,11 @@ const Portfolio = () => {
           上架作品集!
         </ResumeBtn>
       )}
-      <ToWebsiteBtn to={`/website/${portfolioData.userID}`}>
-        <ResumeBtn id="portfolioToWebsite">
-          回到{portfolioData.name}的網站
-        </ResumeBtn>
+      <ToWebsiteBtn
+        to={`/website/${portfolioData.userID}`}
+        id="portfolioToWebsite"
+      >
+        回到{portfolioData.name}的網站
       </ToWebsiteBtn>
       <QusetionMark
         stepType={
@@ -217,6 +284,7 @@ const Portfolio = () => {
         type={userData.userID === userID ? "portfolio" : ""}
       />
       <SideBar type={"portfolio"} data={portfolioData} />
+      {isLargeLoading ? <LargeLoading backgroundColor={"#ffffffb3"} /> : null}
     </PortfolioBody>
   );
 };
@@ -237,7 +305,9 @@ const Wrapper = styled.div`
   width: 960px;
   margin: 0 auto;
   background-color: #ffffff;
-  /* border: 1px solid; */
+  @media screen and (max-width: 1279px) {
+    width: 90%;
+  }
 `;
 
 const PreviewBtn = styled.div`
@@ -249,9 +319,16 @@ const PreviewBtn = styled.div`
   border-radius: 10px;
   border: 1px solid;
   cursor: pointer;
+  z-index: 4;
   &:hover {
     background-color: #555555;
     color: #ffffff;
+  }
+  @media screen and (max-width: 1279px) {
+    font-size: 14px;
+    width: 70px;
+    padding: 3px 3px;
+    right: 5px;
   }
 `;
 
@@ -263,6 +340,9 @@ const PortfolioLayouts = styled.div`
   justify-content: center;
   align-items: center;
   margin: 0 auto;
+  @media screen and (max-width: 1279px) {
+    width: 100%;
+  }
 `;
 
 const PreviewDiv = styled.div`
@@ -270,6 +350,9 @@ const PreviewDiv = styled.div`
   width: 960px;
   height: 100%;
   z-index: 2;
+  @media screen and (max-width: 1279px) {
+    width: 100%;
+  }
 `;
 
 const SingleComponent = styled.div`
@@ -277,6 +360,16 @@ const SingleComponent = styled.div`
   width: 960px;
   position: relative;
   margin: 10px 0;
+  @media screen and (max-width: 1279px) {
+    width: 100%;
+  }
+`;
+
+const MoveBtn = styled.div`
+  position: absolute;
+  right: 4.5px;
+  top: 30px;
+  font-size: 20px;
 `;
 
 const ResumeBtn = styled.div`
@@ -299,5 +392,11 @@ const ResumeBtn = styled.div`
 `;
 
 const ToWebsiteBtn = styled(Link)`
+  margin: 20px auto;
   text-decoration: none;
+  color: #ffffff;
+  background-color: #555555;
+  border: 1px solid;
+  padding: 8px;
+  border-radius: 5px;
 `;

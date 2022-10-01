@@ -25,11 +25,12 @@ const Text3 = ({
   content: websiteComContent;
   index: number;
 }) => {
+  const isRowBased = useMediaQuery("(min-width: 340px)");
   const { setReducerImage, setReducerText } = useUpdateResumeData({
     index,
     content,
   });
-  const isRowBased = useMediaQuery("(min-width: 340px)");
+
   return (
     <Wrapper>
       {content.text.map((_, listIndex) => {
