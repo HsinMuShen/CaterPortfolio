@@ -317,7 +317,7 @@ const PreviewBtn = styled.div`
   border-radius: 10px;
   border: 1px solid;
   cursor: pointer;
-  z-index: 3;
+  z-index: 4;
   &:hover {
     background-color: #555555;
     color: #ffffff;
@@ -358,7 +358,6 @@ const SingleComponent = styled.div`
   width: 960px;
   position: relative;
   margin: 10px 0;
-  border: 1px solid;
   @media screen and (max-width: 1279px) {
     width: 100%;
   }

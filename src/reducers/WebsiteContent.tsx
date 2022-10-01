@@ -2,7 +2,7 @@ import { AnyAction } from "redux";
 import { ActionType } from ".";
 import { v4 } from "uuid";
 
-interface websiteReducer {
+export interface websiteReducer {
   title: string;
   coverImage: string;
   content: {

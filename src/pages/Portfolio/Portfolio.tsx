@@ -56,6 +56,12 @@ const Portfolio = () => {
   const portfolioIndex = useSelector(
     (state: RootState) => state.PortfolioIndex
   );
+  const websiteContentIndex = Number(
+    window.localStorage.getItem("websiteContentIndex")
+  );
+  const portfolioListIndex = Number(
+    window.localStorage.getItem("portfolioListIndex")
+  );
   const userData = useSelector((state: RootState) => state.UserReducer);
   const portfolioID = useParams().id;
 
@@ -112,6 +118,7 @@ const Portfolio = () => {
     };
 
     if (portfolioID === "create") {
+      setIsLoading(true);
       dispatch(isPreviewPortfolio());
       const portID = v4();
       const initialPortfolioData = {
@@ -127,10 +134,19 @@ const Portfolio = () => {
         userImage: userData.userImage,
       };
       dispatch(portfolioLoading(initialPortfolioData));
-      const tempArr = websiteData.content[portfolioIndex.index].portfolioID;
-      tempArr[websiteData.content[portfolioIndex.index].portfolioID.length] =
-        portID;
-      dispatch(websiteChangePortfolioID(portfolioIndex.index, tempArr));
+
+      if (websiteData.content.length > 0) {
+        const tempArr = [
+          ...websiteData.content[websiteContentIndex!].portfolioID,
+        ];
+        console.log(
+          websiteData.content[websiteContentIndex!].portfolioID.length
+        );
+        tempArr[websiteData.content[websiteContentIndex!].portfolioID.length] =
+          portID;
+        dispatch(websiteChangePortfolioID(websiteContentIndex!, tempArr));
+      }
+      setIsLoading(false);
     } else {
       loadPortfolio();
     }
@@ -138,7 +154,7 @@ const Portfolio = () => {
     return () => {
       dispatch(isPreviewTrue("portfolio"));
     };
-  }, [userData]);
+  }, [userData, websiteData.content.length]);
 
   return (
     <PortfolioBody>
@@ -165,9 +181,7 @@ const Portfolio = () => {
         ) : null}
 
         {isPreview ? null : (
-          <>
-            <InitialSetup portfolioID={portfolioID} />
-          </>
+          <InitialSetup portfolioID={portfolioID} websiteData={websiteData} />
         )}
         {isLoading ? (
           <Loading />
@@ -203,10 +217,11 @@ const Portfolio = () => {
           上架作品集!
         </ResumeBtn>
       )}
-      <ToWebsiteBtn to={`/website/${portfolioData.userID}`}>
-        <ResumeBtn id="portfolioToWebsite">
-          回到{portfolioData.name}的網站
-        </ResumeBtn>
+      <ToWebsiteBtn
+        to={`/website/${portfolioData.userID}`}
+        id="portfolioToWebsite"
+      >
+        回到{portfolioData.name}的網站
       </ToWebsiteBtn>
       <QusetionMark
         stepType={
@@ -249,6 +264,7 @@ const PreviewBtn = styled.div`
   border-radius: 10px;
   border: 1px solid;
   cursor: pointer;
+  z-index: 4;
   &:hover {
     background-color: #555555;
     color: #ffffff;
@@ -299,5 +315,11 @@ const ResumeBtn = styled.div`
 `;
 
 const ToWebsiteBtn = styled(Link)`
+  margin: 20px auto;
   text-decoration: none;
+  color: #ffffff;
+  background-color: #555555;
+  border: 1px solid;
+  padding: 8px;
+  border-radius: 5px;
 `;

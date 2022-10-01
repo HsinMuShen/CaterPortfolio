@@ -167,6 +167,14 @@ const PortfolioAreaCom = ({
               key={portfolioID}
               to={`/portfolio/${portfolioID}`}
               onClick={() => {
+                window.localStorage.setItem(
+                  "portfolioListIndex",
+                  JSON.stringify(portfolioListIndex)
+                );
+                window.localStorage.setItem(
+                  "websiteContentIndex",
+                  JSON.stringify(index)
+                );
                 dispatch(setPortfolioListIndex(portfolioListIndex));
                 dispatch(setPortfolioIndex(index));
               }}
@@ -180,7 +188,6 @@ const PortfolioAreaCom = ({
               <DeleteBtn
                 onClick={() => {
                   handleDelete(portfolioID, portfolioListIndex);
-                  // deleteSinglePortfolio(portfolioID, portfolioListIndex);
                 }}
               >
                 <FontAwesomeIcon icon={faTrash} />
@@ -198,6 +205,10 @@ const PortfolioAreaCom = ({
         <AddingPortfolio
           to={"/portfolio/create"}
           onClick={() => {
+            window.localStorage.setItem(
+              "websiteContentIndex",
+              JSON.stringify(index)
+            );
             dispatch(setPortfolioIndex(index));
           }}
         >
