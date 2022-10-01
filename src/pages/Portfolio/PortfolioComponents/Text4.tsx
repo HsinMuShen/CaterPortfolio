@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import EditText from "../../../utilis/EditText";
+import { useMediaQuery } from "../../../utilis/useMediaQuery";
 import { portfolioComContent } from "../Portfolio";
 import useUpdateResumeData from "./PortfolioUpdateDataFunction";
 
@@ -10,6 +11,11 @@ const Wrapper = styled.div`
   justify-content: space-between;
   margin: 0 auto;
   width: 900px;
+  @media screen and (max-width: 1279px) {
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 `;
 
 const Text3 = ({
@@ -19,6 +25,7 @@ const Text3 = ({
   content: portfolioComContent;
   index: number;
 }) => {
+  const isRowBased = useMediaQuery("(min-width: 340px)");
   const { setReducerImage, setReducerText } = useUpdateResumeData({
     index,
     content,
@@ -35,8 +42,9 @@ const Text3 = ({
             setReducerText={setReducerText}
             index={index}
             style={{
-              width: "290px",
-              padding: " 0 10px",
+              width: isRowBased ? "290px" : "85vw",
+              padding: "0 10px",
+              margin: "5px",
             }}
           />
         );

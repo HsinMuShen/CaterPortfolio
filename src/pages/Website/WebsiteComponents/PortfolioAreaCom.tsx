@@ -25,6 +25,15 @@ const Wrapper = styled.div`
   flex-wrap: wrap;
   margin: 0 auto;
   z-index: 3;
+  justify-content: flex-start;
+  @media screen and (max-width: 1079px) {
+    width: 600px;
+    flex-wrap: wrap;
+  }
+  @media screen and (max-width: 699px) {
+    width: 300px;
+    flex-wrap: wrap;
+  }
 `;
 
 const PortfolioShowing = styled.div`

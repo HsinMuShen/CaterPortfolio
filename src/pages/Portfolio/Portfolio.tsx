@@ -252,7 +252,9 @@ const Wrapper = styled.div`
   width: 960px;
   margin: 0 auto;
   background-color: #ffffff;
-  /* border: 1px solid; */
+  @media screen and (max-width: 1279px) {
+    width: 90%;
+  }
 `;
 
 const PreviewBtn = styled.div`
@@ -269,6 +271,12 @@ const PreviewBtn = styled.div`
     background-color: #555555;
     color: #ffffff;
   }
+  @media screen and (max-width: 1279px) {
+    font-size: 14px;
+    width: 70px;
+    padding: 3px 3px;
+    right: 5px;
+  }
 `;
 
 const PortfolioLayouts = styled.div`
@@ -279,6 +287,9 @@ const PortfolioLayouts = styled.div`
   justify-content: center;
   align-items: center;
   margin: 0 auto;
+  @media screen and (max-width: 1279px) {
+    width: 100%;
+  }
 `;
 
 const PreviewDiv = styled.div`
@@ -286,6 +297,9 @@ const PreviewDiv = styled.div`
   width: 960px;
   height: 100%;
   z-index: 2;
+  @media screen and (max-width: 1279px) {
+    width: 100%;
+  }
 `;
 
 const SingleComponent = styled.div`
@@ -293,6 +307,9 @@ const SingleComponent = styled.div`
   width: 960px;
   position: relative;
   margin: 10px 0;
+  @media screen and (max-width: 1279px) {
+    width: 100%;
+  }
 `;
 
 const ResumeBtn = styled.div`
