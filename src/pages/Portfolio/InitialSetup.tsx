@@ -24,6 +24,9 @@ const Wrapper = styled.div`
   margin: 0 auto 40px;
   background-color: #eaeaea;
   border-radius: 15px;
+  @media screen and (max-width: 1279px) {
+    width: 85vw;
+  }
 `;
 
 const Intro = styled.p`
@@ -33,12 +36,20 @@ const Intro = styled.p`
 const SettingArea = styled.div`
   display: flex;
   align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  @media screen and (max-width: 799px) {
+    width: 400px;
+  }
 `;
 
 const ImageContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   margin: 40px 40px 40px 0;
+  @media screen and (max-width: 799px) {
+    margin: 40px;
+  }
 `;
 
 const ImagePreview = styled.div<{ previewUrl: string }>`
@@ -68,9 +79,11 @@ const InputFrame = styled.input`
 const InitialSetup = ({
   portfolioID,
   websiteData,
+  setIsLargeLoading,
 }: {
   portfolioID: string | undefined;
   websiteData: websiteReducer;
+  setIsLargeLoading: (value: boolean) => void;
 }) => {
   const [haveWebsiteData, setHaveWebsiteData] = useState<boolean>(false);
   const userData = useSelector((state: RootState) => state.UserReducer);
@@ -89,6 +102,7 @@ const InitialSetup = ({
   const dispatch = useDispatch();
 
   const setPortfolioMainImage = async (file: File) => {
+    setIsLargeLoading(true);
     const imageUrl = await firebase.getImageUrl(file);
     dispatch(portfolioInitialSetup("mainImage", imageUrl));
     const tempArr = [...websiteData.content[websiteContentIndex].image];
@@ -101,6 +115,7 @@ const InitialSetup = ({
     }
 
     dispatch(websiteAddImage(websiteContentIndex, tempArr));
+    setIsLargeLoading(false);
   };
 
   const setToWebsite = (text: string) => {

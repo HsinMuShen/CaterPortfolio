@@ -31,6 +31,7 @@ import Loading from "../../utilis/Loading";
 import Move from "../../utilis/Move";
 import InitialImg from "../../utilis/cater.png";
 import QusetionMark, { introSteps } from "../../utilis/QusetionMark";
+import LargeLoading from "../../utilis/LargeLoading";
 
 const Preview = styled.div``;
 
@@ -44,6 +45,7 @@ export interface portfolioComContent {
 
 const Portfolio = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLargeLoading, setIsLargeLoading] = useState<boolean>(false);
   const [userID, setUserID] = useState("");
   const dispatch = useDispatch();
   const isPreview = useSelector(
@@ -181,7 +183,11 @@ const Portfolio = () => {
         ) : null}
 
         {isPreview ? null : (
-          <InitialSetup portfolioID={portfolioID} websiteData={websiteData} />
+          <InitialSetup
+            portfolioID={portfolioID}
+            websiteData={websiteData}
+            setIsLargeLoading={setIsLargeLoading}
+          />
         )}
         {isLoading ? (
           <Loading />
@@ -232,6 +238,7 @@ const Portfolio = () => {
         type={userData.userID === userID ? "portfolio" : ""}
       />
       <SideBar type={"portfolio"} data={portfolioData} />
+      {isLargeLoading ? <LargeLoading backgroundColor={"#ffffffb3"} /> : null}
     </PortfolioBody>
   );
 };

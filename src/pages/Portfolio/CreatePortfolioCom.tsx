@@ -29,6 +29,9 @@ const Wrapper = styled.div`
   padding: 20px;
   border-radius: 15px;
   margin-top: 40px;
+  @media screen and (max-width: 1279px) {
+    width: 85vw;
+  }
 `;
 
 const Title = styled.p`
@@ -47,6 +50,14 @@ const SelectionArea = styled.div<{ justify: string }>`
   width: 900px;
   flex-direction: row;
   flex-wrap: wrap;
+  @media screen and (max-width: 1079px) {
+    width: 440px;
+    justify-content: flex-start;
+  }
+  @media screen and (max-width: 700px) {
+    width: 220px;
+    justify-content: flex-start;
+  }
 `;
 
 const SingleSelectArea = styled.div`
@@ -55,6 +66,10 @@ const SingleSelectArea = styled.div`
   margin: 5px 20px;
   align-items: center;
   cursor: pointer;
+  @media screen and (max-width: 1079px) {
+    margin: 5px 10px;
+    justify-content: flex-start;
+  }
 `;
 
 const ImgSection = styled.div<{
