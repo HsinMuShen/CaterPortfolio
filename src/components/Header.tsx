@@ -18,6 +18,7 @@ import { collection, onSnapshot, query, where } from "firebase/firestore";
 
 import HeaderSidebar from "./HeaderSidebar";
 import Logo from "../images/caterportfolio_logo.png";
+import LogoWithText from "../images/caterportfolio_logowithtext.png";
 
 const Wrapper = styled.div<{ isPopup: boolean }>`
   width: 100vw;
@@ -48,12 +49,12 @@ const SideNav = styled.div<{ $isMobile: boolean }>`
 const LogoArea = styled(Link)<{ img: string }>`
   color: #333333;
   text-decoration: none;
-  width: 30px;
-  height: 30px;
+  width: 150px;
+  height: 45px;
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
-  margin: 0 0px 0 20px;
+  margin: 0 20px 0 20px;
   background-image: url(${(props) => props.img});
   & :hover {
     color: #6d6d6d;
@@ -131,7 +132,6 @@ const Header = () => {
     );
     const unsubscribe = onSnapshot(q, (snapshot) => {
       snapshot.docChanges().forEach((change) => {
-        console.log(change);
         if (change.type === "modified") {
           const name =
             change.doc.data().message[change.doc.data().message.length - 1]
@@ -156,12 +156,12 @@ const Header = () => {
   return (
     <Wrapper isPopup={isPopup}>
       <MainNav>
-        <LogoArea to={`/`} img={Logo} id="logo"></LogoArea>
+        <LogoArea to={`/`} img={LogoWithText} id="logo"></LogoArea>
         <Tag to={`/`} id="allPortfolios" $mobileNone={true}>
-          CaterPortfolio
+          所有作品集
         </Tag>
         <Tag to={`/allresumes`} id="allResumes" $mobileNone={true}>
-          All Resumes
+          所有履歷
         </Tag>
       </MainNav>
       {userIsLogin ? (
