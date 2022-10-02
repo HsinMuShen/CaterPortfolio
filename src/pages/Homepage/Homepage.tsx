@@ -13,6 +13,9 @@ const Wrapper = styled.div`
   flex-direction: column;
   margin: 120px auto 0;
   align-items: center;
+  @media screen and (max-width: 1279px) {
+    width: 90vw;
+  }
 `;
 
 const SingleLayoutArea = styled.div<{ direction: string }>`
@@ -20,6 +23,8 @@ const SingleLayoutArea = styled.div<{ direction: string }>`
   flex-direction: ${(props) => props.direction};
   align-items: center;
   margin: 60px 0;
+  align-items: center;
+  flex-wrap: wrap;
 `;
 
 const Hr = styled.hr`
@@ -36,13 +41,23 @@ const LogoImg = styled.div<{ backgroundImg: string }>`
   background-position: center;
   background-repeat: no-repeat;
   margin: 20px auto 60px;
+  @media screen and (max-width: 1279px) {
+    width: 80vw;
+    margin: 20px auto 40px;
+  }
 `;
 
 const IntroTextArea = styled.div`
   width: 580px;
   display: flex;
   flex-direction: column;
-  padding: 50px 0 50px 150px;
+  padding: 50px 0 50px 200px;
+  @media screen and (max-width: 1279px) {
+    width: 80vw;
+    margin: 20px auto;
+    padding: 0;
+    align-items: center;
+  }
 `;
 
 const IntroText = styled.p`
@@ -88,7 +103,12 @@ const DescribeImg = styled.div<{ backgroundImg: string }>`
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
-  margin: 20px 10px;
+  margin: 20px 0;
+  @media screen and (max-width: 1279px) {
+    width: 80vw;
+    height: 40vw;
+    margin: 20px auto;
+  }
 `;
 
 const RouteBtn = styled(Link)`
