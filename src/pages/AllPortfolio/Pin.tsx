@@ -87,7 +87,7 @@ const Pin = ({ size, data }: { size: number; data: DocumentData }) => {
 
   const followPortfolio = async () => {
     if (!isLogin) {
-      dispatch(setAlert({ isAlert: true, text: "請先登入再進行操作!" }));
+      dispatch(setAlert({ isAlert: true, text: "請先登入才能收藏作品集!" }));
       navigate(`/login`);
       setTimeout(() => {
         dispatch(setAlert({ isAlert: false, text: "" }));

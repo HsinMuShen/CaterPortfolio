@@ -76,7 +76,7 @@ const SideBar = ({
 
   const followPortfolio = async () => {
     if (!isLogin) {
-      dispatch(setAlert({ isAlert: true, text: "請先登入再進行操作!" }));
+      dispatch(setAlert({ isAlert: true, text: "請先登入再進行收藏!" }));
       navigate(`/login`);
       setTimeout(() => {
         dispatch(setAlert({ isAlert: false, text: "" }));
