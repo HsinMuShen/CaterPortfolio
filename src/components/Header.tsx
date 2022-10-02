@@ -157,7 +157,7 @@ const Header = () => {
     <Wrapper isPopup={isPopup}>
       <MainNav>
         <LogoArea to={`/`} img={LogoWithText} id="logo"></LogoArea>
-        <Tag to={`/`} id="allPortfolios" $mobileNone={true}>
+        <Tag to={`/allportfolios`} id="allPortfolios" $mobileNone={true}>
           所有作品集
         </Tag>
         <Tag to={`/allresumes`} id="allResumes" $mobileNone={true}>
