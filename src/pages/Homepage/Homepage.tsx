@@ -1,11 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../../reducers";
 
 import DesktopLogo from "../../images/caterportfolio_homepageLogo0.png";
 import ResumeEdit from "./resumeEdit.png";
-import { useSelector } from "react-redux";
-import { RootState } from "../../reducers";
+import WebsiteEdit from "./websiteEdit.png";
+import AllPortfolios from "./allPortfolios.png";
 
 const Wrapper = styled.div`
   width: 1080px;
@@ -143,8 +145,6 @@ const Homepage = () => {
         <LoginBtn to={isLogin ? `/profile/${userData.userID}` : "/login"}>
           {isLogin ? `進入個人頁面` : "點此註冊，開始體驗!"}
         </LoginBtn>
-        {/* <IntroText>上架您的精彩</IntroText>
-        <IntroText>讓世界看見您的別出心裁!</IntroText> */}
       </SingleLayoutArea>
       <SingleLayoutArea direction="row">
         <DescribeImg backgroundImg={ResumeEdit}></DescribeImg>
@@ -170,11 +170,11 @@ const Homepage = () => {
             {isLogin ? `進入個人網站頁面` : "點此註冊"}
           </RouteBtn>
         </IntroTextArea>
-        <DescribeImg backgroundImg={ResumeEdit}></DescribeImg>
+        <DescribeImg backgroundImg={WebsiteEdit}></DescribeImg>
       </SingleLayoutArea>
       <Hr />
       <SingleLayoutArea direction="row">
-        <DescribeImg backgroundImg={ResumeEdit}></DescribeImg>
+        <DescribeImg backgroundImg={AllPortfolios}></DescribeImg>
         <IntroTextArea>
           <Title>社群系統</Title>
           <SmallText>查看其他創作者的網站與公開履歷</SmallText>
@@ -186,7 +186,7 @@ const Homepage = () => {
       <Hr />
       <SingleLayoutArea direction="column">
         <IntroText>上架您精彩的經歷</IntroText>
-        <IntroText>祝您大吉大利，萬象更新</IntroText>
+        <IntroText>讓世界看見您的美麗與熱情</IntroText>
         <LoginBtn to={isLogin ? `/profile/${userData.userID}` : "/login"}>
           {isLogin ? `進入個人頁面` : "點此註冊，開始體驗!"}
         </LoginBtn>

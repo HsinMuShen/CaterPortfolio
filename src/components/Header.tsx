@@ -136,7 +136,6 @@ const Header = () => {
           const name =
             change.doc.data().message[change.doc.data().message.length - 1]
               .name;
-
           if (name !== userData.name) {
             dispatch(
               setAlert({ isAlert: true, text: `${name}傳送了訊息給你!` })
