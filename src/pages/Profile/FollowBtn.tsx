@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { RootState } from "../../reducers";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { UserReducer } from "../../reducers";
 import { setAlert, userLoading } from "../../action";
@@ -11,9 +12,21 @@ const FollowButton = styled.div``;
 const FollowBtn = ({ profileData, setIsLargeLoading }: UserReducer) => {
   const [isFollow, setIsFollow] = useState(false);
   const userData = useSelector((state: RootState) => state.UserReducer);
+  const isLogin = useSelector(
+    (state: RootState) => state.IsPreviewReducer.userIsLogin
+  );
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const followPortfolio = async () => {
     {
+      if (!isLogin) {
+        dispatch(setAlert({ isAlert: true, text: "請先登入再進行收藏!" }));
+        navigate(`/login`);
+        setTimeout(() => {
+          dispatch(setAlert({ isAlert: false, text: "" }));
+        }, 3000);
+        return;
+      }
       if (isFollow) {
         setIsLargeLoading(true);
         await firebase.cancelMemberFollowing(profileData, userData);

@@ -39,7 +39,19 @@ const ChatButton = ({ profileData }: UserReducer) => {
   const userData = useSelector((state: RootState) => state.UserReducer);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const isLogin = useSelector(
+    (state: RootState) => state.IsPreviewReducer.userIsLogin
+  );
   const toChatRoom = async () => {
+    if (!isLogin) {
+      dispatch(setAlert({ isAlert: true, text: "請先登入再開啟對話!" }));
+      navigate(`/login`);
+      setTimeout(() => {
+        dispatch(setAlert({ isAlert: false, text: "" }));
+      }, 3000);
+      return;
+    }
+
     let hasChat = false;
     userData.chatRoom.forEach((data: chatRoom) => {
       if (data.userID === profileData.userID) {

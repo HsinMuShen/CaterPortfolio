@@ -76,7 +76,7 @@ const SideBar = ({
 
   const followPortfolio = async () => {
     if (!isLogin) {
-      dispatch(setAlert({ isAlert: true, text: "請先登入再進行操作!" }));
+      dispatch(setAlert({ isAlert: true, text: "請先登入再進行收藏!" }));
       navigate(`/login`);
       setTimeout(() => {
         dispatch(setAlert({ isAlert: false, text: "" }));
@@ -86,16 +86,27 @@ const SideBar = ({
     if (type === "portfolio") {
       if (isFollow) {
         await firebase.cancelPortfolioFollowing(data, userData);
+        setIsFollow(false);
         dispatch(setAlert({ isAlert: true, text: "取消收藏!" }));
         setTimeout(() => {
           dispatch(setAlert({ isAlert: false, text: "" }));
         }, 3000);
       } else {
         await firebase.addPortfolioFollowing(data, userData);
+        setIsFollow(true);
         dispatch(setAlert({ isAlert: true, text: "加入收藏!" }));
         setTimeout(() => {
           dispatch(setAlert({ isAlert: false, text: "" }));
         }, 3000);
+      }
+      if ("portfolioID" in data) {
+        const renewPortfolioData = await firebase.readData(
+          "portfolios",
+          data.portfolioID
+        );
+        if (renewPortfolioData) {
+          dispatch(portfolioLoading(renewPortfolioData));
+        }
       }
     } else if (type === "resume") {
       if (isFollow) {
@@ -112,6 +123,12 @@ const SideBar = ({
         setTimeout(() => {
           dispatch(setAlert({ isAlert: false, text: "" }));
         }, 3000);
+      }
+      if ("userID" in data) {
+        const renewResumeData = await firebase.readData("resumes", data.userID);
+        if (renewResumeData) {
+          dispatch(resumeLoading(renewResumeData));
+        }
       }
     }
 
@@ -130,7 +147,7 @@ const SideBar = ({
     return () => {
       setIsFollow(false);
     };
-  }, [data]);
+  }, [userData.userID]);
   return (
     <SideBarArea>
       <Options>

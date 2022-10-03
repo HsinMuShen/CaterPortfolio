@@ -5,6 +5,7 @@ import firebase from "./firebase";
 import { websiteComContent } from "../pages/Website/Website";
 import { RootState } from "../reducers";
 import { useSelector } from "react-redux";
+import LargeLoading from "./LargeLoading";
 
 const ImageLabel = styled.label`
   border: 1px solid;
@@ -49,14 +50,9 @@ const BtnsArea = styled.div`
   flex-wrap: wrap;
 `;
 
-const CanvasWrapper = styled.div<{ style: any }>`
-  ${(props) => props.style}
-`;
-
 const Wrapper = styled.div<{ style: any }>`
   ${(props) => props.style}
 `;
-// const Wrapper = styled.div``;
 
 const Btns = styled.div`
   border: 1px solid;
@@ -115,11 +111,13 @@ const Canves = ({
   index,
   style,
 }: canvasProps) => {
+  const [isLargeLoading, setIsLargeLoading] = useState<boolean>(false);
   const canvas: any = useRef();
   const storageJson = useRef("");
   const isPreview = useSelector((state: RootState) => state.IsPreviewReducer);
 
   const addImage = async (file: File) => {
+    setIsLargeLoading(true);
     const imageurl = await firebase.getImageUrl(file);
     const img = new Image();
     img.src = imageurl;
@@ -136,6 +134,7 @@ const Canves = ({
         canvas.current.add(oImg);
       }
     );
+    setIsLargeLoading(false);
   };
 
   function deleteObject() {
@@ -170,37 +169,35 @@ const Canves = ({
   }, [index]);
 
   return (
-    <Wrapper style={style}>
-      {/* <CanvasWrapper style={style}> */}
-      <canvas
-        id={name}
-        style={{
-          border:
-            isPreview.website && isPreview.portfolio
-              ? "0px solid"
-              : "1px solid",
-        }}
-      ></canvas>
-      {/* </CanvasWrapper> */}
+    <>
+      <Wrapper style={style}>
+        <canvas
+          id={name}
+          style={{
+            border:
+              isPreview.website && isPreview.portfolio
+                ? "0px solid"
+                : "1px solid",
+          }}
+        ></canvas>
 
-      {isPreview.website && isPreview.portfolio ? null : (
-        <BtnsArea>
-          <ImageLabel>
-            新增照片
-            <ImageInput
-              type="file"
-              onChange={(e) => {
-                addImage(e.target.files![0]);
-              }}
-            />
-          </ImageLabel>
-
-          <Btns onClick={deleteObject}>刪除選取照片</Btns>
-          {/* <Btns onClick={storeJson}>存檔</Btns>
-          <Btns onClick={loadJson}>回復</Btns> */}
-        </BtnsArea>
-      )}
-    </Wrapper>
+        {isPreview.website && isPreview.portfolio ? null : (
+          <BtnsArea>
+            <ImageLabel>
+              新增照片
+              <ImageInput
+                type="file"
+                onChange={(e) => {
+                  addImage(e.target.files![0]);
+                }}
+              />
+            </ImageLabel>
+            <Btns onClick={deleteObject}>刪除選取照片</Btns>
+          </BtnsArea>
+        )}
+      </Wrapper>
+      {isLargeLoading ? <LargeLoading backgroundColor={"#ffffffb3"} /> : null}
+    </>
   );
 };
 

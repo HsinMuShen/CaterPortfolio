@@ -106,7 +106,6 @@ const firebase = {
   },
 
   async cancelResumeFollowing(data: ResumeReducer, userData: UserReducer) {
-    console.log(data, userData);
     await updateDoc(doc(db, `users`, `${userData.userID}`), {
       followResumes: arrayRemove({
         name: data.name,
