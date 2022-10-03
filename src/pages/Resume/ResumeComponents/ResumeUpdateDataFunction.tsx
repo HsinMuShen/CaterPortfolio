@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { resumeAddImage, resumeFillContent } from "../../../action";
 import { resumeComContent } from "../Resume";
 

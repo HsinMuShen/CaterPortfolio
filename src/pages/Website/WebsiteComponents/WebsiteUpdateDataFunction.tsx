@@ -1,6 +1,5 @@
 import { useDispatch } from "react-redux";
 import { websiteAddImage, websiteFillContent } from "../../../action";
-import firebase from "../../../utilis/firebase";
 import { websiteComContent } from "../Website";
 
 function useUpdateResumeData({

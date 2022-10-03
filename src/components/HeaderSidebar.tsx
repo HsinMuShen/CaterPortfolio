@@ -130,6 +130,9 @@ const HeaderSidebar = ({
         <Tag to={`/allresumes`} $isMobile={true}>
           所有履歷
         </Tag>
+        <Tag to={`/chatroom/${userData.userID}`} $isMobile={true}>
+          聊天室
+        </Tag>
         <Tag to={`/profile/${userData.userID}`} $isMobile={false}>
           個人頁面
         </Tag>

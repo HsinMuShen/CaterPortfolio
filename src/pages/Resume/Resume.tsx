@@ -133,7 +133,7 @@ const Resume: React.FC = () => {
     return () => {
       dispatch(isPreviewTrue("resume"));
     };
-  }, [userData, resumeID]);
+  }, [userData.userID, resumeID]);
 
   return (
     <>

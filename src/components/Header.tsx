@@ -185,13 +185,19 @@ const Header = () => {
         </SideNav>
       )}
       <SideNav $isMobile={true}>
-        <Nav
-          onClick={() => {
-            setIsSideBar(true);
-          }}
-        >
-          <FontAwesomeIcon icon={faBars} />
-        </Nav>
+        {userIsLogin ? (
+          <Nav
+            onClick={() => {
+              setIsSideBar(true);
+            }}
+          >
+            <FontAwesomeIcon icon={faBars} />
+          </Nav>
+        ) : (
+          <Tag to={`/login`} $mobileNone={false}>
+            登入
+          </Tag>
+        )}
       </SideNav>
       <HeaderSidebar
         userData={userData}
