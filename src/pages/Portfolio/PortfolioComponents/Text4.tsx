@@ -26,7 +26,7 @@ const Text3 = ({
   index: number;
 }) => {
   const isRowBased = useMediaQuery("(min-width: 340px)");
-  const { setReducerImage, setReducerText } = useUpdateResumeData({
+  const { setReducerContent } = useUpdateResumeData({
     index,
     content,
   });
@@ -39,7 +39,7 @@ const Text3 = ({
             text={content.text[listIndex]}
             id={content.id}
             listIndex={listIndex}
-            setReducerText={setReducerText}
+            setReducerContent={setReducerContent}
             index={index}
             style={{
               width: isRowBased ? "290px" : "85vw",

@@ -27,7 +27,7 @@ const MultiImg0 = ({
   index: number;
 }) => {
   const isRowBased = useMediaQuery("(min-width: 500px)");
-  const { setReducerImage } = useUpdateResumeData({
+  const { setReducerContent } = useUpdateResumeData({
     index,
     content,
   });
@@ -38,7 +38,7 @@ const MultiImg0 = ({
         return (
           <PreviewImageInput
             key={listIndex}
-            setReducerImage={setReducerImage}
+            setReducerContent={setReducerContent}
             listIndex={listIndex}
             image={content.image[listIndex]}
             style={{

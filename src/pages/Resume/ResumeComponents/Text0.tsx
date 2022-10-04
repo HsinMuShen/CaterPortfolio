@@ -25,7 +25,7 @@ const Text0 = ({
   index: number;
   content: resumeComContent;
 }) => {
-  const { setReducerImage, setReducerText } = useUpdateResumeData({
+  const { setReducerContent } = useUpdateResumeData({
     index,
     content,
   });
@@ -39,7 +39,7 @@ const Text0 = ({
             text={content.text[listIndex]}
             id={content.id}
             listIndex={listIndex}
-            setReducerText={setReducerText}
+            setReducerContent={setReducerContent}
             index={index}
             style={{
               width: isRowBased ? "800px" : "70vw",

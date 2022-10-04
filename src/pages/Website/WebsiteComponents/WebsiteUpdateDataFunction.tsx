@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 
-import { websiteAddImage, websiteFillContent } from "../../../action";
+import { websiteFillContent } from "../../../action";
 import { websiteComContent } from "../Website";
 import { setEditContentReducer } from "../../../utilis/editLayoutFunction";
 

@@ -183,12 +183,11 @@ const MenuBar: React.FC<any> = ({ editor, isShowBtn }) => {
 interface props {
   text: string;
   id: string;
-  // setReducerText: (
-  //   type: string,
-  //   string: string,
-  //   listIndex: number
-  // ) => Promise<void>;
-  setReducerText: any;
+  setReducerContent: (
+    type: string,
+    string: string,
+    listIndex: number
+  ) => Promise<void>;
   listIndex: number;
   style?: any;
   index: number;
@@ -197,7 +196,7 @@ interface props {
 export default ({
   text,
   id,
-  setReducerText,
+  setReducerContent,
   listIndex,
   style,
   index,
@@ -220,7 +219,7 @@ export default ({
     `,
       onUpdate: ({ editor }) => {
         const html = editor.getHTML();
-        setReducerText("text", html, listIndex);
+        setReducerContent("text", html, listIndex);
       },
     },
     [index]

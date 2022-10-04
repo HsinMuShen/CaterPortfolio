@@ -57,14 +57,18 @@ const ImageInput = styled.input`
 `;
 
 interface PreviewImageInputProps {
-  setReducerImage: any;
+  setReducerContent: (
+    type: string,
+    string: string,
+    listIndex: number
+  ) => Promise<void>;
   listIndex: number;
   image: string;
   style?: any;
 }
 
 const PreviewImageInput = ({
-  setReducerImage,
+  setReducerContent,
   listIndex,
   image,
   style,
@@ -96,7 +100,7 @@ const PreviewImageInput = ({
             onChange={async (e) => {
               setIsLargeLoading(true);
               const imageUrl = await firebase.getImageUrl(e.target.files![0]);
-              setReducerImage("image", imageUrl, listIndex);
+              setReducerContent("image", imageUrl, listIndex);
               setIsLargeLoading(false);
             }}
           />

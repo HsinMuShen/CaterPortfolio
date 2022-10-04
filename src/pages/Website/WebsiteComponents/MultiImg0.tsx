@@ -36,7 +36,7 @@ const MultiImg0 = ({
         return (
           <PreviewImageInput
             key={listIndex}
-            setReducerImage={setReducerContent}
+            setReducerContent={setReducerContent}
             listIndex={listIndex}
             image={content.image[listIndex]}
             style={{

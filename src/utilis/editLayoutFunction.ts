@@ -1,5 +1,3 @@
-import { useDispatch } from "react-redux";
-
 import { resumeComContent } from "../pages/Resume/Resume";
 import { websiteComContent } from "../pages/Website/Website";
 import { portfolioComContent } from "../pages/Portfolio/Portfolio";

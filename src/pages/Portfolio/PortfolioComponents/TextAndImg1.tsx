@@ -28,18 +28,17 @@ const TextAndImg1 = ({
   index: number;
 }) => {
   const isRowBased = useMediaQuery("(min-width: 520px)");
-  const { setReducerImage, setCanvasImage, setReducerText } =
-    useUpdateResumeData({
-      index,
-      content,
-    });
+  const { setReducerContent } = useUpdateResumeData({
+    index,
+    content,
+  });
   return (
     <Wrapper>
       {content.image.map((_, listIndex) => {
         return (
           <PreviewImageInput
             key={listIndex}
-            setReducerImage={setReducerImage}
+            setReducerContent={setReducerContent}
             listIndex={listIndex}
             image={content.image[listIndex]}
             style={{
@@ -56,7 +55,7 @@ const TextAndImg1 = ({
             text={content.text[listIndex]}
             id={content.id}
             listIndex={listIndex}
-            setReducerText={setReducerText}
+            setReducerContent={setReducerContent}
             index={index}
             style={{
               width: isRowBased ? "440px" : "85vw",

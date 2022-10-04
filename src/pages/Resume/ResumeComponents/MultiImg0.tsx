@@ -25,7 +25,7 @@ const MultiImg0 = ({
   index: number;
   content: resumeComContent;
 }) => {
-  const { setReducerImage, setReducerText } = useUpdateResumeData({
+  const { setReducerContent } = useUpdateResumeData({
     index,
     content,
   });
@@ -36,7 +36,7 @@ const MultiImg0 = ({
         return (
           <PreviewImageInput
             key={listIndex}
-            setReducerImage={setReducerImage}
+            setReducerContent={setReducerContent}
             listIndex={listIndex}
             image={content.image[listIndex]}
             style={{

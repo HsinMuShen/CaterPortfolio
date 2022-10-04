@@ -1,6 +1,7 @@
 import { useDispatch } from "react-redux";
-import { resumeAddImage, resumeFillContent } from "../../../action";
+import { resumeFillContent } from "../../../action";
 import { resumeComContent } from "../Resume";
+import { setEditContentReducer } from "../../../utilis/editLayoutFunction";
 
 function useUpdateResumeData({
   index,
@@ -11,28 +12,17 @@ function useUpdateResumeData({
 }) {
   const diapatch = useDispatch();
 
-  const setReducerImage = async (
-    JSONstringOrImageUrl: string,
+  const setReducerContent = async (
+    type: string,
+    string: string,
     listIndex: number
   ) => {
-    const tempArr = [...content.image];
-    tempArr[listIndex] = JSONstringOrImageUrl;
-    diapatch(resumeAddImage(index, tempArr));
-  };
-
-  const setReducerText = async (
-    text: string,
-    listIndex: number,
-    index: number
-  ) => {
-    const tempArr = [...content.text];
-    tempArr[listIndex] = text;
-    diapatch(resumeFillContent(index, text, listIndex));
+    const newArr = await setEditContentReducer(string, listIndex, content);
+    diapatch(resumeFillContent(type, index, newArr));
   };
 
   return {
-    setReducerImage: setReducerImage,
-    setReducerText: setReducerText,
+    setReducerContent: setReducerContent,
   };
 }
 

@@ -92,7 +92,11 @@ interface canvasProps {
   content: websiteComContent;
   name: string;
   size: { height: number; width: number };
-  setCanvasImage: any;
+  setReducerContent: (
+    type: string,
+    string: string,
+    listIndex: number
+  ) => Promise<void>;
   listIndex: number;
   index: number;
   style?: any;
@@ -102,7 +106,7 @@ const Canves = ({
   content,
   name,
   size,
-  setCanvasImage,
+  setReducerContent,
   listIndex,
   index,
   style,
@@ -159,7 +163,7 @@ const Canves = ({
     });
     canvas.current.loadFromJSON(content.image[listIndex]);
     canvas.current.on("object:modified", () => {
-      setCanvasImage("image", JSON.stringify(canvas.current), listIndex);
+      setReducerContent("image", JSON.stringify(canvas.current), listIndex);
     });
     return () => canvas.current.dispose();
   }, [index]);

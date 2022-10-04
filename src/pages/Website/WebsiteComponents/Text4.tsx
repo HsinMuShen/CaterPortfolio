@@ -40,7 +40,7 @@ const Text3 = ({
             text={content.text[listIndex]}
             id={content.id}
             listIndex={listIndex}
-            setReducerText={setReducerContent}
+            setReducerContent={setReducerContent}
             index={index}
             style={{
               width: isRowBased ? "290px" : "85vw",

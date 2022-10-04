@@ -42,7 +42,7 @@ const TextAndImg2 = ({
             text={content.text[listIndex]}
             id={content.id}
             listIndex={listIndex}
-            setReducerText={setReducerContent}
+            setReducerContent={setReducerContent}
             index={index}
             style={{
               width: isRowBased ? "440px" : "85vw",
@@ -55,7 +55,7 @@ const TextAndImg2 = ({
         return (
           <PreviewImageInput
             key={listIndex}
-            setReducerImage={setReducerContent}
+            setReducerContent={setReducerContent}
             listIndex={listIndex}
             image={content.image[listIndex]}
             style={{

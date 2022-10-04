@@ -51,13 +51,13 @@ export const resumeDeleteCom = (index: number) => {
 };
 
 export const resumeFillContent = (
+  type: string,
   index: number,
-  text: string,
-  listIndex: number
+  arr: string[] | null[]
 ) => {
   return {
-    type: ActionType.RESUME.FILL_TEXT,
-    payload: { index, text, listIndex },
+    type: ActionType.WEBSITE.FILL_CONTENT,
+    payload: { type, index, arr },
   };
 };
 
@@ -219,12 +219,13 @@ export const portfolioInitialSetup = (type: string, text: string) => {
 };
 
 export const portfolioFillContent = (
+  type: string,
   index: number,
-  textArr: string[] | null[]
+  arr: string[] | null[]
 ) => {
   return {
-    type: ActionType.PORTFOLIO.FILL_CONTENT,
-    payload: { index, textArr },
+    type: ActionType.WEBSITE.FILL_CONTENT,
+    payload: { type, index, arr },
   };
 };
 

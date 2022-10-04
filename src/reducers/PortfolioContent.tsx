@@ -66,11 +66,12 @@ const PortfolioReducer = (
       return newResumeData;
     }
     case ActionType.PORTFOLIO.FILL_CONTENT: {
-      const tempContentArr = [...portfolioData.content];
       const index = action.payload.index;
+      const tempContentArr = [...portfolioData.content];
+
       tempContentArr[index] = {
         ...portfolioData.content[index],
-        text: action.payload.textArr,
+        [action.payload.type]: action.payload.arr,
       };
       const newWebsiteData = { ...portfolioData, content: tempContentArr };
       return newWebsiteData;

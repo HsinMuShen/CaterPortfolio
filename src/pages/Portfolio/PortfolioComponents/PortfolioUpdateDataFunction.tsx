@@ -1,6 +1,7 @@
 import { useDispatch } from "react-redux";
-import { portfolioAddImage, portfolioFillContent } from "../../../action";
+import { portfolioFillContent } from "../../../action";
 import { portfolioComContent } from "../Portfolio";
+import { setEditContentReducer } from "../../../utilis/editLayoutFunction";
 
 function useUpdateResumeData({
   index,
@@ -11,32 +12,17 @@ function useUpdateResumeData({
 }) {
   const diapatch = useDispatch();
 
-  const setCanvasImage = async (
-    JSONstringOrImageUrl: string,
-    listIndex: number,
-    index: number
+  const setReducerContent = async (
+    type: string,
+    string: string,
+    listIndex: number
   ) => {
-    const tempArr = [...content.image];
-    tempArr[listIndex] = JSONstringOrImageUrl;
-    diapatch(portfolioAddImage(index, tempArr));
-  };
-
-  const setReducerImage = async (JSONstring: string, listIndex: number) => {
-    const tempArr = [...content.image];
-    tempArr[listIndex] = JSONstring;
-    diapatch(portfolioAddImage(index, tempArr));
-  };
-
-  const setReducerText = async (text: string, listIndex: number) => {
-    const tempArr = [...content.text];
-    tempArr[listIndex] = text;
-    diapatch(portfolioFillContent(index, tempArr));
+    const newArr = await setEditContentReducer(string, listIndex, content);
+    diapatch(portfolioFillContent(type, index, newArr));
   };
 
   return {
-    setCanvasImage: setCanvasImage,
-    setReducerImage: setReducerImage,
-    setReducerText: setReducerText,
+    setReducerContent: setReducerContent,
   };
 }
 
