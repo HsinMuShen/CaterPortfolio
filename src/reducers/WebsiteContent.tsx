@@ -61,22 +61,19 @@ const WebsiteReducer = (
     }
     case ActionType.WEBSITE.FILL_CONTENT: {
       const index = action.payload.index;
-      const listIndex = action.payload.listIndex;
       const tempContentArr = [...websiteData.content];
-
-      const tempTextArr = [...websiteData.content[index].text];
-      tempTextArr[listIndex] = action.payload.text;
 
       tempContentArr[index] = {
         ...websiteData.content[index],
-        text: tempTextArr,
+        [action.payload.type]: action.payload.arr,
       };
       const newWebsiteData = { ...websiteData, content: tempContentArr };
       return newWebsiteData;
     }
     case ActionType.WEBSITE.ADD_IMAGE: {
-      const tempContentArr = [...websiteData.content];
       const index = action.payload.index;
+      const tempContentArr = [...websiteData.content];
+
       tempContentArr[index] = {
         ...websiteData.content[index],
         image: action.payload.imageArr,

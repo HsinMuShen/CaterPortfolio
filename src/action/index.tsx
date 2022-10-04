@@ -129,13 +129,13 @@ export const websiteChangeText = (
 };
 
 export const websiteFillContent = (
+  type: string,
   index: number,
-  text: string,
-  listIndex: number
+  arr: string[] | null[]
 ) => {
   return {
     type: ActionType.WEBSITE.FILL_CONTENT,
-    payload: { index, text, listIndex },
+    payload: { type, index, arr },
   };
 };
 
