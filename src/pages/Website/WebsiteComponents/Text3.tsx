@@ -1,22 +1,9 @@
 import React from "react";
-import styled from "styled-components";
-import EditText from "../../../utilis/EditText";
-import { useMediaQuery } from "../../../utilis/useMediaQuery";
-import { websiteComContent } from "../Website";
-import useUpdateResumeData from "./WebsiteUpdateDataFunction";
 
-const Wrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: 0 auto;
-  width: 900px;
-  @media screen and (max-width: 1279px) {
-    width: 100%;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-`;
+import { websiteComContent } from "../Website";
+import { useMediaQuery } from "../../../utilis/useMediaQuery";
+
+import { EditLayout } from "../../../utilis/EditLayout";
 
 const Text3 = ({
   content,
@@ -25,32 +12,24 @@ const Text3 = ({
   content: websiteComContent;
   index: number;
 }) => {
-  const { setReducerContent } = useUpdateResumeData({
-    index,
-    content,
-  });
   const isRowBased = useMediaQuery("(min-width: 510px)");
-  return (
-    <Wrapper>
-      {content.text.map((_, listIndex) => {
-        return (
-          <EditText
-            key={listIndex}
-            text={content.text[listIndex]}
-            id={content.id}
-            listIndex={listIndex}
-            setReducerContent={setReducerContent}
-            index={index}
-            style={{
-              width: isRowBased ? "440px" : "85vw",
-              padding: " 0 10px",
-              margin: "5px",
-            }}
-          />
-        );
-      })}
-    </Wrapper>
-  );
+  const styles = {
+    imageStyle: [],
+    textStyle: [
+      {
+        width: isRowBased ? "440px" : "85vw",
+        padding: " 0 10px",
+        margin: "5px",
+      },
+      {
+        width: isRowBased ? "440px" : "85vw",
+        padding: " 0 10px",
+        margin: "5px",
+      },
+    ],
+    flexDirection: "row",
+  };
+  return <EditLayout content={content} index={index} styles={styles} />;
 };
 
 export default Text3;

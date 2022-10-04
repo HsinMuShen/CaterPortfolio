@@ -1,23 +1,9 @@
 import React from "react";
-import styled from "styled-components";
-import Canves from "../../../utilis/Canves";
-import PreviewImageInput from "../../../utilis/PreviewImageInput";
-import { useMediaQuery } from "../../../utilis/useMediaQuery";
-import { websiteComContent } from "../Website";
-import useUpdateResumeData from "./WebsiteUpdateDataFunction";
 
-const Wrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: 0 auto;
-  width: 900px;
-  @media screen and (max-width: 1279px) {
-    width: 100%;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-`;
+import { websiteComContent } from "../Website";
+import { useMediaQuery } from "../../../utilis/useMediaQuery";
+
+import { EditLayout } from "../../../utilis/EditLayout";
 
 const MultiImg1 = ({
   content,
@@ -27,29 +13,26 @@ const MultiImg1 = ({
   index: number;
 }) => {
   const isRowBased = useMediaQuery("(min-width: 350px)");
-  const { setReducerContent } = useUpdateResumeData({
-    index,
-    content,
-  });
+  const styles = {
+    imageStyle: [
+      {
+        width: isRowBased ? "290px" : "85vw",
+        height: "240px",
+      },
+      {
+        width: isRowBased ? "290px" : "85vw",
+        height: "240px",
+      },
+      {
+        width: isRowBased ? "290px" : "85vw",
+        height: "240px",
+      },
+    ],
+    textStyle: [],
+    flexDirection: "row",
+  };
 
-  return (
-    <Wrapper>
-      {content.image.map((_, listIndex) => {
-        return (
-          <PreviewImageInput
-            key={listIndex}
-            setReducerContent={setReducerContent}
-            listIndex={listIndex}
-            image={content.image[listIndex]}
-            style={{
-              width: isRowBased ? "290px" : "85vw",
-              height: "240px",
-            }}
-          />
-        );
-      })}
-    </Wrapper>
-  );
+  return <EditLayout content={content} index={index} styles={styles} />;
 };
 
 export default MultiImg1;
