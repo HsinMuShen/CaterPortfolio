@@ -17,7 +17,6 @@ import {
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 
 import HeaderSidebar from "./HeaderSidebar";
-import Logo from "../images/caterportfolio_logo.png";
 import LogoWithText from "../images/caterportfolio_logowithtext.png";
 
 const Wrapper = styled.div<{ isPopup: boolean }>`

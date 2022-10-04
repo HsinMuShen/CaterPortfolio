@@ -27,7 +27,7 @@ const MultiImg1 = ({
   index: number;
 }) => {
   const isRowBased = useMediaQuery("(min-width: 350px)");
-  const { setReducerImage, setReducerText } = useUpdateResumeData({
+  const { setReducerImage } = useUpdateResumeData({
     index,
     content,
   });
