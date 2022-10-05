@@ -1,8 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
+import { resumeComContent } from "../../pages/Resume/Resume";
 import { websiteComContent } from "../../pages/Website/Website";
-import useUpdateResumeData from "../../pages/Website/WebsiteComponents/WebsiteUpdateDataFunction";
+import { portfolioComContent } from "../../pages/Portfolio/Portfolio";
 import { useUpdateData } from "./editLayoutFunction";
 
 import Canves from "./Canves";
@@ -29,7 +30,7 @@ export const EditLayout = ({
   reducerType,
   styles,
 }: {
-  content: websiteComContent;
+  content: resumeComContent | websiteComContent | portfolioComContent;
   index: number;
   reducerType: string;
   styles: {
@@ -80,7 +81,7 @@ export const CanvasLayout = ({
   reducerType,
   styles,
 }: {
-  content: websiteComContent;
+  content: resumeComContent | websiteComContent | portfolioComContent;
   index: number;
   reducerType: string;
   styles: {

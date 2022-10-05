@@ -1,22 +1,9 @@
 import React from "react";
-import styled from "styled-components";
-import EditText from "../../../utilis/EditLatouts/EditText";
-import { useMediaQuery } from "../../../utilis/useMediaQuery";
-import { portfolioComContent } from "../Portfolio";
-import useUpdateResumeData from "./PortfolioUpdateDataFunction";
 
-const Wrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: 0 auto;
-  width: 900px;
-  @media screen and (max-width: 1279px) {
-    width: 100%;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-`;
+import { portfolioComContent } from "../Portfolio";
+import { useMediaQuery } from "../../../utilis/useMediaQuery";
+
+import { EditLayout } from "../../../utilis/EditLatouts/EditLayout";
 
 const Text0 = ({
   content,
@@ -26,30 +13,24 @@ const Text0 = ({
   index: number;
 }) => {
   const isRowBased = useMediaQuery("(min-width: 1024px)");
-  const { setReducerContent } = useUpdateResumeData({
-    index,
-    content,
-  });
+  const styles = {
+    imageStyle: [],
+    textStyle: [
+      {
+        width: isRowBased ? "900px" : "85vw",
+        padding: " 0 10px",
+        margin: "5px",
+      },
+    ],
+    flexDirection: "row",
+  };
   return (
-    <Wrapper>
-      {content.text.map((_, listIndex) => {
-        return (
-          <EditText
-            key={listIndex}
-            text={content.text[listIndex]}
-            id={content.id}
-            listIndex={listIndex}
-            setReducerContent={setReducerContent}
-            index={index}
-            style={{
-              width: isRowBased ? "900px" : "85vw",
-              padding: " 0 10px",
-              margin: "5px",
-            }}
-          />
-        );
-      })}
-    </Wrapper>
+    <EditLayout
+      content={content}
+      index={index}
+      reducerType={"portfolio"}
+      styles={styles}
+    />
   );
 };
 
