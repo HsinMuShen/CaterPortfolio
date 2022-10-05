@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import PreviewImageInput from "../../../utilis/PreviewImageInput";
-import EditText from "../../../utilis/EditText";
+import PreviewImageInput from "../../../utilis/EditLatouts/PreviewImageInput";
+import EditText from "../../../utilis/EditLatouts/EditText";
 import { resumeComContent } from "../Resume";
 import useUpdateResumeData from "./ResumeUpdateDataFunction";
 import { useMediaQuery } from "../../../utilis/useMediaQuery";

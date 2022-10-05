@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux";
 
 import { websiteFillContent } from "../../../action";
 import { websiteComContent } from "../Website";
-import { setEditContentReducer } from "../../../utilis/editLayoutFunction";
+import { setEditContentReducer } from "../../../utilis/EditLatouts/editLayoutFunction";
 
 function useUpdateResumeData({
   index,

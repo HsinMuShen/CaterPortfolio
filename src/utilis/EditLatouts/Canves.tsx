@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import { fabric } from "fabric";
 import styled from "styled-components";
-import firebase from "./firebase";
-import { websiteComContent } from "../pages/Website/Website";
-import { RootState } from "../reducers";
+import firebase from "../firebase";
+import { websiteComContent } from "../../pages/Website/Website";
+import { RootState } from "../../reducers";
 import { useSelector } from "react-redux";
-import LargeLoading from "./LargeLoading";
+import LargeLoading from "../LargeLoading";
 
 const ImageLabel = styled.label`
   border: 1px solid;

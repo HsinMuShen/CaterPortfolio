@@ -3,7 +3,7 @@ import React from "react";
 import { websiteComContent } from "../Website";
 import { useMediaQuery } from "../../../utilis/useMediaQuery";
 
-import { CanvasLayout } from "../../../utilis/EditLayout";
+import { CanvasLayout } from "../../../utilis/EditLatouts/EditLayout";
 
 const FullImg1 = ({
   content,
@@ -43,7 +43,14 @@ const FullImg1 = ({
     size: { height: 200, width: 900 },
     flexDirection: "row",
   };
-  return <CanvasLayout content={content} index={index} styles={styles} />;
+  return (
+    <CanvasLayout
+      content={content}
+      index={index}
+      reducerType={"website"}
+      styles={styles}
+    />
+  );
 };
 
 export default FullImg1;

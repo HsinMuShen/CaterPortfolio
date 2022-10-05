@@ -1,9 +1,9 @@
 import { useDispatch } from "react-redux";
 import { portfolioFillContent } from "../../../action";
 import { portfolioComContent } from "../Portfolio";
-import { setEditContentReducer } from "../../../utilis/editLayoutFunction";
+import { setEditContentReducer } from "../../../utilis/EditLatouts/editLayoutFunction";
 
-function useUpdateResumeData({
+function useUpdatePortfolioData({
   index,
   content,
 }: {
@@ -26,4 +26,4 @@ function useUpdateResumeData({
   };
 }
 
-export default useUpdateResumeData;
+export default useUpdatePortfolioData;

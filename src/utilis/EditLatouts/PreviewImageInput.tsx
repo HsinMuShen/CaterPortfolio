@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { RootState } from "../reducers";
+import { RootState } from "../../reducers";
 import { useSelector } from "react-redux";
-import { isPreviewReducer } from "../reducers/IsPreviewContent";
+import { isPreviewReducer } from "../../reducers/IsPreviewContent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
-import LargeLoading from "./LargeLoading";
-import firebase from "./firebase";
+import LargeLoading from "../LargeLoading";
+import firebase from "../firebase";
 
 const ImageContainer = styled.div`
   display: flex;

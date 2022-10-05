@@ -3,7 +3,7 @@ import React from "react";
 import { websiteComContent } from "../Website";
 import { useMediaQuery } from "../../../utilis/useMediaQuery";
 
-import { EditLayout } from "../../../utilis/EditLayout";
+import { EditLayout } from "../../../utilis/EditLatouts/EditLayout";
 
 const TextAndImg2 = ({
   content,
@@ -29,7 +29,14 @@ const TextAndImg2 = ({
     flexDirection: "row-reverse",
   };
 
-  return <EditLayout content={content} index={index} styles={styles} />;
+  return (
+    <EditLayout
+      content={content}
+      index={index}
+      reducerType={"website"}
+      styles={styles}
+    />
+  );
 };
 
 export default TextAndImg2;

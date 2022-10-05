@@ -1,5 +1,5 @@
 import React from "react";
-import PreviewImageInput from "../../../utilis/PreviewImageInput";
+import PreviewImageInput from "../../../utilis/EditLatouts/PreviewImageInput";
 import { resumeComContent } from "../Resume";
 import useUpdateResumeData from "./ResumeUpdateDataFunction";
 import styled from "styled-components";

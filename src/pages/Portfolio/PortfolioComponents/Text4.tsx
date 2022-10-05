@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import EditText from "../../../utilis/EditText";
+import EditText from "../../../utilis/EditLatouts/EditText";
 import { useMediaQuery } from "../../../utilis/useMediaQuery";
 import { portfolioComContent } from "../Portfolio";
 import useUpdateResumeData from "./PortfolioUpdateDataFunction";

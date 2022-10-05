@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import Canves from "../../../utilis/Canves";
+import Canves from "../../../utilis/EditLatouts/Canves";
 import { useMediaQuery } from "../../../utilis/useMediaQuery";
 import { portfolioComContent } from "../Portfolio";
 import useUpdateResumeData from "./PortfolioUpdateDataFunction";

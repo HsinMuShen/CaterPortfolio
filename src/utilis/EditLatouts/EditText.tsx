@@ -19,9 +19,9 @@ import StarterKit from "@tiptap/starter-kit";
 import TextAlign from "@tiptap/extension-text-align";
 import styled from "styled-components";
 
-import { RootState } from "../reducers";
+import { RootState } from "../../reducers";
 
-import { Button } from "./styledExtending";
+import { Button } from "../styledExtending";
 
 const BtnWrapper = styled.div`
   position: absolute;

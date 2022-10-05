@@ -1,8 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
-import { websiteComContent } from "../pages/Website/Website";
-import useUpdateResumeData from "../pages/Website/WebsiteComponents/WebsiteUpdateDataFunction";
+import { websiteComContent } from "../../pages/Website/Website";
+import useUpdateResumeData from "../../pages/Website/WebsiteComponents/WebsiteUpdateDataFunction";
+import { useUpdateData } from "./editLayoutFunction";
 
 import Canves from "./Canves";
 import EditText from "./EditText";
@@ -25,17 +26,20 @@ const Wrapper = styled.div<{ flexDirection: string }>`
 export const EditLayout = ({
   content,
   index,
+  reducerType,
   styles,
 }: {
   content: websiteComContent;
   index: number;
+  reducerType: string;
   styles: {
     imageStyle?: any;
     textStyle?: any;
     flexDirection: string;
   };
 }) => {
-  const { setReducerContent } = useUpdateResumeData({
+  const { setReducerContent } = useUpdateData({
+    reducerType,
     index,
     content,
   });
@@ -73,17 +77,20 @@ export const EditLayout = ({
 export const CanvasLayout = ({
   content,
   index,
+  reducerType,
   styles,
 }: {
   content: websiteComContent;
   index: number;
+  reducerType: string;
   styles: {
     imageStyle?: any;
     size?: any;
     flexDirection: string;
   };
 }) => {
-  const { setReducerContent } = useUpdateResumeData({
+  const { setReducerContent } = useUpdateData({
+    reducerType,
     index,
     content,
   });

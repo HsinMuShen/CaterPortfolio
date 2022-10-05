@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import Canves from "../../../utilis/Canves";
-import EditText from "../../../utilis/EditText";
-import PreviewImageInput from "../../../utilis/PreviewImageInput";
+import Canves from "../../../utilis/EditLatouts/Canves";
+import EditText from "../../../utilis/EditLatouts/EditText";
+import PreviewImageInput from "../../../utilis/EditLatouts/PreviewImageInput";
 import { useMediaQuery } from "../../../utilis/useMediaQuery";
 import { portfolioComContent } from "../Portfolio";
 import useUpdateResumeData from "./PortfolioUpdateDataFunction";

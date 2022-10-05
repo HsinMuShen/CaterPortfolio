@@ -3,7 +3,7 @@ import React from "react";
 import { websiteComContent } from "../Website";
 import { useMediaQuery } from "../../../utilis/useMediaQuery";
 
-import { EditLayout } from "../../../utilis/EditLayout";
+import { EditLayout } from "../../../utilis/EditLatouts/EditLayout";
 
 const Text2 = ({
   content,
@@ -31,7 +31,14 @@ const Text2 = ({
     flexDirection: "row",
   };
 
-  return <EditLayout content={content} index={index} styles={styles} />;
+  return (
+    <EditLayout
+      content={content}
+      index={index}
+      reducerType={"website"}
+      styles={styles}
+    />
+  );
 };
 
 export default Text2;

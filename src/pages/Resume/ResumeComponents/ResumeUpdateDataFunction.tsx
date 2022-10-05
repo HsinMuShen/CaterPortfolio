@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { resumeFillContent } from "../../../action";
 import { resumeComContent } from "../Resume";
-import { setEditContentReducer } from "../../../utilis/editLayoutFunction";
+import { setEditContentReducer } from "../../../utilis/EditLatouts/editLayoutFunction";
 
 function useUpdateResumeData({
   index,
