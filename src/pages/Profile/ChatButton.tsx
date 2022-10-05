@@ -3,7 +3,8 @@ import { RootState } from "../../reducers";
 import { useSelector, useDispatch } from "react-redux";
 import { UserReducer } from "../../reducers";
 import { useNavigate } from "react-router-dom";
-import { setAlert, setChatRoomID, userLoading } from "../../action";
+import { userLoading } from "../../action/UserReducerAction";
+import { setAlert, setChatRoomID } from "../../action";
 
 import { v4 } from "uuid";
 import firebase from "../../utilis/firebase";

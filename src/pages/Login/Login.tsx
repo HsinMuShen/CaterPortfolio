@@ -8,7 +8,8 @@ import {
 } from "firebase/auth";
 import { RootState } from "../../reducers";
 import { useSelector, useDispatch } from "react-redux";
-import { initialSetUserData, setAlert } from "../../action";
+import { initialSetUserData } from "../../action/UserReducerAction";
+import { setAlert } from "../../action";
 import { useNavigate } from "react-router-dom";
 import firebase from "../../utilis/firebase";
 

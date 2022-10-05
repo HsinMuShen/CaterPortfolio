@@ -3,7 +3,8 @@ import { RootState } from "../../reducers";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { UserReducer } from "../../reducers";
-import { setAlert, userLoading } from "../../action";
+import { userLoading } from "../../action/UserReducerAction";
+import { setAlert } from "../../action";
 import styled from "styled-components";
 import firebase from "../../utilis/firebase";
 

@@ -2,7 +2,8 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import { RootState } from "../../reducers";
 import { useSelector, useDispatch } from "react-redux";
-import { isPreviewProfile, initialSetUserData, setAlert } from "../../action";
+import { initialSetUserData } from "../../action/UserReducerAction";
+import { isPreviewProfile, setAlert } from "../../action";
 import { UserReducer } from "../../reducers";
 import { Link } from "react-router-dom";
 

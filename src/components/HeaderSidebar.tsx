@@ -6,13 +6,9 @@ import { UserReducer } from "../reducers";
 import { signOut } from "firebase/auth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
-import {
-  userLoading,
-  portfolioLoading,
-  websiteLoading,
-  resumeLoading,
-  setAlert,
-} from "../action";
+import { userLoading } from "../action/UserReducerAction";
+import { resumeLoading } from "../action/ResumeReducerAction";
+import { portfolioLoading, websiteLoading, setAlert } from "../action";
 import { useDispatch } from "react-redux";
 
 const Wrapper = styled.div<{ isSideBar: boolean }>`

@@ -1,5 +1,6 @@
 import { useDispatch } from "react-redux";
-import { resumeFillContent } from "../../../action";
+
+import { resumeFillContent } from "../../../action/ResumeReducerAction";
 import { resumeComContent } from "../Resume";
 import { setEditContentReducer } from "../../../utilis/EditLatouts/editLayoutFunction";
 

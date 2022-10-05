@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { RootState } from "../../reducers";
-import { resumeAddTemplate } from "../../action";
 import { useSelector, useDispatch } from "react-redux";
+
+import { RootState } from "../../reducers";
+import { resumeAddTemplate } from "../../action/ResumeReducerAction";
 
 import { resumeTemplate0, resumeTemplate1 } from "../../utilis/sampleLayout";
 

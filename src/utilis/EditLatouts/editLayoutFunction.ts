@@ -1,10 +1,8 @@
 import { useDispatch } from "react-redux";
 
-import {
-  resumeFillContent,
-  websiteFillContent,
-  portfolioFillContent,
-} from "../../action";
+import { resumeFillContent } from "../../action/ResumeReducerAction";
+import { websiteFillContent, portfolioFillContent } from "../../action";
+
 import { resumeComContent } from "../../pages/Resume/Resume";
 import { websiteComContent } from "../../pages/Website/Website";
 import { portfolioComContent } from "../../pages/Portfolio/Portfolio";

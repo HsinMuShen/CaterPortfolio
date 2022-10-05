@@ -1,25 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { RootState } from "../../reducers";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import {
-  isPreviewProfile,
-  resumeLoading,
-  userLoading,
-  websiteLoading,
-} from "../../action";
+import styled from "styled-components";
+
+import { RootState } from "../../reducers";
+import { userLoading } from "../../action/UserReducerAction";
+import { resumeLoading } from "../../action/ResumeReducerAction";
+import { isPreviewProfile, websiteLoading } from "../../action";
 import { UserReducer } from "../../reducers";
 
 import firebase from "../../utilis/firebase";
-import styled from "styled-components";
 import QusetionMark, { introSteps } from "../../utilis/QusetionMark";
 import MemberIntro from "./MemberIntro";
-import initialResume from "../../images/initialResume.png";
-import initialWebsite from "../../images/initialWebsite.png";
 import LargeLoading from "../../utilis/LargeLoading";
 import FollowingArea from "../Following/FollowingArea";
+
+import initialResume from "../../images/initialResume.png";
+import initialWebsite from "../../images/initialWebsite.png";
 
 const Wrapper = styled.div`
   display: flex;
