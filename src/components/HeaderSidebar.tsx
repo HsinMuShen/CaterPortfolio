@@ -8,7 +8,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { userLoading } from "../action/UserReducerAction";
 import { resumeLoading } from "../action/ResumeReducerAction";
-import { portfolioLoading, websiteLoading, setAlert } from "../action";
+import { websiteLoading } from "../action/WebsiteReducerAction";
+import { portfolioLoading, setAlert } from "../action";
 import { useDispatch } from "react-redux";
 
 const Wrapper = styled.div<{ isSideBar: boolean }>`

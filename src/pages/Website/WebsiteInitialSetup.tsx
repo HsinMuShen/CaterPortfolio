@@ -1,11 +1,13 @@
 import React from "react";
 import styled from "styled-components";
-import firebase from "../../utilis/firebase";
 import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "../../reducers";
-import { websiteAddSetting } from "../../action";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
+
+import { RootState } from "../../reducers";
+import { websiteAddSetting } from "../../action/WebsiteReducerAction";
+
+import firebase from "../../utilis/firebase";
 import initialWebsite from "../../images/initialWebsite.png";
 
 const Wrapper = styled.div`

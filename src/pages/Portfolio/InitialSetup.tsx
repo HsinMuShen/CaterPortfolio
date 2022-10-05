@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import firebase from "../../utilis/firebase";
-import { v4 } from "uuid";
 import { useSelector, useDispatch } from "react-redux";
+
 import { RootState } from "../../reducers";
 import { websiteReducer } from "../../reducers/WebsiteContent";
 import {
-  portfolioInitialSetup,
-  websiteFillContent,
   websiteAddImage,
-  websiteChangePortfolioID,
   websiteChangeText,
   websiteLoading,
-} from "../../action";
+} from "../../action/WebsiteReducerAction";
+import { portfolioInitialSetup } from "../../action";
+
+import firebase from "../../utilis/firebase";
 import InitialImg from "../../utilis/cater.png";
 
 const Wrapper = styled.div`

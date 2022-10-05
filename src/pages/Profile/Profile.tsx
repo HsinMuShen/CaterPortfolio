@@ -8,7 +8,8 @@ import styled from "styled-components";
 import { RootState } from "../../reducers";
 import { userLoading } from "../../action/UserReducerAction";
 import { resumeLoading } from "../../action/ResumeReducerAction";
-import { isPreviewProfile, websiteLoading } from "../../action";
+import { websiteLoading } from "../../action/WebsiteReducerAction";
+import { isPreviewProfile } from "../../action";
 import { UserReducer } from "../../reducers";
 
 import firebase from "../../utilis/firebase";
