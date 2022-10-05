@@ -222,7 +222,7 @@ export default ({
         setReducerContent("text", html, listIndex);
       },
     },
-    [index]
+    [index, listIndex]
   );
 
   const EditorContentStyle = {

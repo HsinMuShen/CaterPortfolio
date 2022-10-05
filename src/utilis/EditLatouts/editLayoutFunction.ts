@@ -9,13 +9,20 @@ import { websiteComContent } from "../../pages/Website/Website";
 import { portfolioComContent } from "../../pages/Portfolio/Portfolio";
 
 export const setEditContentReducer = async (
+  type: string,
   string: string,
   listIndex: number,
   content: resumeComContent | websiteComContent | portfolioComContent
 ) => {
-  const tempArr = [...content.image];
-  tempArr[listIndex] = string;
-  return tempArr;
+  if (type === "text") {
+    const tempArr = [...content.text];
+    tempArr[listIndex] = string;
+    return tempArr;
+  } else if (type === "image") {
+    const tempArr = [...content.image];
+    tempArr[listIndex] = string;
+    return tempArr;
+  }
 };
 
 export function useUpdateData({
@@ -25,7 +32,7 @@ export function useUpdateData({
 }: {
   reducerType: string;
   index: number;
-  content: portfolioComContent;
+  content: resumeComContent | websiteComContent | portfolioComContent;
 }) {
   const diapatch = useDispatch();
 
@@ -34,7 +41,13 @@ export function useUpdateData({
     string: string,
     listIndex: number
   ) => {
-    const newArr = await setEditContentReducer(string, listIndex, content);
+    console.log(content.text);
+    const newArr = await setEditContentReducer(
+      type,
+      string,
+      listIndex,
+      content
+    );
     if (reducerType === "resume") {
       diapatch(resumeFillContent(type, index, newArr));
     } else if (reducerType === "website") {

@@ -30,10 +30,10 @@ export const portfolioInitialSetup = (type: string, text: string) => {
 export const portfolioFillContent = (
   type: string,
   index: number,
-  arr: string[] | null[]
+  arr: string[] | undefined
 ) => {
   return {
-    type: ActionType.WEBSITE.FILL_CONTENT,
+    type: ActionType.PORTFOLIO.FILL_CONTENT,
     payload: { type, index, arr },
   };
 };

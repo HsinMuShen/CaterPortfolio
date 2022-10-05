@@ -33,7 +33,7 @@ export const websiteChangeText = (
 export const websiteFillContent = (
   type: string,
   index: number,
-  arr: string[] | null[]
+  arr: string[] | undefined
 ) => {
   return {
     type: ActionType.WEBSITE.FILL_CONTENT,

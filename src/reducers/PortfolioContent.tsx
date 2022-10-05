@@ -55,15 +55,15 @@ const PortfolioReducer = (
       const tempContent = { ...action.payload.content };
       tempContent.id = v4();
       tempContentArr.push(tempContent);
-      const newResumeData = { ...portfolioData, content: tempContentArr };
-      return newResumeData;
+      const newPortfolioData = { ...portfolioData, content: tempContentArr };
+      return newPortfolioData;
     }
     case ActionType.PORTFOLIO.DELETE_COMPONENT: {
       const tempContentArr = [...portfolioData.content];
       const index = action.payload.index;
       tempContentArr.splice(index, 1);
-      const newResumeData = { ...portfolioData, content: tempContentArr };
-      return newResumeData;
+      const newPortfolioData = { ...portfolioData, content: tempContentArr };
+      return newPortfolioData;
     }
     case ActionType.PORTFOLIO.FILL_CONTENT: {
       const index = action.payload.index;
@@ -73,8 +73,8 @@ const PortfolioReducer = (
         ...portfolioData.content[index],
         [action.payload.type]: action.payload.arr,
       };
-      const newWebsiteData = { ...portfolioData, content: tempContentArr };
-      return newWebsiteData;
+      const newPortfolioData = { ...portfolioData, content: tempContentArr };
+      return newPortfolioData;
     }
     case ActionType.PORTFOLIO.ADD_IMAGE: {
       const tempContentArr = [...portfolioData.content];
@@ -83,8 +83,8 @@ const PortfolioReducer = (
         ...portfolioData.content[index],
         image: action.payload.imageArr,
       };
-      const newWebsiteData = { ...portfolioData, content: tempContentArr };
-      return newWebsiteData;
+      const newPortfolioData = { ...portfolioData, content: tempContentArr };
+      return newPortfolioData;
     }
     case ActionType.PORTFOLIO.ADD_TIME: {
       const tempObj = { ...portfolioData, time: Date.now() };
