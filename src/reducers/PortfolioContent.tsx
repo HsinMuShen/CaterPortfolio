@@ -67,14 +67,29 @@ const PortfolioReducer = (
     }
     case ActionType.PORTFOLIO.FILL_CONTENT: {
       const index = action.payload.index;
+      const listIndex = action.payload.listIndex;
+      const type = action.payload.type;
       const tempContentArr = [...portfolioData.content];
+      if (type === "text") {
+        const tempTypeArr = [...portfolioData.content[index].text];
+        tempTypeArr[listIndex] = action.payload.string;
+        tempContentArr[index] = {
+          ...portfolioData.content[index],
+          text: tempTypeArr,
+        };
+        const newPortfolioData = { ...portfolioData, content: tempContentArr };
 
-      tempContentArr[index] = {
-        ...portfolioData.content[index],
-        [action.payload.type]: action.payload.arr,
-      };
-      const newPortfolioData = { ...portfolioData, content: tempContentArr };
-      return newPortfolioData;
+        return newPortfolioData;
+      } else if (type === "image") {
+        const tempTypeArr = [...portfolioData.content[index].image];
+        tempTypeArr[listIndex] = action.payload.string;
+        tempContentArr[index] = {
+          ...portfolioData.content[index],
+          image: tempTypeArr,
+        };
+        const newPortfolioData = { ...portfolioData, content: tempContentArr };
+        return newPortfolioData;
+      }
     }
     case ActionType.PORTFOLIO.ADD_IMAGE: {
       const tempContentArr = [...portfolioData.content];

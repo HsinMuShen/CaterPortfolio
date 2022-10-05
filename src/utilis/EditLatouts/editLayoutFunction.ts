@@ -41,19 +41,18 @@ export function useUpdateData({
     string: string,
     listIndex: number
   ) => {
-    console.log(content.text);
-    const newArr = await setEditContentReducer(
-      type,
-      string,
-      listIndex,
-      content
-    );
+    // const newArr = await setEditContentReducer(
+    //   type,
+    //   string,
+    //   listIndex,
+    //   content
+    // );
     if (reducerType === "resume") {
-      diapatch(resumeFillContent(type, index, newArr));
+      diapatch(resumeFillContent(type, index, listIndex, string));
     } else if (reducerType === "website") {
-      diapatch(websiteFillContent(type, index, newArr));
+      diapatch(websiteFillContent(type, index, listIndex, string));
     } else if (reducerType === "portfolio") {
-      diapatch(portfolioFillContent(type, index, newArr));
+      diapatch(portfolioFillContent(type, index, listIndex, string));
     }
   };
 

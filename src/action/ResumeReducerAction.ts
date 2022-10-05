@@ -39,11 +39,12 @@ export const resumeDeleteCom = (index: number) => {
 export const resumeFillContent = (
   type: string,
   index: number,
-  arr: string[] | undefined
+  listIndex: number,
+  string: string
 ) => {
   return {
     type: ActionType.RESUME.FILL_CONTENT,
-    payload: { type, index, arr },
+    payload: { type, index, listIndex, string },
   };
 };
 

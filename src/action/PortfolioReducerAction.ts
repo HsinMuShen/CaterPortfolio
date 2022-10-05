@@ -30,11 +30,12 @@ export const portfolioInitialSetup = (type: string, text: string) => {
 export const portfolioFillContent = (
   type: string,
   index: number,
-  arr: string[] | undefined
+  listIndex: number,
+  string: string
 ) => {
   return {
     type: ActionType.PORTFOLIO.FILL_CONTENT,
-    payload: { type, index, arr },
+    payload: { type, index, listIndex, string },
   };
 };
 

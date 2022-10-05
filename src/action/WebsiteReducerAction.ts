@@ -33,11 +33,12 @@ export const websiteChangeText = (
 export const websiteFillContent = (
   type: string,
   index: number,
-  arr: string[] | undefined
+  listIndex: number,
+  string: string
 ) => {
   return {
     type: ActionType.WEBSITE.FILL_CONTENT,
-    payload: { type, index, arr },
+    payload: { type, index, listIndex, string },
   };
 };
 

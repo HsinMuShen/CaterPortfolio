@@ -122,7 +122,7 @@ const HeaderSidebar = ({
         <FontAwesomeIcon icon={faXmark} />
       </Nav>
       <TagArea>
-        <Tag to={`/`} $isMobile={true}>
+        <Tag to={`/allportfolios`} $isMobile={true}>
           所有作品集
         </Tag>
         <Tag to={`/allresumes`} $isMobile={true}>
