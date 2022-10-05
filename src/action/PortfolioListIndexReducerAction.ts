@@ -1,4 +1,3 @@
-import { DocumentData } from "firebase/firestore";
 import { ActionType } from "../reducers";
 
 export const setPortfolioIndex = (index: number) => {

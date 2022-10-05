@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Outlet, useLocation } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Outlet } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
 import { useDispatch } from "react-redux";
 import Header from "./components/Header";

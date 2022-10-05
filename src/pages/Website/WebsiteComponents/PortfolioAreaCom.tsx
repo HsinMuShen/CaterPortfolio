@@ -16,7 +16,10 @@ import {
   isPreviewTrue,
   isPreviewFalse,
 } from "../../../action/IsPreviewReducerAction";
-import { setPortfolioIndex, setPortfolioListIndex } from "../../../action";
+import {
+  setPortfolioIndex,
+  setPortfolioListIndex,
+} from "../../../action/PortfolioListIndexReducerAction";
 
 import firebase from "../../../utilis/firebase";
 import PopUp from "../../../utilis/PopUp";
