@@ -10,13 +10,14 @@ import Canves from "./Canves";
 import EditText from "./EditText";
 import PreviewImageInput from "./PreviewImageInput";
 
-const Wrapper = styled.div<{ flexDirection: string }>`
+const Wrapper = styled.div<{ flexDirection: string; reducerType: string }>`
   display: flex;
   align-items: center;
   flex-direction: ${(props) => props.flexDirection};
-  justify-content: space-between;
+  justify-content: ${(props) =>
+    props.reducerType === "resume" ? "center" : "space-between"};
   margin: 0 auto;
-  width: 900px;
+  width: ${(props) => (props.reducerType === "resume" ? "800px" : "900px")};
   @media screen and (max-width: 1279px) {
     width: 100%;
     flex-wrap: wrap;
@@ -46,7 +47,7 @@ export const EditLayout = ({
   });
 
   return (
-    <Wrapper flexDirection={styles.flexDirection}>
+    <Wrapper flexDirection={styles.flexDirection} reducerType={reducerType}>
       {content.image.map((_, listIndex) => {
         return (
           <PreviewImageInput
@@ -97,7 +98,7 @@ export const CanvasLayout = ({
   });
 
   return (
-    <Wrapper flexDirection={styles.flexDirection}>
+    <Wrapper flexDirection={styles.flexDirection} reducerType={reducerType}>
       {content.image.map((_, listIndex) => {
         return (
           <Canves

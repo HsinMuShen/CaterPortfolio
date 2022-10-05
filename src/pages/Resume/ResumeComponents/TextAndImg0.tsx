@@ -1,22 +1,9 @@
 import React from "react";
-import styled from "styled-components";
-import PreviewImageInput from "../../../utilis/EditLatouts/PreviewImageInput";
-import EditText from "../../../utilis/EditLatouts/EditText";
+
 import { resumeComContent } from "../Resume";
-import useUpdateResumeData from "./ResumeUpdateDataFunction";
 import { useMediaQuery } from "../../../utilis/useMediaQuery";
 
-const Wrapper = styled.div`
-  display: flex;
-  width: 800px;
-  margin: 0 auto;
-  align-items: center;
-  @media screen and (max-width: 1279px) {
-    width: 71vw;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-`;
+import { EditLayout } from "../../../utilis/EditLatouts/EditLayout";
 
 const TextAndImg0 = ({
   index,
@@ -25,46 +12,31 @@ const TextAndImg0 = ({
   index: number;
   content: resumeComContent;
 }) => {
-  const { setReducerContent } = useUpdateResumeData({
-    index,
-    content,
-  });
   const isRowBased = useMediaQuery("(min-width: 700px)");
+  const styles = {
+    imageStyle: [
+      {
+        width: "100px",
+        height: "100px",
+        borderRadius: "50%",
+        margin: isRowBased ? "20px 100px 20px 80px" : "0px auto 20px",
+      },
+    ],
+    textStyle: [
+      {
+        width: isRowBased ? "510px" : "70vw",
+        margin: "0 5px",
+      },
+    ],
+    flexDirection: "row",
+  };
   return (
-    <Wrapper>
-      {content.image.map((_, listIndex) => {
-        return (
-          <PreviewImageInput
-            key={listIndex}
-            setReducerContent={setReducerContent}
-            listIndex={listIndex}
-            image={content.image[listIndex]}
-            style={{
-              width: "100px",
-              height: "100px",
-              borderRadius: "50%",
-              margin: isRowBased ? "20px 100px 20px 80px" : "0px auto 20px",
-            }}
-          />
-        );
-      })}
-
-      {content.text.map((_, listIndex) => {
-        return (
-          <EditText
-            key={listIndex}
-            text={content.text[listIndex]}
-            id={content.id}
-            listIndex={listIndex}
-            setReducerContent={setReducerContent}
-            index={index}
-            style={{
-              width: isRowBased ? "520px" : "70vw",
-            }}
-          />
-        );
-      })}
-    </Wrapper>
+    <EditLayout
+      content={content}
+      index={index}
+      reducerType={"resume"}
+      styles={styles}
+    />
   );
 };
 

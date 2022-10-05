@@ -23,6 +23,10 @@ const MultiImg1 = ({
         width: isRowBased ? "290px" : "85vw",
         height: "240px",
       },
+      {
+        width: isRowBased ? "290px" : "85vw",
+        height: "240px",
+      },
     ],
     textStyle: [],
     flexDirection: "row",

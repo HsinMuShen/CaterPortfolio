@@ -17,11 +17,11 @@ const MultiImg3 = ({
   const styles = {
     imageStyle: [
       {
-        width: isRowBased0 ? "350px" : "85vw",
+        width: isRowBased0 ? "290px" : "85vw",
         height: "240px",
       },
       {
-        width: isRowBased1 ? "690px" : "85vw",
+        width: isRowBased1 ? "595px" : "85vw",
         height: "240px",
       },
     ],
