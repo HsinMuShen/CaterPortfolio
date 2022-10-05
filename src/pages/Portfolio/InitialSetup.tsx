@@ -9,7 +9,7 @@ import {
   websiteChangeText,
   websiteLoading,
 } from "../../action/WebsiteReducerAction";
-import { portfolioInitialSetup } from "../../action";
+import { portfolioInitialSetup } from "../../action/PortfolioReducerAction";
 
 import firebase from "../../utilis/firebase";
 import InitialImg from "../../utilis/cater.png";

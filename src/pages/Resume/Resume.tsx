@@ -18,7 +18,11 @@ import {
   resumeAddSetting,
   resumeRenewContent,
 } from "../../action/ResumeReducerAction";
-import { isPreviewResume, isPreviewTrue, setAlert } from "../../action";
+import {
+  isPreviewResume,
+  isPreviewTrue,
+  setAlert,
+} from "../../action/IsPreviewReducerAction";
 
 import firebase from "../../utilis/firebase";
 import Loading from "../../utilis/Loading";

@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { UserReducer } from "../../reducers";
 import { useNavigate } from "react-router-dom";
 import { userLoading } from "../../action/UserReducerAction";
-import { setAlert, setChatRoomID } from "../../action";
+import { setAlert, setChatRoomID } from "../../action/IsPreviewReducerAction";
 
 import { v4 } from "uuid";
 import firebase from "../../utilis/firebase";

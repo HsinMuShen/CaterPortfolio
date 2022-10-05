@@ -10,7 +10,8 @@ import { resumeReducer } from "../reducers/ResumeContent";
 import { RootState } from "../reducers";
 import { userLoading } from "../action/UserReducerAction";
 import { resumeLoading } from "../action/ResumeReducerAction";
-import { portfolioLoading, setAlert } from "../action";
+import { portfolioLoading } from "../action/PortfolioReducerAction";
+import { setAlert } from "../action/IsPreviewReducerAction";
 
 import firebase from "./firebase";
 

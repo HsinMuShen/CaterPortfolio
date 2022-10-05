@@ -5,7 +5,7 @@ import { db, firebaseApp } from "../firebaseConfig";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { RootState } from "../reducers";
 import { useSelector, useDispatch } from "react-redux";
-import { changeLoginState, setAlert } from "../action";
+import { changeLoginState, setAlert } from "../action/IsPreviewReducerAction";
 import firebase from "../utilis/firebase";
 import { userLoading } from "../action/UserReducerAction";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

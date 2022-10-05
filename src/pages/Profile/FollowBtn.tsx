@@ -2,10 +2,12 @@ import React, { useState, useEffect } from "react";
 import { RootState } from "../../reducers";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import styled from "styled-components";
+
 import { UserReducer } from "../../reducers";
 import { userLoading } from "../../action/UserReducerAction";
-import { setAlert } from "../../action";
-import styled from "styled-components";
+import { setAlert } from "../../action/IsPreviewReducerAction";
+
 import firebase from "../../utilis/firebase";
 
 const FollowButton = styled.div``;

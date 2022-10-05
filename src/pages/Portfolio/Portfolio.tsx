@@ -20,11 +20,13 @@ import {
   portfolioAddCom,
   portfolioDeleteCom,
   portfolioLoading,
+  portfolioRenewContent,
+} from "../../action/PortfolioReducerAction";
+import {
   isPreviewPortfolio,
   isPreviewTrue,
   setAlert,
-  portfolioRenewContent,
-} from "../../action";
+} from "../../action/IsPreviewReducerAction";
 
 import { PortfolioComponents, portfolioChoice } from "./portfolioComponents";
 import InitialSetup from "./InitialSetup";

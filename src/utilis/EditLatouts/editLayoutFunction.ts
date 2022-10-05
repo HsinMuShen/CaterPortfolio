@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux";
 
 import { resumeFillContent } from "../../action/ResumeReducerAction";
 import { websiteFillContent } from "../../action/WebsiteReducerAction";
-import { portfolioFillContent } from "../../action";
+import { portfolioFillContent } from "../../action/PortfolioReducerAction";
 
 import { resumeComContent } from "../../pages/Resume/Resume";
 import { websiteComContent } from "../../pages/Website/Website";

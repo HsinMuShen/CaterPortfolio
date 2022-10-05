@@ -9,7 +9,7 @@ import { RootState } from "../../reducers";
 import { userLoading } from "../../action/UserReducerAction";
 import { resumeLoading } from "../../action/ResumeReducerAction";
 import { websiteLoading } from "../../action/WebsiteReducerAction";
-import { isPreviewProfile } from "../../action";
+import { isPreviewProfile } from "../../action/IsPreviewReducerAction";
 import { UserReducer } from "../../reducers";
 
 import firebase from "../../utilis/firebase";

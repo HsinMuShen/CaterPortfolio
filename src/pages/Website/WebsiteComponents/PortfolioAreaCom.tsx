@@ -13,11 +13,10 @@ import {
   websiteChangeText,
 } from "../../../action/WebsiteReducerAction";
 import {
-  setPortfolioIndex,
-  setPortfolioListIndex,
   isPreviewTrue,
   isPreviewFalse,
-} from "../../../action";
+} from "../../../action/IsPreviewReducerAction";
+import { setPortfolioIndex, setPortfolioListIndex } from "../../../action";
 
 import firebase from "../../../utilis/firebase";
 import PopUp from "../../../utilis/PopUp";

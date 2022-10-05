@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 
 import styled from "styled-components";
 import Chats from "./Chats";
-import { setChatRoomID } from "../../action";
+import { setChatRoomID } from "../../action/IsPreviewReducerAction";
 
 const Wrapper = styled.div``;
 const ChatRoomArea = styled.div`

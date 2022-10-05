@@ -26,7 +26,7 @@ import {
   isPreviewTrue,
   isPreviewFalse,
   setAlert,
-} from "../../action";
+} from "../../action/IsPreviewReducerAction";
 import { WebsiteComponents } from "./websiteComponents";
 
 import firebase from "../../utilis/firebase";
