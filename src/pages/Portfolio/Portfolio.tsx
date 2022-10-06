@@ -10,36 +10,34 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 
-import InitialSetup from "./InitialSetup";
-import Delete from "../Resume/Delete";
-import CreatePortfolioCom from "./CreatePortfolioCom";
-import SideBar from "../../utilis/SideBar";
-import firebase from "../../utilis/firebase";
-
 import { RootState } from "../../reducers";
 import { useSelector, useDispatch } from "react-redux";
 import {
   websiteChangePortfolioID,
+  websiteLoading,
+} from "../../action/WebsiteReducerAction";
+import {
   portfolioAddCom,
   portfolioDeleteCom,
   portfolioLoading,
-  portfolioAddSetting,
-  portfolioInitialSetup,
+  portfolioRenewContent,
+} from "../../action/PortfolioReducerAction";
+import {
   isPreviewPortfolio,
   isPreviewTrue,
   setAlert,
-  websiteLoading,
-  portfolioRenewContent,
-} from "../../action";
-import { PortfolioComponents } from "./portfolioComponents";
-import { portfolioChoice } from "./portfolioComponents";
+} from "../../action/IsPreviewReducerAction";
+
+import { PortfolioComponents, portfolioChoice } from "./portfolioComponents";
+import InitialSetup from "./InitialSetup";
+import Delete from "../Resume/Delete";
 import Loading from "../../utilis/Loading";
-import Move from "../../utilis/Move";
 import InitialImg from "../../utilis/cater.png";
 import QusetionMark, { introSteps } from "../../utilis/QusetionMark";
 import LargeLoading from "../../utilis/LargeLoading";
-
-const Preview = styled.div``;
+import CreatePortfolioCom from "./CreatePortfolioCom";
+import SideBar from "../../utilis/SideBar";
+import firebase from "../../utilis/firebase";
 
 export interface portfolioComContent {
   image: string[];

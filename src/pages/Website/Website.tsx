@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -9,32 +10,34 @@ import {
   faUserAstronaut,
 } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
-import { websiteChoice } from "./websiteComponents";
-import Loading from "../../utilis/Loading";
-import AddWebsiteCom from "./AddWebsiteCom";
-import Delete from "../Resume/Delete";
-import PopUp from "../../utilis/PopUp";
+import { deleteDoc, doc } from "firebase/firestore";
+import { db } from "../../firebaseConfig";
 
-import firebase from "../../utilis/firebase";
 import { RootState } from "../../reducers";
-import { useSelector, useDispatch } from "react-redux";
 import {
   websiteAddCom,
   websiteDeleteCom,
   websiteAddSetting,
   websiteRenewContent,
   websiteLoading,
+} from "../../action/WebsiteReducerAction";
+import {
   isPreviewWebsite,
   isPreviewTrue,
   isPreviewFalse,
   setAlert,
-} from "../../action";
+} from "../../action/IsPreviewReducerAction";
 import { WebsiteComponents } from "./websiteComponents";
-import { deleteDoc, doc } from "firebase/firestore";
-import { db } from "../../firebaseConfig";
+
+import firebase from "../../utilis/firebase";
+import Loading from "../../utilis/Loading";
+import AddWebsiteCom from "./AddWebsiteCom";
+import Delete from "../Resume/Delete";
+import PopUp from "../../utilis/PopUp";
 import QusetionMark, { introSteps } from "../../utilis/QusetionMark";
 import WebsiteInitialSetup from "./WebsiteInitialSetup";
 import LargeLoading from "../../utilis/LargeLoading";
+import { websiteChoice } from "./websiteComponents";
 
 export interface websiteComContent {
   image: string[];

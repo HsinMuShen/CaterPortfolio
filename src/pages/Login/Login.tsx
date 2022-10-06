@@ -6,14 +6,15 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
+
 import { RootState } from "../../reducers";
 import { useSelector, useDispatch } from "react-redux";
-import { initialSetUserData, setAlert } from "../../action";
+import { initialSetUserData } from "../../action/UserReducerAction";
+import { setAlert } from "../../action/IsPreviewReducerAction";
 import { useNavigate } from "react-router-dom";
+
 import firebase from "../../utilis/firebase";
 
-import signinImg from "./loginimg.jpg";
-import registerImg from "./registerimg.jpg";
 import initialUserImage from "../../images/user.png";
 import initialBackgroundImg from "../../images/initialBackgroundImg.jpg";
 

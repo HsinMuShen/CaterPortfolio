@@ -3,8 +3,9 @@ import styled from "styled-components";
 import Joyride, { CallBackProps, STATUS, Step } from "react-joyride";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleQuestion } from "@fortawesome/free-solid-svg-icons";
-import { isPreviewFalse } from "../action";
 import { useDispatch } from "react-redux";
+
+import { isPreviewFalse } from "../action/IsPreviewReducerAction";
 
 const QusetionMarkWrapper = styled.div`
   position: fixed;

@@ -1,23 +1,9 @@
 import React from "react";
-import styled from "styled-components";
-import Canves from "../../../utilis/Canves";
-import PreviewImageInput from "../../../utilis/PreviewImageInput";
-import { useMediaQuery } from "../../../utilis/useMediaQuery";
-import { websiteComContent } from "../Website";
-import useUpdateResumeData from "./WebsiteUpdateDataFunction";
 
-const Wrapper = styled.div`
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  margin: 0 auto;
-  width: 900px;
-  @media screen and (max-width: 1279px) {
-    width: 100%;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-`;
+import { websiteComContent } from "../Website";
+import { useMediaQuery } from "../../../utilis/useMediaQuery";
+
+import { EditLayout } from "../../../utilis/EditLatouts/EditLayout";
 
 const MultiImg3 = ({
   content,
@@ -26,37 +12,32 @@ const MultiImg3 = ({
   content: websiteComContent;
   index: number;
 }) => {
-  const { setReducerImage, setReducerText } = useUpdateResumeData({
-    index,
-    content,
-  });
   const isRowBased0 = useMediaQuery("(min-width: 690px)");
   const isRowBased1 = useMediaQuery("(min-width: 350px)");
 
-  const sizeArr = [
-    {
-      height: "240px",
-      width: isRowBased0 ? "595px" : "85vw",
-    },
-    {
-      height: "240px",
-      width: isRowBased1 ? "290px" : "85vw",
-    },
-  ];
+  const styles = {
+    imageStyle: [
+      {
+        height: "240px",
+        width: isRowBased0 ? "595px" : "85vw",
+      },
+      {
+        height: "240px",
+        width: isRowBased1 ? "290px" : "85vw",
+      },
+      ,
+    ],
+    textStyle: [],
+    flexDirection: "row",
+  };
+
   return (
-    <Wrapper>
-      {content.image.map((_, listIndex) => {
-        return (
-          <PreviewImageInput
-            key={listIndex}
-            setReducerImage={setReducerImage}
-            listIndex={listIndex}
-            image={content.image[listIndex]}
-            style={sizeArr[listIndex]}
-          />
-        );
-      })}
-    </Wrapper>
+    <EditLayout
+      content={content}
+      index={index}
+      reducerType={"website"}
+      styles={styles}
+    />
   );
 };
 

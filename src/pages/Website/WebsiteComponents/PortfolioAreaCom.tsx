@@ -1,21 +1,26 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBook, faTrash } from "@fortawesome/free-solid-svg-icons";
+
 import { RootState } from "../../../reducers";
 import { websiteComContent } from "../Website";
-import { useDispatch } from "react-redux";
+import {
+  websiteChangePortfolioID,
+  websiteAddImage,
+  websiteChangeText,
+} from "../../../action/WebsiteReducerAction";
+import {
+  isPreviewTrue,
+  isPreviewFalse,
+} from "../../../action/IsPreviewReducerAction";
 import {
   setPortfolioIndex,
   setPortfolioListIndex,
-  websiteChangePortfolioID,
-  websiteAddImage,
-  isPreviewTrue,
-  isPreviewFalse,
-  websiteChangeText,
-} from "../../../action";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBook, faTrash } from "@fortawesome/free-solid-svg-icons";
+} from "../../../action/PortfolioListIndexReducerAction";
+
 import firebase from "../../../utilis/firebase";
 import PopUp from "../../../utilis/PopUp";
 

@@ -65,18 +65,31 @@ const ResumeReducer = (
       const newResumeData = { ...resumeData, content: tempContentArr };
       return newResumeData;
     }
-    case ActionType.RESUME.FILL_TEXT: {
+    case ActionType.RESUME.FILL_CONTENT: {
       const index = action.payload.index;
       const listIndex = action.payload.listIndex;
+      const type = action.payload.type;
       const tempContentArr = [...resumeData.content];
-      const tempTextArr = [...resumeData.content[index].text];
-      tempTextArr[listIndex] = action.payload.text;
-      tempContentArr[index] = {
-        ...resumeData.content[index],
-        text: tempTextArr,
-      };
-      const newResumeData = { ...resumeData, content: tempContentArr };
-      return newResumeData;
+      if (type === "text") {
+        const tempTypeArr = [...resumeData.content[index].text];
+        tempTypeArr[listIndex] = action.payload.string;
+        tempContentArr[index] = {
+          ...resumeData.content[index],
+          text: tempTypeArr,
+        };
+        const newPortfolioData = { ...resumeData, content: tempContentArr };
+
+        return newPortfolioData;
+      } else if (type === "image") {
+        const tempTypeArr = [...resumeData.content[index].image];
+        tempTypeArr[listIndex] = action.payload.string;
+        tempContentArr[index] = {
+          ...resumeData.content[index],
+          image: tempTypeArr,
+        };
+        const newResumeData = { ...resumeData, content: tempContentArr };
+        return newResumeData;
+      }
     }
     case ActionType.RESUME.ADD_IMAGE: {
       const tempContentArr = resumeData.content;

@@ -45,6 +45,7 @@ const CardsArea = styled.div`
   width: 960px;
   display: flex;
   margin: 0 auto;
+  flex-wrap: wrap;
   @media screen and (max-width: 1279px) {
     width: 75vw;
   }

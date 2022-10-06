@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { RootState } from "../reducers";
+import { RootState } from "../../reducers";
 import { useSelector } from "react-redux";
-import { isPreviewReducer } from "../reducers/IsPreviewContent";
+import { isPreviewReducer } from "../../reducers/IsPreviewContent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
-import LargeLoading from "./LargeLoading";
-import firebase from "./firebase";
+import LargeLoading from "../LargeLoading";
+import firebase from "../firebase";
 
 const ImageContainer = styled.div`
   display: flex;
@@ -57,14 +57,18 @@ const ImageInput = styled.input`
 `;
 
 interface PreviewImageInputProps {
-  setReducerImage: (file: string, listIndex: number) => void;
+  setReducerContent: (
+    type: string,
+    string: string,
+    listIndex: number
+  ) => Promise<void>;
   listIndex: number;
   image: string;
   style?: any;
 }
 
 const PreviewImageInput = ({
-  setReducerImage,
+  setReducerContent,
   listIndex,
   image,
   style,
@@ -96,7 +100,7 @@ const PreviewImageInput = ({
             onChange={async (e) => {
               setIsLargeLoading(true);
               const imageUrl = await firebase.getImageUrl(e.target.files![0]);
-              setReducerImage(imageUrl, listIndex);
+              setReducerContent("image", imageUrl, listIndex);
               setIsLargeLoading(false);
             }}
           />

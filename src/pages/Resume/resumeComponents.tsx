@@ -1,8 +1,7 @@
 import React from "react";
 import { resumeComContent } from "./Resume";
-import { v4 } from "uuid";
+
 import TextAndImg0 from "./ResumeComponents/TextAndImg0";
-import preImage from "../../utilis/cat.jpg";
 import TextAndImg1 from "./ResumeComponents/TextAndImg1";
 import TextAndImg2 from "./ResumeComponents/TextAndImg2";
 import FullImg0 from "./ResumeComponents/FullImg0";
@@ -19,7 +18,7 @@ export const resumeChoice = [
     name: "FullImg0",
     comIndex: 0,
     comContent: {
-      image: [preImage],
+      image: [""],
       text: [],
       type: 0,
       comName: "FullImg0",
@@ -30,7 +29,7 @@ export const resumeChoice = [
     name: "FullImg1",
     comIndex: 1,
     comContent: {
-      image: [preImage],
+      image: [""],
       text: [],
       type: 1,
       comName: "FullImg1",
@@ -41,7 +40,7 @@ export const resumeChoice = [
     name: "FullImg2",
     comIndex: 2,
     comContent: {
-      image: [preImage],
+      image: [""],
       text: [],
       type: 2,
       comName: "FullImg2",
@@ -52,7 +51,7 @@ export const resumeChoice = [
     name: "MultiImg0",
     comIndex: 3,
     comContent: {
-      image: [preImage, preImage],
+      image: ["", ""],
       text: [],
       type: 3,
       comName: "MultiImg0",
@@ -63,7 +62,7 @@ export const resumeChoice = [
     name: "MultiImg1",
     comIndex: 4,
     comContent: {
-      image: [preImage, preImage, preImage],
+      image: ["", "", ""],
       text: [],
       type: 4,
       comName: "MultiImg1",
@@ -74,7 +73,7 @@ export const resumeChoice = [
     name: "TextAndImg0",
     comIndex: 5,
     comContent: {
-      image: [preImage],
+      image: [""],
       text: ["<h2>您的姓名</h2><p>職位名稱</p><p>聯絡資訊</p>"],
       type: 5,
       comName: "TextAndImg0",
@@ -85,7 +84,7 @@ export const resumeChoice = [
     name: "TextAndImg1",
     comIndex: 6,
     comContent: {
-      image: [preImage],
+      image: [""],
       text: ["<h2>您的姓名</h2><p>職位名稱</p><p>聯絡資訊</p>"],
       type: 6,
       comName: "TextAndImg1",
@@ -96,7 +95,7 @@ export const resumeChoice = [
     name: "TextAndImg2",
     comIndex: 7,
     comContent: {
-      image: [preImage],
+      image: [""],
       text: ["<h2>您的姓名</h2><p>職位名稱</p><p>聯絡資訊</p>"],
       type: 7,
       comName: "TextAndImg2",

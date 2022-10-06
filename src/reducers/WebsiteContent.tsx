@@ -62,21 +62,33 @@ const WebsiteReducer = (
     case ActionType.WEBSITE.FILL_CONTENT: {
       const index = action.payload.index;
       const listIndex = action.payload.listIndex;
+      const type = action.payload.type;
       const tempContentArr = [...websiteData.content];
+      if (type === "text") {
+        const tempTypeArr = [...websiteData.content[index].text];
+        tempTypeArr[listIndex] = action.payload.string;
+        tempContentArr[index] = {
+          ...websiteData.content[index],
+          text: tempTypeArr,
+        };
+        const newPortfolioData = { ...websiteData, content: tempContentArr };
 
-      const tempTextArr = [...websiteData.content[index].text];
-      tempTextArr[listIndex] = action.payload.text;
-
-      tempContentArr[index] = {
-        ...websiteData.content[index],
-        text: tempTextArr,
-      };
-      const newWebsiteData = { ...websiteData, content: tempContentArr };
-      return newWebsiteData;
+        return newPortfolioData;
+      } else if (type === "image") {
+        const tempTypeArr = [...websiteData.content[index].image];
+        tempTypeArr[listIndex] = action.payload.string;
+        tempContentArr[index] = {
+          ...websiteData.content[index],
+          image: tempTypeArr,
+        };
+        const newWebsiteData = { ...websiteData, content: tempContentArr };
+        return newWebsiteData;
+      }
     }
     case ActionType.WEBSITE.ADD_IMAGE: {
-      const tempContentArr = [...websiteData.content];
       const index = action.payload.index;
+      const tempContentArr = [...websiteData.content];
+
       tempContentArr[index] = {
         ...websiteData.content[index],
         image: action.payload.imageArr,

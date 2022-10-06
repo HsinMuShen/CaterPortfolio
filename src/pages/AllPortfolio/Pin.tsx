@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate } from "react-router-dom";
 import { DocumentData } from "firebase/firestore";
 import { useDispatch, useSelector } from "react-redux";
-import { portfolioLoading, setAlert } from "../../action";
+
+import { portfolioLoading } from "../../action/PortfolioReducerAction";
+import { setAlert } from "../../action/IsPreviewReducerAction";
 import { RootState } from "../../reducers";
 import firebase from "../../utilis/firebase";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart } from "@fortawesome/free-solid-svg-icons";
 
 const SinglePin = styled.div<{ size: number }>`
   margin: 15px 10px;

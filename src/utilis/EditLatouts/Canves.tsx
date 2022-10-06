@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import { fabric } from "fabric";
 import styled from "styled-components";
-import firebase from "./firebase";
-import { websiteComContent } from "../pages/Website/Website";
-import { RootState } from "../reducers";
+import firebase from "../firebase";
+import { websiteComContent } from "../../pages/Website/Website";
+import { RootState } from "../../reducers";
 import { useSelector } from "react-redux";
-import LargeLoading from "./LargeLoading";
+import LargeLoading from "../LargeLoading";
 
 const ImageLabel = styled.label`
   border: 1px solid;
@@ -92,11 +92,11 @@ interface canvasProps {
   content: websiteComContent;
   name: string;
   size: { height: number; width: number };
-  setCanvasImage: (
-    JSONstring: string,
-    listIndex: number,
-    index: number
-  ) => void;
+  setReducerContent: (
+    type: string,
+    string: string,
+    listIndex: number
+  ) => Promise<void>;
   listIndex: number;
   index: number;
   style?: any;
@@ -106,7 +106,7 @@ const Canves = ({
   content,
   name,
   size,
-  setCanvasImage,
+  setReducerContent,
   listIndex,
   index,
   style,
@@ -163,7 +163,7 @@ const Canves = ({
     });
     canvas.current.loadFromJSON(content.image[listIndex]);
     canvas.current.on("object:modified", () => {
-      setCanvasImage(JSON.stringify(canvas.current), listIndex, index);
+      setReducerContent("image", JSON.stringify(canvas.current), listIndex);
     });
     return () => canvas.current.dispose();
   }, [index]);

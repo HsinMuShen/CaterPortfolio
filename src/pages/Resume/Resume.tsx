@@ -4,6 +4,11 @@ import * as htmlToImage from "html-to-image";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPen, faUpDownLeftRight } from "@fortawesome/free-solid-svg-icons";
+import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { faUserAstronaut } from "@fortawesome/free-solid-svg-icons";
+
 import { RootState } from "../../reducers";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -12,10 +17,12 @@ import {
   resumeLoading,
   resumeAddSetting,
   resumeRenewContent,
+} from "../../action/ResumeReducerAction";
+import {
   isPreviewResume,
   isPreviewTrue,
   setAlert,
-} from "../../action";
+} from "../../action/IsPreviewReducerAction";
 
 import firebase from "../../utilis/firebase";
 import Loading from "../../utilis/Loading";
@@ -26,11 +33,6 @@ import SideBar from "../../utilis/SideBar";
 import QusetionMark, { introSteps } from "../../utilis/QusetionMark";
 import { resumeChoice } from "./resumeComponents";
 import { ResumeComponents } from "./resumeComponents";
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPen, faUpDownLeftRight } from "@fortawesome/free-solid-svg-icons";
-import { faEye } from "@fortawesome/free-solid-svg-icons";
-import { faUserAstronaut } from "@fortawesome/free-solid-svg-icons";
 
 export interface resumeComContent {
   image: string[];

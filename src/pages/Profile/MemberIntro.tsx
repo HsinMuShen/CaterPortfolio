@@ -1,18 +1,23 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import { RootState } from "../../reducers";
 import { useSelector, useDispatch } from "react-redux";
-import { isPreviewProfile, initialSetUserData, setAlert } from "../../action";
-import { UserReducer } from "../../reducers";
 import { Link } from "react-router-dom";
-
-import firebase from "../../utilis/firebase";
-import FollowBtn from "./FollowBtn";
-import ChatButton from "./ChatButton";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
+
+import { initialSetUserData } from "../../action/UserReducerAction";
+import {
+  isPreviewProfile,
+  setAlert,
+} from "../../action/IsPreviewReducerAction";
+import { UserReducer } from "../../reducers";
+
+import firebase from "../../utilis/firebase";
+import FollowBtn from "./FollowBtn";
+import ChatButton from "./ChatButton";
 
 const Wrapper = styled.div``;
 

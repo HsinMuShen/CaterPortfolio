@@ -1,15 +1,8 @@
 import React from "react";
-import PreviewImageInput from "../../../utilis/PreviewImageInput";
-import { resumeComContent } from "../Resume";
-import useUpdateResumeData from "./ResumeUpdateDataFunction";
-import styled from "styled-components";
 
-const Wrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-`;
+import { resumeComContent } from "../Resume";
+
+import { EditLayout } from "../../../utilis/EditLatouts/EditLayout";
 
 const FullImg2 = ({
   index,
@@ -18,29 +11,25 @@ const FullImg2 = ({
   index: number;
   content: resumeComContent;
 }) => {
-  const { setReducerImage, setReducerText } = useUpdateResumeData({
-    index,
-    content,
-  });
-
+  const styles = {
+    imageStyle: [
+      {
+        width: "150px",
+        height: "150px",
+        borderRadius: "50%",
+        margin: "0 auto",
+      },
+    ],
+    textStyle: [],
+    flexDirection: "row",
+  };
   return (
-    <Wrapper>
-      {content.image.map((_, listIndex) => {
-        return (
-          <PreviewImageInput
-            key={listIndex}
-            setReducerImage={setReducerImage}
-            listIndex={listIndex}
-            image={content.image[listIndex]}
-            style={{
-              width: "150px",
-              height: "150px",
-              borderRadius: "50%",
-            }}
-          />
-        );
-      })}
-    </Wrapper>
+    <EditLayout
+      content={content}
+      index={index}
+      reducerType={"resume"}
+      styles={styles}
+    />
   );
 };
 

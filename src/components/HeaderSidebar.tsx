@@ -1,18 +1,16 @@
 import React from "react";
 import styled from "styled-components";
-
 import { Link, useNavigate } from "react-router-dom";
 import { UserReducer } from "../reducers";
 import { signOut } from "firebase/auth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
-import {
-  userLoading,
-  portfolioLoading,
-  websiteLoading,
-  resumeLoading,
-  setAlert,
-} from "../action";
+
+import { userLoading } from "../action/UserReducerAction";
+import { resumeLoading } from "../action/ResumeReducerAction";
+import { websiteLoading } from "../action/WebsiteReducerAction";
+import { portfolioLoading } from "../action/PortfolioReducerAction";
+import { setAlert } from "../action/IsPreviewReducerAction";
 import { useDispatch } from "react-redux";
 
 const Wrapper = styled.div<{ isSideBar: boolean }>`
@@ -124,7 +122,7 @@ const HeaderSidebar = ({
         <FontAwesomeIcon icon={faXmark} />
       </Nav>
       <TagArea>
-        <Tag to={`/`} $isMobile={true}>
+        <Tag to={`/allportfolios`} $isMobile={true}>
           所有作品集
         </Tag>
         <Tag to={`/allresumes`} $isMobile={true}>

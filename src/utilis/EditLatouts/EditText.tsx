@@ -1,10 +1,6 @@
-import { EditorContent, useEditor } from "@tiptap/react";
-import { Color } from "@tiptap/extension-color";
-import TextStyle from "@tiptap/extension-text-style";
-import StarterKit from "@tiptap/starter-kit";
-import TextAlign from "@tiptap/extension-text-align";
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
+import { useSelector } from "react-redux";
+import { EditorContent, useEditor } from "@tiptap/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBold,
@@ -17,8 +13,15 @@ import {
   faAlignLeft,
   faAlignCenter,
 } from "@fortawesome/free-solid-svg-icons";
-import { useSelector } from "react-redux";
-import { RootState } from "../reducers";
+import { Color } from "@tiptap/extension-color";
+import TextStyle from "@tiptap/extension-text-style";
+import StarterKit from "@tiptap/starter-kit";
+import TextAlign from "@tiptap/extension-text-align";
+import styled from "styled-components";
+
+import { RootState } from "../../reducers";
+
+import { Button } from "../styledExtending";
 
 const BtnWrapper = styled.div`
   position: absolute;
@@ -34,17 +37,9 @@ const BtnWrapper = styled.div`
   z-index: 10;
 `;
 
-const StyleBtn = styled.button`
-  background-color: #ffffff;
+const StyleBtn = styled(Button)`
   padding: 3px;
   margin: 4px 3px;
-  border-radius: 5px;
-  font-weight: 600;
-  cursor: pointer;
-  &:hover {
-    background-color: #555555;
-    color: #ffffff;
-  }
 `;
 
 const StyleInput = styled.input`
@@ -188,7 +183,11 @@ const MenuBar: React.FC<any> = ({ editor, isShowBtn }) => {
 interface props {
   text: string;
   id: string;
-  setReducerText: (text: string, listIndex: number, index: number) => void;
+  setReducerContent: (
+    type: string,
+    string: string,
+    listIndex: number
+  ) => Promise<void>;
   listIndex: number;
   style?: any;
   index: number;
@@ -197,18 +196,14 @@ interface props {
 export default ({
   text,
   id,
-  setReducerText,
+  setReducerContent,
   listIndex,
   style,
   index,
 }: props) => {
   const [isShowBtn, setIsShowBtn] = useState<boolean>(false);
-
   let isPreviewData = useSelector((state: RootState) => state.IsPreviewReducer);
 
-  const setText = (html: string) => {
-    setReducerText(html, listIndex, index);
-  };
   const editor = useEditor(
     {
       extensions: [
@@ -224,11 +219,20 @@ export default ({
     `,
       onUpdate: ({ editor }) => {
         const html = editor.getHTML();
-        setReducerText(html, listIndex, index);
+        setReducerContent("text", html, listIndex);
       },
     },
-    [index]
+    [index, listIndex]
   );
+
+  const EditorContentStyle = {
+    ...style,
+    border:
+      isPreviewData.resume && isPreviewData.website && isPreviewData.portfolio
+        ? "0px"
+        : "1px solid",
+  };
+
   useEffect(() => {
     const closeBtn = (e: any) => {
       if (e.target.closest(`.text${id}${listIndex}`) !== null) {
@@ -243,15 +247,7 @@ export default ({
     <div className={`text${id}${listIndex}`}>
       <MenuBar editor={editor} isShowBtn={isShowBtn} />
       <EditorContent
-        style={{
-          ...style,
-          border:
-            isPreviewData.resume &&
-            isPreviewData.website &&
-            isPreviewData.portfolio
-              ? "0px"
-              : "1px solid",
-        }}
+        style={EditorContentStyle}
         editor={editor}
         onClick={() => {
           setIsShowBtn(true);

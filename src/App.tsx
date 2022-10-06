@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Outlet, useLocation } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Outlet } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
 import { useDispatch } from "react-redux";
 import Header from "./components/Header";
@@ -9,7 +9,7 @@ import PingFangTCRegular from "./fonts/PingFang-TC-Regular-2.otf";
 import PingFangTCThin from "./fonts/PingFang-TC-Thin-2.otf";
 import NotoSansTCRegular from "./fonts/NotoSansTC-Regular.otf";
 import NotoSansTCBold from "./fonts/NotoSansTC-Bold.otf";
-import { setHomepageList } from "./action";
+import { setHomepageList } from "./action/IsPreviewReducerAction";
 
 const GlobalStyle = createGlobalStyle`
 
