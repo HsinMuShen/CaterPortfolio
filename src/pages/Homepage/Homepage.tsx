@@ -185,8 +185,8 @@ const Homepage = () => {
       </SingleLayoutArea>
       <Hr />
       <SingleLayoutArea direction="column">
-        <IntroText>上架您精彩的經歷</IntroText>
-        <IntroText>讓世界看見您的美麗與熱情</IntroText>
+        <IntroText>上架您的精彩</IntroText>
+        <IntroText>讓世界看見您的別出心裁</IntroText>
         <LoginBtn to={isLogin ? `/profile/${userData.userID}` : "/login"}>
           {isLogin ? `進入個人頁面` : "點此註冊，開始體驗!"}
         </LoginBtn>
