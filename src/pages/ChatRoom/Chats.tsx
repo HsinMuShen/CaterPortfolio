@@ -23,10 +23,25 @@ const NameArea = styled.div`
   font-size: 20px;
 `;
 
+const IntroImg = styled.div<{ $backgroundImg: string }>`
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid;
+  margin: 5px 10px 5px 0;
+  background-image: url(${(props) => props.$backgroundImg});
+  background-size: cover;
+  background-position: center;
+  background-color: #ffffff;
+`;
+
 const MessageArea = styled.div`
-  height: 600px;
+  height: 400px;
   width: 600px;
   overflow: scroll;
+  @media screen and (max-width: 900px) {
+    width: calc(80vw - 70px);
+  }
 `;
 
 const MsgDialog = styled.div`
@@ -37,6 +52,10 @@ const MsgDialog = styled.div`
   margin: 10px;
   padding: 5px;
   width: fit-content;
+
+  @media screen and (max-width: 900px) {
+    max-width: 150px;
+  }
 `;
 
 const UserMsgDialog = styled.div`
@@ -48,10 +67,23 @@ const UserMsgDialog = styled.div`
   margin: 10px 15px 10px auto;
   padding: 5px;
   width: fit-content;
+
+  @media screen and (max-width: 900px) {
+    max-width: 150px;
+  }
 `;
 
 const UserMsg = styled.p`
+  display: flex;
+  flex-wrap: wrap;
   margin-left: auto;
+  word-break: break-word;
+`;
+
+const OtherMsg = styled.p`
+  display: flex;
+  flex-wrap: wrap;
+  word-break: break-word;
 `;
 
 const ControlArea = styled.div`
@@ -81,16 +113,19 @@ const MessageSubmit = styled.button`
 const Chats = ({
   chatRoomID,
   chattingName,
+  userImage,
 }: {
   chatRoomID: string;
   chattingName: string | null;
+  userImage: string;
 }) => {
   const [sendMsg, setSendMsg] = useState("");
-  const [allMsg, setAllMsg] = useState<{ msg: string; userID: string }[]>([]);
+  const [allMsg, setAllMsg] = useState<
+    { msg: string; userID: string; name: string }[]
+  >([]);
   const userData = useSelector((state: RootState) => state.UserReducer);
   const submitMsg = () => {
     if (sendMsg !== "") {
-      console.log(chatRoomID);
       firebase.addMsg(userData, chatRoomID, sendMsg);
       setSendMsg("");
     } else {
@@ -100,7 +135,6 @@ const Chats = ({
   useEffect(() => {
     if (chatRoomID !== "") {
       onSnapshot(doc(db, "chatrooms", chatRoomID), (doc) => {
-        console.log(doc.data());
         setAllMsg(doc.data()!.message);
       });
     }
@@ -108,21 +142,22 @@ const Chats = ({
   return (
     <Wrapper>
       <NameArea>
+        {userImage ? <IntroImg $backgroundImg={userImage}></IntroImg> : null}
         <p>{chattingName + " 聊天室"}</p>
       </NameArea>
 
       <MessageArea>
-        {allMsg.map((data) => {
+        {allMsg.map((data, index) => {
           if (data.userID === userData.userID) {
             return (
-              <UserMsgDialog>
+              <UserMsgDialog key={index}>
                 <UserMsg>{data.msg}</UserMsg>
               </UserMsgDialog>
             );
           } else {
             return (
-              <MsgDialog>
-                <p>{data.msg}</p>
+              <MsgDialog key={index}>
+                <OtherMsg>{data.msg}</OtherMsg>
               </MsgDialog>
             );
           }
@@ -136,6 +171,11 @@ const Chats = ({
             value={sendMsg}
             onChange={(e) => {
               setSendMsg(e.target.value);
+            }}
+            onKeyPress={(e) => {
+              if (e.key === "Enter") {
+                submitMsg();
+              }
             }}
           />
           <MessageSubmit

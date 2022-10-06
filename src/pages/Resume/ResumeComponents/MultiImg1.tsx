@@ -1,16 +1,9 @@
 import React from "react";
-import PreviewImageInput from "../../../utilis/PreviewImageInput";
-import { resumeComContent } from "../Resume";
-import useUpdateResumeData from "./ResumeUpdateDataFunction";
-import styled from "styled-components";
 
-const Wrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 800px;
-  margin: 0 auto;
-`;
+import { resumeComContent } from "../Resume";
+import { useMediaQuery } from "../../../utilis/useMediaQuery";
+
+import { EditLayout } from "../../../utilis/EditLatouts/EditLayout";
 
 const MultiImg0 = ({
   index,
@@ -19,26 +12,35 @@ const MultiImg0 = ({
   index: number;
   content: resumeComContent;
 }) => {
-  const { imageFileList, textList, setResumeReducerImage, setReducerText } =
-    useUpdateResumeData({ index, content });
-
+  const isRowBased = useMediaQuery("(min-width: 375px)");
+  const styles = {
+    imageStyle: [
+      {
+        width: isRowBased ? "255px" : "70vw",
+        height: "240px",
+        margin: "0 5px",
+      },
+      {
+        width: isRowBased ? "255px" : "70vw",
+        height: "240px",
+        margin: "0 5px",
+      },
+      {
+        width: isRowBased ? "255px" : "70vw",
+        height: "240px",
+        margin: "0 5px",
+      },
+    ],
+    textStyle: [],
+    flexDirection: "row",
+  };
   return (
-    <Wrapper>
-      {imageFileList.map((_, listIndex) => {
-        return (
-          <PreviewImageInput
-            key={listIndex}
-            setResumeReducerImage={setResumeReducerImage}
-            listIndex={listIndex}
-            image={content.image[listIndex]}
-            style={{
-              width: "255px",
-              height: "240px",
-            }}
-          />
-        );
-      })}
-    </Wrapper>
+    <EditLayout
+      content={content}
+      index={index}
+      reducerType={"resume"}
+      styles={styles}
+    />
   );
 };
 

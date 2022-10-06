@@ -14,8 +14,9 @@ export const ActionType: {
   };
   RESUME: {
     ADD_COMPONENT: string;
+    ADD_TEMPLATE: string;
     DELETE_COMPONENT: string;
-    FILL_TEXT: string;
+    FILL_CONTENT: string;
     ADD_IMAGE: string;
     ADD_SETTING: string;
     RENEW_CONTENT: string;
@@ -24,6 +25,7 @@ export const ActionType: {
   WEBSITE: {
     ADD_COMPONENT: string;
     DELETE_COMPONENT: string;
+    CHANGE_TEXT: string;
     FILL_CONTENT: string;
     ADD_IMAGE: string;
     ADD_TIME: string;
@@ -40,6 +42,7 @@ export const ActionType: {
     ADD_IMAGE: string;
     ADD_TIME: string;
     ADD_SETTING: string;
+    RENEW_CONTENT: string;
     LOADING: string;
   };
   ISPREVIEW: {
@@ -49,7 +52,10 @@ export const ActionType: {
     WEBSITE: string;
     PORTFOLIO: string;
     TRUE: string;
+    FALSE: string;
     SET_CHAT_ROOM: string;
+    SET_ALERT: string;
+    SET_HOMEPAGE_LIST: string;
   };
   PORTFOLIOINDEX: {
     SET_INDEX: string;
@@ -63,8 +69,9 @@ export const ActionType: {
   },
   RESUME: {
     ADD_COMPONENT: "RESUME_ADD_COMPONENT",
+    ADD_TEMPLATE: "RESUME_ADD_TEMPLATE",
     DELETE_COMPONENT: "RESUME_DELETE_COMPONENT",
-    FILL_TEXT: "RESUME_FILL_TEXT",
+    FILL_CONTENT: "RESUME_FILL_CONTENT",
     ADD_IMAGE: "RESUME_ADD_IMAGE",
     ADD_SETTING: "RESUME_ADD_SETTING",
     RENEW_CONTENT: "RESUME_RENEW_CONTENT",
@@ -73,6 +80,7 @@ export const ActionType: {
   WEBSITE: {
     ADD_COMPONENT: "WEBSITE_ADD_COMPONENT",
     DELETE_COMPONENT: "WEBSITE_DELETE_COMPONENT",
+    CHANGE_TEXT: "WEBSITE_CHANGE_TEXT",
     FILL_CONTENT: "WEBSITE_FILL_CONTENT",
     ADD_IMAGE: "WEBSITE_ADD_IMAGE",
     ADD_TIME: "WEBSITE_ADD_TIME",
@@ -89,6 +97,7 @@ export const ActionType: {
     ADD_IMAGE: "PORTFOLIO_ADD_IMAGE",
     ADD_TIME: "PORTFOLIO_ADD_TIME",
     ADD_SETTING: "PORTFOLIO_ADD_SETTING",
+    RENEW_CONTENT: "PORTFOLIO_RENEW_CONTENT",
     LOADING: "PORTFOLIO_LOADING",
   },
   ISPREVIEW: {
@@ -98,7 +107,10 @@ export const ActionType: {
     WEBSITE: "ISPREVIEW_WEBSITE",
     PORTFOLIO: "ISPREVIEW_PORTFOLIO",
     TRUE: "ISPREVIEW_TRUE",
+    FALSE: "ISPREVIEW_FALSE",
     SET_CHAT_ROOM: "ISPREVIEW_SET_CHAT_ROOM",
+    SET_ALERT: "ISPREVIEW_SET_ALERT",
+    SET_HOMEPAGE_LIST: "ISPREVIEW_SET_HOMEPAGE_LIST",
   },
   PORTFOLIOINDEX: {
     SET_INDEX: "SET_INDEX",

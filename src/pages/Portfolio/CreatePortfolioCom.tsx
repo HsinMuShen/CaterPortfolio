@@ -3,10 +3,10 @@ import styled from "styled-components";
 import { RootState } from "../../reducers";
 import { useSelector } from "react-redux";
 
-import imgOnly from "../../images/imgOnly.jpeg";
-import multipleImg from "../../images/multipleImg.jpeg";
-import textAndImg from "../../images/textandImg.jpeg";
-import textOnly from "../../images/textOnly.jpeg";
+import imgOnly from "../../images/imgOnly.jpg";
+import multipleImg from "../../images/multipleImg.jpg";
+import textAndImg from "../../images/textandImg.jpg";
+import textOnly from "../../images/textOnly.jpg";
 import fullImg0 from "../../images/fullImg0.jpg";
 import fullImg1 from "../../images/fullImg1.jpg";
 import multiImg0 from "../../images/multiImg0.jpg";
@@ -29,6 +29,9 @@ const Wrapper = styled.div`
   padding: 20px;
   border-radius: 15px;
   margin-top: 40px;
+  @media screen and (max-width: 1279px) {
+    width: 85vw;
+  }
 `;
 
 const Title = styled.p`
@@ -47,6 +50,14 @@ const SelectionArea = styled.div<{ justify: string }>`
   width: 900px;
   flex-direction: row;
   flex-wrap: wrap;
+  @media screen and (max-width: 1079px) {
+    width: 440px;
+    justify-content: flex-start;
+  }
+  @media screen and (max-width: 700px) {
+    width: 220px;
+    justify-content: flex-start;
+  }
 `;
 
 const SingleSelectArea = styled.div`
@@ -55,6 +66,10 @@ const SingleSelectArea = styled.div`
   margin: 5px 20px;
   align-items: center;
   cursor: pointer;
+  @media screen and (max-width: 1079px) {
+    margin: 5px 10px;
+    justify-content: flex-start;
+  }
 `;
 
 const ImgSection = styled.div<{
@@ -126,7 +141,7 @@ const CreatePortfolioCom = ({
     (state: RootState) => state.IsPreviewReducer.portfolio
   );
   return isPreview ? null : (
-    <Wrapper>
+    <Wrapper id="portfolioAddComArea">
       <Title>新增圖文內容</Title>
       <Instruction>（選擇橫幅樣式，點擊即可新增、編輯圖文區塊）</Instruction>
       <SelectionArea justify={"center"}>

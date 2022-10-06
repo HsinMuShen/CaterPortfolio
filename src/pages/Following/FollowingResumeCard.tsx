@@ -20,8 +20,24 @@ const SinglePin = styled.div`
 const IntroArea = styled.div`
   display: flex;
   flex-direction: column;
-  height: 40px;
+  height: 50px;
   margin: 10px 0 0 10px;
+`;
+
+const UserArea = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const IntroImg = styled(Link)<{ $backgroundImg: string }>`
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid;
+  margin: 5px 10px 5px 0;
+  background-image: url(${(props) => props.$backgroundImg});
+  background-size: cover;
+  background-position: center;
 `;
 
 const Intro = styled(Link)`
@@ -52,7 +68,14 @@ const FollowingResumeCard = ({
     <SinglePin>
       <PinImage to={`/resume/${data.userID}`} mainimage={data.coverImage} />
       <IntroArea>
-        <Intro to={`/resume/${data.userID}`}>{data.name}</Intro>
+        <UserArea>
+          <IntroImg
+            to={`/profile/${data.userID}`}
+            $backgroundImg={data.userImage}
+          ></IntroImg>
+          <Intro to={`/resume/${data.userID}`}>{data.name}</Intro>
+        </UserArea>
+
         {/* <p>
           {isFollow ? `❤️` : `❤`}
           {data.followers.length}

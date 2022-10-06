@@ -1,16 +1,9 @@
 import React from "react";
-import styled from "styled-components";
-import EditText from "../../../utilis/EditText";
-import { portfolioComContent } from "../Portfolio";
-import useUpdateResumeData from "./WebsiteUpdateDataFunction";
 
-const Wrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: 0 auto;
-  width: 900px;
-`;
+import { portfolioComContent } from "../Portfolio";
+import { useMediaQuery } from "../../../utilis/useMediaQuery";
+
+import { EditLayout } from "../../../utilis/EditLatouts/EditLayout";
 
 const Text3 = ({
   content,
@@ -19,25 +12,30 @@ const Text3 = ({
   content: portfolioComContent;
   index: number;
 }) => {
-  const { imageFileList, textList, setReducerImage, setReducerText } =
-    useUpdateResumeData({ index, content });
+  const isRowBased = useMediaQuery("(min-width: 510px)");
+  const styles = {
+    imageStyle: [],
+    textStyle: [
+      {
+        width: isRowBased ? "440px" : "85vw",
+        padding: " 0 10px",
+        margin: "5px",
+      },
+      {
+        width: isRowBased ? "440px" : "85vw",
+        padding: " 0 10px",
+        margin: "5px",
+      },
+    ],
+    flexDirection: "row",
+  };
   return (
-    <Wrapper>
-      {textList.map((_, listIndex) => {
-        return (
-          <EditText
-            key={listIndex}
-            text={content.text[listIndex]}
-            listIndex={listIndex}
-            setReducerText={setReducerText}
-            style={{
-              width: "440px",
-              padding: " 0 10px",
-            }}
-          />
-        );
-      })}
-    </Wrapper>
+    <EditLayout
+      content={content}
+      index={index}
+      reducerType={"portfolio"}
+      styles={styles}
+    />
   );
 };
 

@@ -6,21 +6,19 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
+
 import { RootState } from "../../reducers";
 import { useSelector, useDispatch } from "react-redux";
-import { initialSetUserData } from "../../action";
+import { initialSetUserData } from "../../action/UserReducerAction";
+import { setAlert } from "../../action/IsPreviewReducerAction";
 import { useNavigate } from "react-router-dom";
+
 import firebase from "../../utilis/firebase";
 
-import signinImg from "./loginimg.jpg";
-import registerImg from "./registerimg.jpg";
+import initialUserImage from "../../images/user.png";
+import initialBackgroundImg from "../../images/initialBackgroundImg.jpg";
 
 const auth = getAuth(firebaseApp);
-
-const Wrapper = styled.div`
-  margin: 120px auto 0;
-  width: 960px;
-`;
 
 const LoginArea = styled.div`
   display: flex;
@@ -28,8 +26,11 @@ const LoginArea = styled.div`
   border: 2px solid;
   border-radius: 16px;
   overflow: hidden;
-  margin: 0 auto;
+  margin: 120px auto;
   width: 600px;
+  @media screen and (max-width: 749px) {
+    width: 80vw;
+  }
 `;
 const SelectArea = styled.div`
   display: flex;
@@ -50,6 +51,9 @@ const InputArea = styled.div`
   display: flex;
   flex-direction: column;
   margin: 20px 0 20px;
+  @media screen and (max-width: 749px) {
+    margin: 20px auto;
+  }
 `;
 
 const SingleInputArea = styled.div`
@@ -57,6 +61,10 @@ const SingleInputArea = styled.div`
   justify-content: center;
   align-items: center;
   margin: 10px 0;
+  @media screen and (max-width: 749px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 `;
 
 const Label = styled.label`
@@ -66,6 +74,10 @@ const Label = styled.label`
 const Input = styled.input`
   width: 360px;
   height: 30px;
+  padding-left: 5px;
+  @media screen and (max-width: 749px) {
+    width: 60vw;
+  }
 `;
 
 const SubmitBtn = styled.button`
@@ -80,6 +92,9 @@ const SubmitBtn = styled.button`
   &:hover {
     background-color: #555555;
     color: #ffffff;
+  }
+  @media screen and (max-width: 749px) {
+    width: 60vw;
   }
 `;
 
@@ -111,96 +126,153 @@ const Login = () => {
       signInWithEmailAndPassword(auth, userData.email, userData.password)
         .then((userCredential) => {
           const user = userCredential.user;
-          alert("成功登入會員!");
+          dispatch(setAlert({ isAlert: true, text: "成功登入!" }));
+          setTimeout(() => {
+            dispatch(setAlert({ isAlert: false, text: "" }));
+          }, 3000);
           const tempData = userData;
           tempData.userID = user.uid;
           navigate("/");
         })
         .catch((error) => {
           const errorMessage = error.message;
-          console.log(errorMessage);
+          if (errorMessage === "Firebase: Error (auth/user-not-found).") {
+            dispatch(
+              setAlert({
+                isAlert: true,
+                text: `找不到使用者，請檢察輸入信箱與密碼是否正確`,
+              })
+            );
+          }
+          setTimeout(() => {
+            dispatch(setAlert({ isAlert: false, text: "" }));
+          }, 3000);
         });
     } else if (activeItem === "register") {
       createUserWithEmailAndPassword(auth, userData.email, userData.password)
         .then((userCredential) => {
           const user = userCredential.user;
-          alert("成功註冊會員!");
-          const tempData = userData;
+          dispatch(setAlert({ isAlert: true, text: "成功註冊!" }));
+          setTimeout(() => {
+            dispatch(setAlert({ isAlert: false, text: "" }));
+          }, 3000);
+          const tempData = { ...userData };
           tempData.userID = user.uid;
+          tempData.userImage = initialUserImage;
+          tempData.backgroundImage = initialBackgroundImg;
           firebase.uploadDoc("users", user.uid, tempData);
           navigate("/profile");
         })
         .catch((error) => {
           const errorMessage = error.message;
-          alert(errorMessage);
+          console.log(errorMessage);
+          if (userData.name === "") {
+            dispatch(
+              setAlert({
+                isAlert: true,
+                text: `請輸入使用者名稱`,
+              })
+            );
+          } else if (errorMessage === "Firebase: Error (auth/missing-email).") {
+            dispatch(
+              setAlert({
+                isAlert: true,
+                text: `電子信箱欄位不得空白`,
+              })
+            );
+          } else if (errorMessage === "Firebase: Error (auth/invalid-email).") {
+            dispatch(
+              setAlert({
+                isAlert: true,
+                text: `電子信箱格式錯誤`,
+              })
+            );
+          } else if (
+            errorMessage === "Firebase: Error (auth/internal-error)." ||
+            errorMessage ===
+              "Firebase: Password should be at least 6 characters (auth/weak-password)."
+          ) {
+            dispatch(
+              setAlert({
+                isAlert: true,
+                text: `請輸入至少六位數密碼`,
+              })
+            );
+          } else if (
+            errorMessage === "Firebase: Error (auth/email-already-in-use)."
+          ) {
+            dispatch(
+              setAlert({
+                isAlert: true,
+                text: `電子信箱已經被註冊過了`,
+              })
+            );
+          }
+          setTimeout(() => {
+            dispatch(setAlert({ isAlert: false, text: "" }));
+          }, 3000);
         });
     }
   };
   return (
-    <Wrapper>
-      <LoginArea>
-        <SelectArea>
-          <SelectTag
-            onClick={() => {
-              setActiveItem("signin");
-            }}
-            backgroundColor={activeItem === "register" ? "#ffffff" : "#e9e9e9"}
-          >
-            登入
-          </SelectTag>
-          <SelectTag
-            onClick={() => {
-              setActiveItem("register");
-            }}
-            backgroundColor={activeItem === "register" ? "#e9e9e9" : "#ffffff"}
-          >
-            註冊
-          </SelectTag>
-        </SelectArea>
-        <InputArea>
-          {activeItem === "register" ? (
-            <div>
-              <SingleInputArea>
-                <Label>使用者名稱</Label>
-                <Input
-                  type="text"
-                  onChange={(e) => {
-                    dispatch(initialSetUserData("name", e.target.value));
-                  }}
-                />
-              </SingleInputArea>
-            </div>
-          ) : null}
+    <LoginArea>
+      <SelectArea>
+        <SelectTag
+          onClick={() => {
+            setActiveItem("signin");
+          }}
+          backgroundColor={activeItem === "register" ? "#E7E7E7" : "#CBCBCB"}
+        >
+          登入
+        </SelectTag>
+        <SelectTag
+          onClick={() => {
+            setActiveItem("register");
+          }}
+          backgroundColor={activeItem === "register" ? "#CBCBCB" : "#E7E7E7"}
+        >
+          註冊
+        </SelectTag>
+      </SelectArea>
+      <InputArea>
+        {activeItem === "register" ? (
+          <SingleInputArea>
+            <Label>使用者名稱</Label>
+            <Input
+              type="text"
+              onChange={(e) => {
+                dispatch(initialSetUserData("name", e.target.value));
+              }}
+              required
+            />
+          </SingleInputArea>
+        ) : null}
 
-          <SingleInputArea>
-            <Label>Email</Label>
-            <Input
-              type="text"
-              onChange={(e) => {
-                dispatch(initialSetUserData("email", e.target.value));
-              }}
-            />
-          </SingleInputArea>
-          <SingleInputArea>
-            <Label>Password</Label>
-            <Input
-              type="text"
-              onChange={(e) => {
-                dispatch(initialSetUserData("password", e.target.value));
-              }}
-            />
-          </SingleInputArea>
-        </InputArea>
-        <SubmitBtn onClick={onSubmit}>
-          {activeItem === "register" ? "註冊" : "登入"}
-        </SubmitBtn>
-      </LoginArea>
-      <SideArea>
-        <SideImgArea
-          backgroundImg={activeItem === "signin" ? signinImg : registerImg}
-        ></SideImgArea>
-      </SideArea>
-    </Wrapper>
+        <SingleInputArea>
+          <Label>電子信箱</Label>
+          <Input
+            type="text"
+            onChange={(e) => {
+              dispatch(initialSetUserData("email", e.target.value));
+            }}
+            required
+          />
+        </SingleInputArea>
+        <SingleInputArea>
+          <Label>密碼</Label>
+          <Input
+            type="password"
+            onChange={(e) => {
+              dispatch(initialSetUserData("password", e.target.value));
+            }}
+            required
+          />
+        </SingleInputArea>
+      </InputArea>
+      <SubmitBtn onClick={onSubmit}>
+        {activeItem === "register" ? "註冊" : "登入"}
+      </SubmitBtn>
+    </LoginArea>
   );
 };
 

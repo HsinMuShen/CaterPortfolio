@@ -1,16 +1,9 @@
 import React from "react";
-import styled from "styled-components";
-import PreviewImageInput from "../../../utilis/PreviewImageInput";
-import EditText from "../../../utilis/EditText";
-import { resumeComContent } from "../Resume";
-import useUpdateResumeData from "./ResumeUpdateDataFunction";
 
-const Wrapper = styled.div`
-  display: flex;
-  width: 800px;
-  margin: 0 auto;
-  align-items: center;
-`;
+import { resumeComContent } from "../Resume";
+import { useMediaQuery } from "../../../utilis/useMediaQuery";
+
+import { EditLayout } from "../../../utilis/EditLatouts/EditLayout";
 
 const Text1 = ({
   index,
@@ -19,33 +12,29 @@ const Text1 = ({
   index: number;
   content: resumeComContent;
 }) => {
-  const { imageFileList, textList, setResumeReducerImage, setReducerText } =
-    useUpdateResumeData({ index, content });
-  const styleArr = [
-    {
-      width: "525px",
-      padding: " 0 10px",
-      margin: " 0 20px 0 0",
-    },
-    {
-      width: "255px",
-      padding: " 0 10px",
-    },
-  ];
+  const isRowBased0 = useMediaQuery("(min-width: 750px)");
+  const isRowBased1 = useMediaQuery("(min-width: 370px)");
+  const styles = {
+    imageStyle: [],
+    textStyle: [
+      {
+        width: isRowBased0 ? "525px" : "70vw",
+        margin: "5px",
+      },
+      {
+        width: isRowBased1 ? "255px" : "70vw",
+        margin: "5px",
+      },
+    ],
+    flexDirection: "row",
+  };
   return (
-    <Wrapper>
-      {textList.map((_, listIndex) => {
-        return (
-          <EditText
-            key={listIndex}
-            text={content.text[listIndex]}
-            listIndex={listIndex}
-            setReducerText={setReducerText}
-            style={styleArr[listIndex]}
-          />
-        );
-      })}
-    </Wrapper>
+    <EditLayout
+      content={content}
+      index={index}
+      reducerType={"resume"}
+      styles={styles}
+    />
   );
 };
 

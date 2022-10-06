@@ -1,16 +1,9 @@
 import React from "react";
-import styled from "styled-components";
-import EditText from "../../../utilis/EditText";
-import { websiteComContent } from "../Website";
-import useUpdateResumeData from "./WebsiteUpdateDataFunction";
 
-const Wrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: 0 auto;
-  width: 900px;
-`;
+import { websiteComContent } from "../Website";
+import { useMediaQuery } from "../../../utilis/useMediaQuery";
+
+import { EditLayout } from "../../../utilis/EditLatouts/EditLayout";
 
 const Text1 = ({
   content,
@@ -19,34 +12,32 @@ const Text1 = ({
   content: websiteComContent;
   index: number;
 }) => {
-  const { imageFileList, textList, setReducerImage, setReducerText } =
-    useUpdateResumeData({ index, content });
+  const isRowBased0 = useMediaQuery("(min-width: 600px)");
+  const isRowBased1 = useMediaQuery("(min-width: 340px)");
+  const styles = {
+    imageStyle: [],
+    textStyle: [
+      {
+        width: isRowBased0 ? "525px" : "85vw",
+        padding: " 0 10px",
+        margin: "5px",
+      },
+      {
+        width: isRowBased1 ? "300px" : "85vw",
+        padding: " 0 10px",
+        margin: "5px",
+      },
+    ],
+    flexDirection: "row",
+  };
 
-  const styleArr = [
-    {
-      width: "525px",
-      padding: " 0 10px",
-      margin: " 0 20px 0 0",
-    },
-    {
-      width: "255px",
-      padding: " 0 10px",
-    },
-  ];
   return (
-    <Wrapper>
-      {textList.map((_, listIndex) => {
-        return (
-          <EditText
-            key={listIndex}
-            text={content.text[listIndex]}
-            listIndex={listIndex}
-            setReducerText={setReducerText}
-            style={styleArr[listIndex]}
-          />
-        );
-      })}
-    </Wrapper>
+    <EditLayout
+      content={content}
+      index={index}
+      reducerType={"website"}
+      styles={styles}
+    />
   );
 };
 

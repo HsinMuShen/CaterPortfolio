@@ -1,9 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
-import html2canvas from "html2canvas";
+import * as htmlToImage from "html-to-image";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPen, faUpDownLeftRight } from "@fortawesome/free-solid-svg-icons";
+import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { faUserAstronaut } from "@fortawesome/free-solid-svg-icons";
+
 import { RootState } from "../../reducers";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -12,22 +17,22 @@ import {
   resumeLoading,
   resumeAddSetting,
   resumeRenewContent,
+} from "../../action/ResumeReducerAction";
+import {
   isPreviewResume,
   isPreviewTrue,
-} from "../../action";
+  setAlert,
+} from "../../action/IsPreviewReducerAction";
 
 import firebase from "../../utilis/firebase";
+import Loading from "../../utilis/Loading";
+import LargeLoading from "../../utilis/LargeLoading";
 import Delete from "./Delete";
-import Move from "../../utilis/Move";
 import AddComArea from "./AddComArea";
 import SideBar from "../../utilis/SideBar";
+import QusetionMark, { introSteps } from "../../utilis/QusetionMark";
 import { resumeChoice } from "./resumeComponents";
 import { ResumeComponents } from "./resumeComponents";
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPen } from "@fortawesome/free-solid-svg-icons";
-import { faEye } from "@fortawesome/free-solid-svg-icons";
-import { faUserAstronaut } from "@fortawesome/free-solid-svg-icons";
 
 export interface resumeComContent {
   image: string[];
@@ -38,6 +43,8 @@ export interface resumeComContent {
 }
 
 const Resume: React.FC = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLargeLoading, setIsLargeLoading] = useState<boolean>(false);
   const refPhoto = useRef<HTMLDivElement>(null);
   const resumeID = useParams().id;
   const resumeData = useSelector((state: RootState) => state.ResumeReducer);
@@ -54,20 +61,41 @@ const Resume: React.FC = () => {
   const addDeleteCom = (deleteIndex: number) => {
     dispatch(resumeDeleteCom(deleteIndex));
   };
-  const uploadResume = async () => {
-    html2canvas(refPhoto.current!).then(function (canvas) {
-      const dataUrl = canvas.toDataURL("image/png");
-      dispatch(resumeAddSetting("coverImage", dataUrl));
-      const tempData = resumeData;
-      tempData.coverImage = dataUrl;
-      firebase.uploadDoc("resumes", `${resumeID}`, tempData);
-    });
+
+  const changePublicMode = () => {
+    dispatch(resumeAddSetting("isPublic", !resumeData.isPublic));
   };
-  const getCoverImage = () => {
-    html2canvas(refPhoto.current!).then(function (canvas) {
-      const dataUrl = canvas.toDataURL("image/png");
-      dispatch(resumeAddSetting("coverImage", dataUrl));
-    });
+
+  const uploadResume = async () => {
+    setIsLargeLoading(true);
+    htmlToImage
+      .toPng(refPhoto.current!)
+      .then(async (dataUrl) => {
+        dispatch(resumeAddSetting("coverImage", dataUrl));
+        const tempData = { ...resumeData };
+        tempData.coverImage = dataUrl;
+        try {
+          await firebase.uploadDoc("resumes", `${resumeID}`, tempData);
+          setIsLargeLoading(false);
+          dispatch(setAlert({ isAlert: true, text: "成功更新履歷!" }));
+          setTimeout(() => {
+            dispatch(setAlert({ isAlert: false, text: "" }));
+          }, 3000);
+        } catch (e) {
+          dispatch(setAlert({ isAlert: true, text: `${e}` }));
+          setTimeout(() => {
+            dispatch(setAlert({ isAlert: false, text: "" }));
+          }, 3000);
+        }
+      })
+      .catch(async () => {
+        await firebase.uploadDoc("resumes", `${resumeID}`, resumeData);
+        setIsLargeLoading(false);
+        dispatch(setAlert({ isAlert: true, text: "成功更新履歷!" }));
+        setTimeout(() => {
+          dispatch(setAlert({ isAlert: false, text: "" }));
+        }, 3000);
+      });
   };
 
   const handleOnDragEnd = (result: any) => {
@@ -81,19 +109,33 @@ const Resume: React.FC = () => {
 
   useEffect(() => {
     const loadResume = async () => {
+      setIsLoading(true);
       const resumeData = await firebase.readData("resumes", `${resumeID}`);
       if (resumeData) {
         dispatch(resumeLoading(resumeData));
       } else {
-        dispatch(resumeAddSetting("name", userData.name));
-        dispatch(resumeAddSetting("userID", userData.userID));
+        dispatch(
+          resumeLoading({
+            title: "",
+            coverImage: "",
+            content: [],
+            name: userData.name,
+            followers: [],
+            tags: [],
+            time: null,
+            userID: userData.userID,
+            userImage: userData.userImage,
+            isPublic: false,
+          })
+        );
       }
+      setIsLoading(false);
     };
     loadResume();
     return () => {
       dispatch(isPreviewTrue("resume"));
     };
-  }, [userData]);
+  }, [userData.userID, resumeID]);
 
   return (
     <>
@@ -103,6 +145,7 @@ const Resume: React.FC = () => {
             onClick={() => {
               dispatch(isPreviewResume());
             }}
+            id="resumePreviewBtn"
           >
             {isPreview ? (
               <>
@@ -117,71 +160,115 @@ const Resume: React.FC = () => {
             )}
           </PreviewBtn>
         ) : null}
-
-        <ResumeEditor ref={refPhoto}>
+        <ResumeEditor>
           <PreviewDiv style={{ zIndex: isPreview ? "2" : "-1" }}></PreviewDiv>
-          <DragDropContext onDragEnd={handleOnDragEnd}>
-            <Droppable droppableId="characters">
-              {(provided) => (
-                <ResumeHeader
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                >
-                  {resumeData.content?.map(
-                    (content: resumeComContent, index: number) => {
-                      const TempCom =
-                        ResumeComponents[
-                          content.comName as keyof typeof ResumeComponents
-                        ];
+          {isLoading ? (
+            <Loading />
+          ) : resumeID !== userData.userID && !resumeData.isPublic ? (
+            "履歷不公開"
+          ) : (
+            <DragDropContext onDragEnd={handleOnDragEnd}>
+              <div ref={refPhoto}>
+                <Droppable droppableId="characters">
+                  {(provided) => (
+                    <ResumeHeader
+                      {...provided.droppableProps}
+                      ref={provided.innerRef}
+                    >
+                      {resumeData.content.length === 0 ? (
+                        <p style={{ margin: "0 auto" }}>尚未建立履歷</p>
+                      ) : null}
 
-                      return (
-                        <Draggable
-                          key={content.id}
-                          draggableId={content.id}
-                          index={index}
-                        >
-                          {(provided) => (
-                            <SineleComponent
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                              ref={provided.innerRef}
+                      {resumeData.content?.map(
+                        (content: resumeComContent, index: number) => {
+                          const TempCom =
+                            ResumeComponents[
+                              content.comName as keyof typeof ResumeComponents
+                            ];
+
+                          return (
+                            <Draggable
+                              key={content.id}
+                              draggableId={content.id}
+                              index={index}
                             >
-                              <TempCom index={index} content={content} />
-                              <Delete
-                                addDeleteCom={addDeleteCom}
-                                index={index}
-                              />
-                              <Move />
-                            </SineleComponent>
-                          )}
-                        </Draggable>
-                      );
-                    }
+                              {(provided) => (
+                                <SineleComponent
+                                  {...provided.draggableProps}
+                                  ref={provided.innerRef}
+                                >
+                                  <TempCom index={index} content={content} />
+                                  <Delete
+                                    addDeleteCom={addDeleteCom}
+                                    index={index}
+                                  />
+                                  <MoveBtn {...provided.dragHandleProps}>
+                                    {isPreview ? null : (
+                                      <FontAwesomeIcon
+                                        icon={faUpDownLeftRight}
+                                      />
+                                    )}
+                                  </MoveBtn>
+                                </SineleComponent>
+                              )}
+                            </Draggable>
+                          );
+                        }
+                      )}
+                      {provided.placeholder}
+                    </ResumeHeader>
                   )}
-                  {provided.placeholder}
-                </ResumeHeader>
-              )}
-            </Droppable>
-          </DragDropContext>
+                </Droppable>
+              </div>
+            </DragDropContext>
+          )}
+
           <AddComArea addResumeCom={addResumeCom} uploadResume={uploadResume} />
         </ResumeEditor>
 
-        {isPreview ? (
-          <UpoloadBtn onClick={uploadResume} width={"120px"}>
-            送出!
-          </UpoloadBtn>
-        ) : (
-          <UpoloadBtn
-            onClick={() => {
-              dispatch(isPreviewTrue("resume"));
-            }}
-            width={"200px"}
-          >
-            確定完成編輯? 預覽檢查
-          </UpoloadBtn>
+        {isPreview ? null : (
+          <FinalEditArea>
+            <PublicSetArea>
+              <PublicSetText>
+                {resumeData.isPublic
+                  ? "目前履歷為公開模式，是否要切換為隱私模式?"
+                  : "目前履歷為隱私模式，是否要切換為公開模式?"}
+              </PublicSetText>
+              <UpoloadBtn
+                width="100px"
+                backgroundColor="none"
+                onClick={changePublicMode}
+              >
+                {resumeData.isPublic ? "設為隱私" : "設為公開"}
+              </UpoloadBtn>
+            </PublicSetArea>
+            <UpoloadBtn
+              onClick={() => {
+                if (resumeData.content.length === 0) {
+                  dispatch(
+                    setAlert({
+                      isAlert: true,
+                      text: "請先新增內容再將履歷儲存!",
+                    })
+                  );
+                  setTimeout(() => {
+                    dispatch(setAlert({ isAlert: false, text: "" }));
+                  }, 3000);
+                } else {
+                  dispatch(isPreviewTrue("resume"));
+                  uploadResume();
+                }
+              }}
+              width="160px"
+              backgroundColor="#ffffff"
+              className="resumeUpload"
+            >
+              儲存履歷!
+            </UpoloadBtn>
+          </FinalEditArea>
         )}
 
-        <ToProfileLink to={`/profile/${resumeID}`}>
+        <ToProfileLink to={`/profile/${resumeID}`} id="resumeToProfile">
           <FontAwesomeIcon
             icon={faUserAstronaut}
             style={{ marginRight: "10px" }}
@@ -189,6 +276,15 @@ const Resume: React.FC = () => {
           前往{resumeData.name}的個人頁面
         </ToProfileLink>
       </Wrapper>
+      {isLargeLoading ? <LargeLoading backgroundColor={"#ffffffb3"} /> : null}
+      <QusetionMark
+        stepType={
+          resumeID === userData.userID
+            ? introSteps.resumeUser
+            : introSteps.resumeOthers
+        }
+        type={resumeID === userData.userID ? "resume" : ""}
+      />
       <SideBar type={"resume"} data={resumeData} />
     </>
   );
@@ -200,7 +296,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 120px 0;
+  margin: 80px 0;
 `;
 
 const PreviewBtn = styled.div`
@@ -212,9 +308,16 @@ const PreviewBtn = styled.div`
   border-radius: 10px;
   border: 1px solid;
   cursor: pointer;
+  z-index: 3;
   &:hover {
     background-color: #555555;
     color: #ffffff;
+  }
+  @media screen and (max-width: 1279px) {
+    font-size: 14px;
+    width: 70px;
+    padding: 3px 3px;
+    right: 5px;
   }
 `;
 
@@ -226,14 +329,20 @@ const ResumeEditor = styled.div`
   border-radius: 5px;
   padding: 30px 40px;
   background-color: #ffffff;
+  @media screen and (max-width: 1280px) {
+    width: 85vw;
+    padding: 10px;
+  }
 `;
 
 const PreviewDiv = styled.div`
   position: absolute;
-  /* border: 1px solid; */
   width: 880px;
   height: 100%;
   z-index: 2;
+  @media screen and (max-width: 1280px) {
+    width: 85vw;
+  }
 `;
 
 const ResumeHeader = styled.div`
@@ -242,6 +351,10 @@ const ResumeHeader = styled.div`
   justify-content: center;
   align-items: center;
   width: 880px;
+  margin: 0 auto;
+  @media screen and (max-width: 1279px) {
+    width: 75vw;
+  }
 `;
 
 const SineleComponent = styled.div`
@@ -249,14 +362,43 @@ const SineleComponent = styled.div`
   width: 880px;
   position: relative;
   margin: 10px 0;
+  @media screen and (max-width: 1279px) {
+    width: 80vw;
+  }
 `;
 
-const UpoloadBtn = styled.div<{ width: string }>`
+const MoveBtn = styled.div`
+  position: absolute;
+  right: 4.5px;
+  top: 30px;
+  font-size: 20px;
+`;
+
+const FinalEditArea = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const PublicSetArea = styled.div`
+  display: flex;
+  align-items: center;
+  @media screen and (max-width: 1279px) {
+    flex-direction: column;
+  }
+`;
+
+const PublicSetText = styled.p`
+  margin: 0 20px;
+`;
+
+const UpoloadBtn = styled.div<{ width: string; backgroundColor: string }>`
   display: flex;
   justify-content: center;
   width: ${(props) => props.width};
-  background-color: #ffffff;
+  background-color: ${(props) => props.backgroundColor};
   padding: 5px 8px;
+  margin: 20px 0;
   border-radius: 10px;
   border: 1px solid;
   cursor: pointer;

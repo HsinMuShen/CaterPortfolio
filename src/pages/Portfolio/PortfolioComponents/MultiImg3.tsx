@@ -1,16 +1,9 @@
 import React from "react";
-import styled from "styled-components";
-import Canves from "../../../utilis/Canves";
-import { portfolioComContent } from "../Portfolio";
-import useUpdateResumeData from "./WebsiteUpdateDataFunction";
 
-const Wrapper = styled.div`
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  margin: 0 auto;
-  width: 900px;
-`;
+import { portfolioComContent } from "../Portfolio";
+import { useMediaQuery } from "../../../utilis/useMediaQuery";
+
+import { EditLayout } from "../../../utilis/EditLatouts/EditLayout";
 
 const MultiImg3 = ({
   content,
@@ -19,34 +12,30 @@ const MultiImg3 = ({
   content: portfolioComContent;
   index: number;
 }) => {
-  const { imageFileList, textList, setReducerImage, setReducerText } =
-    useUpdateResumeData({ index, content });
+  const isRowBased0 = useMediaQuery("(min-width: 690px)");
+  const isRowBased1 = useMediaQuery("(min-width: 350px)");
+  const styles = {
+    imageStyle: [
+      {
+        width: isRowBased0 ? "595px" : "85vw",
+        height: "240px",
+      },
+      {
+        width: isRowBased1 ? "290px" : "85vw",
+        height: "240px",
+      },
+    ],
+    textStyle: [],
+    flexDirection: "row",
+  };
 
-  const sizeArr = [
-    {
-      height: 240,
-      width: 590,
-    },
-    {
-      height: 240,
-      width: 290,
-    },
-  ];
   return (
-    <Wrapper>
-      {imageFileList.map((_, listIndex) => {
-        return (
-          <Canves
-            key={listIndex}
-            content={content}
-            name={`${index}-${listIndex}`}
-            size={sizeArr[listIndex]}
-            setReducerImage={setReducerImage}
-            listIndex={listIndex}
-          />
-        );
-      })}
-    </Wrapper>
+    <EditLayout
+      content={content}
+      index={index}
+      reducerType={"portfolio"}
+      styles={styles}
+    />
   );
 };
 

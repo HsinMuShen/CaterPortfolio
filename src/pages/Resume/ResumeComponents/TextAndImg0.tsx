@@ -1,16 +1,9 @@
 import React from "react";
-import styled from "styled-components";
-import PreviewImageInput from "../../../utilis/PreviewImageInput";
-import EditText from "../../../utilis/EditText";
-import { resumeComContent } from "../Resume";
-import useUpdateResumeData from "./ResumeUpdateDataFunction";
 
-const Wrapper = styled.div`
-  display: flex;
-  width: 800px;
-  margin: 0 auto;
-  align-items: center;
-`;
+import { resumeComContent } from "../Resume";
+import { useMediaQuery } from "../../../utilis/useMediaQuery";
+
+import { EditLayout } from "../../../utilis/EditLatouts/EditLayout";
 
 const TextAndImg0 = ({
   index,
@@ -19,41 +12,31 @@ const TextAndImg0 = ({
   index: number;
   content: resumeComContent;
 }) => {
-  const { imageFileList, textList, setResumeReducerImage, setReducerText } =
-    useUpdateResumeData({ index, content });
+  const isRowBased = useMediaQuery("(min-width: 700px)");
+  const styles = {
+    imageStyle: [
+      {
+        width: "100px",
+        height: "100px",
+        borderRadius: "50%",
+        margin: isRowBased ? "20px 100px 20px 80px" : "0px auto 20px",
+      },
+    ],
+    textStyle: [
+      {
+        width: isRowBased ? "510px" : "70vw",
+        margin: "0 5px",
+      },
+    ],
+    flexDirection: "row",
+  };
   return (
-    <Wrapper>
-      {imageFileList.map((_, listIndex) => {
-        return (
-          <PreviewImageInput
-            key={listIndex}
-            setResumeReducerImage={setResumeReducerImage}
-            listIndex={listIndex}
-            image={content.image[listIndex]}
-            style={{
-              width: "100px",
-              height: "100px",
-              borderRadius: "50%",
-              margin: "0 100px 0 80px",
-            }}
-          />
-        );
-      })}
-
-      {textList.map((_, listIndex) => {
-        return (
-          <EditText
-            key={listIndex}
-            text={content.text[listIndex]}
-            listIndex={listIndex}
-            setReducerText={setReducerText}
-            style={{
-              width: "520px",
-            }}
-          />
-        );
-      })}
-    </Wrapper>
+    <EditLayout
+      content={content}
+      index={index}
+      reducerType={"resume"}
+      styles={styles}
+    />
   );
 };
 

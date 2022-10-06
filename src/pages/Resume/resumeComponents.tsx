@@ -1,8 +1,7 @@
 import React from "react";
 import { resumeComContent } from "./Resume";
-import { v4 } from "uuid";
+
 import TextAndImg0 from "./ResumeComponents/TextAndImg0";
-import preImage from "../../utilis/cat.jpg";
 import TextAndImg1 from "./ResumeComponents/TextAndImg1";
 import TextAndImg2 from "./ResumeComponents/TextAndImg2";
 import FullImg0 from "./ResumeComponents/FullImg0";
@@ -11,108 +10,136 @@ import MultiImg0 from "./ResumeComponents/MultiImg0";
 import MultiImg1 from "./ResumeComponents/MultiImg1";
 import Text0 from "./ResumeComponents/Text0";
 import Text1 from "./ResumeComponents/Text1";
+import Text2 from "./ResumeComponents/Text2";
+import FullImg2 from "./ResumeComponents/FullImg2";
 
 export const resumeChoice = [
   {
     name: "FullImg0",
     comIndex: 0,
     comContent: {
-      image: [preImage],
+      image: [""],
       text: [],
       type: 0,
       comName: "FullImg0",
-      id: v4(),
+      id: "",
     },
   },
   {
     name: "FullImg1",
     comIndex: 1,
     comContent: {
-      image: [preImage],
+      image: [""],
       text: [],
       type: 1,
       comName: "FullImg1",
-      id: v4(),
+      id: "",
+    },
+  },
+  {
+    name: "FullImg2",
+    comIndex: 2,
+    comContent: {
+      image: [""],
+      text: [],
+      type: 2,
+      comName: "FullImg2",
+      id: "",
     },
   },
   {
     name: "MultiImg0",
-    comIndex: 2,
+    comIndex: 3,
     comContent: {
-      image: [preImage, preImage],
+      image: ["", ""],
       text: [],
-      type: 2,
+      type: 3,
       comName: "MultiImg0",
-      id: v4(),
+      id: "",
     },
   },
   {
     name: "MultiImg1",
-    comIndex: 3,
+    comIndex: 4,
     comContent: {
-      image: [preImage, preImage, preImage],
+      image: ["", "", ""],
       text: [],
-      type: 3,
+      type: 4,
       comName: "MultiImg1",
-      id: v4(),
+      id: "",
     },
   },
   {
     name: "TextAndImg0",
-    comIndex: 4,
+    comIndex: 5,
     comContent: {
-      image: [preImage],
+      image: [""],
       text: ["<h2>您的姓名</h2><p>職位名稱</p><p>聯絡資訊</p>"],
-      type: 4,
+      type: 5,
       comName: "TextAndImg0",
-      id: v4(),
+      id: "",
     },
   },
   {
     name: "TextAndImg1",
-    comIndex: 5,
+    comIndex: 6,
     comContent: {
-      image: [preImage],
+      image: [""],
       text: ["<h2>您的姓名</h2><p>職位名稱</p><p>聯絡資訊</p>"],
-      type: 5,
+      type: 6,
       comName: "TextAndImg1",
-      id: v4(),
+      id: "",
     },
   },
   {
     name: "TextAndImg2",
-    comIndex: 6,
+    comIndex: 7,
     comContent: {
-      image: [preImage],
+      image: [""],
       text: ["<h2>您的姓名</h2><p>職位名稱</p><p>聯絡資訊</p>"],
-      type: 6,
+      type: 7,
       comName: "TextAndImg2",
-      id: v4(),
+      id: "",
     },
   },
   {
     name: "Text0",
-    comIndex: 7,
+    comIndex: 8,
     comContent: {
       image: [],
       text: ["<h2>您的姓名</h2><p>職位名稱</p><p>聯絡資訊</p>"],
-      type: 7,
+      type: 8,
       comName: "Text0",
-      id: v4(),
+      id: "",
     },
   },
   {
     name: "Text1",
-    comIndex: 8,
+    comIndex: 9,
     comContent: {
       image: [],
       text: [
         "<h3>工作經驗</h3><hr><ol><li><p>酪梨牧場 豬仔</p></li><li><p>西瓜農場 作業員</p></li><li><p>骨灰墳場 清潔員</p><p></p></li></ol>",
         "<p></p><p>2016 - 2019</p><p>2019 - 2021</p>",
       ],
-      type: 8,
+      type: 9,
       comName: "Text1",
-      id: v4(),
+      id: "",
+    },
+  },
+  {
+    name: "Text2",
+    comIndex: 10,
+    comContent: {
+      image: [],
+      text: [
+        "<h3>工作經驗</h3><hr><ol><li><p>酪梨牧場 豬仔</p></li><li><p>西瓜農場 作業員</p></li><li><p>骨灰墳場 清潔員</p><p></p></li></ol>",
+        "<p></p><p>2016 - 2019</p><p>2019 - 2021</p>",
+        "<p></p><p>2016 - 2019</p><p>2019 - 2021</p>",
+      ],
+      type: 10,
+      comName: "Text2",
+      id: "",
     },
   },
 ];
@@ -135,6 +162,15 @@ export const ResumeComponents = {
     content: resumeComContent;
   }) {
     return <FullImg1 index={index} content={content} />;
+  },
+  FullImg2: function Text({
+    index,
+    content,
+  }: {
+    index: number;
+    content: resumeComContent;
+  }) {
+    return <FullImg2 index={index} content={content} />;
   },
   MultiImg0: function Text({
     index,
@@ -198,5 +234,14 @@ export const ResumeComponents = {
     content: resumeComContent;
   }) {
     return <Text1 index={index} content={content} />;
+  },
+  Text2: function Text({
+    index,
+    content,
+  }: {
+    index: number;
+    content: resumeComContent;
+  }) {
+    return <Text2 index={index} content={content} />;
   },
 };

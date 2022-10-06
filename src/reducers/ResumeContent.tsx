@@ -2,8 +2,9 @@ import { AnyAction } from "redux";
 import { ActionType } from ".";
 import { Timestamp } from "firebase/firestore";
 import { v4 } from "uuid";
+import initialUserImage from "../images/user.png";
 
-interface resumeReducer {
+export interface resumeReducer {
   title: string;
   coverImage: string;
   content: {
@@ -14,10 +15,16 @@ interface resumeReducer {
     id: string;
   }[];
   name: string;
-  followers: string[];
+  followers: {
+    name: string;
+    userID: string;
+    userImage: string;
+  }[];
   tags: string[];
   time: null | Timestamp;
   userID: string;
+  userImage: string;
+  isPublic: boolean;
 }
 
 const ResumeReducer = (
@@ -30,35 +37,59 @@ const ResumeReducer = (
     tags: [],
     time: null,
     userID: "",
+    userImage: initialUserImage,
+    isPublic: false,
   },
   action: AnyAction
 ) => {
   switch (action.type) {
     case ActionType.RESUME.ADD_COMPONENT: {
-      const tempContentArr = resumeData.content;
+      const tempContentArr = [...resumeData.content];
       const tempContent = { ...action.payload.content };
       tempContent.id = v4();
       tempContentArr.push(tempContent);
-
+      const newResumeData = { ...resumeData, content: tempContentArr };
+      return newResumeData;
+    }
+    case ActionType.RESUME.ADD_TEMPLATE: {
+      const tempContentArr = [...resumeData.content];
+      const templateArr = [...action.payload.templateArr];
+      tempContentArr.push(...templateArr);
       const newResumeData = { ...resumeData, content: tempContentArr };
       return newResumeData;
     }
     case ActionType.RESUME.DELETE_COMPONENT: {
-      const tempContentArr = resumeData.content;
+      const tempContentArr = [...resumeData.content];
       const index = action.payload.index;
       tempContentArr.splice(index, 1);
       const newResumeData = { ...resumeData, content: tempContentArr };
       return newResumeData;
     }
-    case ActionType.RESUME.FILL_TEXT: {
-      const tempContentArr = resumeData.content;
+    case ActionType.RESUME.FILL_CONTENT: {
       const index = action.payload.index;
-      tempContentArr[index] = {
-        ...resumeData.content[index],
-        text: action.payload.textArr,
-      };
-      const newResumeData = { ...resumeData, content: tempContentArr };
-      return newResumeData;
+      const listIndex = action.payload.listIndex;
+      const type = action.payload.type;
+      const tempContentArr = [...resumeData.content];
+      if (type === "text") {
+        const tempTypeArr = [...resumeData.content[index].text];
+        tempTypeArr[listIndex] = action.payload.string;
+        tempContentArr[index] = {
+          ...resumeData.content[index],
+          text: tempTypeArr,
+        };
+        const newPortfolioData = { ...resumeData, content: tempContentArr };
+
+        return newPortfolioData;
+      } else if (type === "image") {
+        const tempTypeArr = [...resumeData.content[index].image];
+        tempTypeArr[listIndex] = action.payload.string;
+        tempContentArr[index] = {
+          ...resumeData.content[index],
+          image: tempTypeArr,
+        };
+        const newResumeData = { ...resumeData, content: tempContentArr };
+        return newResumeData;
+      }
     }
     case ActionType.RESUME.ADD_IMAGE: {
       const tempContentArr = resumeData.content;

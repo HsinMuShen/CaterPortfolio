@@ -1,27 +1,25 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { firebaseApp } from "../firebaseConfig";
+import { db, firebaseApp } from "../firebaseConfig";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { RootState } from "../reducers";
 import { useSelector, useDispatch } from "react-redux";
-import { changeLoginState } from "../action";
+import { changeLoginState, setAlert } from "../action/IsPreviewReducerAction";
 import firebase from "../utilis/firebase";
-import {
-  userLoading,
-  portfolioLoading,
-  websiteLoading,
-  resumeLoading,
-} from "../action";
+import { userLoading } from "../action/UserReducerAction";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUserAstronaut } from "@fortawesome/free-solid-svg-icons";
-import { faComment } from "@fortawesome/free-solid-svg-icons";
+import {
+  faUserAstronaut,
+  faComment,
+  faBars,
+} from "@fortawesome/free-solid-svg-icons";
+import { collection, onSnapshot, query, where } from "firebase/firestore";
 
 import HeaderSidebar from "./HeaderSidebar";
-import Fish from "../images/fish.png";
-import Bulb from "../images/bulb.png";
+import LogoWithText from "../images/caterportfolio_logowithtext.png";
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ isPopup: boolean }>`
   width: 100vw;
   height: 60px;
   background-color: #ffffff;
@@ -30,8 +28,7 @@ const Wrapper = styled.div`
   position: fixed;
   top: 0px;
   border-bottom: 1px solid;
-  /* box-shadow: 0 3px #888888b3; */
-  z-index: 5;
+  z-index: ${(props) => (props.isPopup ? 1 : 5)};
 `;
 
 const MainNav = styled.div`
@@ -39,26 +36,39 @@ const MainNav = styled.div`
   align-items: center;
 `;
 
-const SideNav = styled.div`
-  display: flex;
+const SideNav = styled.div<{ $isMobile: boolean }>`
+  display: ${(props) => (props.$isMobile ? "none" : "flex")};
   align-items: center;
   margin-right: 20px;
+  @media screen and (max-width: 900px) {
+    display: ${(props) => (props.$isMobile ? "flex" : "none")};
+  }
 `;
 
-const Logo = styled(Link)<{ img: string }>`
+const LogoArea = styled(Link)<{ img: string }>`
   color: #333333;
   text-decoration: none;
-  width: 120px;
-  height: 25px;
+  width: 150px;
+  height: 45px;
   background-position: center;
   background-size: contain;
-  margin: 0 0px 0 20px;
+  background-repeat: no-repeat;
+  margin: 0 20px 0 20px;
   background-image: url(${(props) => props.img});
+  & :hover {
+    color: #6d6d6d;
+  }
 `;
-const Tag = styled(Link)`
+const Tag = styled(Link)<{ $mobileNone: Boolean }>`
   color: #333333;
   text-decoration: none;
   margin: 0 20px;
+  &:hover {
+    color: #6d6d6d;
+  }
+  @media screen and (max-width: 900px) {
+    display: ${(props) => (props.$mobileNone ? "none" : "block")};
+  }
 `;
 
 const ChatTag = styled(Link)`
@@ -67,6 +77,9 @@ const ChatTag = styled(Link)`
   cursor: pointer;
   margin: 0 20px;
   font-size: 28px;
+  & :hover {
+    color: #6d6d6d;
+  }
 `;
 
 const Nav = styled.p`
@@ -74,58 +87,14 @@ const Nav = styled.p`
   cursor: pointer;
   margin: 0 20px;
   font-size: 28px;
+  & :hover {
+    color: #6d6d6d;
+  }
+  @media screen and (max-width: 900px) {
+    font-size: 20px;
+    margin: 0 5px;
+  }
 `;
-
-const initialUserData = {
-  name: "",
-  email: "",
-  password: "",
-  userID: "",
-  userImage: "",
-  backgroundImage: "",
-  introduction: "",
-  chatRoom: [],
-  followers: [],
-  interestingTags: [],
-  tags: [],
-  followMembers: [],
-  followResumes: [],
-  followPortfolios: [],
-  followWebsites: [],
-};
-
-const initialPortfolioData = {
-  title: "Title",
-  mainImage: "",
-  content: [],
-  name: "",
-  followers: [],
-  tags: [],
-  time: null,
-  userID: "",
-  portfolioID: "",
-};
-
-const initialResumeData = {
-  title: "",
-  coverImage: "",
-  content: [],
-  name: "",
-  followers: [],
-  tags: [],
-  time: null,
-  userID: "",
-};
-
-const initialWebsiteData = {
-  title: "",
-  content: [],
-  name: "",
-  followers: [],
-  tags: [],
-  time: null,
-  userID: "",
-};
 
 const Header = () => {
   const [isSideBar, setIsSideBar] = useState<boolean>(false);
@@ -133,6 +102,9 @@ const Header = () => {
   const userData = useSelector((state: RootState) => state.UserReducer);
   const userIsLogin = useSelector(
     (state: RootState) => state.IsPreviewReducer.userIsLogin
+  );
+  const isPopup = useSelector(
+    (state: RootState) => state.IsPreviewReducer.popup
   );
   const dispatch = useDispatch();
   const location = useLocation();
@@ -146,43 +118,86 @@ const Header = () => {
         }
         dispatch(changeLoginState(true));
       } else {
-        dispatch(userLoading(initialUserData));
-        dispatch(portfolioLoading(initialPortfolioData));
-        dispatch(websiteLoading(initialWebsiteData));
-        dispatch(resumeLoading(initialResumeData));
         dispatch(changeLoginState(false));
       }
     });
   }, []);
 
   useEffect(() => {
+    const userChatData = { name: userData.name, userID: userData.userID };
+    const q = query(
+      collection(db, "chatrooms"),
+      where("userData", "array-contains", userChatData)
+    );
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      snapshot.docChanges().forEach((change) => {
+        if (change.type === "modified") {
+          const name =
+            change.doc.data().message[change.doc.data().message.length - 1]
+              .name;
+          if (name !== userData.name) {
+            dispatch(
+              setAlert({ isAlert: true, text: `${name}傳送了訊息給你!` })
+            );
+            setTimeout(() => {
+              dispatch(setAlert({ isAlert: false, text: "" }));
+            }, 3000);
+          }
+        }
+      });
+    });
+  }, [userData]);
+
+  useEffect(() => {
     setIsSideBar(false);
   }, [location]);
   return (
-    <Wrapper>
+    <Wrapper isPopup={isPopup}>
       <MainNav>
-        <Logo to={`/`} img={Fish}></Logo>
-        <Tag to={`/`}>CaterPortfolio</Tag>
-        <Tag to={`/allresumes`}>All Resumes</Tag>
+        <LogoArea to={`/`} img={LogoWithText} id="logo"></LogoArea>
+        <Tag to={`/allportfolios`} id="allPortfolios" $mobileNone={true}>
+          所有作品集
+        </Tag>
+        <Tag to={`/allresumes`} id="allResumes" $mobileNone={true}>
+          所有履歷
+        </Tag>
       </MainNav>
       {userIsLogin ? (
-        <SideNav>
-          <ChatTag to={`/chatroom/${userData.userID}`}>
+        <SideNav $isMobile={false}>
+          <ChatTag to={`/chatroom/${userData.userID}`} id="chatroomIcon">
             <FontAwesomeIcon icon={faComment} />
           </ChatTag>
           <Nav
             onClick={() => {
               setIsSideBar(true);
             }}
+            id="profileIcon"
           >
             <FontAwesomeIcon icon={faUserAstronaut} />
           </Nav>
         </SideNav>
       ) : (
-        <SideNav>
-          <Tag to={`/login`}>Login</Tag>
+        <SideNav $isMobile={false} id="login">
+          <Tag to={`/login`} $mobileNone={false}>
+            登入
+          </Tag>
         </SideNav>
       )}
+      <SideNav $isMobile={true}>
+        {userIsLogin ? (
+          <Nav
+            onClick={() => {
+              setIsSideBar(true);
+            }}
+          >
+            <FontAwesomeIcon icon={faBars} />
+          </Nav>
+        ) : (
+          <Tag to={`/login`} $mobileNone={false}>
+            登入
+          </Tag>
+        )}
+      </SideNav>
       <HeaderSidebar
         userData={userData}
         auth={auth}

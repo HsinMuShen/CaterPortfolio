@@ -2,8 +2,9 @@ import { AnyAction } from "redux";
 import { ActionType } from ".";
 import { v4 } from "uuid";
 
-interface websiteReducer {
+export interface websiteReducer {
   title: string;
+  coverImage: string;
   content: {
     image: string[];
     text: string[];
@@ -22,6 +23,7 @@ interface websiteReducer {
 const WebsiteReducer = (
   websiteData: websiteReducer = {
     title: "",
+    coverImage: "",
     content: [],
     name: "",
     followers: [],
@@ -41,14 +43,14 @@ const WebsiteReducer = (
       return newResumeData;
     }
     case ActionType.WEBSITE.DELETE_COMPONENT: {
-      const tempContentArr = websiteData.content;
+      const tempContentArr = [...websiteData.content];
       const index = action.payload.index;
       tempContentArr.splice(index, 1);
       const newResumeData = { ...websiteData, content: tempContentArr };
       return newResumeData;
     }
-    case ActionType.WEBSITE.FILL_CONTENT: {
-      const tempContentArr = websiteData.content;
+    case ActionType.WEBSITE.CHANGE_TEXT: {
+      const tempContentArr = [...websiteData.content];
       const index = action.payload.index;
       tempContentArr[index] = {
         ...websiteData.content[index],
@@ -57,9 +59,36 @@ const WebsiteReducer = (
       const newWebsiteData = { ...websiteData, content: tempContentArr };
       return newWebsiteData;
     }
-    case ActionType.WEBSITE.ADD_IMAGE: {
-      const tempContentArr = websiteData.content;
+    case ActionType.WEBSITE.FILL_CONTENT: {
       const index = action.payload.index;
+      const listIndex = action.payload.listIndex;
+      const type = action.payload.type;
+      const tempContentArr = [...websiteData.content];
+      if (type === "text") {
+        const tempTypeArr = [...websiteData.content[index].text];
+        tempTypeArr[listIndex] = action.payload.string;
+        tempContentArr[index] = {
+          ...websiteData.content[index],
+          text: tempTypeArr,
+        };
+        const newPortfolioData = { ...websiteData, content: tempContentArr };
+
+        return newPortfolioData;
+      } else if (type === "image") {
+        const tempTypeArr = [...websiteData.content[index].image];
+        tempTypeArr[listIndex] = action.payload.string;
+        tempContentArr[index] = {
+          ...websiteData.content[index],
+          image: tempTypeArr,
+        };
+        const newWebsiteData = { ...websiteData, content: tempContentArr };
+        return newWebsiteData;
+      }
+    }
+    case ActionType.WEBSITE.ADD_IMAGE: {
+      const index = action.payload.index;
+      const tempContentArr = [...websiteData.content];
+
       tempContentArr[index] = {
         ...websiteData.content[index],
         image: action.payload.imageArr,
@@ -68,7 +97,7 @@ const WebsiteReducer = (
       return newWebsiteData;
     }
     case ActionType.WEBSITE.ADD_PORTFOLIO_ID: {
-      const tempContentArr = websiteData.content;
+      const tempContentArr = [...websiteData.content];
       const index = action.payload.index;
       tempContentArr[index] = {
         ...websiteData.content[index],
@@ -82,7 +111,7 @@ const WebsiteReducer = (
       return tempObj;
     }
     case ActionType.WEBSITE.ADD_SETTING: {
-      let tempResumeData = websiteData;
+      let tempResumeData = { ...websiteData };
       tempResumeData = {
         ...websiteData,
         [action.payload.type]: action.payload.text,
@@ -97,7 +126,7 @@ const WebsiteReducer = (
       return tempResumeData;
     }
     case ActionType.WEBSITE.LOADING: {
-      const tempWebsiteData = action.payload.data;
+      const tempWebsiteData = { ...action.payload.data };
       return tempWebsiteData;
     }
     default:

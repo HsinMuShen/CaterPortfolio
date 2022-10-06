@@ -1,11 +1,17 @@
 import React from "react";
 import styled from "styled-components";
-
 import { Link, useNavigate } from "react-router-dom";
 import { UserReducer } from "../reducers";
 import { signOut } from "firebase/auth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
+
+import { userLoading } from "../action/UserReducerAction";
+import { resumeLoading } from "../action/ResumeReducerAction";
+import { websiteLoading } from "../action/WebsiteReducerAction";
+import { portfolioLoading } from "../action/PortfolioReducerAction";
+import { setAlert } from "../action/IsPreviewReducerAction";
+import { useDispatch } from "react-redux";
 
 const Wrapper = styled.div<{ isSideBar: boolean }>`
   position: fixed;
@@ -24,10 +30,14 @@ const TagArea = styled.div`
   flex-direction: column;
 `;
 
-const Tag = styled(Link)`
+const Tag = styled(Link)<{ $isMobile: Boolean }>`
+  display: ${(props) => (props.$isMobile ? "none" : "block")};
   color: #ffffff;
   text-decoration: none;
   margin: 0 20px 20px;
+  @media screen and (max-width: 900px) {
+    display: block;
+  }
 `;
 
 const Nav = styled.p`
@@ -39,6 +49,61 @@ const Nav = styled.p`
   left: 20px;
 `;
 
+const initialUserData = {
+  name: "",
+  email: "",
+  password: "",
+  userID: "",
+  userImage: "",
+  backgroundImage: "",
+  introduction: "",
+  chatRoom: [],
+  followers: [],
+  interestingTags: [],
+  tags: [],
+  followMembers: [],
+  followResumes: [],
+  followPortfolios: [],
+  followWebsites: [],
+};
+
+const initialPortfolioData = {
+  title: "Title",
+  mainImage: "",
+  content: [],
+  name: "",
+  followers: [],
+  tags: [],
+  time: null,
+  userID: "",
+  userImage: "",
+  portfolioID: "",
+};
+
+const initialResumeData = {
+  title: "",
+  coverImage: "",
+  content: [],
+  name: "",
+  followers: [],
+  tags: [],
+  time: null,
+  userID: "",
+  userImage: "",
+  isPublic: false,
+};
+
+const initialWebsiteData = {
+  title: "",
+  content: [],
+  name: "",
+  followers: [],
+  tags: [],
+  time: null,
+  userID: "",
+  userImage: "",
+};
+
 const HeaderSidebar = ({
   userData,
   auth,
@@ -46,6 +111,7 @@ const HeaderSidebar = ({
   setIsSideBar,
 }: UserReducer) => {
   const nevigate = useNavigate();
+  const dispatch = useDispatch();
   return (
     <Wrapper isSideBar={isSideBar}>
       <Nav
@@ -56,17 +122,39 @@ const HeaderSidebar = ({
         <FontAwesomeIcon icon={faXmark} />
       </Nav>
       <TagArea>
-        <Tag to={`/profile/${userData.userID}`}>profile</Tag>
-        <Tag to={`/resume/${userData.userID}`}>Resume</Tag>
-        <Tag to={`/website/${userData.userID}`}>Website</Tag>
-        <Tag to={`/chatroom/${userData.userID}`}>Chatroom</Tag>
+        <Tag to={`/allportfolios`} $isMobile={true}>
+          所有作品集
+        </Tag>
+        <Tag to={`/allresumes`} $isMobile={true}>
+          所有履歷
+        </Tag>
+        <Tag to={`/chatroom/${userData.userID}`} $isMobile={true}>
+          聊天室
+        </Tag>
+        <Tag to={`/profile/${userData.userID}`} $isMobile={false}>
+          個人頁面
+        </Tag>
+        <Tag to={`/resume/${userData.userID}`} $isMobile={false}>
+          個人履歷
+        </Tag>
+        <Tag to={`/website/${userData.userID}`} $isMobile={false}>
+          個人網站
+        </Tag>
         <Tag
-          to={"#"}
+          to={"/"}
           onClick={() => {
             signOut(auth);
-            alert("成功登出會員!");
             nevigate("/");
+            dispatch(userLoading(initialUserData));
+            dispatch(portfolioLoading(initialPortfolioData));
+            dispatch(websiteLoading(initialWebsiteData));
+            dispatch(resumeLoading(initialResumeData));
+            dispatch(setAlert({ isAlert: true, text: "成功登出!" }));
+            setTimeout(() => {
+              dispatch(setAlert({ isAlert: false, text: "" }));
+            }, 3000);
           }}
+          $isMobile={false}
         >
           登出
         </Tag>

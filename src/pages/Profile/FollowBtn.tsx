@@ -1,35 +1,54 @@
 import React, { useState, useEffect } from "react";
 import { RootState } from "../../reducers";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { UserReducer } from "../../reducers";
-import { userLoading } from "../../action";
 import styled from "styled-components";
+
+import { UserReducer } from "../../reducers";
+import { userLoading } from "../../action/UserReducerAction";
+import { setAlert } from "../../action/IsPreviewReducerAction";
+
 import firebase from "../../utilis/firebase";
 
 const FollowButton = styled.div``;
 
-const FollowBtn = ({ profileData }: UserReducer) => {
+const FollowBtn = ({ profileData, setIsLargeLoading }: UserReducer) => {
   const [isFollow, setIsFollow] = useState(false);
   const userData = useSelector((state: RootState) => state.UserReducer);
+  const isLogin = useSelector(
+    (state: RootState) => state.IsPreviewReducer.userIsLogin
+  );
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const followPortfolio = async () => {
     {
-      if (isFollow) {
-        await firebase.cancelMemberFollowing(profileData, userData);
-        alert("取消追蹤!");
-      } else {
-        console.log(profileData, userData);
-        await firebase.addMemberFollowing(profileData, userData);
-        alert("加入追蹤!");
+      if (!isLogin) {
+        dispatch(setAlert({ isAlert: true, text: "請先登入再進行收藏!" }));
+        navigate(`/login`);
+        setTimeout(() => {
+          dispatch(setAlert({ isAlert: false, text: "" }));
+        }, 3000);
+        return;
       }
-
-      //   const renewPortfolioData = await firebase.readPortfolioData(
-      //     "portfolios",
-      //     `${data.portfolioID}`
-      //   );
-      //   if (renewPortfolioData) {
-      //     dispatch(portfolioLoading(renewPortfolioData));
-      //   }
+      if (isFollow) {
+        setIsLargeLoading(true);
+        await firebase.cancelMemberFollowing(profileData, userData);
+        setIsFollow(false);
+        setIsLargeLoading(false);
+        dispatch(setAlert({ isAlert: true, text: "取消收藏!" }));
+        setTimeout(() => {
+          dispatch(setAlert({ isAlert: false, text: "" }));
+        }, 2000);
+      } else {
+        setIsLargeLoading(true);
+        await firebase.addMemberFollowing(profileData, userData);
+        setIsFollow(true);
+        setIsLargeLoading(false);
+        dispatch(setAlert({ isAlert: true, text: "加入收藏!" }));
+        setTimeout(() => {
+          dispatch(setAlert({ isAlert: false, text: "" }));
+        }, 2000);
+      }
     }
 
     const renewUserData = await firebase.readData("users", userData.userID);
@@ -40,21 +59,22 @@ const FollowBtn = ({ profileData }: UserReducer) => {
 
   useEffect(() => {
     if (profileData.followers) {
+      let followMatch = false;
       profileData.followers.forEach(
         (data: { userID: string; name: string }) => {
           if (data.userID === userData.userID) {
+            console.log("follow!");
             setIsFollow(true);
+            followMatch = true;
+            return;
           }
         }
       );
     }
-    return () => {
-      setIsFollow(false);
-    };
-  }, [profileData, userData]);
+  }, [profileData]);
   return (
-    <FollowButton onClick={followPortfolio}>
-      {isFollow ? "cancel follow" : "follow this guy"}
+    <FollowButton onClick={followPortfolio} id="followButton">
+      {isFollow ? "取消收藏" : `收藏${profileData.name}`}
     </FollowButton>
   );
 };

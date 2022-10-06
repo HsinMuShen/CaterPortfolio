@@ -1,10 +1,19 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import { RootState } from "../../reducers";
 import { useSelector, useDispatch } from "react-redux";
-import { isPreviewProfile, initialSetUserData } from "../../action";
-import { UserReducer } from "../../reducers";
 import { Link } from "react-router-dom";
+import { doc, updateDoc } from "firebase/firestore";
+import { db } from "../../firebaseConfig";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+
+import { initialSetUserData } from "../../action/UserReducerAction";
+import {
+  isPreviewProfile,
+  setAlert,
+} from "../../action/IsPreviewReducerAction";
+import { UserReducer } from "../../reducers";
 
 import firebase from "../../utilis/firebase";
 import FollowBtn from "./FollowBtn";
@@ -17,6 +26,12 @@ const ImageContainer = styled.div`
   width: 900px;
   margin: 10px auto 0;
   align-items: center;
+  @media screen and (max-width: 1279px) {
+    width: 80vw;
+  }
+  @media screen and (max-width: 720px) {
+    flex-direction: column;
+  }
 `;
 
 const ImagePreview = styled.div<{
@@ -25,6 +40,7 @@ const ImagePreview = styled.div<{
   height: string;
   borderRadius: string;
   borderWidth: string;
+  mobileWidth: string;
 }>`
   display: flex;
   justify-content: center;
@@ -36,6 +52,11 @@ const ImagePreview = styled.div<{
   background-position: center;
   background-image: url(${(props) => props.previewUrl});
   background-size: cover;
+  background-color: #ffffff;
+  margin: 0 auto;
+  @media screen and (max-width: 1279px) {
+    width: ${(props) => props.mobileWidth};
+  }
 `;
 const ImageLabel = styled.label`
   font-size: 150%;
@@ -45,22 +66,46 @@ const ImageInput = styled.input`
   display: none;
 `;
 
+const AddImgBtn = styled.div`
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #ffffffb3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+`;
+
 const MainImageArea = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   margin: 20px 120px 0 100px;
+  @media screen and (max-width: 1279px) {
+    margin: 20px 60px 0 60px;
+  }
 `;
 
 const IntroInput = styled.textarea`
   width: 420px;
   height: 80px;
+  padding: 5px;
+  @media screen and (max-width: 720px) {
+    margin: 10px 0;
+  }
 `;
 
 const IntroTextArea = styled.div`
   width: 420px;
   font-size: 14px;
   margin-right: 40px;
+  white-space: pre;
+  display: flex;
+  justify-content: center;
+  @media screen and (max-width: 720px) {
+    margin: 10px 0;
+  }
 `;
 
 const NameTag = styled.p`
@@ -75,12 +120,18 @@ const EditArea = styled.div`
   width: 200px;
   margin: 0 auto;
   align-items: center;
+  @media screen and (max-width: 1279px) {
+    margin: 0 20px 0 20px;
+  }
+  @media screen and (max-width: 720px) {
+    margin: 10px 20px 10px 20px;
+  }
 `;
 const EditBtn = styled(Link)`
   background-color: #ffffff;
   color: #555555;
   border: 2px solid;
-  width: 120px;
+  width: 180px;
   height: 30px;
   font-size: 14px;
   margin: 5px 0 5px;
@@ -95,52 +146,62 @@ const EditBtn = styled(Link)`
   }
 `;
 
-const MemberIntro = ({ profileData, setProfileData }: UserReducer) => {
-  const [imageFile, setImageFile] = useState<{
-    headshot: File | null;
-    backgroundImage: File | null;
-  }>({
-    headshot: null,
-    backgroundImage: null,
-  });
+const MemberIntro = ({
+  profileData,
+  setProfileData,
+  setIsLargeLoading,
+  isCreaterArea,
+  setIsCreaterArea,
+}: UserReducer) => {
   const userData = useSelector((state: RootState) => state.UserReducer);
   const isPreviewContent = useSelector(
     (state: RootState) => state.IsPreviewReducer
   );
   const dispatch = useDispatch();
 
-  const previewHeadshotUrl = imageFile.headshot
-    ? URL.createObjectURL(imageFile.headshot)
-    : profileData.userImage;
-  const previewBackUrl = imageFile.backgroundImage
-    ? URL.createObjectURL(imageFile.backgroundImage)
-    : profileData.backgroundImage;
-
   const renewImageUrl = async (type: string, file: File) => {
+    setIsLargeLoading(true);
     const imageUrl = await firebase.getImageUrl(file);
     dispatch(initialSetUserData(type, imageUrl));
+    setIsLargeLoading(false);
+  };
+
+  const reNewPortfolioCollection = async () => {
+    const userPortfolio = await firebase.searchUserPortfolio(userData.userID);
+    let portfolioPromiswArr: any[] = [];
+    userPortfolio.forEach((portfolioData) => {
+      portfolioPromiswArr.push(
+        updateDoc(doc(db, `portfolios`, `${portfolioData.portfolioID}`), {
+          userImage: userData.userImage,
+        })
+      );
+    });
+    await Promise.all(portfolioPromiswArr);
   };
 
   return (
     <Wrapper>
       <ImagePreview
-        previewUrl={previewBackUrl}
-        width={"100vw"}
+        previewUrl={profileData.backgroundImage}
+        width={"960px"}
         height={"240px"}
         borderRadius={"0"}
         borderWidth={"0"}
+        mobileWidth={"78vw"}
       >
         <ImageLabel>
-          {isPreviewContent.profileIntro ? "" : "+"}
+          {isPreviewContent.profileIntro ? (
+            ""
+          ) : (
+            <AddImgBtn>
+              <FontAwesomeIcon icon={faPlus} />
+            </AddImgBtn>
+          )}
           <ImageInput
             type="file"
             id="postImage"
             disabled={isPreviewContent.profileIntro}
             onChange={(e) => {
-              setImageFile({
-                ...imageFile,
-                backgroundImage: e.target.files![0],
-              });
               renewImageUrl("backgroundImage", e.target.files![0]);
             }}
           />
@@ -149,23 +210,26 @@ const MemberIntro = ({ profileData, setProfileData }: UserReducer) => {
       <ImageContainer>
         <MainImageArea>
           <ImagePreview
-            previewUrl={previewHeadshotUrl}
+            previewUrl={profileData.userImage}
             width={"100px"}
             height={"100px"}
             borderRadius={"90px"}
             borderWidth={"1px"}
+            mobileWidth={"100px"}
           >
             <ImageLabel>
-              {isPreviewContent.profileIntro ? "" : "+"}
+              {isPreviewContent.profileIntro ? (
+                ""
+              ) : (
+                <AddImgBtn>
+                  <FontAwesomeIcon icon={faPlus} />
+                </AddImgBtn>
+              )}
               <ImageInput
                 type="file"
                 id="postImage"
                 disabled={isPreviewContent.profileIntro}
                 onChange={(e) => {
-                  setImageFile({
-                    ...imageFile,
-                    headshot: e.target.files![0],
-                  });
                   renewImageUrl("userImage", e.target.files![0]);
                 }}
               />
@@ -189,28 +253,58 @@ const MemberIntro = ({ profileData, setProfileData }: UserReducer) => {
           {profileData.userID === userData.userID ? (
             <EditBtn
               to={"#"}
-              onClick={() => {
+              onClick={async () => {
                 dispatch(isPreviewProfile());
                 if (!isPreviewContent.profileIntro) {
-                  firebase.uploadDoc("users", `${userData.userID}`, userData);
+                  try {
+                    await firebase.uploadDoc(
+                      "users",
+                      `${userData.userID}`,
+                      userData
+                    );
+                    firebase.changeUserImage("websites", userData);
+                    firebase.changeUserImage("resumes", userData);
+                    reNewPortfolioCollection();
+                    dispatch(
+                      setAlert({ isAlert: true, text: "成功更新個人檔案!" })
+                    );
+                    setTimeout(() => {
+                      dispatch(setAlert({ isAlert: false, text: "" }));
+                    }, 3000);
+                  } catch (e) {
+                    dispatch(setAlert({ isAlert: true, text: `${e}` }));
+                    setTimeout(() => {
+                      dispatch(setAlert({ isAlert: false, text: "" }));
+                    }, 3000);
+                  }
                 }
               }}
             >
-              <p>
+              <p id="editProfileData">
                 {isPreviewContent.profileIntro ? "編輯個人資料" : "儲存編輯"}
               </p>
             </EditBtn>
           ) : (
             <>
               <EditBtn to={"#"}>
-                <FollowBtn profileData={profileData} />
+                <FollowBtn
+                  profileData={profileData}
+                  setIsLargeLoading={setIsLargeLoading}
+                />
               </EditBtn>
 
               <ChatButton profileData={profileData} />
             </>
           )}
-          <EditBtn to={`/follow/${profileData.userID}`}>
-            <p>查看追蹤名單</p>
+          <EditBtn
+            to={"#"}
+            onClick={() => {
+              setIsCreaterArea(!isCreaterArea);
+            }}
+          >
+            <p id="checkFollowingList">
+              {isCreaterArea ? "查看收藏名單" : "查看履歷與網站"}
+            </p>
           </EditBtn>
         </EditArea>
       </ImageContainer>

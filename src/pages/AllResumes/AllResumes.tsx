@@ -1,17 +1,29 @@
 import React, { useEffect, useState } from "react";
-import { collection, DocumentData, onSnapshot } from "firebase/firestore";
+import {
+  collection,
+  DocumentData,
+  onSnapshot,
+  query,
+  where,
+} from "firebase/firestore";
 import { db } from "../../firebaseConfig";
 import styled from "styled-components";
 
 import ResumeCard from "./ResumeCard";
 
 const PinContainer = styled.div`
-  width: 1040px;
+  width: 1050px;
   margin: 120px auto 0;
   display: flex;
   flex-wrap: wrap;
 
   justify-content: flex-start;
+  @media screen and (max-width: 1079px) {
+    width: 700px;
+  }
+  @media screen and (max-width: 800px) {
+    width: 350px;
+  }
 `;
 
 const AllResumes = () => {
@@ -22,9 +34,10 @@ const AllResumes = () => {
   const numbers = [27, 36, 45, 48];
 
   useEffect(() => {
-    onSnapshot(collection(db, "resumes"), (doc) => {
+    const q = query(collection(db, "resumes"), where("isPublic", "==", true));
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const postArr: DocumentData[] = [];
-      doc.forEach((doc) => {
+      querySnapshot.forEach((doc) => {
         postArr.push(doc.data());
       });
       setPortfolioArr(postArr);

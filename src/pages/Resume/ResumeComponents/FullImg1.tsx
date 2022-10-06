@@ -1,15 +1,9 @@
 import React from "react";
-import PreviewImageInput from "../../../utilis/PreviewImageInput";
-import { resumeComContent } from "../Resume";
-import useUpdateResumeData from "./ResumeUpdateDataFunction";
-import styled from "styled-components";
 
-const Wrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-`;
+import { resumeComContent } from "../Resume";
+import { useMediaQuery } from "../../../utilis/useMediaQuery";
+
+import { EditLayout } from "../../../utilis/EditLatouts/EditLayout";
 
 const FullImg1 = ({
   index,
@@ -18,26 +12,25 @@ const FullImg1 = ({
   index: number;
   content: resumeComContent;
 }) => {
-  const { imageFileList, textList, setResumeReducerImage, setReducerText } =
-    useUpdateResumeData({ index, content });
-
+  const isRowBased = useMediaQuery("(min-width: 1279px)");
+  const styles = {
+    imageStyle: [
+      {
+        width: isRowBased ? "790px" : "70vw",
+        height: "200px",
+        margin: "0 5px",
+      },
+    ],
+    textStyle: [],
+    flexDirection: "row",
+  };
   return (
-    <Wrapper>
-      {imageFileList.map((_, listIndex) => {
-        return (
-          <PreviewImageInput
-            key={listIndex}
-            setResumeReducerImage={setResumeReducerImage}
-            listIndex={listIndex}
-            image={content.image[listIndex]}
-            style={{
-              width: "800px",
-              height: "200px",
-            }}
-          />
-        );
-      })}
-    </Wrapper>
+    <EditLayout
+      content={content}
+      index={index}
+      reducerType={"resume"}
+      styles={styles}
+    />
   );
 };
 
