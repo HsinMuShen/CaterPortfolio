@@ -20,26 +20,24 @@ export interface resumeReducer {
     userID: string;
     userImage: string;
   }[];
-  tags: string[];
-  time: null | Timestamp;
   userID: string;
   userImage: string;
   isPublic: boolean;
 }
 
+export const initialResumeData = {
+  title: "",
+  coverImage: "",
+  content: [],
+  name: "",
+  followers: [],
+  userID: "",
+  userImage: initialUserImage,
+  isPublic: false,
+};
+
 const ResumeReducer = (
-  resumeData: resumeReducer = {
-    title: "",
-    coverImage: "",
-    content: [],
-    name: "",
-    followers: [],
-    tags: [],
-    time: null,
-    userID: "",
-    userImage: initialUserImage,
-    isPublic: false,
-  },
+  resumeData: resumeReducer = initialResumeData,
   action: AnyAction
 ) => {
   switch (action.type) {

@@ -18,6 +18,7 @@ import firebase from "./firebase";
 const SideBarArea = styled.div`
   position: fixed;
   top: 45%;
+  left: 0;
   @media screen and (max-width: 1079px) {
     top: 65px;
   }
@@ -85,14 +86,20 @@ const SideBar = ({
     }
     if (type === "portfolio") {
       if (isFollow) {
-        await firebase.cancelPortfolioFollowing(data, userData);
+        await firebase.cancelPortfolioFollowing(
+          data as portfolioReducer,
+          userData
+        );
         setIsFollow(false);
         dispatch(setAlert({ isAlert: true, text: "取消收藏!" }));
         setTimeout(() => {
           dispatch(setAlert({ isAlert: false, text: "" }));
         }, 3000);
       } else {
-        await firebase.addPortfolioFollowing(data, userData);
+        await firebase.addPortfolioFollowing(
+          data as portfolioReducer,
+          userData
+        );
         setIsFollow(true);
         dispatch(setAlert({ isAlert: true, text: "加入收藏!" }));
         setTimeout(() => {
@@ -110,14 +117,14 @@ const SideBar = ({
       }
     } else if (type === "resume") {
       if (isFollow) {
-        await firebase.cancelResumeFollowing(data, userData);
+        await firebase.cancelResumeFollowing(data as resumeReducer, userData);
         setIsFollow(false);
         dispatch(setAlert({ isAlert: true, text: "取消收藏!" }));
         setTimeout(() => {
           dispatch(setAlert({ isAlert: false, text: "" }));
         }, 3000);
       } else {
-        await firebase.addResumeFollowing(data, userData);
+        await firebase.addResumeFollowing(data as resumeReducer, userData);
         setIsFollow(true);
         dispatch(setAlert({ isAlert: true, text: "加入收藏!" }));
         setTimeout(() => {

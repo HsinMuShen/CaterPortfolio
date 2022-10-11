@@ -15,22 +15,22 @@ export interface websiteReducer {
   }[];
   name: string;
   followers: string[];
-  tags: string[];
-  time: null | number;
   userID: string;
+  userImage: string;
 }
 
+export const initialWebsiteData = {
+  title: "",
+  coverImage: "",
+  content: [],
+  name: "",
+  followers: [],
+  userID: "",
+  userImage: "",
+};
+
 const WebsiteReducer = (
-  websiteData: websiteReducer = {
-    title: "",
-    coverImage: "",
-    content: [],
-    name: "",
-    followers: [],
-    tags: [],
-    time: null,
-    userID: "",
-  },
+  websiteData: websiteReducer = initialWebsiteData,
   action: AnyAction
 ) => {
   switch (action.type) {

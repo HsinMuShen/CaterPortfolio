@@ -17,7 +17,6 @@ import { RootState } from "../../reducers";
 import {
   websiteAddCom,
   websiteDeleteCom,
-  websiteAddSetting,
   websiteRenewContent,
   websiteLoading,
 } from "../../action/WebsiteReducerAction";
@@ -38,6 +37,11 @@ import QusetionMark, { introSteps } from "../../utilis/QusetionMark";
 import WebsiteInitialSetup from "./WebsiteInitialSetup";
 import LargeLoading from "../../utilis/LargeLoading";
 import { websiteChoice } from "./websiteComponents";
+import {
+  EditPageWrapper,
+  LinkButton,
+  UploadButton,
+} from "../../utilis/styledExtending";
 
 export interface websiteComContent {
   image: string[];
@@ -150,7 +154,7 @@ const Website = () => {
   }, [userData, websiteID]);
 
   return (
-    <WebsiteBody>
+    <EditPageWrapper>
       <Wrapper>
         {websiteID === userData.userID ? (
           <PreviewBtn
@@ -253,7 +257,7 @@ const Website = () => {
         )}
       </Wrapper>
       {isPreview ? null : (
-        <ResumeBtn
+        <WebsiteUploadBtn
           onClick={() => {
             dispatch(isPreviewTrue("website"));
             uploadWebsite();
@@ -261,15 +265,15 @@ const Website = () => {
           className="websiteUpload"
         >
           將網站儲存上架!
-        </ResumeBtn>
+        </WebsiteUploadBtn>
       )}
-      <ToProfileLink to={`/profile/${websiteID}`} id="websiteToProfile">
+      <LinkButton to={`/profile/${websiteID}`} id="websiteToProfile">
         <FontAwesomeIcon
           icon={faUserAstronaut}
           style={{ marginRight: "10px" }}
         />
         前往{websiteData.name}的個人頁面
-      </ToProfileLink>
+      </LinkButton>
       <QusetionMark
         stepType={
           websiteID === userData.userID
@@ -279,22 +283,11 @@ const Website = () => {
         type={websiteID === userData.userID ? "website" : ""}
       />
       {isLargeLoading ? <LargeLoading backgroundColor={"#ffffffb3"} /> : null}
-    </WebsiteBody>
+    </EditPageWrapper>
   );
 };
 
 export default Website;
-
-const WebsiteBody = styled.div`
-  width: 100%;
-  min-height: 100vh;
-  height: 100%;
-  padding: 120px 0;
-  background-color: #ffffff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
 
 const Wrapper = styled.div`
   width: 960px;
@@ -368,31 +361,8 @@ const MoveBtn = styled.div`
   font-size: 20px;
 `;
 
-const ResumeBtn = styled.button`
-  color: #555555;
+const WebsiteUploadBtn = styled(UploadButton)`
   background-color: #ffffff;
-  padding: 8px;
-  width: 120px;
-  border-radius: 5px;
-  font-weight: 600;
-  border: 2px solid;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  width: 150px;
   margin: 40px auto 20px;
-  cursor: pointer;
-  &:hover {
-    color: #ffffff;
-    background-color: #555555;
-  }
-`;
-
-const ToProfileLink = styled(Link)`
-  margin: 40px 0 20px;
-  text-decoration: none;
-  color: #ffffff;
-  background-color: #555555;
-  border: 1px solid;
-  padding: 8px;
-  border-radius: 5px;
 `;

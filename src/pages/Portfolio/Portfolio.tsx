@@ -38,6 +38,11 @@ import LargeLoading from "../../utilis/LargeLoading";
 import CreatePortfolioCom from "./CreatePortfolioCom";
 import SideBar from "../../utilis/SideBar";
 import firebase from "../../utilis/firebase";
+import {
+  EditPageWrapper,
+  LinkButton,
+  UploadButton,
+} from "../../utilis/styledExtending";
 
 export interface portfolioComContent {
   image: string[];
@@ -172,7 +177,7 @@ const Portfolio = () => {
   }, [userData.userID, websiteData.content.length]);
 
   return (
-    <PortfolioBody>
+    <EditPageWrapper>
       <Wrapper>
         {userData.userID === userID || portfolioID === "create" ? (
           <PreviewBtn
@@ -263,16 +268,19 @@ const Portfolio = () => {
         <CreatePortfolioCom addPortfolioCom={addPortfolioCom} />
       </Wrapper>
       {isPreview ? null : (
-        <ResumeBtn onClick={uploadPortfolio} className="portfolioUpload">
+        <PortfolioUpoloadBtn
+          onClick={uploadPortfolio}
+          className="portfolioUpload"
+        >
           上架作品集!
-        </ResumeBtn>
+        </PortfolioUpoloadBtn>
       )}
-      <ToWebsiteBtn
+      <LinkButton
         to={`/website/${portfolioData.userID}`}
         id="portfolioToWebsite"
       >
         回到{portfolioData.name}的網站
-      </ToWebsiteBtn>
+      </LinkButton>
       <QusetionMark
         stepType={
           userData.userID === userID
@@ -283,21 +291,11 @@ const Portfolio = () => {
       />
       <SideBar type={"portfolio"} data={portfolioData} />
       {isLargeLoading ? <LargeLoading backgroundColor={"#ffffffb3"} /> : null}
-    </PortfolioBody>
+    </EditPageWrapper>
   );
 };
 
 export default Portfolio;
-
-const PortfolioBody = styled.div`
-  width: 100%;
-  min-height: 100vh;
-  height: 100%;
-  padding: 120px 0;
-  background-color: #ffffff;
-  display: flex;
-  flex-direction: column;
-`;
 
 const Wrapper = styled.div`
   width: 960px;
@@ -370,31 +368,8 @@ const MoveBtn = styled.div`
   font-size: 20px;
 `;
 
-const ResumeBtn = styled.div`
-  color: #555555;
+const PortfolioUpoloadBtn = styled(UploadButton)`
   background-color: #ffffff;
-  padding: 8px;
   width: 180px;
-  border-radius: 5px;
-  font-weight: 600;
-  border: 2px solid;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   margin: 40px auto 20px;
-  cursor: pointer;
-  &:hover {
-    color: #ffffff;
-    background-color: #555555;
-  }
-`;
-
-const ToWebsiteBtn = styled(Link)`
-  margin: 20px auto;
-  text-decoration: none;
-  color: #ffffff;
-  background-color: #555555;
-  border: 1px solid;
-  padding: 8px;
-  border-radius: 5px;
 `;

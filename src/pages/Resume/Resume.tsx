@@ -33,6 +33,7 @@ import SideBar from "../../utilis/SideBar";
 import QusetionMark, { introSteps } from "../../utilis/QusetionMark";
 import { resumeChoice } from "./resumeComponents";
 import { ResumeComponents } from "./resumeComponents";
+import { LinkButton, UploadButton } from "../../utilis/styledExtending";
 
 export interface resumeComContent {
   image: string[];
@@ -234,15 +235,15 @@ const Resume: React.FC = () => {
                   ? "目前履歷為公開模式，是否要切換為隱私模式?"
                   : "目前履歷為隱私模式，是否要切換為公開模式?"}
               </PublicSetText>
-              <UpoloadBtn
+              <ResumeUpoloadBtn
                 width="100px"
                 backgroundColor="none"
                 onClick={changePublicMode}
               >
                 {resumeData.isPublic ? "設為隱私" : "設為公開"}
-              </UpoloadBtn>
+              </ResumeUpoloadBtn>
             </PublicSetArea>
-            <UpoloadBtn
+            <ResumeUpoloadBtn
               onClick={() => {
                 if (resumeData.content.length === 0) {
                   dispatch(
@@ -264,17 +265,17 @@ const Resume: React.FC = () => {
               className="resumeUpload"
             >
               儲存履歷!
-            </UpoloadBtn>
+            </ResumeUpoloadBtn>
           </FinalEditArea>
         )}
 
-        <ToProfileLink to={`/profile/${resumeID}`} id="resumeToProfile">
+        <LinkButton to={`/profile/${resumeID}`} id="resumeToProfile">
           <FontAwesomeIcon
             icon={faUserAstronaut}
             style={{ marginRight: "10px" }}
           />
           前往{resumeData.name}的個人頁面
-        </ToProfileLink>
+        </LinkButton>
       </Wrapper>
       {isLargeLoading ? <LargeLoading backgroundColor={"#ffffffb3"} /> : null}
       <QusetionMark
@@ -392,28 +393,11 @@ const PublicSetText = styled.p`
   margin: 0 20px;
 `;
 
-const UpoloadBtn = styled.div<{ width: string; backgroundColor: string }>`
-  display: flex;
-  justify-content: center;
+const ResumeUpoloadBtn = styled(UploadButton)<{
+  width: string;
+  backgroundColor: string;
+}>`
   width: ${(props) => props.width};
   background-color: ${(props) => props.backgroundColor};
-  padding: 5px 8px;
   margin: 20px 0;
-  border-radius: 10px;
-  border: 1px solid;
-  cursor: pointer;
-  &:hover {
-    background-color: #555555;
-    color: #ffffff;
-  }
-`;
-
-const ToProfileLink = styled(Link)`
-  margin: 40px 0 20px;
-  text-decoration: none;
-  color: #ffffff;
-  background-color: #555555;
-  border: 1px solid;
-  padding: 8px;
-  border-radius: 5px;
 `;
