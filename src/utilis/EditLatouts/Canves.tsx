@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
 import { fabric } from "fabric";
 import styled from "styled-components";
+
 import firebase from "../firebase";
 import { websiteComContent } from "../../pages/Website/Website";
 import { RootState } from "../../reducers";
-import { useSelector } from "react-redux";
 import LargeLoading from "../LargeLoading";
 
 const ImageLabel = styled.label`
@@ -50,8 +51,30 @@ const BtnsArea = styled.div`
   flex-wrap: wrap;
 `;
 
-const Wrapper = styled.div<{ style: any }>`
-  ${(props) => props.style}
+const Wrapper = styled.div`
+  @media screen and (max-width: 1020px) {
+    scale: 0.9;
+  }
+  @media screen and (max-width: 925px) {
+    scale: 0.8;
+  }
+  @media screen and (max-width: 825px) {
+    scale: 0.7;
+  }
+  @media screen and (max-width: 725px) {
+    scale: 0.6;
+  }
+  @media screen and (max-width: 625px) {
+    scale: 0.5;
+  }
+  @media screen and (max-width: 525px) {
+    scale: 0.4;
+    height: 300px;
+  }
+  @media screen and (max-width: 425px) {
+    scale: 0.33;
+    height: 230px;
+  }
 `;
 
 const Btns = styled.div`
@@ -109,13 +132,10 @@ const Canves = ({
   setReducerContent,
   listIndex,
   index,
-  style,
 }: canvasProps) => {
   const [isLargeLoading, setIsLargeLoading] = useState<boolean>(false);
   const canvas: any = useRef();
-  const storageJson = useRef("");
   const isPreview = useSelector((state: RootState) => state.IsPreviewReducer);
-
   const addImage = async (file: File) => {
     setIsLargeLoading(true);
     const imageurl = await firebase.getImageUrl(file);
@@ -128,9 +148,7 @@ const Canves = ({
           left: 0,
           top: 0,
         });
-        // oImg.filters.push(new fabric.Image.filters.Grayscale())
-        // oImg.applyFilters()
-        console.log(oImg);
+
         canvas.current.add(oImg);
       }
     );
@@ -144,16 +162,6 @@ const Canves = ({
     });
     canvas.current.requestRenderAll();
   }
-
-  const storeJson = () => {
-    // console.log(JSON.stringify(canvas.current));
-    storageJson.current = JSON.stringify(canvas.current);
-  };
-
-  const loadJson = () => {
-    // console.log(JSON.stringify(canvas.current));
-    canvas.current.loadFromJSON(storageJson.current);
-  };
 
   useEffect(() => {
     canvas.current = new fabric.Canvas(name, {
@@ -169,35 +177,34 @@ const Canves = ({
   }, [index]);
 
   return (
-    <>
-      <Wrapper style={style}>
-        <canvas
-          id={name}
-          style={{
-            border:
-              isPreview.website && isPreview.portfolio
-                ? "0px solid"
-                : "1px solid",
-          }}
-        ></canvas>
+    <Wrapper>
+      <canvas
+        id={name}
+        style={{
+          border:
+            isPreview.website && isPreview.portfolio
+              ? "0px solid"
+              : "1px solid",
+        }}
+      ></canvas>
 
-        {isPreview.website && isPreview.portfolio ? null : (
-          <BtnsArea>
-            <ImageLabel>
-              新增照片
-              <ImageInput
-                type="file"
-                onChange={(e) => {
-                  addImage(e.target.files![0]);
-                }}
-              />
-            </ImageLabel>
-            <Btns onClick={deleteObject}>刪除選取照片</Btns>
-          </BtnsArea>
-        )}
-      </Wrapper>
+      {isPreview.website && isPreview.portfolio ? null : (
+        <BtnsArea>
+          <ImageLabel>
+            新增照片
+            <ImageInput
+              type="file"
+              onChange={(e) => {
+                addImage(e.target.files![0]);
+              }}
+            />
+          </ImageLabel>
+          <Btns onClick={deleteObject}>刪除選取照片</Btns>
+        </BtnsArea>
+      )}
       {isLargeLoading ? <LargeLoading backgroundColor={"#ffffffb3"} /> : null}
-    </>
+      {/* <LargeLoading backgroundColor={"#ffffffb3"} /> */}
+    </Wrapper>
   );
 };
 

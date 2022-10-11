@@ -40,6 +40,7 @@ const BtnWrapper = styled.div`
 const StyleBtn = styled(Button)`
   padding: 3px;
   margin: 4px 3px;
+  border: 1px solid;
 `;
 
 const StyleInput = styled.input`

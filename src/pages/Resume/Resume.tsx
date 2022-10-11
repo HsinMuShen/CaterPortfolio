@@ -33,7 +33,14 @@ import SideBar from "../../utilis/SideBar";
 import QusetionMark, { introSteps } from "../../utilis/QusetionMark";
 import { resumeChoice } from "./resumeComponents";
 import { ResumeComponents } from "./resumeComponents";
-import { LinkButton, UploadButton } from "../../utilis/styledExtending";
+import {
+  LinkButton,
+  UploadButton,
+  EditToggleButton,
+  MoveBtn,
+  PreviewDiv,
+  SingleComponentUnit,
+} from "../../utilis/styledExtending";
 
 export interface resumeComContent {
   image: string[];
@@ -142,7 +149,7 @@ const Resume: React.FC = () => {
     <>
       <Wrapper>
         {resumeID === userData.userID ? (
-          <PreviewBtn
+          <EditToggleButton
             onClick={() => {
               dispatch(isPreviewResume());
             }}
@@ -159,10 +166,12 @@ const Resume: React.FC = () => {
                 <span> 預覽</span>
               </>
             )}
-          </PreviewBtn>
+          </EditToggleButton>
         ) : null}
         <ResumeEditor>
-          <PreviewDiv style={{ zIndex: isPreview ? "2" : "-1" }}></PreviewDiv>
+          <ResumePreviewDiv
+            style={{ zIndex: isPreview ? "2" : "-1" }}
+          ></ResumePreviewDiv>
           {isLoading ? (
             <Loading />
           ) : resumeID !== userData.userID && !resumeData.isPublic ? (
@@ -300,28 +309,6 @@ const Wrapper = styled.div`
   margin: 80px 0;
 `;
 
-const PreviewBtn = styled.div`
-  position: fixed;
-  top: 180px;
-  right: 25px;
-  background-color: #ffffff;
-  padding: 5px 8px;
-  border-radius: 10px;
-  border: 1px solid;
-  cursor: pointer;
-  z-index: 3;
-  &:hover {
-    background-color: #555555;
-    color: #ffffff;
-  }
-  @media screen and (max-width: 1279px) {
-    font-size: 14px;
-    width: 70px;
-    padding: 3px 3px;
-    right: 5px;
-  }
-`;
-
 const ResumeEditor = styled.div`
   position: relative;
   width: 960px;
@@ -336,11 +323,8 @@ const ResumeEditor = styled.div`
   }
 `;
 
-const PreviewDiv = styled.div`
-  position: absolute;
+const ResumePreviewDiv = styled(PreviewDiv)`
   width: 880px;
-  height: 100%;
-  z-index: 2;
   @media screen and (max-width: 1280px) {
     width: 85vw;
   }
@@ -358,21 +342,10 @@ const ResumeHeader = styled.div`
   }
 `;
 
-const SineleComponent = styled.div`
-  display: flex;
-  width: 880px;
-  position: relative;
-  margin: 10px 0;
+const SineleComponent = styled(SingleComponentUnit)`
   @media screen and (max-width: 1279px) {
     width: 80vw;
   }
-`;
-
-const MoveBtn = styled.div`
-  position: absolute;
-  right: 4.5px;
-  top: 30px;
-  font-size: 20px;
 `;
 
 const FinalEditArea = styled.div`

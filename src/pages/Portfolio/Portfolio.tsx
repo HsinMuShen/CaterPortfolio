@@ -42,6 +42,10 @@ import {
   EditPageWrapper,
   LinkButton,
   UploadButton,
+  EditToggleButton,
+  MoveBtn,
+  PreviewDiv,
+  SingleComponentUnit,
 } from "../../utilis/styledExtending";
 
 export interface portfolioComContent {
@@ -180,7 +184,7 @@ const Portfolio = () => {
     <EditPageWrapper>
       <Wrapper>
         {userData.userID === userID || portfolioID === "create" ? (
-          <PreviewBtn
+          <EditToggleButton
             onClick={() => {
               dispatch(isPreviewPortfolio());
             }}
@@ -197,7 +201,7 @@ const Portfolio = () => {
                 <span> 預覽</span>
               </>
             )}
-          </PreviewBtn>
+          </EditToggleButton>
         ) : null}
 
         {isPreview ? null : (
@@ -218,9 +222,9 @@ const Portfolio = () => {
                   {...provided.droppableProps}
                   ref={provided.innerRef}
                 >
-                  <PreviewDiv
+                  <PortfolioPreviewDiv
                     style={{ zIndex: isPreview ? "2" : "-1" }}
-                  ></PreviewDiv>
+                  ></PortfolioPreviewDiv>
                   {portfolioData.content.length === 0 ? (
                     <p>尚未建立此作品集</p>
                   ) : null}
@@ -238,7 +242,7 @@ const Portfolio = () => {
                           index={index}
                         >
                           {(provided) => (
-                            <SingleComponent
+                            <SingleComponentUnit
                               {...provided.draggableProps}
                               ref={provided.innerRef}
                             >
@@ -252,7 +256,7 @@ const Portfolio = () => {
                                   <FontAwesomeIcon icon={faUpDownLeftRight} />
                                 )}
                               </MoveBtn>
-                            </SingleComponent>
+                            </SingleComponentUnit>
                           )}
                         </Draggable>
                       );
@@ -306,28 +310,6 @@ const Wrapper = styled.div`
   }
 `;
 
-const PreviewBtn = styled.div`
-  position: fixed;
-  top: 180px;
-  right: 25px;
-  background-color: #ffffff;
-  padding: 5px 8px;
-  border-radius: 10px;
-  border: 1px solid;
-  cursor: pointer;
-  z-index: 4;
-  &:hover {
-    background-color: #555555;
-    color: #ffffff;
-  }
-  @media screen and (max-width: 1279px) {
-    font-size: 14px;
-    width: 70px;
-    padding: 3px 3px;
-    right: 5px;
-  }
-`;
-
 const PortfolioLayouts = styled.div`
   position: relative;
   display: flex;
@@ -341,31 +323,11 @@ const PortfolioLayouts = styled.div`
   }
 `;
 
-const PreviewDiv = styled.div`
-  position: absolute;
+const PortfolioPreviewDiv = styled(PreviewDiv)`
   width: 960px;
-  height: 100%;
-  z-index: 2;
   @media screen and (max-width: 1279px) {
     width: 100%;
   }
-`;
-
-const SingleComponent = styled.div`
-  display: flex;
-  width: 960px;
-  position: relative;
-  margin: 10px 0;
-  @media screen and (max-width: 1279px) {
-    width: 100%;
-  }
-`;
-
-const MoveBtn = styled.div`
-  position: absolute;
-  right: 4.5px;
-  top: 30px;
-  font-size: 20px;
 `;
 
 const PortfolioUpoloadBtn = styled(UploadButton)`
