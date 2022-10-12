@@ -110,7 +110,7 @@ const Pin = ({ size, data }: { size: number; data: DocumentData }) => {
       }, 3000);
     }
 
-    const renewPortfolioData = await firebase.readPortfolioData(
+    const renewPortfolioData = await firebase.readData(
       "portfolios",
       `${data.portfolioID}`
     );

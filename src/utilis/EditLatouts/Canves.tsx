@@ -156,7 +156,6 @@ const Canves = ({
   };
 
   function deleteObject() {
-    console.log(canvas.current.getActiveObjects());
     canvas.current.getActiveObjects().forEach((obj: any) => {
       canvas.current.remove(obj);
     });

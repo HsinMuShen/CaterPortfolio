@@ -46,6 +46,7 @@ import {
   MoveBtn,
   PreviewDiv,
   SingleComponentUnit,
+  EditContentLayout,
 } from "../../utilis/styledExtending";
 
 export interface portfolioComContent {
@@ -123,7 +124,7 @@ const Portfolio = () => {
   useEffect(() => {
     const loadPortfolio = async () => {
       setIsLoading(true);
-      const portfolioData = await firebase.readPortfolioData(
+      const portfolioData = await firebase.readData(
         "portfolios",
         `${portfolioID}`
       );
@@ -163,9 +164,6 @@ const Portfolio = () => {
         const tempArr = [
           ...websiteData.content[websiteContentIndex!].portfolioID,
         ];
-        console.log(
-          websiteData.content[websiteContentIndex!].portfolioID.length
-        );
         tempArr[websiteData.content[websiteContentIndex!].portfolioID.length] =
           portID;
         dispatch(websiteChangePortfolioID(websiteContentIndex!, tempArr));
@@ -182,95 +180,91 @@ const Portfolio = () => {
 
   return (
     <EditPageWrapper>
-      <Wrapper>
-        {userData.userID === userID || portfolioID === "create" ? (
-          <EditToggleButton
-            onClick={() => {
-              dispatch(isPreviewPortfolio());
-            }}
-            id="portfolioPreviewBtn"
-          >
-            {isPreview ? (
-              <>
-                <FontAwesomeIcon icon={faPen} />
-                <span> 編輯</span>
-              </>
-            ) : (
-              <>
-                <FontAwesomeIcon icon={faEye} />
-                <span> 預覽</span>
-              </>
+      {userData.userID === userID || portfolioID === "create" ? (
+        <EditToggleButton
+          onClick={() => {
+            dispatch(isPreviewPortfolio());
+          }}
+          id="portfolioPreviewBtn"
+        >
+          {isPreview ? (
+            <>
+              <FontAwesomeIcon icon={faPen} />
+              <span> 編輯</span>
+            </>
+          ) : (
+            <>
+              <FontAwesomeIcon icon={faEye} />
+              <span> 預覽</span>
+            </>
+          )}
+        </EditToggleButton>
+      ) : null}
+
+      {isPreview ? null : (
+        <InitialSetup
+          portfolioID={portfolioID}
+          websiteData={websiteData}
+          setIsLargeLoading={setIsLargeLoading}
+        />
+      )}
+
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <DragDropContext onDragEnd={handleOnDragEnd}>
+          <Droppable droppableId="characters">
+            {(provided) => (
+              <PortfolioEditContentLayout
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+              >
+                <PortfolioPreviewDiv
+                  style={{ zIndex: isPreview ? "2" : "-1" }}
+                ></PortfolioPreviewDiv>
+                {portfolioData.content.length === 0 ? (
+                  <p>尚未建立此作品集</p>
+                ) : null}
+
+                {portfolioData.content.map(
+                  (content: portfolioComContent, index: number) => {
+                    const TempCom =
+                      PortfolioComponents[
+                        content.comName as keyof typeof PortfolioComponents
+                      ];
+                    return (
+                      <Draggable
+                        key={content.id}
+                        draggableId={content.id}
+                        index={index}
+                      >
+                        {(provided) => (
+                          <SingleComponentUnit
+                            {...provided.draggableProps}
+                            ref={provided.innerRef}
+                          >
+                            <TempCom index={index} content={content} />
+                            <Delete addDeleteCom={addDeleteCom} index={index} />
+                            <MoveBtn {...provided.dragHandleProps}>
+                              {isPreview ? null : (
+                                <FontAwesomeIcon icon={faUpDownLeftRight} />
+                              )}
+                            </MoveBtn>
+                          </SingleComponentUnit>
+                        )}
+                      </Draggable>
+                    );
+                  }
+                )}
+                {provided.placeholder}
+              </PortfolioEditContentLayout>
             )}
-          </EditToggleButton>
-        ) : null}
+          </Droppable>
+        </DragDropContext>
+      )}
 
-        {isPreview ? null : (
-          <InitialSetup
-            portfolioID={portfolioID}
-            websiteData={websiteData}
-            setIsLargeLoading={setIsLargeLoading}
-          />
-        )}
+      <CreatePortfolioCom addPortfolioCom={addPortfolioCom} />
 
-        {isLoading ? (
-          <Loading />
-        ) : (
-          <DragDropContext onDragEnd={handleOnDragEnd}>
-            <Droppable droppableId="characters">
-              {(provided) => (
-                <PortfolioLayouts
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                >
-                  <PortfolioPreviewDiv
-                    style={{ zIndex: isPreview ? "2" : "-1" }}
-                  ></PortfolioPreviewDiv>
-                  {portfolioData.content.length === 0 ? (
-                    <p>尚未建立此作品集</p>
-                  ) : null}
-
-                  {portfolioData.content.map(
-                    (content: portfolioComContent, index: number) => {
-                      const TempCom =
-                        PortfolioComponents[
-                          content.comName as keyof typeof PortfolioComponents
-                        ];
-                      return (
-                        <Draggable
-                          key={content.id}
-                          draggableId={content.id}
-                          index={index}
-                        >
-                          {(provided) => (
-                            <SingleComponentUnit
-                              {...provided.draggableProps}
-                              ref={provided.innerRef}
-                            >
-                              <TempCom index={index} content={content} />
-                              <Delete
-                                addDeleteCom={addDeleteCom}
-                                index={index}
-                              />
-                              <MoveBtn {...provided.dragHandleProps}>
-                                {isPreview ? null : (
-                                  <FontAwesomeIcon icon={faUpDownLeftRight} />
-                                )}
-                              </MoveBtn>
-                            </SingleComponentUnit>
-                          )}
-                        </Draggable>
-                      );
-                    }
-                  )}
-                  {provided.placeholder}
-                </PortfolioLayouts>
-              )}
-            </Droppable>
-          </DragDropContext>
-        )}
-
-        <CreatePortfolioCom addPortfolioCom={addPortfolioCom} />
-      </Wrapper>
       {isPreview ? null : (
         <PortfolioUpoloadBtn
           onClick={uploadPortfolio}
@@ -310,14 +304,8 @@ const Wrapper = styled.div`
   }
 `;
 
-const PortfolioLayouts = styled.div`
-  position: relative;
-  display: flex;
+const PortfolioEditContentLayout = styled(EditContentLayout)`
   width: 960px;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin: 0 auto;
   @media screen and (max-width: 1279px) {
     width: 100%;
   }

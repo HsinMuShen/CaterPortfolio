@@ -165,7 +165,6 @@ const Login = () => {
         })
         .catch((error) => {
           const errorMessage = error.message;
-          console.log(errorMessage);
           if (userData.name === "") {
             dispatch(
               setAlert({

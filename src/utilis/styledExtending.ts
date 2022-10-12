@@ -38,6 +38,15 @@ export const EditToggleButton = styled(ButtonStyle)`
   }
 `;
 
+export const EditContentLayout = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+`;
+
 export const PreviewDiv = styled.div`
   position: absolute;
   height: 100%;
@@ -48,6 +57,7 @@ export const SingleComponentUnit = styled.div`
   display: flex;
   position: relative;
   margin: 10px 0;
+  width: 960px;
   @media screen and (max-width: 1279px) {
     width: 90vw;
   }

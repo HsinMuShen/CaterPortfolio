@@ -40,6 +40,7 @@ import {
   MoveBtn,
   PreviewDiv,
   SingleComponentUnit,
+  EditContentLayout,
 } from "../../utilis/styledExtending";
 
 export interface resumeComContent {
@@ -146,146 +147,142 @@ const Resume: React.FC = () => {
   }, [userData.userID, resumeID]);
 
   return (
-    <>
-      <Wrapper>
-        {resumeID === userData.userID ? (
-          <EditToggleButton
-            onClick={() => {
-              dispatch(isPreviewResume());
-            }}
-            id="resumePreviewBtn"
-          >
-            {isPreview ? (
-              <>
-                <FontAwesomeIcon icon={faPen} />
-                <span> 編輯</span>
-              </>
-            ) : (
-              <>
-                <FontAwesomeIcon icon={faEye} />
-                <span> 預覽</span>
-              </>
-            )}
-          </EditToggleButton>
-        ) : null}
-        <ResumeEditor>
-          <ResumePreviewDiv
-            style={{ zIndex: isPreview ? "2" : "-1" }}
-          ></ResumePreviewDiv>
-          {isLoading ? (
-            <Loading />
-          ) : resumeID !== userData.userID && !resumeData.isPublic ? (
-            "履歷不公開"
+    <Wrapper>
+      {resumeID === userData.userID ? (
+        <EditToggleButton
+          onClick={() => {
+            dispatch(isPreviewResume());
+          }}
+          id="resumePreviewBtn"
+        >
+          {isPreview ? (
+            <>
+              <FontAwesomeIcon icon={faPen} />
+              <span> 編輯</span>
+            </>
           ) : (
-            <DragDropContext onDragEnd={handleOnDragEnd}>
-              <div ref={refPhoto}>
-                <Droppable droppableId="characters">
-                  {(provided) => (
-                    <ResumeHeader
-                      {...provided.droppableProps}
-                      ref={provided.innerRef}
-                    >
-                      {resumeData.content.length === 0 ? (
-                        <p style={{ margin: "0 auto" }}>尚未建立履歷</p>
-                      ) : null}
-
-                      {resumeData.content?.map(
-                        (content: resumeComContent, index: number) => {
-                          const TempCom =
-                            ResumeComponents[
-                              content.comName as keyof typeof ResumeComponents
-                            ];
-
-                          return (
-                            <Draggable
-                              key={content.id}
-                              draggableId={content.id}
-                              index={index}
-                            >
-                              {(provided) => (
-                                <SineleComponent
-                                  {...provided.draggableProps}
-                                  ref={provided.innerRef}
-                                >
-                                  <TempCom index={index} content={content} />
-                                  <Delete
-                                    addDeleteCom={addDeleteCom}
-                                    index={index}
-                                  />
-                                  <MoveBtn {...provided.dragHandleProps}>
-                                    {isPreview ? null : (
-                                      <FontAwesomeIcon
-                                        icon={faUpDownLeftRight}
-                                      />
-                                    )}
-                                  </MoveBtn>
-                                </SineleComponent>
-                              )}
-                            </Draggable>
-                          );
-                        }
-                      )}
-                      {provided.placeholder}
-                    </ResumeHeader>
-                  )}
-                </Droppable>
-              </div>
-            </DragDropContext>
+            <>
+              <FontAwesomeIcon icon={faEye} />
+              <span> 預覽</span>
+            </>
           )}
+        </EditToggleButton>
+      ) : null}
+      <ResumeEditArea>
+        <ResumePreviewDiv
+          style={{ zIndex: isPreview ? "2" : "-1" }}
+        ></ResumePreviewDiv>
+        {isLoading ? (
+          <Loading />
+        ) : resumeID !== userData.userID && !resumeData.isPublic ? (
+          "履歷不公開"
+        ) : (
+          <DragDropContext onDragEnd={handleOnDragEnd}>
+            <div ref={refPhoto}>
+              <Droppable droppableId="characters">
+                {(provided) => (
+                  <ResumeEditContentLayout
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                  >
+                    {resumeData.content.length === 0 ? (
+                      <p style={{ margin: "0 auto" }}>尚未建立履歷</p>
+                    ) : null}
 
-          <AddComArea addResumeCom={addResumeCom} uploadResume={uploadResume} />
-        </ResumeEditor>
+                    {resumeData.content?.map(
+                      (content: resumeComContent, index: number) => {
+                        const TempCom =
+                          ResumeComponents[
+                            content.comName as keyof typeof ResumeComponents
+                          ];
 
-        {isPreview ? null : (
-          <FinalEditArea>
-            <PublicSetArea>
-              <PublicSetText>
-                {resumeData.isPublic
-                  ? "目前履歷為公開模式，是否要切換為隱私模式?"
-                  : "目前履歷為隱私模式，是否要切換為公開模式?"}
-              </PublicSetText>
-              <ResumeUpoloadBtn
-                width="100px"
-                backgroundColor="none"
-                onClick={changePublicMode}
-              >
-                {resumeData.isPublic ? "設為隱私" : "設為公開"}
-              </ResumeUpoloadBtn>
-            </PublicSetArea>
-            <ResumeUpoloadBtn
-              onClick={() => {
-                if (resumeData.content.length === 0) {
-                  dispatch(
-                    setAlert({
-                      isAlert: true,
-                      text: "請先新增內容再將履歷儲存!",
-                    })
-                  );
-                  setTimeout(() => {
-                    dispatch(setAlert({ isAlert: false, text: "" }));
-                  }, 3000);
-                } else {
-                  dispatch(isPreviewTrue("resume"));
-                  uploadResume();
-                }
-              }}
-              width="160px"
-              backgroundColor="#ffffff"
-              className="resumeUpload"
-            >
-              儲存履歷!
-            </ResumeUpoloadBtn>
-          </FinalEditArea>
+                        return (
+                          <Draggable
+                            key={content.id}
+                            draggableId={content.id}
+                            index={index}
+                          >
+                            {(provided) => (
+                              <SineleComponent
+                                {...provided.draggableProps}
+                                ref={provided.innerRef}
+                              >
+                                <TempCom index={index} content={content} />
+                                <Delete
+                                  addDeleteCom={addDeleteCom}
+                                  index={index}
+                                />
+                                <MoveBtn {...provided.dragHandleProps}>
+                                  {isPreview ? null : (
+                                    <FontAwesomeIcon icon={faUpDownLeftRight} />
+                                  )}
+                                </MoveBtn>
+                              </SineleComponent>
+                            )}
+                          </Draggable>
+                        );
+                      }
+                    )}
+                    {provided.placeholder}
+                  </ResumeEditContentLayout>
+                )}
+              </Droppable>
+            </div>
+          </DragDropContext>
         )}
 
-        <LinkButton to={`/profile/${resumeID}`} id="resumeToProfile">
-          <FontAwesomeIcon
-            icon={faUserAstronaut}
-            style={{ marginRight: "10px" }}
-          />
-          前往{resumeData.name}的個人頁面
-        </LinkButton>
-      </Wrapper>
+        <AddComArea addResumeCom={addResumeCom} uploadResume={uploadResume} />
+      </ResumeEditArea>
+
+      {isPreview ? null : (
+        <FinalEditArea>
+          <PublicSetArea>
+            <PublicSetText>
+              {resumeData.isPublic
+                ? "目前履歷為公開模式，是否要切換為隱私模式?"
+                : "目前履歷為隱私模式，是否要切換為公開模式?"}
+            </PublicSetText>
+            <ResumeUpoloadBtn
+              width="100px"
+              backgroundColor="none"
+              onClick={changePublicMode}
+            >
+              {resumeData.isPublic ? "設為隱私" : "設為公開"}
+            </ResumeUpoloadBtn>
+          </PublicSetArea>
+          <ResumeUpoloadBtn
+            onClick={() => {
+              if (resumeData.content.length === 0) {
+                dispatch(
+                  setAlert({
+                    isAlert: true,
+                    text: "請先新增內容再將履歷儲存!",
+                  })
+                );
+                setTimeout(() => {
+                  dispatch(setAlert({ isAlert: false, text: "" }));
+                }, 3000);
+              } else {
+                dispatch(isPreviewTrue("resume"));
+                uploadResume();
+              }
+            }}
+            width="160px"
+            backgroundColor="#ffffff"
+            className="resumeUpload"
+          >
+            儲存履歷!
+          </ResumeUpoloadBtn>
+        </FinalEditArea>
+      )}
+
+      <LinkButton to={`/profile/${resumeID}`} id="resumeToProfile">
+        <FontAwesomeIcon
+          icon={faUserAstronaut}
+          style={{ marginRight: "10px" }}
+        />
+        前往{resumeData.name}的個人頁面
+      </LinkButton>
       {isLargeLoading ? <LargeLoading backgroundColor={"#ffffffb3"} /> : null}
       <QusetionMark
         stepType={
@@ -296,7 +293,7 @@ const Resume: React.FC = () => {
         type={resumeID === userData.userID ? "resume" : ""}
       />
       <SideBar type={"resume"} data={resumeData} />
-    </>
+    </Wrapper>
   );
 };
 
@@ -309,7 +306,7 @@ const Wrapper = styled.div`
   margin: 80px 0;
 `;
 
-const ResumeEditor = styled.div`
+const ResumeEditArea = styled.div`
   position: relative;
   width: 960px;
   margin: 60px auto;
@@ -330,19 +327,15 @@ const ResumePreviewDiv = styled(PreviewDiv)`
   }
 `;
 
-const ResumeHeader = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+const ResumeEditContentLayout = styled(EditContentLayout)`
   width: 880px;
-  margin: 0 auto;
   @media screen and (max-width: 1279px) {
     width: 75vw;
   }
 `;
 
 const SineleComponent = styled(SingleComponentUnit)`
+  width: 880px;
   @media screen and (max-width: 1279px) {
     width: 80vw;
   }

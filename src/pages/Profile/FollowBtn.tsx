@@ -63,7 +63,6 @@ const FollowBtn = ({ profileData, setIsLargeLoading }: UserReducer) => {
       profileData.followers.forEach(
         (data: { userID: string; name: string }) => {
           if (data.userID === userData.userID) {
-            console.log("follow!");
             setIsFollow(true);
             followMatch = true;
             return;
