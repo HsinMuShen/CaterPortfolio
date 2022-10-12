@@ -129,10 +129,12 @@ const PortfolioAreaCom = ({
   const isPreview = useSelector(
     (state: RootState) => state.IsPreviewReducer.website
   );
-  const isPop = useSelector((state: RootState) => state.IsPreviewReducer.popup);
+  const { portfolioSinglePopup } = useSelector(
+    (state: RootState) => state.IsPreviewReducer
+  );
 
   const handleDelete = (portfolioID: string, portfolioListIndex: number) => {
-    dispatch(isPreviewTrue("popup"));
+    dispatch(isPreviewTrue("portfolioSinglePopup"));
     deletePortfolioData.current = { portfolioID, portfolioListIndex };
   };
 
@@ -143,7 +145,7 @@ const PortfolioAreaCom = ({
         deletePortfolioData.current!.portfolioListIndex
       );
     }
-    dispatch(isPreviewFalse("popup"));
+    dispatch(isPreviewFalse("portfolioSinglePopup"));
   };
 
   const deleteSinglePortfolio = (
@@ -208,7 +210,7 @@ const PortfolioAreaCom = ({
               </DeleteBtn>
             )}
             <PopUp
-              isPopup={isPop}
+              isPopup={portfolioSinglePopup}
               text={"是否確定要刪除此作品集? 一旦刪除將無法回復"}
               sureToDelete={sureToDelete}
             ></PopUp>

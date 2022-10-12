@@ -66,7 +66,9 @@ const Website = () => {
     (state: RootState) => state.IsPreviewReducer.website
   );
   const userData = useSelector((state: RootState) => state.UserReducer);
-  const isPop = useSelector((state: RootState) => state.IsPreviewReducer.popup);
+  const { portfolioListPopup } = useSelector(
+    (state: RootState) => state.IsPreviewReducer
+  );
 
   const addWebsiteCom = (conIndex: number) => {
     dispatch(websiteAddCom(websiteChoice[conIndex].comContent));
@@ -80,7 +82,7 @@ const Website = () => {
     if (isSure) {
       deletePortCom(deletePortfolioContent.current!);
     }
-    dispatch(isPreviewFalse("popup"));
+    dispatch(isPreviewFalse("portfolioListPopup"));
   };
 
   const deletePortCom = async (deleteIndex: number) => {
@@ -200,14 +202,16 @@ const Website = () => {
                               content.comName === "Portfolio0"
                                 ? () => {
                                     deletePortfolioContent.current = index;
-                                    dispatch(isPreviewTrue("popup"));
+                                    dispatch(
+                                      isPreviewTrue("portfolioListPopup")
+                                    );
                                   }
                                 : addDeleteCom
                             }
                             index={index}
                           />
                           <PopUp
-                            isPopup={isPop}
+                            isPopup={portfolioListPopup}
                             text={
                               "是否確定要刪除此作品集列? 一旦刪除將無法回復"
                             }
