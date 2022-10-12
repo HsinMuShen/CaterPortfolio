@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { v4 } from "uuid";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faPen,
-  faEye,
-  faUpDownLeftRight,
-} from "@fortawesome/free-solid-svg-icons";
+import { faUpDownLeftRight } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 
 import { RootState } from "../../reducers";
@@ -32,6 +28,7 @@ import { PortfolioComponents, portfolioChoice } from "./portfolioComponents";
 import InitialSetup from "./InitialSetup";
 import Delete from "../Resume/Delete";
 import Loading from "../../utilis/Loading";
+import PreviewBtn from "../../utilis/PreviewBtn";
 import InitialImg from "../../utilis/cater.png";
 import QusetionMark, { introSteps } from "../../utilis/QusetionMark";
 import LargeLoading from "../../utilis/LargeLoading";
@@ -42,7 +39,6 @@ import {
   EditPageWrapper,
   LinkButton,
   UploadButton,
-  EditToggleButton,
   MoveBtn,
   PreviewDiv,
   SingleComponentUnit,
@@ -181,24 +177,7 @@ const Portfolio = () => {
   return (
     <EditPageWrapper>
       {userData.userID === userID || portfolioID === "create" ? (
-        <EditToggleButton
-          onClick={() => {
-            dispatch(isPreviewPortfolio());
-          }}
-          id="portfolioPreviewBtn"
-        >
-          {isPreview ? (
-            <>
-              <FontAwesomeIcon icon={faPen} />
-              <span> 編輯</span>
-            </>
-          ) : (
-            <>
-              <FontAwesomeIcon icon={faEye} />
-              <span> 預覽</span>
-            </>
-          )}
-        </EditToggleButton>
+        <PreviewBtn isPreview={isPreview} id={"portfolioPreviewBtn"} />
       ) : null}
 
       {isPreview ? null : (
@@ -294,15 +273,6 @@ const Portfolio = () => {
 };
 
 export default Portfolio;
-
-const Wrapper = styled.div`
-  width: 960px;
-  margin: 0 auto;
-  background-color: #ffffff;
-  @media screen and (max-width: 1279px) {
-    width: 90%;
-  }
-`;
 
 const PortfolioEditContentLayout = styled(EditContentLayout)`
   width: 960px;

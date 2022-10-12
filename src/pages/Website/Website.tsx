@@ -1,15 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faPen,
-  faEye,
   faUpDownLeftRight,
   faUserAstronaut,
 } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
+
 import { deleteDoc, doc } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
 
@@ -21,7 +20,6 @@ import {
   websiteLoading,
 } from "../../action/WebsiteReducerAction";
 import {
-  isPreviewWebsite,
   isPreviewTrue,
   isPreviewFalse,
   setAlert,
@@ -30,6 +28,7 @@ import { WebsiteComponents } from "./websiteComponents";
 
 import firebase from "../../utilis/firebase";
 import Loading from "../../utilis/Loading";
+import PreviewBtn from "../../utilis/PreviewBtn";
 import AddWebsiteCom from "./AddWebsiteCom";
 import Delete from "../Resume/Delete";
 import PopUp from "../../utilis/PopUp";
@@ -41,7 +40,6 @@ import {
   EditPageWrapper,
   LinkButton,
   UploadButton,
-  EditToggleButton,
   MoveBtn,
   PreviewDiv,
   SingleComponentUnit,
@@ -158,29 +156,11 @@ const Website = () => {
   return (
     <EditPageWrapper>
       {websiteID === userData.userID ? (
-        <EditToggleButton
-          onClick={() => {
-            dispatch(isPreviewWebsite());
-          }}
-          id="websitePreviewBtn"
-        >
-          {isPreview ? (
-            <>
-              <FontAwesomeIcon icon={faPen} />
-              <span> 編輯</span>
-            </>
-          ) : (
-            <>
-              <FontAwesomeIcon icon={faEye} />
-              <span> 預覽</span>
-            </>
-          )}
-        </EditToggleButton>
+        <PreviewBtn isPreview={isPreview} id={"websitePreviewBtn"} />
       ) : null}
       {isPreview ? null : (
         <WebsiteInitialSetup setIsLargeLoading={setIsLargeLoading} />
       )}
-
       <DragDropContext onDragEnd={handleOnDragEnd}>
         <Droppable droppableId="characters">
           {(provided) => (

@@ -2,12 +2,12 @@ import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import * as htmlToImage from "html-to-image";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPen, faUpDownLeftRight } from "@fortawesome/free-solid-svg-icons";
-import { faEye } from "@fortawesome/free-solid-svg-icons";
-import { faUserAstronaut } from "@fortawesome/free-solid-svg-icons";
+import {
+  faUserAstronaut,
+  faUpDownLeftRight,
+} from "@fortawesome/free-solid-svg-icons";
 
 import { RootState } from "../../reducers";
 import { useSelector, useDispatch } from "react-redux";
@@ -18,15 +18,12 @@ import {
   resumeAddSetting,
   resumeRenewContent,
 } from "../../action/ResumeReducerAction";
-import {
-  isPreviewResume,
-  isPreviewTrue,
-  setAlert,
-} from "../../action/IsPreviewReducerAction";
+import { isPreviewTrue, setAlert } from "../../action/IsPreviewReducerAction";
 
 import firebase from "../../utilis/firebase";
 import Loading from "../../utilis/Loading";
 import LargeLoading from "../../utilis/LargeLoading";
+import PreviewBtn from "../../utilis/PreviewBtn";
 import Delete from "./Delete";
 import AddComArea from "./AddComArea";
 import SideBar from "../../utilis/SideBar";
@@ -36,7 +33,6 @@ import { ResumeComponents } from "./resumeComponents";
 import {
   LinkButton,
   UploadButton,
-  EditToggleButton,
   MoveBtn,
   PreviewDiv,
   SingleComponentUnit,
@@ -149,24 +145,7 @@ const Resume: React.FC = () => {
   return (
     <Wrapper>
       {resumeID === userData.userID ? (
-        <EditToggleButton
-          onClick={() => {
-            dispatch(isPreviewResume());
-          }}
-          id="resumePreviewBtn"
-        >
-          {isPreview ? (
-            <>
-              <FontAwesomeIcon icon={faPen} />
-              <span> 編輯</span>
-            </>
-          ) : (
-            <>
-              <FontAwesomeIcon icon={faEye} />
-              <span> 預覽</span>
-            </>
-          )}
-        </EditToggleButton>
+        <PreviewBtn isPreview={isPreview} id={"resumePreviewBtn"} />
       ) : null}
       <ResumeEditArea>
         <ResumePreviewDiv
