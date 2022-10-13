@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../../reducers";
 
@@ -8,6 +8,8 @@ import DesktopLogo from "../../images/caterportfolio_homepageLogo0.png";
 import ResumeEdit from "./resumeEdit.png";
 import WebsiteEdit from "./websiteEdit.png";
 import AllPortfolios from "./allPortfolios.png";
+import QusetionMark, { introSteps } from "../../utilis/QusetionMark";
+import { useMediaQuery } from "../../utilis/useMediaQuery";
 
 const Wrapper = styled.div`
   width: 1080px;
@@ -134,16 +136,17 @@ const RouteBtn = styled(Link)`
 
 const Homepage = () => {
   const userData = useSelector((state: RootState) => state.UserReducer);
-  const isLogin = useSelector(
-    (state: RootState) => state.IsPreviewReducer.userIsLogin
+  const { userIsLogin } = useSelector(
+    (state: RootState) => state.IsPreviewReducer
   );
+  const isRowBased = useMediaQuery("(min-width: 901px)");
   return (
     <Wrapper>
       <SingleLayoutArea direction="column">
         <LogoImg backgroundImg={DesktopLogo}></LogoImg>
         <IntroText>為擁有精彩經歷的您，輕鬆建立專屬的線上履歷與網站</IntroText>
-        <LoginBtn to={isLogin ? `/profile/${userData.userID}` : "/login"}>
-          {isLogin ? `進入個人頁面` : "點此註冊，開始體驗!"}
+        <LoginBtn to={userIsLogin ? `/profile/${userData.userID}` : "/login"}>
+          {userIsLogin ? `進入個人頁面` : "點此註冊，開始體驗!"}
         </LoginBtn>
       </SingleLayoutArea>
       <SingleLayoutArea direction="row">
@@ -154,8 +157,8 @@ const Homepage = () => {
           <SmallText>編輯文字樣式</SmallText>
           <SmallText>及時預覽功能</SmallText>
           <SmallText>設定隱私模式</SmallText>
-          <RouteBtn to={isLogin ? `/resume/${userData.userID}` : "/login"}>
-            {isLogin ? `進入個人履歷頁面` : "點此註冊"}
+          <RouteBtn to={userIsLogin ? `/resume/${userData.userID}` : "/login"}>
+            {userIsLogin ? `進入個人履歷頁面` : "點此註冊"}
           </RouteBtn>
         </IntroTextArea>
       </SingleLayoutArea>
@@ -166,8 +169,8 @@ const Homepage = () => {
           <SmallText>自由擴充樣板內容</SmallText>
           <SmallText>編輯文字樣式與圖片位置</SmallText>
           <SmallText>新增作品集子層，歸納網站內容</SmallText>
-          <RouteBtn to={isLogin ? `/website/${userData.userID}` : "/login"}>
-            {isLogin ? `進入個人網站頁面` : "點此註冊"}
+          <RouteBtn to={userIsLogin ? `/website/${userData.userID}` : "/login"}>
+            {userIsLogin ? `進入個人網站頁面` : "點此註冊"}
           </RouteBtn>
         </IntroTextArea>
         <DescribeImg backgroundImg={WebsiteEdit}></DescribeImg>
@@ -187,10 +190,17 @@ const Homepage = () => {
       <SingleLayoutArea direction="column">
         <IntroText>上架您的精彩</IntroText>
         <IntroText>讓世界看見您的別出心裁</IntroText>
-        <LoginBtn to={isLogin ? `/profile/${userData.userID}` : "/login"}>
-          {isLogin ? `進入個人頁面` : "點此註冊，開始體驗!"}
+        <LoginBtn to={userIsLogin ? `/profile/${userData.userID}` : "/login"}>
+          {userIsLogin ? `進入個人頁面` : "點此註冊，開始體驗!"}
         </LoginBtn>
       </SingleLayoutArea>
+      {isRowBased ? (
+        <QusetionMark
+          stepType={
+            userIsLogin ? introSteps.homepageLogin : introSteps.homepageLogout
+          }
+        />
+      ) : null}
     </Wrapper>
   );
 };

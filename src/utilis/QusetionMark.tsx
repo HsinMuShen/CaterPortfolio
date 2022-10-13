@@ -136,11 +136,6 @@ export const introSteps: {
       placement: "bottom",
     },
     {
-      content: "輸入關鍵字可以找尋到符合標題與創作者姓名的作品集",
-      target: "#searchBtn",
-      placement: "bottom",
-    },
-    {
       content: "點擊可進入聊天室",
       target: "#chatroomIcon",
       placement: "bottom",
@@ -149,11 +144,6 @@ export const introSteps: {
       content: "點擊可開啟個人側邊欄",
       target: "#profileIcon",
       placement: "bottom",
-    },
-    {
-      content: "作品集區，點擊單一作品集可以進入該作品集頁面",
-      target: "#portfoliosContainer",
-      placement: "top-start",
     },
   ],
   homepageLogout: [
@@ -178,33 +168,24 @@ export const introSteps: {
       target: "#allResumes",
       placement: "bottom",
     },
-    {
-      content: "輸入關鍵字可以找尋到符合標題與創作者姓名的作品集",
-      target: "#searchBtn",
-      placement: "bottom",
-    },
+
     {
       content: "點擊可進入登入註冊頁面",
       target: "#login",
       placement: "bottom",
     },
-    {
-      content: "作品集區，點擊單一作品集可以進入該作品集頁面",
-      target: "#portfoliosContainer",
-      placement: "top-start",
-    },
   ],
   profileUser: [
     {
       content: "點擊編輯個人基本資料",
-      placement: "bottom",
+      placement: "top",
       target: "#editProfileData",
       disableBeacon: true,
     },
     {
       content: "點擊進入收藏名單頁面",
       target: "#checkFollowingList",
-      placement: "bottom",
+      placement: "top",
     },
     {
       content: "點擊進入履歷編輯頁面",
@@ -220,14 +201,14 @@ export const introSteps: {
   profileOthers: [
     {
       content: "點擊追蹤這位創作者",
-      placement: "bottom",
+      placement: "top",
       target: "#followButton",
       disableBeacon: true,
     },
     {
       content: "點擊與這位創作者對話",
       target: "#chatroomButton",
-      placement: "bottom",
+      placement: "top",
     },
     {
       content: "點擊查看這位創作者的追蹤名單",

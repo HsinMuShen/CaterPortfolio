@@ -1,10 +1,13 @@
+import { combineReducers } from "redux";
+
 import UserReducer from "./UserContent";
 import ResumeReducer from "./ResumeContent";
 import WebsiteReducer from "./WebsiteContent";
 import PortfolioReducer from "./PortfolioContent";
 import IsPreviewReducer from "./IsPreviewContent";
 import PortfolioIndex from "./PortfolioIndexContent";
-import { combineReducers } from "redux";
+
+import { resumeReducer } from "./ResumeContent";
 
 export const ActionType: {
   USER: {
@@ -129,7 +132,7 @@ const allReducers = combineReducers({
 
 export type RootState = ReturnType<typeof allReducers>;
 export type UserReducer = ReturnType<typeof UserReducer>;
-export type ResumeReducer = ReturnType<typeof ResumeReducer>;
+export type ResumeReducer = resumeReducer;
 export type WebsiteReducer = ReturnType<typeof WebsiteReducer>;
 export type PortfolioReducer = ReturnType<typeof PortfolioReducer>;
 export default allReducers;

@@ -109,7 +109,6 @@ export const CanvasLayout = ({
             setReducerContent={setReducerContent}
             listIndex={listIndex}
             index={index}
-            style={styles.imageStyle[listIndex]}
           />
         );
       })}

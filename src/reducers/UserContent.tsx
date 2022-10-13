@@ -47,8 +47,8 @@ export interface userReducer {
 const UserReducer = (
   userData: userReducer = {
     name: "",
-    email: "",
-    password: "",
+    email: "michael@gmail.com",
+    password: "asdfgh",
     userID: "",
     userImage: initialUserImage,
     backgroundImage: initialBackgroundImg,
@@ -70,7 +70,7 @@ const UserReducer = (
       return tempResumeData;
     }
     case ActionType.USER.INPUT_EMAIL_PASSWORD: {
-      let tempResumeData = userData;
+      let tempResumeData = { ...userData };
       tempResumeData = {
         ...userData,
         [action.payload.type]: action.payload.data,
@@ -78,7 +78,6 @@ const UserReducer = (
       return tempResumeData;
     }
     case ActionType.USER.ADD_FOLLOWING: {
-      let tempData = { ...userData };
       const tempResumeData = action.payload.data;
       return tempResumeData;
     }

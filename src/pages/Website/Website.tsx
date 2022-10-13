@@ -1,15 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faPen,
-  faEye,
   faUpDownLeftRight,
   faUserAstronaut,
 } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
+
 import { deleteDoc, doc } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
 
@@ -17,12 +16,10 @@ import { RootState } from "../../reducers";
 import {
   websiteAddCom,
   websiteDeleteCom,
-  websiteAddSetting,
   websiteRenewContent,
   websiteLoading,
 } from "../../action/WebsiteReducerAction";
 import {
-  isPreviewWebsite,
   isPreviewTrue,
   isPreviewFalse,
   setAlert,
@@ -31,6 +28,7 @@ import { WebsiteComponents } from "./websiteComponents";
 
 import firebase from "../../utilis/firebase";
 import Loading from "../../utilis/Loading";
+import PreviewBtn from "../../utilis/PreviewBtn";
 import AddWebsiteCom from "./AddWebsiteCom";
 import Delete from "../Resume/Delete";
 import PopUp from "../../utilis/PopUp";
@@ -38,11 +36,39 @@ import QusetionMark, { introSteps } from "../../utilis/QusetionMark";
 import WebsiteInitialSetup from "./WebsiteInitialSetup";
 import LargeLoading from "../../utilis/LargeLoading";
 import { websiteChoice } from "./websiteComponents";
+import {
+  EditPageWrapper,
+  LinkButton,
+  UploadButton,
+  MoveBtn,
+  PreviewDiv,
+  SingleComponentUnit,
+  EditContentLayout,
+} from "../../utilis/styledExtending";
+
+const WebsiteEditContentLayouts = styled(EditContentLayout)`
+  width: 960px;
+  @media screen and (max-width: 1279px) {
+    width: 100%;
+  }
+`;
+
+const WebsitePreviewDiv = styled(PreviewDiv)`
+  width: 900px;
+  @media screen and (max-width: 1279px) {
+    width: 100%;
+  }
+`;
+
+const WebsiteUploadBtn = styled(UploadButton)`
+  background-color: #ffffff;
+  width: 150px;
+  margin: 40px auto 20px;
+`;
 
 export interface websiteComContent {
   image: string[];
   text: string[];
-  type: number;
   comName: string;
   id: string;
   portfolioID?: string[];
@@ -54,15 +80,18 @@ const Website = () => {
   const deletePortfolioContent = useRef<number>();
   const websiteID = useParams().id;
   const dispatch = useDispatch();
+
   const websiteData = useSelector((state: RootState) => state.WebsiteReducer);
+  const userData = useSelector((state: RootState) => state.UserReducer);
   const isPreview = useSelector(
     (state: RootState) => state.IsPreviewReducer.website
   );
-  const userData = useSelector((state: RootState) => state.UserReducer);
-  const isPop = useSelector((state: RootState) => state.IsPreviewReducer.popup);
+  const { portfolioListPopup } = useSelector(
+    (state: RootState) => state.IsPreviewReducer
+  );
 
   const addWebsiteCom = (conIndex: number) => {
-    dispatch(websiteAddCom(websiteChoice[conIndex].comContent));
+    dispatch(websiteAddCom(websiteChoice[conIndex]));
   };
 
   const addDeleteCom = (deleteIndex: number) => {
@@ -73,7 +102,7 @@ const Website = () => {
     if (isSure) {
       deletePortCom(deletePortfolioContent.current!);
     }
-    dispatch(isPreviewFalse("popup"));
+    dispatch(isPreviewFalse("portfolioListPopup"));
   };
 
   const deletePortCom = async (deleteIndex: number) => {
@@ -86,12 +115,9 @@ const Website = () => {
     await Promise.all(deletePromiswArr);
 
     dispatch(websiteDeleteCom(deleteIndex));
-
     const tempContentArr = [...websiteData.content];
-    console.log(tempContentArr);
     tempContentArr.splice(deleteIndex, 1);
     const newResumeData = { ...websiteData, content: tempContentArr };
-    console.log(newResumeData.content);
     firebase.uploadDoc("websites", userData.userID, newResumeData);
   };
 
@@ -135,9 +161,8 @@ const Website = () => {
             content: [],
             name: userData.name,
             followers: [],
-            tags: [],
-            time: null,
             userID: userData.userID,
+            userImage: userData.userImage,
           })
         );
       }
@@ -150,110 +175,90 @@ const Website = () => {
   }, [userData, websiteID]);
 
   return (
-    <WebsiteBody>
-      <Wrapper>
-        {websiteID === userData.userID ? (
-          <PreviewBtn
-            onClick={() => {
-              dispatch(isPreviewWebsite());
-            }}
-            id="websitePreviewBtn"
-          >
-            {isPreview ? (
-              <>
-                <FontAwesomeIcon icon={faPen} />
-                <span> 編輯</span>
-              </>
-            ) : (
-              <>
-                <FontAwesomeIcon icon={faEye} />
-                <span> 預覽</span>
-              </>
-            )}
-          </PreviewBtn>
-        ) : null}
-        {isPreview ? null : (
-          <WebsiteInitialSetup setIsLargeLoading={setIsLargeLoading} />
-        )}
-
-        <DragDropContext onDragEnd={handleOnDragEnd}>
-          <Droppable droppableId="characters">
-            {(provided) => (
-              <WebsiteLayouts
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-              >
-                <PreviewDiv
-                  style={{ zIndex: isPreview ? "2" : "-1" }}
-                ></PreviewDiv>
-                {isLoading ? <Loading /> : null}
-                {websiteData.content.length === 0 ? <p>尚未建立網站</p> : null}
-                {websiteData.content?.map(
-                  (content: websiteComContent, index: number) => {
-                    const TempCom =
-                      WebsiteComponents[
-                        content.comName as keyof typeof WebsiteComponents
-                      ];
-                    return (
-                      <Draggable
-                        key={content.id}
-                        draggableId={content.id}
-                        index={index}
-                      >
-                        {(provided) => (
-                          <SingleComponent
-                            {...provided.draggableProps}
-                            ref={provided.innerRef}
-                          >
-                            <TempCom
-                              index={index}
-                              content={content}
-                              userID={userData.userID}
-                            />
-                            <Delete
-                              addDeleteCom={
-                                content.comName === "Portfolio0"
-                                  ? () => {
-                                      deletePortfolioContent.current = index;
-                                      dispatch(isPreviewTrue("popup"));
-                                    }
-                                  : addDeleteCom
-                              }
-                              index={index}
-                            />
-                            <PopUp
-                              isPopup={isPop}
-                              text={
-                                "是否確定要刪除此作品集列? 一旦刪除將無法回復"
-                              }
-                              sureToDelete={sureToDelete}
-                            ></PopUp>
-
-                            <MoveBtn {...provided.dragHandleProps}>
-                              {isPreview ? null : (
-                                <FontAwesomeIcon icon={faUpDownLeftRight} />
-                              )}
-                            </MoveBtn>
-                          </SingleComponent>
-                        )}
-                      </Draggable>
-                    );
-                  }
-                )}
-                {provided.placeholder}
-              </WebsiteLayouts>
-            )}
-          </Droppable>
-        </DragDropContext>
-        {isPreview ? null : (
-          <AddWebsiteCom
-            addWebsiteCom={addWebsiteCom}
-            uploadWebsite={uploadWebsite}
-          />
-        )}
-      </Wrapper>
+    <EditPageWrapper>
       {isPreview ? null : (
-        <ResumeBtn
+        <WebsiteInitialSetup setIsLargeLoading={setIsLargeLoading} />
+      )}
+      <DragDropContext onDragEnd={handleOnDragEnd}>
+        <Droppable droppableId="characters">
+          {(provided) => (
+            <WebsiteEditContentLayouts
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+            >
+              <WebsitePreviewDiv
+                style={{ zIndex: isPreview ? "2" : "-1" }}
+              ></WebsitePreviewDiv>
+              {isLoading ? <Loading /> : null}
+              {websiteData.content.length === 0 ? <p>尚未建立網站</p> : null}
+              {websiteData.content?.map(
+                (content: websiteComContent, index: number) => {
+                  const TempCom =
+                    WebsiteComponents[
+                      content.comName as keyof typeof WebsiteComponents
+                    ];
+                  return (
+                    <Draggable
+                      key={content.id}
+                      draggableId={content.id}
+                      index={index}
+                    >
+                      {(provided) => (
+                        <SingleComponentUnit
+                          {...provided.draggableProps}
+                          ref={provided.innerRef}
+                        >
+                          <TempCom
+                            index={index}
+                            content={content}
+                            userID={userData.userID}
+                          />
+                          <Delete
+                            addDeleteCom={
+                              content.comName === "Portfolio0"
+                                ? () => {
+                                    deletePortfolioContent.current = index;
+                                    dispatch(
+                                      isPreviewTrue("portfolioListPopup")
+                                    );
+                                  }
+                                : addDeleteCom
+                            }
+                            index={index}
+                          />
+                          <PopUp
+                            isPopup={portfolioListPopup}
+                            text={
+                              "是否確定要刪除此作品集列? 一旦刪除將無法回復"
+                            }
+                            sureToDelete={sureToDelete}
+                          ></PopUp>
+
+                          <MoveBtn {...provided.dragHandleProps}>
+                            {isPreview ? null : (
+                              <FontAwesomeIcon icon={faUpDownLeftRight} />
+                            )}
+                          </MoveBtn>
+                        </SingleComponentUnit>
+                      )}
+                    </Draggable>
+                  );
+                }
+              )}
+              {provided.placeholder}
+            </WebsiteEditContentLayouts>
+          )}
+        </Droppable>
+      </DragDropContext>
+      {isPreview ? null : (
+        <AddWebsiteCom
+          addWebsiteCom={addWebsiteCom}
+          uploadWebsite={uploadWebsite}
+        />
+      )}
+
+      {isPreview ? null : (
+        <WebsiteUploadBtn
           onClick={() => {
             dispatch(isPreviewTrue("website"));
             uploadWebsite();
@@ -261,15 +266,19 @@ const Website = () => {
           className="websiteUpload"
         >
           將網站儲存上架!
-        </ResumeBtn>
+        </WebsiteUploadBtn>
       )}
-      <ToProfileLink to={`/profile/${websiteID}`} id="websiteToProfile">
+      <LinkButton to={`/profile/${websiteID}`} id="websiteToProfile">
         <FontAwesomeIcon
           icon={faUserAstronaut}
           style={{ marginRight: "10px" }}
         />
         前往{websiteData.name}的個人頁面
-      </ToProfileLink>
+      </LinkButton>
+
+      {websiteID === userData.userID ? (
+        <PreviewBtn isPreview={isPreview} id={"websitePreviewBtn"} />
+      ) : null}
       <QusetionMark
         stepType={
           websiteID === userData.userID
@@ -279,120 +288,8 @@ const Website = () => {
         type={websiteID === userData.userID ? "website" : ""}
       />
       {isLargeLoading ? <LargeLoading backgroundColor={"#ffffffb3"} /> : null}
-    </WebsiteBody>
+    </EditPageWrapper>
   );
 };
 
 export default Website;
-
-const WebsiteBody = styled.div`
-  width: 100%;
-  min-height: 100vh;
-  height: 100%;
-  padding: 120px 0;
-  background-color: #ffffff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const Wrapper = styled.div`
-  width: 960px;
-  margin: 0 auto;
-  background-color: #ffffff;
-  @media screen and (max-width: 1279px) {
-    width: 90%;
-  }
-`;
-
-const PreviewBtn = styled.div`
-  position: fixed;
-  top: 180px;
-  right: 25px;
-  width: 80px;
-  background-color: #ffffff;
-  padding: 5px 8px;
-  border-radius: 10px;
-  border: 1px solid;
-  cursor: pointer;
-  z-index: 4;
-  &:hover {
-    background-color: #555555;
-    color: #ffffff;
-  }
-  @media screen and (max-width: 1279px) {
-    font-size: 14px;
-    width: 70px;
-    padding: 3px 3px;
-    right: 5px;
-  }
-`;
-
-const WebsiteLayouts = styled.div`
-  position: relative;
-  display: flex;
-  width: 960px;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin: 0 auto;
-  @media screen and (max-width: 1279px) {
-    width: 100%;
-  }
-`;
-
-const PreviewDiv = styled.div`
-  position: absolute;
-  width: 900px;
-  height: 100%;
-  z-index: 2;
-  @media screen and (max-width: 1279px) {
-    width: 100%;
-  }
-`;
-
-const SingleComponent = styled.div`
-  display: flex;
-  width: 960px;
-  position: relative;
-  margin: 10px 0;
-  @media screen and (max-width: 1279px) {
-    width: 100%;
-  }
-`;
-
-const MoveBtn = styled.div`
-  position: absolute;
-  right: 4.5px;
-  top: 25px;
-  font-size: 20px;
-`;
-
-const ResumeBtn = styled.button`
-  color: #555555;
-  background-color: #ffffff;
-  padding: 8px;
-  width: 120px;
-  border-radius: 5px;
-  font-weight: 600;
-  border: 2px solid;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 40px auto 20px;
-  cursor: pointer;
-  &:hover {
-    color: #ffffff;
-    background-color: #555555;
-  }
-`;
-
-const ToProfileLink = styled(Link)`
-  margin: 40px 0 20px;
-  text-decoration: none;
-  color: #ffffff;
-  background-color: #555555;
-  border: 1px solid;
-  padding: 8px;
-  border-radius: 5px;
-`;
