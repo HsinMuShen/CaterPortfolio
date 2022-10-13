@@ -8,7 +8,8 @@ export interface isPreviewReducer {
   website: boolean;
   portfolio: boolean;
   nowChatRoom: { chatRoomID: string; name: string; userImage: string };
-  popup: boolean;
+  portfolioListPopup: boolean;
+  portfolioSinglePopup: boolean;
   alert: {
     isAlert: boolean;
     text: string;
@@ -24,7 +25,8 @@ const IsPreviewReducer = (
     website: true,
     portfolio: true,
     nowChatRoom: { chatRoomID: "", name: "", userImage: "" },
-    popup: false,
+    portfolioListPopup: false,
+    portfolioSinglePopup: false,
     alert: {
       isAlert: false,
       text: "",

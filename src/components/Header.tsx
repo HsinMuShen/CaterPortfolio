@@ -19,7 +19,10 @@ import { collection, onSnapshot, query, where } from "firebase/firestore";
 import HeaderSidebar from "./HeaderSidebar";
 import LogoWithText from "../images/caterportfolio_logowithtext.png";
 
-const Wrapper = styled.div<{ isPopup: boolean }>`
+const Wrapper = styled.div<{
+  portfolioListPopup: boolean;
+  portfolioSinglePopup: boolean;
+}>`
   width: 100vw;
   height: 60px;
   background-color: #ffffff;
@@ -28,7 +31,8 @@ const Wrapper = styled.div<{ isPopup: boolean }>`
   position: fixed;
   top: 0px;
   border-bottom: 1px solid;
-  z-index: ${(props) => (props.isPopup ? 1 : 5)};
+  z-index: ${(props) =>
+    props.portfolioListPopup || props.portfolioSinglePopup ? 1 : 5};
 `;
 
 const MainNav = styled.div`
@@ -103,8 +107,8 @@ const Header = () => {
   const userIsLogin = useSelector(
     (state: RootState) => state.IsPreviewReducer.userIsLogin
   );
-  const isPopup = useSelector(
-    (state: RootState) => state.IsPreviewReducer.popup
+  const { portfolioListPopup, portfolioSinglePopup } = useSelector(
+    (state: RootState) => state.IsPreviewReducer
   );
   const dispatch = useDispatch();
   const location = useLocation();
@@ -152,7 +156,10 @@ const Header = () => {
     setIsSideBar(false);
   }, [location]);
   return (
-    <Wrapper isPopup={isPopup}>
+    <Wrapper
+      portfolioListPopup={portfolioListPopup}
+      portfolioSinglePopup={portfolioSinglePopup}
+    >
       <MainNav>
         <LogoArea to={`/`} img={LogoWithText} id="logo"></LogoArea>
         <Tag to={`/allportfolios`} id="allPortfolios" $mobileNone={true}>

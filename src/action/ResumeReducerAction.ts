@@ -4,7 +4,6 @@ import { ActionType } from "../reducers";
 export const resumeAddCom = (content: {
   image: string[];
   text: string[] | null[];
-  type: number;
   comName: string;
   id: string;
 }) => {
@@ -18,7 +17,6 @@ export const resumeAddTemplate = (
   templateArr: {
     image: string[];
     text: string[] | null[];
-    type: number;
     comName: string;
     id: string;
   }[]
@@ -59,7 +57,6 @@ export const resumeRenewContent = (
   content: {
     image: string[];
     text: string[];
-    type: number;
     comName: string;
     id: string;
   }[]

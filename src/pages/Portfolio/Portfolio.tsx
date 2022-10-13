@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { v4 } from "uuid";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faPen,
-  faEye,
-  faUpDownLeftRight,
-} from "@fortawesome/free-solid-svg-icons";
+import { faUpDownLeftRight } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 
 import { RootState } from "../../reducers";
@@ -32,17 +28,26 @@ import { PortfolioComponents, portfolioChoice } from "./portfolioComponents";
 import InitialSetup from "./InitialSetup";
 import Delete from "../Resume/Delete";
 import Loading from "../../utilis/Loading";
+import PreviewBtn from "../../utilis/PreviewBtn";
 import InitialImg from "../../utilis/cater.png";
 import QusetionMark, { introSteps } from "../../utilis/QusetionMark";
 import LargeLoading from "../../utilis/LargeLoading";
 import CreatePortfolioCom from "./CreatePortfolioCom";
 import SideBar from "../../utilis/SideBar";
 import firebase from "../../utilis/firebase";
+import {
+  EditPageWrapper,
+  LinkButton,
+  UploadButton,
+  MoveBtn,
+  PreviewDiv,
+  SingleComponentUnit,
+  EditContentLayout,
+} from "../../utilis/styledExtending";
 
 export interface portfolioComContent {
   image: string[];
   text: string[];
-  type: number;
   comName: string;
   id: string;
 }
@@ -72,7 +77,7 @@ const Portfolio = () => {
   const portfolioID = useParams().id;
 
   const addPortfolioCom = (conIndex: number) => {
-    dispatch(portfolioAddCom(portfolioChoice[conIndex].comContent));
+    dispatch(portfolioAddCom(portfolioChoice[conIndex]));
   };
 
   const addDeleteCom = (deleteIndex: number) => {
@@ -114,7 +119,7 @@ const Portfolio = () => {
   useEffect(() => {
     const loadPortfolio = async () => {
       setIsLoading(true);
-      const portfolioData = await firebase.readPortfolioData(
+      const portfolioData = await firebase.readData(
         "portfolios",
         `${portfolioID}`
       );
@@ -154,9 +159,6 @@ const Portfolio = () => {
         const tempArr = [
           ...websiteData.content[websiteContentIndex!].portfolioID,
         ];
-        console.log(
-          websiteData.content[websiteContentIndex!].portfolioID.length
-        );
         tempArr[websiteData.content[websiteContentIndex!].portfolioID.length] =
           portID;
         dispatch(websiteChangePortfolioID(websiteContentIndex!, tempArr));
@@ -172,107 +174,88 @@ const Portfolio = () => {
   }, [userData.userID, websiteData.content.length]);
 
   return (
-    <PortfolioBody>
-      <Wrapper>
-        {userData.userID === userID || portfolioID === "create" ? (
-          <PreviewBtn
-            onClick={() => {
-              dispatch(isPreviewPortfolio());
-            }}
-            id="portfolioPreviewBtn"
-          >
-            {isPreview ? (
-              <>
-                <FontAwesomeIcon icon={faPen} />
-                <span> 編輯</span>
-              </>
-            ) : (
-              <>
-                <FontAwesomeIcon icon={faEye} />
-                <span> 預覽</span>
-              </>
-            )}
-          </PreviewBtn>
-        ) : null}
-
-        {isPreview ? null : (
-          <InitialSetup
-            portfolioID={portfolioID}
-            websiteData={websiteData}
-            setIsLargeLoading={setIsLargeLoading}
-          />
-        )}
-
-        {isLoading ? (
-          <Loading />
-        ) : (
-          <DragDropContext onDragEnd={handleOnDragEnd}>
-            <Droppable droppableId="characters">
-              {(provided) => (
-                <PortfolioLayouts
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                >
-                  <PreviewDiv
-                    style={{ zIndex: isPreview ? "2" : "-1" }}
-                  ></PreviewDiv>
-                  {portfolioData.content.length === 0 ? (
-                    <p>尚未建立此作品集</p>
-                  ) : null}
-
-                  {portfolioData.content.map(
-                    (content: portfolioComContent, index: number) => {
-                      const TempCom =
-                        PortfolioComponents[
-                          content.comName as keyof typeof PortfolioComponents
-                        ];
-                      return (
-                        <Draggable
-                          key={content.id}
-                          draggableId={content.id}
-                          index={index}
-                        >
-                          {(provided) => (
-                            <SingleComponent
-                              {...provided.draggableProps}
-                              ref={provided.innerRef}
-                            >
-                              <TempCom index={index} content={content} />
-                              <Delete
-                                addDeleteCom={addDeleteCom}
-                                index={index}
-                              />
-                              <MoveBtn {...provided.dragHandleProps}>
-                                {isPreview ? null : (
-                                  <FontAwesomeIcon icon={faUpDownLeftRight} />
-                                )}
-                              </MoveBtn>
-                            </SingleComponent>
-                          )}
-                        </Draggable>
-                      );
-                    }
-                  )}
-                  {provided.placeholder}
-                </PortfolioLayouts>
-              )}
-            </Droppable>
-          </DragDropContext>
-        )}
-
-        <CreatePortfolioCom addPortfolioCom={addPortfolioCom} />
-      </Wrapper>
+    <EditPageWrapper>
       {isPreview ? null : (
-        <ResumeBtn onClick={uploadPortfolio} className="portfolioUpload">
-          上架作品集!
-        </ResumeBtn>
+        <InitialSetup
+          portfolioID={portfolioID}
+          websiteData={websiteData}
+          setIsLargeLoading={setIsLargeLoading}
+        />
       )}
-      <ToWebsiteBtn
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <DragDropContext onDragEnd={handleOnDragEnd}>
+          <Droppable droppableId="characters">
+            {(provided) => (
+              <PortfolioEditContentLayout
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+              >
+                <PortfolioPreviewDiv
+                  style={{ zIndex: isPreview ? "2" : "-1" }}
+                ></PortfolioPreviewDiv>
+                {portfolioData.content.length === 0 ? (
+                  <p>尚未建立此作品集</p>
+                ) : null}
+
+                {portfolioData.content.map(
+                  (content: portfolioComContent, index: number) => {
+                    const TempCom =
+                      PortfolioComponents[
+                        content.comName as keyof typeof PortfolioComponents
+                      ];
+                    return (
+                      <Draggable
+                        key={content.id}
+                        draggableId={content.id}
+                        index={index}
+                      >
+                        {(provided) => (
+                          <SingleComponentUnit
+                            {...provided.draggableProps}
+                            ref={provided.innerRef}
+                          >
+                            <TempCom index={index} content={content} />
+                            <Delete addDeleteCom={addDeleteCom} index={index} />
+                            <MoveBtn {...provided.dragHandleProps}>
+                              {isPreview ? null : (
+                                <FontAwesomeIcon icon={faUpDownLeftRight} />
+                              )}
+                            </MoveBtn>
+                          </SingleComponentUnit>
+                        )}
+                      </Draggable>
+                    );
+                  }
+                )}
+                {provided.placeholder}
+              </PortfolioEditContentLayout>
+            )}
+          </Droppable>
+        </DragDropContext>
+      )}
+
+      <CreatePortfolioCom addPortfolioCom={addPortfolioCom} />
+
+      {isPreview ? null : (
+        <PortfolioUpoloadBtn
+          onClick={uploadPortfolio}
+          className="portfolioUpload"
+        >
+          上架作品集!
+        </PortfolioUpoloadBtn>
+      )}
+      <LinkButton
         to={`/website/${portfolioData.userID}`}
         id="portfolioToWebsite"
       >
         回到{portfolioData.name}的網站
-      </ToWebsiteBtn>
+      </LinkButton>
+
+      {userData.userID === userID || portfolioID === "create" ? (
+        <PreviewBtn isPreview={isPreview} id={"portfolioPreviewBtn"} />
+      ) : null}
       <QusetionMark
         stepType={
           userData.userID === userID
@@ -283,118 +266,28 @@ const Portfolio = () => {
       />
       <SideBar type={"portfolio"} data={portfolioData} />
       {isLargeLoading ? <LargeLoading backgroundColor={"#ffffffb3"} /> : null}
-    </PortfolioBody>
+    </EditPageWrapper>
   );
 };
 
 export default Portfolio;
 
-const PortfolioBody = styled.div`
-  width: 100%;
-  min-height: 100vh;
-  height: 100%;
-  padding: 120px 0;
-  background-color: #ffffff;
-  display: flex;
-  flex-direction: column;
-`;
-
-const Wrapper = styled.div`
+const PortfolioEditContentLayout = styled(EditContentLayout)`
   width: 960px;
-  margin: 0 auto;
-  background-color: #ffffff;
-  @media screen and (max-width: 1279px) {
-    width: 90%;
-  }
-`;
-
-const PreviewBtn = styled.div`
-  position: fixed;
-  top: 180px;
-  right: 25px;
-  background-color: #ffffff;
-  padding: 5px 8px;
-  border-radius: 10px;
-  border: 1px solid;
-  cursor: pointer;
-  z-index: 4;
-  &:hover {
-    background-color: #555555;
-    color: #ffffff;
-  }
-  @media screen and (max-width: 1279px) {
-    font-size: 14px;
-    width: 70px;
-    padding: 3px 3px;
-    right: 5px;
-  }
-`;
-
-const PortfolioLayouts = styled.div`
-  position: relative;
-  display: flex;
-  width: 960px;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin: 0 auto;
   @media screen and (max-width: 1279px) {
     width: 100%;
   }
 `;
 
-const PreviewDiv = styled.div`
-  position: absolute;
+const PortfolioPreviewDiv = styled(PreviewDiv)`
   width: 960px;
-  height: 100%;
-  z-index: 2;
   @media screen and (max-width: 1279px) {
     width: 100%;
   }
 `;
 
-const SingleComponent = styled.div`
-  display: flex;
-  width: 960px;
-  position: relative;
-  margin: 10px 0;
-  @media screen and (max-width: 1279px) {
-    width: 100%;
-  }
-`;
-
-const MoveBtn = styled.div`
-  position: absolute;
-  right: 4.5px;
-  top: 30px;
-  font-size: 20px;
-`;
-
-const ResumeBtn = styled.div`
-  color: #555555;
+const PortfolioUpoloadBtn = styled(UploadButton)`
   background-color: #ffffff;
-  padding: 8px;
   width: 180px;
-  border-radius: 5px;
-  font-weight: 600;
-  border: 2px solid;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   margin: 40px auto 20px;
-  cursor: pointer;
-  &:hover {
-    color: #ffffff;
-    background-color: #555555;
-  }
-`;
-
-const ToWebsiteBtn = styled(Link)`
-  margin: 20px auto;
-  text-decoration: none;
-  color: #ffffff;
-  background-color: #555555;
-  border: 1px solid;
-  padding: 8px;
-  border-radius: 5px;
 `;

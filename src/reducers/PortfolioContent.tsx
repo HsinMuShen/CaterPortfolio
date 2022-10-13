@@ -8,7 +8,6 @@ export interface portfolioReducer {
   content: {
     image: string[];
     text: string[];
-    type: number;
     comName: string;
     id: string;
   }[];
@@ -18,24 +17,26 @@ export interface portfolioReducer {
     userID: string;
     userImage: string;
   }[];
-  tags: string[];
-  time: null | number;
   userID: string;
+  userImage: string;
   portfolioID: string;
 }
 
+export const initialPortfolioData = {
+  title: "Title",
+  mainImage: "",
+  content: [],
+  name: "",
+  followers: [],
+  tags: [],
+  time: null,
+  userID: "",
+  userImage: "",
+  portfolioID: "",
+};
+
 const PortfolioReducer = (
-  portfolioData: portfolioReducer = {
-    title: "Title",
-    mainImage: "",
-    content: [],
-    name: "",
-    followers: [],
-    tags: [],
-    time: null,
-    userID: "",
-    portfolioID: "",
-  },
+  portfolioData: portfolioReducer = initialPortfolioData,
   action: AnyAction
 ) => {
   switch (action.type) {

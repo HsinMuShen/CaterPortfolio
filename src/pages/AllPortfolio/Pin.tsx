@@ -110,7 +110,7 @@ const Pin = ({ size, data }: { size: number; data: DocumentData }) => {
       }, 3000);
     }
 
-    const renewPortfolioData = await firebase.readPortfolioData(
+    const renewPortfolioData = await firebase.readData(
       "portfolios",
       `${data.portfolioID}`
     );
@@ -120,11 +120,13 @@ const Pin = ({ size, data }: { size: number; data: DocumentData }) => {
   };
 
   useEffect(() => {
-    data.followers.forEach((followersData: { userID: string | null }) => {
-      if (followersData.userID === userData.userID) {
-        setIsFollow(true);
-      }
-    });
+    const result = data.followers.find(
+      (followersData: { userID: string | null }) =>
+        followersData.userID === userData.userID
+    );
+    if (result) {
+      setIsFollow(true);
+    }
     return () => {
       setIsFollow(false);
     };

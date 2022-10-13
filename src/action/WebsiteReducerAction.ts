@@ -3,8 +3,9 @@ import { ActionType } from "../reducers";
 
 export const websiteAddCom = (content: {
   image: string[];
-  text: string[] | null[];
-  type: number;
+  text: string[];
+  comName: string;
+  id: string;
   portfolioId?: string[];
 }) => {
   return {
@@ -76,7 +77,6 @@ export const websiteRenewContent = (
   content: {
     image: string[];
     text: string[];
-    type: number;
     comName: string;
     id: string;
     portfolioID?: string[];

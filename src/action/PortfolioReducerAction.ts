@@ -3,9 +3,9 @@ import { ActionType } from "../reducers";
 
 export const portfolioAddCom = (content: {
   image: string[];
-  text: string[] | null[];
-  type: number;
-  portfolioId?: string[];
+  text: string[];
+  comName: string;
+  id: string;
 }) => {
   return {
     type: ActionType.PORTFOLIO.ADD_COMPONENT,
@@ -56,7 +56,6 @@ export const portfolioRenewContent = (
   content: {
     image: string[];
     text: string[];
-    type: number;
     comName: string;
     id: string;
   }[]

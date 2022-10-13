@@ -55,30 +55,12 @@ const firebase = {
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
       return docSnap.data();
-    } else {
-      console.log("No such document!");
-      return null;
     }
   },
 
   uploadPortfolio(data: PortfolioReducer) {
     const portfolios = doc(db, `portfolios`, data.portfolioID);
-    setDoc(portfolios, data)
-      .then(() => console.log())
-      .catch((error) => {
-        console.log(error);
-      });
-  },
-
-  async readPortfolioData(type: string, portfolioID: string) {
-    const docRef = doc(db, type, portfolioID);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      return docSnap.data();
-    } else {
-      console.log("No such document!");
-      return null;
-    }
+    setDoc(portfolios, data);
   },
 
   async changeUserImage(type: string, userData: UserReducer) {

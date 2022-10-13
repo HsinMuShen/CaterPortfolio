@@ -13,6 +13,10 @@ import { portfolioLoading } from "../action/PortfolioReducerAction";
 import { setAlert } from "../action/IsPreviewReducerAction";
 import { useDispatch } from "react-redux";
 
+import { initialResumeData } from "../reducers/ResumeContent";
+import { initialWebsiteData } from "../reducers/WebsiteContent";
+import { initialPortfolioData } from "../reducers/PortfolioContent";
+
 const Wrapper = styled.div<{ isSideBar: boolean }>`
   position: fixed;
   right: ${(props) => (props.isSideBar ? "0" : "-200px")};
@@ -65,43 +69,6 @@ const initialUserData = {
   followResumes: [],
   followPortfolios: [],
   followWebsites: [],
-};
-
-const initialPortfolioData = {
-  title: "Title",
-  mainImage: "",
-  content: [],
-  name: "",
-  followers: [],
-  tags: [],
-  time: null,
-  userID: "",
-  userImage: "",
-  portfolioID: "",
-};
-
-const initialResumeData = {
-  title: "",
-  coverImage: "",
-  content: [],
-  name: "",
-  followers: [],
-  tags: [],
-  time: null,
-  userID: "",
-  userImage: "",
-  isPublic: false,
-};
-
-const initialWebsiteData = {
-  title: "",
-  content: [],
-  name: "",
-  followers: [],
-  tags: [],
-  time: null,
-  userID: "",
-  userImage: "",
 };
 
 const HeaderSidebar = ({

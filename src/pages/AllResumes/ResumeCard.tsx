@@ -3,12 +3,15 @@ import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import { DocumentData } from "firebase/firestore";
 import { useDispatch, useSelector } from "react-redux";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart } from "@fortawesome/free-solid-svg-icons";
+
 import { portfolioLoading } from "../../action/PortfolioReducerAction";
 import { setAlert } from "../../action/IsPreviewReducerAction";
 import { RootState } from "../../reducers";
+import { ResumeReducer } from "../../reducers";
+
 import firebase from "../../utilis/firebase";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart } from "@fortawesome/free-solid-svg-icons";
 
 const SinglePin = styled.div<{ size: number }>`
   margin: 15px 15px;
@@ -78,7 +81,7 @@ const FollowIcon = styled.div<{ backgroundColor: string }>`
   color: ${(props) => props.backgroundColor};
 `;
 
-const ResumeCard = ({ size, data }: { size: number; data: DocumentData }) => {
+const ResumeCard = ({ size, data }: { size: number; data: ResumeReducer }) => {
   const [isFollow, setIsFollow] = useState(false);
   const userData = useSelector((state: RootState) => state.UserReducer);
   const isLogin = useSelector(
@@ -112,11 +115,13 @@ const ResumeCard = ({ size, data }: { size: number; data: DocumentData }) => {
   };
 
   useEffect(() => {
-    data.followers.forEach((followersData: { userID: string | null }) => {
-      if (followersData.userID === userData.userID) {
-        setIsFollow(true);
-      }
-    });
+    const result = data.followers.find(
+      (followersData: { userID: string | null }) =>
+        followersData.userID === userData.userID
+    );
+    if (result) {
+      setIsFollow(true);
+    }
     return () => {
       setIsFollow(false);
     };
