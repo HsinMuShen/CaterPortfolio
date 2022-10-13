@@ -61,11 +61,12 @@ const Website = () => {
   const deletePortfolioContent = useRef<number>();
   const websiteID = useParams().id;
   const dispatch = useDispatch();
+
   const websiteData = useSelector((state: RootState) => state.WebsiteReducer);
+  const userData = useSelector((state: RootState) => state.UserReducer);
   const isPreview = useSelector(
     (state: RootState) => state.IsPreviewReducer.website
   );
-  const userData = useSelector((state: RootState) => state.UserReducer);
   const { portfolioListPopup } = useSelector(
     (state: RootState) => state.IsPreviewReducer
   );
@@ -95,7 +96,6 @@ const Website = () => {
     await Promise.all(deletePromiswArr);
 
     dispatch(websiteDeleteCom(deleteIndex));
-
     const tempContentArr = [...websiteData.content];
     tempContentArr.splice(deleteIndex, 1);
     const newResumeData = { ...websiteData, content: tempContentArr };

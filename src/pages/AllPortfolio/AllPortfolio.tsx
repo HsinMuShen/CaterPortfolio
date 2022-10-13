@@ -86,36 +86,25 @@ const PinContainer = styled.div`
 const Homepage = () => {
   const [portfolioArr, setPortfolioArr] = useState<DocumentData[]>([]);
   const searchText = useRef<string>("");
-  const userIsLogin = useSelector(
-    (state: RootState) => state.IsPreviewReducer.userIsLogin
-  );
-  const homepageList = useSelector(
-    (state: RootState) => state.IsPreviewReducer.homepageList
+  const { userIsLogin, homepageList } = useSelector(
+    (state: RootState) => state.IsPreviewReducer
   );
 
-  const searchData = async () => {
+  const firestoreSearching = async (key: string) => {
     const postArr: DocumentData[] = [];
     const searchCollection = collection(db, "portfolios");
-    const qName = query(
-      searchCollection,
-      where("name", "==", searchText.current)
-    );
-    const qTitle = query(
-      searchCollection,
-      where("title", "==", searchText.current)
-    );
-
-    const querySnapshotName = await getDocs(qName);
-    const querySnapshotTitle = await getDocs(qTitle);
-    querySnapshotName.forEach((doc) => {
+    const q = query(searchCollection, where(key, "==", searchText.current));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
       postArr.push(doc.data());
-      setPortfolioArr(postArr);
     });
-    querySnapshotTitle.forEach((doc) => {
-      postArr.push(doc.data());
-      setPortfolioArr(postArr);
-    });
+    return postArr;
+  };
 
+  const searchData = async () => {
+    const nameArr = await firestoreSearching("name");
+    const titleArr = await firestoreSearching("title");
+    setPortfolioArr([...nameArr, ...titleArr]);
     searchText.current = "";
   };
 
@@ -128,6 +117,7 @@ const Homepage = () => {
       setPortfolioArr(postArr);
     });
   }, []);
+
   return (
     <Wrapper>
       <SearchArea id="searchBtn">
