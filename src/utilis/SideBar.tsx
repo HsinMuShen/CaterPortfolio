@@ -146,17 +146,17 @@ const SideBar = ({
   };
 
   useEffect(() => {
-    data.followers.forEach((data) => {
-      if (data.userID === userData.userID) {
-        setIsFollow(true);
-      }
-    });
+    const result = data.followers.find(
+      (data) => data.userID === userData.userID
+    );
+    if (result) setIsFollow(true);
+
     return () => {
       setIsFollow(false);
     };
   }, [userData.userID]);
   return (
-    <SideBarArea>
+    <SideBarArea id="sideBar">
       <Options>
         <FollowArea>
           <FollowText>點擊愛心取消收藏!</FollowText>

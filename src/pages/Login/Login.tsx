@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { firebaseApp } from "../../firebaseConfig";
 import {
@@ -96,23 +96,6 @@ const SubmitBtn = styled.button`
   @media screen and (max-width: 749px) {
     width: 60vw;
   }
-`;
-
-const SideArea = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-const SideImgArea = styled.div<{ backgroundImg: string }>`
-  width: 780px;
-  height: 300px;
-  object-fit: cover;
-  margin: 20vh auto 0;
-  background-image: url(${(props) => props.backgroundImg});
-  background-position: center;
-  background-size: contain;
-  background-repeat: no-repeat;
-  transition: background-image 1s;
 `;
 
 const Login = () => {
@@ -213,6 +196,12 @@ const Login = () => {
         });
     }
   };
+
+  useEffect(() => {
+    dispatch(initialSetUserData("email", "michael@gmail.com"));
+    dispatch(initialSetUserData("password", "asdfgh"));
+  }, []);
+
   return (
     <LoginArea>
       <SelectArea>
@@ -251,8 +240,14 @@ const Login = () => {
           <Label>電子信箱</Label>
           <Input
             type="text"
+            defaultValue={"michael@gmail.com"}
             onChange={(e) => {
               dispatch(initialSetUserData("email", e.target.value));
+            }}
+            onKeyPress={(e) => {
+              if (e.key === "Enter") {
+                onSubmit();
+              }
             }}
             required
           />
@@ -261,8 +256,14 @@ const Login = () => {
           <Label>密碼</Label>
           <Input
             type="password"
+            defaultValue={"asdfgh"}
             onChange={(e) => {
               dispatch(initialSetUserData("password", e.target.value));
+            }}
+            onKeyPress={(e) => {
+              if (e.key === "Enter") {
+                onSubmit();
+              }
             }}
             required
           />

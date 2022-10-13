@@ -213,9 +213,6 @@ const Resume: React.FC = () => {
 
   return (
     <Wrapper>
-      {resumeID === userData.userID ? (
-        <PreviewBtn isPreview={isPreview} id={"resumePreviewBtn"} />
-      ) : null}
       <ResumeEditArea>
         <ResumePreviewDiv
           style={{ zIndex: isPreview ? "2" : "-1" }}
@@ -331,7 +328,9 @@ const Resume: React.FC = () => {
         />
         前往{resumeData.name}的個人頁面
       </LinkButton>
-      {isLargeLoading ? <LargeLoading backgroundColor={"#ffffffb3"} /> : null}
+      {resumeID === userData.userID ? (
+        <PreviewBtn isPreview={isPreview} id={"resumePreviewBtn"} />
+      ) : null}
       <QusetionMark
         stepType={
           resumeID === userData.userID
@@ -341,6 +340,7 @@ const Resume: React.FC = () => {
         type={resumeID === userData.userID ? "resume" : ""}
       />
       <SideBar type={"resume"} data={resumeData} />
+      {isLargeLoading ? <LargeLoading backgroundColor={"#ffffffb3"} /> : null}
     </Wrapper>
   );
 };

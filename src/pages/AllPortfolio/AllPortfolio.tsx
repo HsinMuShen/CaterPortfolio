@@ -14,7 +14,6 @@ import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 
 import Pin from "./Pin";
-import QusetionMark, { introSteps } from "../../utilis/QusetionMark";
 import { useSelector } from "react-redux";
 import { RootState } from "../../reducers";
 
@@ -86,7 +85,7 @@ const PinContainer = styled.div`
 const Homepage = () => {
   const [portfolioArr, setPortfolioArr] = useState<DocumentData[]>([]);
   const searchText = useRef<string>("");
-  const { userIsLogin, homepageList } = useSelector(
+  const { homepageList } = useSelector(
     (state: RootState) => state.IsPreviewReducer
   );
 
@@ -128,6 +127,11 @@ const Homepage = () => {
             searchText.current = e.target.value;
           }}
           placeholder="創作者姓名、作品集名稱"
+          onKeyPress={(e) => {
+            if (e.key === "Enter") {
+              searchData();
+            }
+          }}
         />
         <SearchBtn
           onClick={() => {
@@ -148,11 +152,6 @@ const Homepage = () => {
           );
         })}
       </PinContainer>
-      <QusetionMark
-        stepType={
-          userIsLogin ? introSteps.homepageLogin : introSteps.homepageLogout
-        }
-      />
     </Wrapper>
   );
 };

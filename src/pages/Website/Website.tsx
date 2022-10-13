@@ -176,9 +176,6 @@ const Website = () => {
 
   return (
     <EditPageWrapper>
-      {websiteID === userData.userID ? (
-        <PreviewBtn isPreview={isPreview} id={"websitePreviewBtn"} />
-      ) : null}
       {isPreview ? null : (
         <WebsiteInitialSetup setIsLargeLoading={setIsLargeLoading} />
       )}
@@ -278,6 +275,10 @@ const Website = () => {
         />
         前往{websiteData.name}的個人頁面
       </LinkButton>
+
+      {websiteID === userData.userID ? (
+        <PreviewBtn isPreview={isPreview} id={"websitePreviewBtn"} />
+      ) : null}
       <QusetionMark
         stepType={
           websiteID === userData.userID

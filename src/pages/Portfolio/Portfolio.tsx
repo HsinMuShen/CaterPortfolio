@@ -175,10 +175,6 @@ const Portfolio = () => {
 
   return (
     <EditPageWrapper>
-      {userData.userID === userID || portfolioID === "create" ? (
-        <PreviewBtn isPreview={isPreview} id={"portfolioPreviewBtn"} />
-      ) : null}
-
       {isPreview ? null : (
         <InitialSetup
           portfolioID={portfolioID}
@@ -186,7 +182,6 @@ const Portfolio = () => {
           setIsLargeLoading={setIsLargeLoading}
         />
       )}
-
       {isLoading ? (
         <Loading />
       ) : (
@@ -257,6 +252,10 @@ const Portfolio = () => {
       >
         回到{portfolioData.name}的網站
       </LinkButton>
+
+      {userData.userID === userID || portfolioID === "create" ? (
+        <PreviewBtn isPreview={isPreview} id={"portfolioPreviewBtn"} />
+      ) : null}
       <QusetionMark
         stepType={
           userData.userID === userID

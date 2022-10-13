@@ -115,11 +115,13 @@ const ResumeCard = ({ size, data }: { size: number; data: ResumeReducer }) => {
   };
 
   useEffect(() => {
-    data.followers.forEach((followersData: { userID: string | null }) => {
-      if (followersData.userID === userData.userID) {
-        setIsFollow(true);
-      }
-    });
+    const result = data.followers.find(
+      (followersData: { userID: string | null }) =>
+        followersData.userID === userData.userID
+    );
+    if (result) {
+      setIsFollow(true);
+    }
     return () => {
       setIsFollow(false);
     };
