@@ -111,7 +111,6 @@ const ResumeUpoloadBtn = styled(UploadButton)<{
 export interface resumeComContent {
   image: string[];
   text: string[];
-  type: number;
   comName: string;
   id: string;
 }

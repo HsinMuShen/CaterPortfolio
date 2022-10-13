@@ -8,7 +8,6 @@ export interface portfolioReducer {
   content: {
     image: string[];
     text: string[];
-    type: number;
     comName: string;
     id: string;
   }[];

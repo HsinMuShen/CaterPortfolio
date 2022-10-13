@@ -46,10 +46,29 @@ import {
   EditContentLayout,
 } from "../../utilis/styledExtending";
 
+const WebsiteEditContentLayouts = styled(EditContentLayout)`
+  width: 960px;
+  @media screen and (max-width: 1279px) {
+    width: 100%;
+  }
+`;
+
+const WebsitePreviewDiv = styled(PreviewDiv)`
+  width: 900px;
+  @media screen and (max-width: 1279px) {
+    width: 100%;
+  }
+`;
+
+const WebsiteUploadBtn = styled(UploadButton)`
+  background-color: #ffffff;
+  width: 150px;
+  margin: 40px auto 20px;
+`;
+
 export interface websiteComContent {
   image: string[];
   text: string[];
-  type: number;
   comName: string;
   id: string;
   portfolioID?: string[];
@@ -72,7 +91,7 @@ const Website = () => {
   );
 
   const addWebsiteCom = (conIndex: number) => {
-    dispatch(websiteAddCom(websiteChoice[conIndex].comContent));
+    dispatch(websiteAddCom(websiteChoice[conIndex]));
   };
 
   const addDeleteCom = (deleteIndex: number) => {
@@ -273,23 +292,3 @@ const Website = () => {
 };
 
 export default Website;
-
-const WebsiteEditContentLayouts = styled(EditContentLayout)`
-  width: 960px;
-  @media screen and (max-width: 1279px) {
-    width: 100%;
-  }
-`;
-
-const WebsitePreviewDiv = styled(PreviewDiv)`
-  width: 900px;
-  @media screen and (max-width: 1279px) {
-    width: 100%;
-  }
-`;
-
-const WebsiteUploadBtn = styled(UploadButton)`
-  background-color: #ffffff;
-  width: 150px;
-  margin: 40px auto 20px;
-`;

@@ -1,6 +1,5 @@
 import { AnyAction } from "redux";
 import { ActionType } from ".";
-import { Timestamp } from "firebase/firestore";
 import { v4 } from "uuid";
 import initialUserImage from "../images/user.png";
 

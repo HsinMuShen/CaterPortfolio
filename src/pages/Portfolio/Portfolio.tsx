@@ -48,7 +48,6 @@ import {
 export interface portfolioComContent {
   image: string[];
   text: string[];
-  type: number;
   comName: string;
   id: string;
 }
@@ -78,7 +77,7 @@ const Portfolio = () => {
   const portfolioID = useParams().id;
 
   const addPortfolioCom = (conIndex: number) => {
-    dispatch(portfolioAddCom(portfolioChoice[conIndex].comContent));
+    dispatch(portfolioAddCom(portfolioChoice[conIndex]));
   };
 
   const addDeleteCom = (deleteIndex: number) => {
