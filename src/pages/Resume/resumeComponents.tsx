@@ -74,7 +74,7 @@ export const resumeChoice = [
     comIndex: 5,
     comContent: {
       image: [""],
-      text: ["<h2>您的姓名</h2><p>職位名稱</p><p>聯絡資訊</p>"],
+      text: ["<h2>標題</h2><p>內容</p><p>內容</p>"],
       type: 5,
       comName: "TextAndImg0",
       id: "",
@@ -85,7 +85,7 @@ export const resumeChoice = [
     comIndex: 6,
     comContent: {
       image: [""],
-      text: ["<h2>您的姓名</h2><p>職位名稱</p><p>聯絡資訊</p>"],
+      text: ["<h2>標題</h2><p>內容</p><p>內容</p>"],
       type: 6,
       comName: "TextAndImg1",
       id: "",
@@ -96,7 +96,7 @@ export const resumeChoice = [
     comIndex: 7,
     comContent: {
       image: [""],
-      text: ["<h2>您的姓名</h2><p>職位名稱</p><p>聯絡資訊</p>"],
+      text: ["<h2>標題</h2><p>內容</p><p>內容</p>"],
       type: 7,
       comName: "TextAndImg2",
       id: "",
@@ -107,7 +107,7 @@ export const resumeChoice = [
     comIndex: 8,
     comContent: {
       image: [],
-      text: ["<h2>您的姓名</h2><p>職位名稱</p><p>聯絡資訊</p>"],
+      text: ["<h2>標題</h2><p>內容</p><p>內容</p>"],
       type: 8,
       comName: "Text0",
       id: "",
@@ -119,8 +119,8 @@ export const resumeChoice = [
     comContent: {
       image: [],
       text: [
-        "<h3>工作經驗</h3><hr><ol><li><p>酪梨牧場 豬仔</p></li><li><p>西瓜農場 作業員</p></li><li><p>骨灰墳場 清潔員</p><p></p></li></ol>",
-        "<p></p><p>2016 - 2019</p><p>2019 - 2021</p>",
+        "<h2>標題</h2><p>內容</p><p>內容</p>",
+        "<h2>標題</h2><p>內容</p><p>內容</p>",
       ],
       type: 9,
       comName: "Text1",
@@ -133,9 +133,9 @@ export const resumeChoice = [
     comContent: {
       image: [],
       text: [
-        "<h3>工作經驗</h3><hr><ol><li><p>酪梨牧場 豬仔</p></li><li><p>西瓜農場 作業員</p></li><li><p>骨灰墳場 清潔員</p><p></p></li></ol>",
-        "<p></p><p>2016 - 2019</p><p>2019 - 2021</p>",
-        "<p></p><p>2016 - 2019</p><p>2019 - 2021</p>",
+        "<h2>標題</h2><p>內容</p><p>內容</p>",
+        "<h2>標題</h2><p>內容</p><p>內容</p>",
+        "<h2>標題</h2><p>內容</p><p>內容</p>",
       ],
       type: 10,
       comName: "Text2",

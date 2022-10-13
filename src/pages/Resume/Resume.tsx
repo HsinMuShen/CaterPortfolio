@@ -39,6 +39,75 @@ import {
   EditContentLayout,
 } from "../../utilis/styledExtending";
 
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 80px 0;
+`;
+
+const ResumeEditArea = styled.div`
+  position: relative;
+  width: 960px;
+  margin: 60px auto;
+  border: 1px solid;
+  border-radius: 5px;
+  padding: 30px 40px;
+  background-color: #ffffff;
+  @media screen and (max-width: 1280px) {
+    width: 85vw;
+    padding: 10px;
+  }
+`;
+
+const ResumePreviewDiv = styled(PreviewDiv)`
+  width: 880px;
+  @media screen and (max-width: 1280px) {
+    width: 85vw;
+  }
+`;
+
+const ResumeEditContentLayout = styled(EditContentLayout)`
+  width: 880px;
+  @media screen and (max-width: 1279px) {
+    width: 75vw;
+  }
+`;
+
+const SineleComponent = styled(SingleComponentUnit)`
+  width: 880px;
+  @media screen and (max-width: 1279px) {
+    width: 80vw;
+  }
+`;
+
+const FinalEditArea = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const PublicSetArea = styled.div`
+  display: flex;
+  align-items: center;
+  @media screen and (max-width: 1279px) {
+    flex-direction: column;
+  }
+`;
+
+const PublicSetText = styled.p`
+  margin: 0 20px;
+`;
+
+const ResumeUpoloadBtn = styled(UploadButton)<{
+  width: string;
+  backgroundColor: string;
+}>`
+  width: ${(props) => props.width};
+  background-color: ${(props) => props.backgroundColor};
+  margin: 20px 0;
+`;
+
 export interface resumeComContent {
   image: string[];
   text: string[];
@@ -53,10 +122,11 @@ const Resume: React.FC = () => {
   const refPhoto = useRef<HTMLDivElement>(null);
   const resumeID = useParams().id;
   const resumeData = useSelector((state: RootState) => state.ResumeReducer);
+  const userData = useSelector((state: RootState) => state.UserReducer);
   let isPreview = useSelector(
     (state: RootState) => state.IsPreviewReducer.resume
   );
-  const userData = useSelector((state: RootState) => state.UserReducer);
+
   const dispatch = useDispatch();
 
   const addResumeCom = (comIndex: number) => {
@@ -277,72 +347,3 @@ const Resume: React.FC = () => {
 };
 
 export default Resume;
-
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 80px 0;
-`;
-
-const ResumeEditArea = styled.div`
-  position: relative;
-  width: 960px;
-  margin: 60px auto;
-  border: 1px solid;
-  border-radius: 5px;
-  padding: 30px 40px;
-  background-color: #ffffff;
-  @media screen and (max-width: 1280px) {
-    width: 85vw;
-    padding: 10px;
-  }
-`;
-
-const ResumePreviewDiv = styled(PreviewDiv)`
-  width: 880px;
-  @media screen and (max-width: 1280px) {
-    width: 85vw;
-  }
-`;
-
-const ResumeEditContentLayout = styled(EditContentLayout)`
-  width: 880px;
-  @media screen and (max-width: 1279px) {
-    width: 75vw;
-  }
-`;
-
-const SineleComponent = styled(SingleComponentUnit)`
-  width: 880px;
-  @media screen and (max-width: 1279px) {
-    width: 80vw;
-  }
-`;
-
-const FinalEditArea = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const PublicSetArea = styled.div`
-  display: flex;
-  align-items: center;
-  @media screen and (max-width: 1279px) {
-    flex-direction: column;
-  }
-`;
-
-const PublicSetText = styled.p`
-  margin: 0 20px;
-`;
-
-const ResumeUpoloadBtn = styled(UploadButton)<{
-  width: string;
-  backgroundColor: string;
-}>`
-  width: ${(props) => props.width};
-  background-color: ${(props) => props.backgroundColor};
-  margin: 20px 0;
-`;
