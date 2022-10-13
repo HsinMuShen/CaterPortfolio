@@ -10,7 +10,6 @@ export interface resumeReducer {
   content: {
     image: string[];
     text: string[];
-    type: number;
     comName: string;
     id: string;
   }[];

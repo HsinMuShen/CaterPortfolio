@@ -130,7 +130,7 @@ const Resume: React.FC = () => {
   const dispatch = useDispatch();
 
   const addResumeCom = (comIndex: number) => {
-    dispatch(resumeAddCom(resumeChoice[comIndex].comContent));
+    dispatch(resumeAddCom(resumeChoice[comIndex]));
   };
 
   const addDeleteCom = (deleteIndex: number) => {
