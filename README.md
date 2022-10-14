@@ -1,70 +1,54 @@
-# Getting Started with Create React App
+<div align="center">
+  <img src="https://user-images.githubusercontent.com/75158384/195777843-9d285f1d-0f5d-4a60-8b06-939ffbce57c4.png" width="600">
+</div>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# CaterPortfolio
 
-## Available Scripts
+[CaterPortfolio](https://github.com/facebook/create-react-app) is an online resume and website editor, with social interaction features.
+<div align="center">
+  <img width="450" alt="allPortfolios" src="https://user-images.githubusercontent.com/75158384/195780991-cf40a43d-c285-424b-a4e3-3cad487fc404.png">
+  <img width="450" alt="websiteEdit" src="https://user-images.githubusercontent.com/75158384/195781195-48fa3f98-7125-444d-b3f5-fd6b98aca1fb.png">
+</div>
+<div align="center">
+  <img width="450" alt="resumeEdit" src="https://user-images.githubusercontent.com/75158384/195781465-58152b51-a423-4ba7-9716-3a8f52edd56b.png">
+  <img width="450" alt="profile" src="https://user-images.githubusercontent.com/75158384/195781487-b0978bea-703f-4e70-81dd-7f53de41baff.PNG">
+</div>
 
-In the project directory, you can run:
+## About CaterPortfolio
+* Attained SPA experience with **React-Router-DOM**. Achieved application state management by using **Redux**.
+* Utilized **TypeScript** to improve code quality and prevent errors. Integrated **React-Joyride** to create guided tours for websites. Extracted useful functions to **Custom Hook** to reuse them in multiple components.
+* Advanced text editing experience by employing **Tiptap**. Manipulated **Canvas** by using **Fabric.js** to improve the flexibility of image composing. Adopted **React Beautiful DnD** to build complex drag and drop interfaces on resume and website editor to provide a better editing experience.
+* Built excellent RWD layouts by **Styled Components**. Improved UX experience with **CSS animation**.
+* Accomplished Instant Messaging with **Firebase onSnapShot API**. Organized data management with **Firebase Firestore Database**. Consummated User Management System with **Firebase Authentication**.
 
-### `npm start`
+## Flow Chart
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Development Tools
+<div>
+  <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white">
+  <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB">
+  <img src="https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white">
+  <img src="https://img.shields.io/badge/Redux-593D88?style=for-the-badge&logo=redux&logoColor=white">
+  <img src="https://img.shields.io/badge/firebase-ffca28?style=for-the-badge&logo=firebase&logoColor=black">
+</div>
+* TypeScript
+* React
+* React-Router-DOM
+* Redux
+* Custom Hook
+* Styled Components
+* Firebase
+* [Tiptap Editor](https://tiptap.dev/)
+* [Fabric.js](http://fabricjs.com/)
+* [React Beatiful Dnd](https://github.com/atlassian/react-beautiful-dnd)
+* [React Joyride](https://react-joyride.com/)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+## Demo
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Future Features
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Contact
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
