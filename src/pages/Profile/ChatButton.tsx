@@ -9,6 +9,7 @@ import { setAlert, setChatRoomID } from "../../action/IsPreviewReducerAction";
 import { v4 } from "uuid";
 import firebase from "../../utilis/firebase";
 import styled from "styled-components";
+import useAlertCalling from "../../components/useAlertCalling";
 
 export interface chatRoom {
   chatRoomID: string;
@@ -43,13 +44,11 @@ const ChatButton = ({ profileData }: UserReducer) => {
   const isLogin = useSelector(
     (state: RootState) => state.IsPreviewReducer.userIsLogin
   );
+  const { startAlert } = useAlertCalling();
   const toChatRoom = async () => {
     if (!isLogin) {
-      dispatch(setAlert({ isAlert: true, text: "請先登入再開啟對話!" }));
+      startAlert("請先登入再開啟對話!");
       navigate(`/login`);
-      setTimeout(() => {
-        dispatch(setAlert({ isAlert: false, text: "" }));
-      }, 3000);
       return;
     }
 
@@ -76,10 +75,7 @@ const ChatButton = ({ profileData }: UserReducer) => {
       };
       await firebase.uploadDoc("chatrooms", chatRoomID, chatRoomData);
       await firebase.initialChat(profileData, userData, chatRoomID);
-      dispatch(setAlert({ isAlert: true, text: "成功開啟對話!" }));
-      setTimeout(() => {
-        dispatch(setAlert({ isAlert: false, text: "" }));
-      }, 3000);
+      startAlert("成功開啟對話!");
       navigate(`/chatroom/${userData.userID}`);
 
       const newUserData = await firebase.readData("users", userData.userID);

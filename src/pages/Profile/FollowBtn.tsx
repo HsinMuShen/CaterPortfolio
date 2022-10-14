@@ -7,6 +7,7 @@ import styled from "styled-components";
 import { UserReducer } from "../../reducers";
 import { userLoading } from "../../action/UserReducerAction";
 import { setAlert } from "../../action/IsPreviewReducerAction";
+import useAlertCalling from "../../components/useAlertCalling";
 
 import firebase from "../../utilis/firebase";
 
@@ -20,14 +21,12 @@ const FollowBtn = ({ profileData, setIsLargeLoading }: UserReducer) => {
   );
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { startAlert } = useAlertCalling();
   const followPortfolio = async () => {
     {
       if (!isLogin) {
-        dispatch(setAlert({ isAlert: true, text: "請先登入再進行收藏!" }));
+        startAlert("請先登入再進行收藏!");
         navigate(`/login`);
-        setTimeout(() => {
-          dispatch(setAlert({ isAlert: false, text: "" }));
-        }, 3000);
         return;
       }
       if (isFollow) {
@@ -35,19 +34,13 @@ const FollowBtn = ({ profileData, setIsLargeLoading }: UserReducer) => {
         await firebase.cancelMemberFollowing(profileData, userData);
         setIsFollow(false);
         setIsLargeLoading(false);
-        dispatch(setAlert({ isAlert: true, text: "取消收藏!" }));
-        setTimeout(() => {
-          dispatch(setAlert({ isAlert: false, text: "" }));
-        }, 2000);
+        startAlert("取消收藏!");
       } else {
         setIsLargeLoading(true);
         await firebase.addMemberFollowing(profileData, userData);
         setIsFollow(true);
         setIsLargeLoading(false);
-        dispatch(setAlert({ isAlert: true, text: "加入收藏!" }));
-        setTimeout(() => {
-          dispatch(setAlert({ isAlert: false, text: "" }));
-        }, 2000);
+        startAlert("加入收藏!");
       }
     }
 

@@ -44,6 +44,7 @@ import {
   SingleComponentUnit,
   EditContentLayout,
 } from "../../utilis/styledExtending";
+import useAlertCalling from "../../components/useAlertCalling";
 
 export interface portfolioComContent {
   image: string[];
@@ -57,6 +58,7 @@ const Portfolio = () => {
   const [isLargeLoading, setIsLargeLoading] = useState<boolean>(false);
   const [userID, setUserID] = useState("");
   const dispatch = useDispatch();
+  const { startAlert } = useAlertCalling();
   const isPreview = useSelector(
     (state: RootState) => state.IsPreviewReducer.portfolio
   );
@@ -64,14 +66,8 @@ const Portfolio = () => {
   const portfolioData = useSelector(
     (state: RootState) => state.PortfolioReducer
   );
-  const portfolioIndex = useSelector(
-    (state: RootState) => state.PortfolioIndex
-  );
   const websiteContentIndex = Number(
     window.localStorage.getItem("websiteContentIndex")
-  );
-  const portfolioListIndex = Number(
-    window.localStorage.getItem("portfolioListIndex")
   );
   const userData = useSelector((state: RootState) => state.UserReducer);
   const portfolioID = useParams().id;
@@ -95,15 +91,9 @@ const Portfolio = () => {
     try {
       await firebase.uploadDoc("websites", userData.userID, websiteData);
       firebase.uploadPortfolio(tempPortfolioData);
-      dispatch(setAlert({ isAlert: true, text: "成功更新網站與作品集!" }));
-      setTimeout(() => {
-        dispatch(setAlert({ isAlert: false, text: "" }));
-      }, 3000);
+      startAlert("成功更新網站與作品集!");
     } catch (e) {
-      dispatch(setAlert({ isAlert: true, text: `${e}` }));
-      setTimeout(() => {
-        dispatch(setAlert({ isAlert: false, text: "" }));
-      }, 3000);
+      startAlert("作品集更新失敗");
     }
   };
 

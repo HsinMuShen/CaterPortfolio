@@ -17,6 +17,7 @@ import firebase from "../../utilis/firebase";
 
 import initialUserImage from "../../images/user.png";
 import initialBackgroundImg from "../../images/initialBackgroundImg.jpg";
+import useAlertCalling from "../../components/useAlertCalling";
 
 const auth = getAuth(firebaseApp);
 
@@ -103,42 +104,29 @@ const Login = () => {
   const userData = useSelector((state: RootState) => state.UserReducer);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { startAlert } = useAlertCalling();
 
   const onSubmit = () => {
     if (activeItem === "signin") {
       signInWithEmailAndPassword(auth, userData.email, userData.password)
         .then((userCredential) => {
           const user = userCredential.user;
-          dispatch(setAlert({ isAlert: true, text: "成功登入!" }));
-          setTimeout(() => {
-            dispatch(setAlert({ isAlert: false, text: "" }));
-          }, 3000);
-          const tempData = userData;
+          startAlert("成功登入!");
+          const tempData = { ...userData };
           tempData.userID = user.uid;
           navigate("/");
         })
         .catch((error) => {
           const errorMessage = error.message;
           if (errorMessage === "Firebase: Error (auth/user-not-found).") {
-            dispatch(
-              setAlert({
-                isAlert: true,
-                text: `找不到使用者，請檢察輸入信箱與密碼是否正確`,
-              })
-            );
+            startAlert(`找不到使用者，請檢察輸入信箱與密碼是否正確`);
           }
-          setTimeout(() => {
-            dispatch(setAlert({ isAlert: false, text: "" }));
-          }, 3000);
         });
     } else if (activeItem === "register") {
       createUserWithEmailAndPassword(auth, userData.email, userData.password)
         .then((userCredential) => {
           const user = userCredential.user;
-          dispatch(setAlert({ isAlert: true, text: "成功註冊!" }));
-          setTimeout(() => {
-            dispatch(setAlert({ isAlert: false, text: "" }));
-          }, 3000);
+          startAlert("成功註冊!");
           const tempData = { ...userData };
           tempData.userID = user.uid;
           tempData.userImage = initialUserImage;
@@ -149,50 +137,22 @@ const Login = () => {
         .catch((error) => {
           const errorMessage = error.message;
           if (userData.name === "") {
-            dispatch(
-              setAlert({
-                isAlert: true,
-                text: `請輸入使用者名稱`,
-              })
-            );
+            startAlert("請輸入使用者名稱!");
           } else if (errorMessage === "Firebase: Error (auth/missing-email).") {
-            dispatch(
-              setAlert({
-                isAlert: true,
-                text: `電子信箱欄位不得空白`,
-              })
-            );
+            startAlert("電子信箱欄位不得空白");
           } else if (errorMessage === "Firebase: Error (auth/invalid-email).") {
-            dispatch(
-              setAlert({
-                isAlert: true,
-                text: `電子信箱格式錯誤`,
-              })
-            );
+            startAlert("電子信箱格式錯誤");
           } else if (
             errorMessage === "Firebase: Error (auth/internal-error)." ||
             errorMessage ===
               "Firebase: Password should be at least 6 characters (auth/weak-password)."
           ) {
-            dispatch(
-              setAlert({
-                isAlert: true,
-                text: `請輸入至少六位數密碼`,
-              })
-            );
+            startAlert("請輸入至少六位數密碼");
           } else if (
             errorMessage === "Firebase: Error (auth/email-already-in-use)."
           ) {
-            dispatch(
-              setAlert({
-                isAlert: true,
-                text: `電子信箱已經被註冊過了`,
-              })
-            );
+            startAlert("電子信箱已經被註冊過了");
           }
-          setTimeout(() => {
-            dispatch(setAlert({ isAlert: false, text: "" }));
-          }, 3000);
         });
     }
   };

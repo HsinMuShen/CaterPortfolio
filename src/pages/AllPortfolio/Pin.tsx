@@ -10,6 +10,7 @@ import { portfolioLoading } from "../../action/PortfolioReducerAction";
 import { setAlert } from "../../action/IsPreviewReducerAction";
 import { RootState } from "../../reducers";
 import firebase from "../../utilis/firebase";
+import useAlertCalling from "../../components/useAlertCalling";
 
 const SinglePin = styled.div<{ size: number }>`
   margin: 15px 10px;
@@ -59,7 +60,6 @@ const PinImage = styled(Link)<{ mainimage: string }>`
   background-size: cover;
   background-position: center;
   border-radius: 16px 16px 0 0;
-  /* border-bottom:1px solid ; */
 `;
 
 const IconArea = styled.div`
@@ -86,28 +86,20 @@ const Pin = ({ size, data }: { size: number; data: DocumentData }) => {
   );
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { startAlert } = useAlertCalling();
 
   const followPortfolio = async () => {
     if (!isLogin) {
-      dispatch(setAlert({ isAlert: true, text: "請先登入才能收藏作品集!" }));
+      startAlert("請先登入才能收藏作品集!");
       navigate(`/login`);
-      setTimeout(() => {
-        dispatch(setAlert({ isAlert: false, text: "" }));
-      }, 3000);
       return;
     }
     if (isFollow) {
       await firebase.cancelPortfolioFollowing(data, userData);
-      dispatch(setAlert({ isAlert: true, text: "取消收藏!" }));
-      setTimeout(() => {
-        dispatch(setAlert({ isAlert: false, text: "" }));
-      }, 3000);
+      startAlert("取消收藏!");
     } else {
       await firebase.addPortfolioFollowing(data, userData);
-      dispatch(setAlert({ isAlert: true, text: "加入收藏!" }));
-      setTimeout(() => {
-        dispatch(setAlert({ isAlert: false, text: "" }));
-      }, 3000);
+      startAlert("加入收藏!");
     }
 
     const renewPortfolioData = await firebase.readData(
