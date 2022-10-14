@@ -1,5 +1,12 @@
 <div align="center">
-  <img src="https://user-images.githubusercontent.com/75158384/195777843-9d285f1d-0f5d-4a60-8b06-939ffbce57c4.png" width="600">
+  <img src="https://user-images.githubusercontent.com/75158384/195777843-9d285f1d-0f5d-4a60-8b06-939ffbce57c4.png" width="500">
+</div>
+<div align="center">
+  <a href="#about-caterportfolio">About</a>
+  <span>|</span>
+  <a href="#demo">Demo</a>
+  <span>|</span>
+  <a href="https://caterportfolio.web.app">Website Link</a>
 </div>
 
 # CaterPortfolio
@@ -31,6 +38,7 @@
   <img src="https://img.shields.io/badge/Redux-593D88?style=for-the-badge&logo=redux&logoColor=white">
   <img src="https://img.shields.io/badge/firebase-ffca28?style=for-the-badge&logo=firebase&logoColor=black">
 </div>
+
 * TypeScript
 * React
 * React-Router-DOM
@@ -44,11 +52,13 @@
 * [React Joyride](https://react-joyride.com/)
 
 
-
-
 ## Demo
 
 ## Future Features
+* Resume and Portfolio classification System
 
 ## Contact
+ * [LinkedIn](https://www.linkedin.com/in/hsin-mu-shen/)
+ * <hsinmushen84@email.com>
+
 
