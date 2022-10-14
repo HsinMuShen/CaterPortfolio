@@ -6,7 +6,6 @@ import styled from "styled-components";
 
 import { UserReducer } from "../../reducers";
 import { userLoading } from "../../action/UserReducerAction";
-import { setAlert } from "../../action/IsPreviewReducerAction";
 import useAlertCalling from "../../components/useAlertCalling";
 
 import firebase from "../../utilis/firebase";
