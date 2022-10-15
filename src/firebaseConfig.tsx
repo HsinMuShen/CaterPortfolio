@@ -4,9 +4,9 @@ import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: `${process.env.REACT_APP_FIREBASE_APIKEY}`,
-  authDomain: "caterprotfolio.firebaseapp.com",
-  projectId: "caterprotfolio",
-  storageBucket: "caterprotfolio.appspot.com",
+  authDomain: "caterportfolio.firebaseapp.com",
+  projectId: "caterportfolio",
+  storageBucket: "caterportfolio.appspot.com",
   messagingSenderId: `${process.env.REACT_APP_FIREBASE_SENDERID}`,
   appId: `${process.env.REACT_APP_FIREBASE_APPID}`,
 };
