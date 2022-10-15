@@ -40,7 +40,7 @@
 * Accomplished Instant Messaging with **Firebase onSnapShot API**. Organized data management with **Firebase Firestore Database**. Consummated User Management System with **Firebase Authentication**.
 
 ## Flow Chart
-<img width="1896" alt="CaterPortfolio Flow Chart" src="https://user-images.githubusercontent.com/75158384/195995181-bb05a8d7-d428-43f1-a8c8-cf501d8735b1.png">
+<img width="1989" alt="CaterPortfolio Flow Chart" src="https://user-images.githubusercontent.com/75158384/195995507-a335b294-ddf1-4f5d-83aa-3b2ea1b591f3.png">
 
 ## Development Tools
 <div>
