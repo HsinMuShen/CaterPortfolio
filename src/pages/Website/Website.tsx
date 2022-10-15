@@ -230,7 +230,6 @@ const Website = () => {
                             }
                             sureToDelete={sureToDelete}
                           ></PopUp>
-
                           <MoveBtn {...provided.dragHandleProps}>
                             {isPreview ? null : (
                               <FontAwesomeIcon icon={faUpDownLeftRight} />

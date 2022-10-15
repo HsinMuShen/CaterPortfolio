@@ -121,10 +121,6 @@ const PortfolioAreaCom = ({
   userID: string | undefined;
 }) => {
   const dispatch = useDispatch();
-  const deletePortfolioData = useRef<{
-    portfolioID: string;
-    portfolioListIndex: number;
-  }>();
   const websiteData = useSelector((state: RootState) => state.WebsiteReducer);
   const isPreview = useSelector(
     (state: RootState) => state.IsPreviewReducer.website
@@ -135,22 +131,28 @@ const PortfolioAreaCom = ({
 
   const handleDelete = (portfolioID: string, portfolioListIndex: number) => {
     dispatch(isPreviewTrue("portfolioSinglePopup"));
-    deletePortfolioData.current = { portfolioID, portfolioListIndex };
+    window.localStorage.setItem("deletePortfolioID", portfolioID);
+    window.localStorage.setItem(
+      "deletePortfolioListIndex",
+      JSON.stringify(portfolioListIndex)
+    );
+    window.localStorage.setItem("deleteContentIndex", JSON.stringify(index));
   };
 
   const sureToDelete = (isSure: boolean) => {
     if (isSure) {
       deleteSinglePortfolio(
-        deletePortfolioData.current!.portfolioID,
-        deletePortfolioData.current!.portfolioListIndex
+        window.localStorage.getItem("deletePortfolioID")!,
+        Number(window.localStorage.getItem("deletePortfolioListIndex")),
+        Number(window.localStorage.getItem("deleteContentIndex"))
       );
     }
     dispatch(isPreviewFalse("portfolioSinglePopup"));
   };
-
   const deleteSinglePortfolio = (
     portfolioID: string,
-    portfolioListIndex: number
+    portfolioListIndex: number,
+    index: number
   ) => {
     firebase.deletePortfolio(portfolioID);
 
