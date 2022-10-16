@@ -10,6 +10,34 @@ const ButtonStyle = styled.div`
   }
 `;
 
+export const SinglePinStyle = styled.div`
+  margin: 15px 10px;
+  border-radius: 16px;
+  background-color: #ffffff;
+  border: 1.5px solid #555555;
+  display: flex;
+  flex-direction: column;
+  &:hover {
+    box-shadow: 0px 0px 10px #777777;
+  }
+`;
+
+export const IntroAreaStyle = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 80px;
+`;
+
+export const IntroImgStyle = styled(Link)`
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid;
+  margin: 5px 10px 5px 0;
+  background-size: cover;
+  background-position: center;
+`;
+
 export const EditPageWrapper = styled.div`
   width: 100%;
   min-height: 100vh;
@@ -19,6 +47,16 @@ export const EditPageWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+`;
+
+export const IconArea = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+export const FollowText = styled.p`
+  margin: 5px;
+  font-size: 14px;
 `;
 
 export const EditToggleButton = styled(ButtonStyle)`

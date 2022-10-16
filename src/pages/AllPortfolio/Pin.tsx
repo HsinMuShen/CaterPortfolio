@@ -7,45 +7,31 @@ import { DocumentData } from "firebase/firestore";
 import { useDispatch, useSelector } from "react-redux";
 
 import { portfolioLoading } from "../../action/PortfolioReducerAction";
-import { setAlert } from "../../action/IsPreviewReducerAction";
 import { RootState } from "../../reducers";
 import firebase from "../../utilis/firebase";
 import useAlertCalling from "../../components/useAlertCalling";
+import {
+  SinglePinStyle,
+  IntroAreaStyle,
+  IntroImgStyle,
+  IconArea,
+  FollowText,
+} from "../../utilis/styledExtending";
 
-const SinglePin = styled.div<{ size: number }>`
-  margin: 15px 10px;
-  border-radius: 16px;
-  background-color: #ffffff;
-  border: 1.5px solid #555555;
+const SinglePin = styled(SinglePinStyle)<{ size: number }>`
   grid-row-end: span ${(props) => props.size};
-  display: flex;
-  flex-direction: column;
-  &:hover {
-    box-shadow: 0px 0px 10px #777777;
-  }
-`;
-
-const IntroArea = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 80px;
-  margin: 10px 10px 20px;
 `;
 
 const UserArea = styled.div`
   display: flex;
   align-items: center;
 `;
+const IntroArea = styled(IntroAreaStyle)`
+  margin: 10px 10px 15px;
+`;
 
-const IntroImg = styled(Link)<{ $backgroundImg: string }>`
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  border: 1px solid;
-  margin: 5px 10px 5px 0;
+const IntroImg = styled(IntroImgStyle)<{ $backgroundImg: string }>`
   background-image: url(${(props) => props.$backgroundImg});
-  background-size: cover;
-  background-position: center;
 `;
 
 const Intro = styled(Link)`
@@ -60,16 +46,6 @@ const PinImage = styled(Link)<{ mainimage: string }>`
   background-size: cover;
   background-position: center;
   border-radius: 16px 16px 0 0;
-`;
-
-const IconArea = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const FollowText = styled.p`
-  margin: 5px;
-  font-size: 14px;
 `;
 
 const FollowIcon = styled.div<{ backgroundColor: string }>`
