@@ -12,6 +12,7 @@ import { websiteLoading } from "../action/WebsiteReducerAction";
 import { portfolioLoading } from "../action/PortfolioReducerAction";
 import { setAlert } from "../action/IsPreviewReducerAction";
 import { useDispatch } from "react-redux";
+import useAlertCalling from "./useAlertCalling";
 
 import { initialResumeData } from "../reducers/ResumeContent";
 import { initialWebsiteData } from "../reducers/WebsiteContent";
@@ -79,6 +80,18 @@ const HeaderSidebar = ({
 }: UserReducer) => {
   const nevigate = useNavigate();
   const dispatch = useDispatch();
+
+  const { startAlert } = useAlertCalling();
+  const signoutHandler = () => {
+    signOut(auth);
+    nevigate("/");
+    dispatch(userLoading(initialUserData));
+    dispatch(portfolioLoading(initialPortfolioData));
+    dispatch(websiteLoading(initialWebsiteData));
+    dispatch(resumeLoading(initialResumeData));
+    startAlert("成功登出!");
+  };
+
   return (
     <Wrapper isSideBar={isSideBar}>
       <Nav
@@ -107,22 +120,7 @@ const HeaderSidebar = ({
         <Tag to={`/website/${userData.userID}`} $isMobile={false}>
           個人網站
         </Tag>
-        <Tag
-          to={"/"}
-          onClick={() => {
-            signOut(auth);
-            nevigate("/");
-            dispatch(userLoading(initialUserData));
-            dispatch(portfolioLoading(initialPortfolioData));
-            dispatch(websiteLoading(initialWebsiteData));
-            dispatch(resumeLoading(initialResumeData));
-            dispatch(setAlert({ isAlert: true, text: "成功登出!" }));
-            setTimeout(() => {
-              dispatch(setAlert({ isAlert: false, text: "" }));
-            }, 3000);
-          }}
-          $isMobile={false}
-        >
+        <Tag to={"/"} onClick={signoutHandler} $isMobile={false}>
           登出
         </Tag>
       </TagArea>

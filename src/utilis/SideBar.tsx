@@ -14,6 +14,7 @@ import { portfolioLoading } from "../action/PortfolioReducerAction";
 import { setAlert } from "../action/IsPreviewReducerAction";
 
 import firebase from "./firebase";
+import useAlertCalling from "../components/useAlertCalling";
 
 const SideBarArea = styled.div`
   position: fixed;
@@ -74,14 +75,12 @@ const SideBar = ({
   );
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { startAlert } = useAlertCalling();
 
   const followPortfolio = async () => {
     if (!isLogin) {
-      dispatch(setAlert({ isAlert: true, text: "請先登入再進行收藏!" }));
+      startAlert("請先登入再進行收藏!");
       navigate(`/login`);
-      setTimeout(() => {
-        dispatch(setAlert({ isAlert: false, text: "" }));
-      }, 3000);
       return;
     }
     if (type === "portfolio") {
@@ -91,20 +90,14 @@ const SideBar = ({
           userData
         );
         setIsFollow(false);
-        dispatch(setAlert({ isAlert: true, text: "取消收藏!" }));
-        setTimeout(() => {
-          dispatch(setAlert({ isAlert: false, text: "" }));
-        }, 3000);
+        startAlert("取消收藏!");
       } else {
         await firebase.addPortfolioFollowing(
           data as portfolioReducer,
           userData
         );
         setIsFollow(true);
-        dispatch(setAlert({ isAlert: true, text: "加入收藏!" }));
-        setTimeout(() => {
-          dispatch(setAlert({ isAlert: false, text: "" }));
-        }, 3000);
+        startAlert("加入收藏!");
       }
       if ("portfolioID" in data) {
         const renewPortfolioData = await firebase.readData(
@@ -119,17 +112,11 @@ const SideBar = ({
       if (isFollow) {
         await firebase.cancelResumeFollowing(data as resumeReducer, userData);
         setIsFollow(false);
-        dispatch(setAlert({ isAlert: true, text: "取消收藏!" }));
-        setTimeout(() => {
-          dispatch(setAlert({ isAlert: false, text: "" }));
-        }, 3000);
+        startAlert("取消收藏!");
       } else {
         await firebase.addResumeFollowing(data as resumeReducer, userData);
         setIsFollow(true);
-        dispatch(setAlert({ isAlert: true, text: "加入收藏!" }));
-        setTimeout(() => {
-          dispatch(setAlert({ isAlert: false, text: "" }));
-        }, 3000);
+        startAlert("加入收藏!");
       }
       if ("userID" in data) {
         const renewResumeData = await firebase.readData("resumes", data.userID);
@@ -159,7 +146,9 @@ const SideBar = ({
     <SideBarArea id="sideBar">
       <Options>
         <FollowArea>
-          <FollowText>點擊愛心取消收藏!</FollowText>
+          <FollowText>
+            {isFollow ? "點擊愛心取消收藏!" : "點擊愛心收藏!"}
+          </FollowText>
           <IconArea>
             <FollowIcon
               onClick={followPortfolio}

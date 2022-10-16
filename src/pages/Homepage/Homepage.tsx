@@ -5,9 +5,9 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../reducers";
 
 import DesktopLogo from "../../images/caterportfolio_homepageLogo0.png";
-import ResumeEdit from "./resumeEdit.png";
-import WebsiteEdit from "./websiteEdit.png";
-import AllPortfolios from "./allPortfolios.png";
+import ResumeEdit from "./resumeEdit.gif";
+import WebsiteEdit from "./websiteEdit.gif";
+import AllPortfolios from "./allPortfolios.gif";
 import QusetionMark, { introSteps } from "../../utilis/QusetionMark";
 import { useMediaQuery } from "../../utilis/useMediaQuery";
 

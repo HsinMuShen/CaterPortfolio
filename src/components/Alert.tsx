@@ -31,6 +31,7 @@ const Alert = () => {
   const alertData = useSelector(
     (state: RootState) => state.IsPreviewReducer.alert
   );
+
   return (
     <Wrapper isAlert={alertData.isAlert}>
       <AlertText>
