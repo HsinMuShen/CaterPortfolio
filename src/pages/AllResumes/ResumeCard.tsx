@@ -1,35 +1,29 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 
-import { setAlert } from "../../action/IsPreviewReducerAction";
 import { RootState } from "../../reducers";
 import { ResumeReducer } from "../../reducers";
 
 import firebase from "../../utilis/firebase";
 import useAlertCalling from "../../components/useAlertCalling";
+import {
+  SinglePinStyle,
+  IntroAreaStyle,
+  IntroImgStyle,
+  IconArea,
+  FollowText,
+} from "../../utilis/styledExtending";
 
-const SinglePin = styled.div<{ size: number }>`
-  margin: 15px 15px;
-  border-radius: 16px;
-  background-color: #ffffff;
-  border: 1px solid;
+const SinglePin = styled(SinglePinStyle)`
   width: 320px;
   height: 360px;
-  display: flex;
-  flex-direction: column;
-  &:hover {
-    box-shadow: 0px 0px 10px #777777;
-  }
 `;
 
-const IntroArea = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 80px;
+const IntroArea = styled(IntroAreaStyle)`
   margin: 10px 10px 5px;
 `;
 
@@ -41,15 +35,8 @@ const Intro = styled(Link)`
   align-items: center;
 `;
 
-const IntroImg = styled.div<{ backgroundImg: string }>`
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  border: 1px solid;
-  margin: 5px 10px 5px 0;
+const IntroImg = styled(IntroImgStyle)<{ backgroundImg: string }>`
   background-image: url(${(props) => props.backgroundImg});
-  background-size: cover;
-  background-position: center;
 `;
 
 const IntroName = styled.p`
@@ -62,16 +49,6 @@ const PinImage = styled(Link)<{ mainimage: string }>`
   background-image: url(${(props) => props.mainimage});
   background-size: cover;
   background-position: top;
-`;
-
-const IconArea = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const FollowText = styled.p`
-  margin: 5px;
-  font-size: 14px;
 `;
 
 const FollowIcon = styled.div<{ backgroundColor: string }>`
@@ -117,11 +94,14 @@ const ResumeCard = ({ size, data }: { size: number; data: ResumeReducer }) => {
     };
   }, [data]);
   return (
-    <SinglePin size={size}>
+    <SinglePin>
       <PinImage to={`/resume/${data.userID}`} mainimage={data.coverImage} />
       <IntroArea>
         <Intro to={`/profile/${data.userID}`}>
-          <IntroImg backgroundImg={data.userImage}></IntroImg>
+          <IntroImg
+            backgroundImg={data.userImage}
+            to={`/profile/${data.userID}`}
+          ></IntroImg>
           <IntroName>{data.name}</IntroName>
         </Intro>
 
