@@ -18,7 +18,7 @@ import {
   resumeAddSetting,
   resumeRenewContent,
 } from "../../action/ResumeReducerAction";
-import { isPreviewTrue, setAlert } from "../../action/IsPreviewReducerAction";
+import { isPreviewTrue } from "../../action/IsPreviewReducerAction";
 
 import firebase from "../../utilis/firebase";
 import Loading from "../../utilis/Loading";
@@ -30,6 +30,7 @@ import SideBar from "../../utilis/SideBar";
 import QusetionMark, { introSteps } from "../../utilis/QusetionMark";
 import { resumeChoice } from "./resumeComponents";
 import { ResumeComponents } from "./resumeComponents";
+import useAlertCalling from "../../components/useAlertCalling";
 import {
   LinkButton,
   UploadButton,
@@ -127,6 +128,7 @@ const Resume: React.FC = () => {
   );
 
   const dispatch = useDispatch();
+  const { startAlert } = useAlertCalling();
 
   const addResumeCom = (comIndex: number) => {
     dispatch(resumeAddCom(resumeChoice[comIndex]));
@@ -151,24 +153,15 @@ const Resume: React.FC = () => {
         try {
           await firebase.uploadDoc("resumes", `${resumeID}`, tempData);
           setIsLargeLoading(false);
-          dispatch(setAlert({ isAlert: true, text: "成功更新履歷!" }));
-          setTimeout(() => {
-            dispatch(setAlert({ isAlert: false, text: "" }));
-          }, 3000);
+          startAlert("成功更新履歷!");
         } catch (e) {
-          dispatch(setAlert({ isAlert: true, text: `${e}` }));
-          setTimeout(() => {
-            dispatch(setAlert({ isAlert: false, text: "" }));
-          }, 3000);
+          startAlert("履歷更新失敗!");
         }
       })
       .catch(async () => {
         await firebase.uploadDoc("resumes", `${resumeID}`, resumeData);
         setIsLargeLoading(false);
-        dispatch(setAlert({ isAlert: true, text: "成功更新履歷!" }));
-        setTimeout(() => {
-          dispatch(setAlert({ isAlert: false, text: "" }));
-        }, 3000);
+        startAlert("成功更新履歷!");
       });
   };
 
@@ -298,15 +291,7 @@ const Resume: React.FC = () => {
           <ResumeUpoloadBtn
             onClick={() => {
               if (resumeData.content.length === 0) {
-                dispatch(
-                  setAlert({
-                    isAlert: true,
-                    text: "請先新增內容再將履歷儲存!",
-                  })
-                );
-                setTimeout(() => {
-                  dispatch(setAlert({ isAlert: false, text: "" }));
-                }, 3000);
+                startAlert("請先新增內容再將履歷儲存!");
               } else {
                 dispatch(isPreviewTrue("resume"));
                 uploadResume();

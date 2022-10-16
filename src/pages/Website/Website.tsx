@@ -36,6 +36,7 @@ import QusetionMark, { introSteps } from "../../utilis/QusetionMark";
 import WebsiteInitialSetup from "./WebsiteInitialSetup";
 import LargeLoading from "../../utilis/LargeLoading";
 import { websiteChoice } from "./websiteComponents";
+import useAlertCalling from "../../components/useAlertCalling";
 import {
   EditPageWrapper,
   LinkButton,
@@ -90,6 +91,8 @@ const Website = () => {
     (state: RootState) => state.IsPreviewReducer
   );
 
+  const { startAlert } = useAlertCalling();
+
   const addWebsiteCom = (conIndex: number) => {
     dispatch(websiteAddCom(websiteChoice[conIndex]));
   };
@@ -126,15 +129,9 @@ const Website = () => {
     tempData.time = Date.now();
     try {
       await firebase.uploadDoc("websites", `${websiteID}`, tempData);
-      dispatch(setAlert({ isAlert: true, text: "成功更新網站!" }));
-      setTimeout(() => {
-        dispatch(setAlert({ isAlert: false, text: "" }));
-      }, 3000);
+      startAlert("成功更新網站!");
     } catch (e) {
-      dispatch(setAlert({ isAlert: true, text: `${e}` }));
-      setTimeout(() => {
-        dispatch(setAlert({ isAlert: false, text: "" }));
-      }, 3000);
+      startAlert("網站更新失敗!");
     }
   };
 
@@ -233,7 +230,6 @@ const Website = () => {
                             }
                             sureToDelete={sureToDelete}
                           ></PopUp>
-
                           <MoveBtn {...provided.dragHandleProps}>
                             {isPreview ? null : (
                               <FontAwesomeIcon icon={faUpDownLeftRight} />

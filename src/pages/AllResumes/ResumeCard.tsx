@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
-import { DocumentData } from "firebase/firestore";
 import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 
-import { portfolioLoading } from "../../action/PortfolioReducerAction";
 import { setAlert } from "../../action/IsPreviewReducerAction";
 import { RootState } from "../../reducers";
 import { ResumeReducer } from "../../reducers";
 
 import firebase from "../../utilis/firebase";
+import useAlertCalling from "../../components/useAlertCalling";
 
 const SinglePin = styled.div<{ size: number }>`
   margin: 15px 15px;
@@ -87,30 +86,21 @@ const ResumeCard = ({ size, data }: { size: number; data: ResumeReducer }) => {
   const isLogin = useSelector(
     (state: RootState) => state.IsPreviewReducer.userIsLogin
   );
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { startAlert } = useAlertCalling();
 
   const followPortfolio = async () => {
     if (!isLogin) {
-      dispatch(setAlert({ isAlert: true, text: "請先登入才能收藏履歷!" }));
+      startAlert("請先登入才能收藏履歷!");
       navigate(`/login`);
-      setTimeout(() => {
-        dispatch(setAlert({ isAlert: false, text: "" }));
-      }, 3000);
       return;
     }
     if (isFollow) {
       await firebase.cancelResumeFollowing(data, userData);
-      dispatch(setAlert({ isAlert: true, text: "取消收藏!" }));
-      setTimeout(() => {
-        dispatch(setAlert({ isAlert: false, text: "" }));
-      }, 3000);
+      startAlert("取消收藏!");
     } else {
       await firebase.addResumeFollowing(data, userData);
-      dispatch(setAlert({ isAlert: true, text: "加入收藏!" }));
-      setTimeout(() => {
-        dispatch(setAlert({ isAlert: false, text: "" }));
-      }, 3000);
+      startAlert("加入收藏!");
     }
   };
 

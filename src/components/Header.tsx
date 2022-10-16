@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { db, firebaseApp } from "../firebaseConfig";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { RootState } from "../reducers";
@@ -17,6 +17,7 @@ import {
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 
 import HeaderSidebar from "./HeaderSidebar";
+import useAlertCalling from "./useAlertCalling";
 import LogoWithText from "../images/caterportfolio_logowithtext.png";
 
 const Wrapper = styled.div<{
@@ -112,6 +113,7 @@ const Header = () => {
   );
   const dispatch = useDispatch();
   const location = useLocation();
+  const { startAlert } = useAlertCalling();
 
   useEffect(() => {
     onAuthStateChanged(auth, async (user) => {
@@ -140,12 +142,7 @@ const Header = () => {
             change.doc.data().message[change.doc.data().message.length - 1]
               .name;
           if (name !== userData.name) {
-            dispatch(
-              setAlert({ isAlert: true, text: `${name}傳送了訊息給你!` })
-            );
-            setTimeout(() => {
-              dispatch(setAlert({ isAlert: false, text: "" }));
-            }, 3000);
+            startAlert(`${name}傳送了訊息給你!`);
           }
         }
       });

@@ -18,6 +18,7 @@ import { UserReducer } from "../../reducers";
 import firebase from "../../utilis/firebase";
 import FollowBtn from "./FollowBtn";
 import ChatButton from "./ChatButton";
+import useAlertCalling from "../../components/useAlertCalling";
 
 const Wrapper = styled.div``;
 
@@ -158,6 +159,7 @@ const MemberIntro = ({
     (state: RootState) => state.IsPreviewReducer
   );
   const dispatch = useDispatch();
+  const { startAlert } = useAlertCalling();
 
   const renewImageUrl = async (type: string, file: File) => {
     setIsLargeLoading(true);
@@ -265,17 +267,9 @@ const MemberIntro = ({
                     firebase.changeUserImage("websites", userData);
                     firebase.changeUserImage("resumes", userData);
                     reNewPortfolioCollection();
-                    dispatch(
-                      setAlert({ isAlert: true, text: "成功更新個人檔案!" })
-                    );
-                    setTimeout(() => {
-                      dispatch(setAlert({ isAlert: false, text: "" }));
-                    }, 3000);
+                    startAlert("成功更新個人檔案!");
                   } catch (e) {
-                    dispatch(setAlert({ isAlert: true, text: `${e}` }));
-                    setTimeout(() => {
-                      dispatch(setAlert({ isAlert: false, text: "" }));
-                    }, 3000);
+                    startAlert("更新個人檔案失敗");
                   }
                 }
               }}

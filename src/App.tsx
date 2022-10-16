@@ -87,7 +87,6 @@ const App: React.FC = () => {
     }
     dispatch(setHomepageList(homepageList));
   }, []);
-
   return (
     <>
       <GlobalStyle />
