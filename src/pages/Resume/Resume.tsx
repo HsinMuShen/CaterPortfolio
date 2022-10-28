@@ -1,7 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import * as htmlToImage from "html-to-image";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  DropResult,
+} from "react-beautiful-dnd";
 import { useParams, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -166,7 +171,7 @@ const Resume: React.FC = () => {
       });
   };
 
-  const handleOnDragEnd = (result: any) => {
+  const handleOnDragEnd = (result: DropResult) => {
     if (!result.destination) return;
     const items: resumeComContent[] = [...resumeData.content];
     const [reorderedItem] = items.splice(result.source.index, 1);

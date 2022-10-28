@@ -14,6 +14,7 @@
     "@tiptap/extension-text-style": "^2.0.0-beta.195",
     "@tiptap/react": "^2.0.0-beta.114",
     "@tiptap/starter-kit": "^2.0.0-beta.191",
+    "@types/fabric": "^4.5.12",
     "@types/jest": "^28.1.8",
     "@types/node": "^18.7.13",
     "@types/react": "^18.0.17",

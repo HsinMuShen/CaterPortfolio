@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { v4 } from "uuid";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  DropResult,
+} from "react-beautiful-dnd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUpDownLeftRight } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
@@ -98,7 +103,7 @@ const Portfolio = () => {
     }
   };
 
-  const handleOnDragEnd = (result: any) => {
+  const handleOnDragEnd = (result: DropResult) => {
     if (!result.destination) return;
     const items: portfolioComContent[] = [...portfolioData.content];
     const [reorderedItem] = items.splice(result.source.index, 1);

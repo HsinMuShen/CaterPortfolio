@@ -64,7 +64,7 @@ interface PreviewImageInputProps {
   ) => Promise<void>;
   listIndex: number;
   image: string;
-  style?: any;
+  style?: React.CSSProperties;
 }
 
 const PreviewImageInput = ({

@@ -190,7 +190,7 @@ interface props {
     listIndex: number
   ) => Promise<void>;
   listIndex: number;
-  style?: any;
+  style?: React.CSSProperties;
   index: number;
 }
 

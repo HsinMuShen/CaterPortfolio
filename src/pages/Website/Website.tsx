@@ -1,7 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  DropResult,
+} from "react-beautiful-dnd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUpDownLeftRight,
@@ -136,7 +141,7 @@ const Website = () => {
     }
   };
 
-  const handleOnDragEnd = (result: any) => {
+  const handleOnDragEnd = (result: DropResult) => {
     if (!result.destination) return;
     const items: websiteComContent[] = [...websiteData.content];
     const [reorderedItem] = items.splice(result.source.index, 1);
