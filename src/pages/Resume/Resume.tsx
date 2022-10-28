@@ -80,7 +80,7 @@ const ResumeEditContentLayout = styled(EditContentLayout)`
   }
 `;
 
-const SineleComponent = styled(SingleComponentUnit)`
+const SingleComponent = styled(SingleComponentUnit)`
   width: 880px;
   @media screen and (max-width: 1279px) {
     width: 80vw;
@@ -252,7 +252,7 @@ const Resume: React.FC = () => {
                             index={index}
                           >
                             {(provided) => (
-                              <SineleComponent
+                              <SingleComponent
                                 {...provided.draggableProps}
                                 ref={provided.innerRef}
                               >
@@ -266,7 +266,7 @@ const Resume: React.FC = () => {
                                     <FontAwesomeIcon icon={faUpDownLeftRight} />
                                   )}
                                 </MoveBtn>
-                              </SineleComponent>
+                              </SingleComponent>
                             )}
                           </Draggable>
                         );
