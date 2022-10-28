@@ -8,6 +8,7 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 import LargeLoading from "../LargeLoading";
 import firebase from "../firebase";
+import useAlertCalling from "../../components/useAlertCalling";
 
 const ImageContainer = styled.div`
   display: flex;
@@ -73,11 +74,11 @@ const PreviewImageInput = ({
   image,
   style,
 }: PreviewImageInputProps) => {
+  const [isLargeLoading, setIsLargeLoading] = useState<boolean>(false);
   const isPreviewData = useSelector(
     (state: RootState) => state.IsPreviewReducer
   );
-  const [isLargeLoading, setIsLargeLoading] = useState<boolean>(false);
-
+  const { startAlert } = useAlertCalling();
   return (
     <ImageContainer>
       <ImagePreview
@@ -98,6 +99,10 @@ const PreviewImageInput = ({
             type="file"
             id="postImage"
             onChange={async (e) => {
+              if (e.target.files![0].type.indexOf("image") == -1) {
+                startAlert("上傳檔案格式錯誤，請重新選擇圖片上傳");
+                return;
+              }
               setIsLargeLoading(true);
               const imageUrl = await firebase.getImageUrl(e.target.files![0]);
               setReducerContent("image", imageUrl, listIndex);
