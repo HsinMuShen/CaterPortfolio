@@ -10,7 +10,6 @@ import {
 import { RootState } from "../../reducers";
 import { useSelector, useDispatch } from "react-redux";
 import { initialSetUserData } from "../../action/UserReducerAction";
-import { setAlert } from "../../action/IsPreviewReducerAction";
 import { useNavigate } from "react-router-dom";
 
 import firebase from "../../utilis/firebase";
