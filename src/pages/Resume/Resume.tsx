@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import * as htmlToImage from "html-to-image";
+import { v4 } from "uuid";
 import {
   DragDropContext,
   Droppable,
@@ -150,9 +151,25 @@ const Resume: React.FC = () => {
 
   const uploadResume = async () => {
     setIsLargeLoading(true);
+    // htmlToImage
+    //   .toPng(refPhoto.current!)
+    //   .then(async (dataUrl) => {
+    //     dispatch(resumeAddSetting("coverImage", dataUrl));
+    //     const tempData = { ...resumeData };
+    //     tempData.coverImage = dataUrl;
+    //     try {
+    //       await firebase.uploadDoc("resumes", `${resumeID}`, tempData);
+    //       setIsLargeLoading(false);
+    //       startAlert("成功更新履歷!");
+    //     } catch (e) {
+    //       startAlert("履歷更新失敗!");
+    //     }
+    //   })
     htmlToImage
-      .toPng(refPhoto.current!)
-      .then(async (dataUrl) => {
+      .toBlob(refPhoto.current!)
+      .then(async (blob) => {
+        const file = new File([blob!], v4());
+        const dataUrl = await firebase.getImageUrl(file);
         dispatch(resumeAddSetting("coverImage", dataUrl));
         const tempData = { ...resumeData };
         tempData.coverImage = dataUrl;
