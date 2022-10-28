@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import * as htmlToImage from "html-to-image";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUserAstronaut,
@@ -127,6 +127,7 @@ const Resume: React.FC = () => {
     (state: RootState) => state.IsPreviewReducer.resume
   );
 
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { startAlert } = useAlertCalling();
 
@@ -181,20 +182,25 @@ const Resume: React.FC = () => {
       if (resumeData) {
         dispatch(resumeLoading(resumeData));
       } else {
-        dispatch(
-          resumeLoading({
-            title: "",
-            coverImage: "",
-            content: [],
-            name: userData.name,
-            followers: [],
-            tags: [],
-            time: null,
-            userID: userData.userID,
-            userImage: userData.userImage,
-            isPublic: false,
-          })
-        );
+        if (resumeID !== userData.userID) {
+          startAlert("查無結果，請確定網址輸入正確");
+          navigate(`/`);
+        } else {
+          dispatch(
+            resumeLoading({
+              title: "",
+              coverImage: "",
+              content: [],
+              name: userData.name,
+              followers: [],
+              tags: [],
+              time: null,
+              userID: userData.userID,
+              userImage: userData.userImage,
+              isPublic: false,
+            })
+          );
+        }
       }
       setIsLoading(false);
     };

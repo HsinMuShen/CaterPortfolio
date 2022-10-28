@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -80,6 +80,7 @@ const Website = () => {
   const [isLargeLoading, setIsLargeLoading] = useState<boolean>(false);
   const deletePortfolioContent = useRef<number>();
   const websiteID = useParams().id;
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const websiteData = useSelector((state: RootState) => state.WebsiteReducer);
@@ -151,17 +152,22 @@ const Website = () => {
       if (websiteData) {
         dispatch(websiteLoading(websiteData));
       } else {
-        dispatch(
-          websiteLoading({
-            title: "",
-            coverImage: "",
-            content: [],
-            name: userData.name,
-            followers: [],
-            userID: userData.userID,
-            userImage: userData.userImage,
-          })
-        );
+        if (websiteID !== userData.userID) {
+          startAlert("查無結果，請確定網址輸入正確");
+          navigate(`/`);
+        } else {
+          dispatch(
+            websiteLoading({
+              title: "",
+              coverImage: "",
+              content: [],
+              name: userData.name,
+              followers: [],
+              userID: userData.userID,
+              userImage: userData.userImage,
+            })
+          );
+        }
       }
       setIsLoading(false);
     };

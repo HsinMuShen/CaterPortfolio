@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { v4 } from "uuid";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -57,6 +57,7 @@ const Portfolio = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isLargeLoading, setIsLargeLoading] = useState<boolean>(false);
   const [userID, setUserID] = useState("");
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { startAlert } = useAlertCalling();
   const isPreview = useSelector(
@@ -123,6 +124,9 @@ const Portfolio = () => {
         if (websiteData) {
           dispatch(websiteLoading(websiteData));
         }
+      } else {
+        startAlert("查無結果，請確定網址輸入正確");
+        navigate(`/`);
       }
       setIsLoading(false);
     };
