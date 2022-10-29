@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { v4 } from "uuid";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  DropResult,
+} from "react-beautiful-dnd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUpDownLeftRight } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
@@ -27,13 +32,15 @@ import {
 import { PortfolioComponents, portfolioChoice } from "./portfolioComponents";
 import InitialSetup from "./InitialSetup";
 import Delete from "../Resume/Delete";
-import Loading from "../../utilis/Loading";
-import PreviewBtn from "../../utilis/PreviewBtn";
-import InitialImg from "../../utilis/cater.png";
-import QusetionMark, { introSteps } from "../../utilis/QusetionMark";
-import LargeLoading from "../../utilis/LargeLoading";
+import Loading from "../../utilis/usefulComponents/Loading";
+import PreviewBtn from "../../utilis/usefulComponents/PreviewBtn";
+import InitialImg from "../../images/cater.png";
+import QusetionMark, {
+  introSteps,
+} from "../../utilis/usefulComponents/QusetionMark";
+import LargeLoading from "../../utilis/usefulComponents/LargeLoading";
 import CreatePortfolioCom from "./CreatePortfolioCom";
-import SideBar from "../../utilis/SideBar";
+import SideBar from "../../utilis/usefulComponents/SideBar";
 import firebase from "../../utilis/firebase";
 import {
   EditPageWrapper,
@@ -57,6 +64,7 @@ const Portfolio = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isLargeLoading, setIsLargeLoading] = useState<boolean>(false);
   const [userID, setUserID] = useState("");
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { startAlert } = useAlertCalling();
   const isPreview = useSelector(
@@ -97,7 +105,7 @@ const Portfolio = () => {
     }
   };
 
-  const handleOnDragEnd = (result: any) => {
+  const handleOnDragEnd = (result: DropResult) => {
     if (!result.destination) return;
     const items: portfolioComContent[] = [...portfolioData.content];
     const [reorderedItem] = items.splice(result.source.index, 1);
@@ -123,6 +131,9 @@ const Portfolio = () => {
         if (websiteData) {
           dispatch(websiteLoading(websiteData));
         }
+      } else {
+        startAlert("查無結果，請確定網址輸入正確");
+        navigate(`/`);
       }
       setIsLoading(false);
     };

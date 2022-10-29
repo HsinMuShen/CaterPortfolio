@@ -6,7 +6,7 @@ import styled from "styled-components";
 import firebase from "../firebase";
 import { websiteComContent } from "../../pages/Website/Website";
 import { RootState } from "../../reducers";
-import LargeLoading from "../LargeLoading";
+import LargeLoading from "../usefulComponents/LargeLoading";
 
 const ImageLabel = styled.label`
   border: 1px solid;
@@ -122,7 +122,7 @@ interface canvasProps {
   ) => Promise<void>;
   listIndex: number;
   index: number;
-  style?: any;
+  style?: React.CSSProperties;
 }
 
 const Canves = ({
@@ -143,7 +143,7 @@ const Canves = ({
     img.src = imageurl;
     fabric.Image.fromURL(
       imageurl,
-      (img: { set: (arg0: { left: number; top: number }) => any }) => {
+      (img: { set: (arg0: { left: number; top: number }) => void }) => {
         const oImg = img.set({
           left: 0,
           top: 0,
@@ -202,7 +202,6 @@ const Canves = ({
         </BtnsArea>
       )}
       {isLargeLoading ? <LargeLoading backgroundColor={"#ffffffb3"} /> : null}
-      {/* <LargeLoading backgroundColor={"#ffffffb3"} /> */}
     </Wrapper>
   );
 };

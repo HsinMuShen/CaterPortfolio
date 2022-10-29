@@ -22,7 +22,7 @@ import {
 } from "../../../action/PortfolioListIndexReducerAction";
 
 import firebase from "../../../utilis/firebase";
-import PopUp from "../../../utilis/PopUp";
+import PopUp from "../../../utilis/usefulComponents/PopUp";
 
 const Wrapper = styled.div`
   display: flex;

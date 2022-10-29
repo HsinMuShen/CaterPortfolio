@@ -8,7 +8,9 @@ import DesktopLogo from "../../images/caterportfolio_homepageLogo0.png";
 import ResumeEdit from "./resumeEdit.gif";
 import WebsiteEdit from "./websiteEdit.gif";
 import AllPortfolios from "./allPortfolios.gif";
-import QusetionMark, { introSteps } from "../../utilis/QusetionMark";
+import QusetionMark, {
+  introSteps,
+} from "../../utilis/usefulComponents/QusetionMark";
 import { useMediaQuery } from "../../utilis/useMediaQuery";
 
 const Wrapper = styled.div`

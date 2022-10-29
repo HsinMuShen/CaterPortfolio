@@ -204,6 +204,10 @@ const MemberIntro = ({
             id="postImage"
             disabled={isPreviewContent.profileIntro}
             onChange={(e) => {
+              if (e.target.files![0].type.indexOf("image") == -1) {
+                startAlert("上傳檔案格式錯誤，請重新選擇圖片上傳");
+                return;
+              }
               renewImageUrl("backgroundImage", e.target.files![0]);
             }}
           />
@@ -232,6 +236,10 @@ const MemberIntro = ({
                 id="postImage"
                 disabled={isPreviewContent.profileIntro}
                 onChange={(e) => {
+                  if (e.target.files![0].type.indexOf("image") == -1) {
+                    startAlert("上傳檔案格式錯誤，請重新選擇圖片上傳");
+                    return;
+                  }
                   renewImageUrl("userImage", e.target.files![0]);
                 }}
               />

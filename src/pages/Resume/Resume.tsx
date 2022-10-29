@@ -1,8 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import * as htmlToImage from "html-to-image";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { useParams } from "react-router-dom";
+import { v4 } from "uuid";
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  DropResult,
+} from "react-beautiful-dnd";
+import { useParams, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUserAstronaut,
@@ -21,13 +27,15 @@ import {
 import { isPreviewTrue } from "../../action/IsPreviewReducerAction";
 
 import firebase from "../../utilis/firebase";
-import Loading from "../../utilis/Loading";
-import LargeLoading from "../../utilis/LargeLoading";
-import PreviewBtn from "../../utilis/PreviewBtn";
+import Loading from "../../utilis/usefulComponents/Loading";
+import LargeLoading from "../../utilis/usefulComponents/LargeLoading";
+import PreviewBtn from "../../utilis/usefulComponents/PreviewBtn";
 import Delete from "./Delete";
 import AddComArea from "./AddComArea";
-import SideBar from "../../utilis/SideBar";
-import QusetionMark, { introSteps } from "../../utilis/QusetionMark";
+import SideBar from "../../utilis/usefulComponents/SideBar";
+import QusetionMark, {
+  introSteps,
+} from "../../utilis/usefulComponents/QusetionMark";
 import { resumeChoice } from "./resumeComponents";
 import { ResumeComponents } from "./resumeComponents";
 import useAlertCalling from "../../components/useAlertCalling";
@@ -75,7 +83,7 @@ const ResumeEditContentLayout = styled(EditContentLayout)`
   }
 `;
 
-const SineleComponent = styled(SingleComponentUnit)`
+const SingleComponent = styled(SingleComponentUnit)`
   width: 880px;
   @media screen and (max-width: 1279px) {
     width: 80vw;
@@ -127,6 +135,7 @@ const Resume: React.FC = () => {
     (state: RootState) => state.IsPreviewReducer.resume
   );
 
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { startAlert } = useAlertCalling();
 
@@ -145,8 +154,10 @@ const Resume: React.FC = () => {
   const uploadResume = async () => {
     setIsLargeLoading(true);
     htmlToImage
-      .toPng(refPhoto.current!)
-      .then(async (dataUrl) => {
+      .toBlob(refPhoto.current!)
+      .then(async (blob) => {
+        const file = new File([blob!], v4());
+        const dataUrl = await firebase.getImageUrl(file);
         dispatch(resumeAddSetting("coverImage", dataUrl));
         const tempData = { ...resumeData };
         tempData.coverImage = dataUrl;
@@ -165,7 +176,7 @@ const Resume: React.FC = () => {
       });
   };
 
-  const handleOnDragEnd = (result: any) => {
+  const handleOnDragEnd = (result: DropResult) => {
     if (!result.destination) return;
     const items: resumeComContent[] = [...resumeData.content];
     const [reorderedItem] = items.splice(result.source.index, 1);
@@ -181,20 +192,25 @@ const Resume: React.FC = () => {
       if (resumeData) {
         dispatch(resumeLoading(resumeData));
       } else {
-        dispatch(
-          resumeLoading({
-            title: "",
-            coverImage: "",
-            content: [],
-            name: userData.name,
-            followers: [],
-            tags: [],
-            time: null,
-            userID: userData.userID,
-            userImage: userData.userImage,
-            isPublic: false,
-          })
-        );
+        if (resumeID !== userData.userID) {
+          startAlert("查無結果，請確定網址輸入正確");
+          navigate(`/`);
+        } else {
+          dispatch(
+            resumeLoading({
+              title: "",
+              coverImage: "",
+              content: [],
+              name: userData.name,
+              followers: [],
+              tags: [],
+              time: null,
+              userID: userData.userID,
+              userImage: userData.userImage,
+              isPublic: false,
+            })
+          );
+        }
       }
       setIsLoading(false);
     };
@@ -241,7 +257,7 @@ const Resume: React.FC = () => {
                             index={index}
                           >
                             {(provided) => (
-                              <SineleComponent
+                              <SingleComponent
                                 {...provided.draggableProps}
                                 ref={provided.innerRef}
                               >
@@ -255,7 +271,7 @@ const Resume: React.FC = () => {
                                     <FontAwesomeIcon icon={faUpDownLeftRight} />
                                   )}
                                 </MoveBtn>
-                              </SineleComponent>
+                              </SingleComponent>
                             )}
                           </Draggable>
                         );

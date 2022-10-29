@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
@@ -13,10 +13,13 @@ import { isPreviewProfile } from "../../action/IsPreviewReducerAction";
 import { UserReducer } from "../../reducers";
 
 import firebase from "../../utilis/firebase";
-import QusetionMark, { introSteps } from "../../utilis/QusetionMark";
+import QusetionMark, {
+  introSteps,
+} from "../../utilis/usefulComponents/QusetionMark";
 import MemberIntro from "./MemberIntro";
-import LargeLoading from "../../utilis/LargeLoading";
+import LargeLoading from "../../utilis/usefulComponents/LargeLoading";
 import FollowingArea from "../Following/FollowingArea";
+import useAlertCalling from "../../components/useAlertCalling";
 
 import initialResume from "../../images/initialResume.png";
 import initialWebsite from "../../images/initialWebsite.png";
@@ -139,7 +142,9 @@ const Profile: React.FC = () => {
     (state: RootState) => state.IsPreviewReducer.profileIntro
   );
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const profileUserID = useParams().id;
+  const { startAlert } = useAlertCalling();
 
   useEffect(() => {
     const loadData = async () => {
@@ -187,6 +192,9 @@ const Profile: React.FC = () => {
       const userData = await firebase.readData("users", `${profileUserID}`);
       if (userData) {
         setProfileData(userData);
+      } else {
+        startAlert("查無結果，請確定網址輸入正確");
+        navigate(`/`);
       }
       setIsLoading(false);
     };

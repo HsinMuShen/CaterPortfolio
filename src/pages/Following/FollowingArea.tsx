@@ -5,7 +5,7 @@ import styled from "styled-components";
 
 import firebase from "../../utilis/firebase";
 
-import Loading from "../../utilis/Loading";
+import Loading from "../../utilis/usefulComponents/Loading";
 import FollowingPortfolioCard from "./FollowingPortfolioCard";
 import FollowingResumeCard from "./FollowingResumeCard";
 import FollowingMemberCard from "./FollowingMemberCard";

@@ -9,6 +9,7 @@ import { websiteAddSetting } from "../../action/WebsiteReducerAction";
 
 import firebase from "../../utilis/firebase";
 import initialWebsite from "../../images/initialWebsite.png";
+import useAlertCalling from "../../components/useAlertCalling";
 
 const Wrapper = styled.div`
   display: flex;
@@ -86,6 +87,8 @@ const WebsiteInitialSetup = ({
 }) => {
   const websiteData = useSelector((state: RootState) => state.WebsiteReducer);
   const dispatch = useDispatch();
+  const { startAlert } = useAlertCalling();
+
   const setWebsiteCoverImage = async (file: File) => {
     setIsLargeLoading(true);
     const imageUrl = await firebase.getImageUrl(file);
@@ -110,6 +113,10 @@ const WebsiteInitialSetup = ({
                 type="file"
                 id="postImage"
                 onChange={(e) => {
+                  if (e.target.files![0].type.indexOf("image") == -1) {
+                    startAlert("上傳檔案格式錯誤，請重新選擇圖片上傳");
+                    return;
+                  }
                   setWebsiteCoverImage(e.target.files![0]);
                 }}
               />

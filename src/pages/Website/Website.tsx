@@ -1,7 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  DropResult,
+} from "react-beautiful-dnd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUpDownLeftRight,
@@ -27,14 +32,16 @@ import {
 import { WebsiteComponents } from "./websiteComponents";
 
 import firebase from "../../utilis/firebase";
-import Loading from "../../utilis/Loading";
-import PreviewBtn from "../../utilis/PreviewBtn";
+import Loading from "../../utilis/usefulComponents/Loading";
+import PreviewBtn from "../../utilis/usefulComponents/PreviewBtn";
 import AddWebsiteCom from "./AddWebsiteCom";
 import Delete from "../Resume/Delete";
-import PopUp from "../../utilis/PopUp";
-import QusetionMark, { introSteps } from "../../utilis/QusetionMark";
+import PopUp from "../../utilis/usefulComponents/PopUp";
+import QusetionMark, {
+  introSteps,
+} from "../../utilis/usefulComponents/QusetionMark";
 import WebsiteInitialSetup from "./WebsiteInitialSetup";
-import LargeLoading from "../../utilis/LargeLoading";
+import LargeLoading from "../../utilis/usefulComponents/LargeLoading";
 import { websiteChoice } from "./websiteComponents";
 import useAlertCalling from "../../components/useAlertCalling";
 import {
@@ -80,6 +87,7 @@ const Website = () => {
   const [isLargeLoading, setIsLargeLoading] = useState<boolean>(false);
   const deletePortfolioContent = useRef<number>();
   const websiteID = useParams().id;
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const websiteData = useSelector((state: RootState) => state.WebsiteReducer);
@@ -135,7 +143,7 @@ const Website = () => {
     }
   };
 
-  const handleOnDragEnd = (result: any) => {
+  const handleOnDragEnd = (result: DropResult) => {
     if (!result.destination) return;
     const items: websiteComContent[] = [...websiteData.content];
     const [reorderedItem] = items.splice(result.source.index, 1);
@@ -151,17 +159,22 @@ const Website = () => {
       if (websiteData) {
         dispatch(websiteLoading(websiteData));
       } else {
-        dispatch(
-          websiteLoading({
-            title: "",
-            coverImage: "",
-            content: [],
-            name: userData.name,
-            followers: [],
-            userID: userData.userID,
-            userImage: userData.userImage,
-          })
-        );
+        if (websiteID !== userData.userID) {
+          startAlert("查無結果，請確定網址輸入正確");
+          navigate(`/`);
+        } else {
+          dispatch(
+            websiteLoading({
+              title: "",
+              coverImage: "",
+              content: [],
+              name: userData.name,
+              followers: [],
+              userID: userData.userID,
+              userImage: userData.userImage,
+            })
+          );
+        }
       }
       setIsLoading(false);
     };

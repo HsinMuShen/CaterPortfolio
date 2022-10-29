@@ -12,7 +12,8 @@ import {
 import { portfolioInitialSetup } from "../../action/PortfolioReducerAction";
 
 import firebase from "../../utilis/firebase";
-import InitialImg from "../../utilis/cater.png";
+import InitialImg from "../../images/cater.png";
+import useAlertCalling from "../../components/useAlertCalling";
 
 const Wrapper = styled.div`
   display: flex;
@@ -99,6 +100,7 @@ const InitialSetup = ({
     window.localStorage.getItem("portfolioListIndex")
   );
   const dispatch = useDispatch();
+  const { startAlert } = useAlertCalling();
 
   const setPortfolioMainImage = async (file: File) => {
     setIsLargeLoading(true);
@@ -171,6 +173,10 @@ const InitialSetup = ({
                 type="file"
                 id="postImage"
                 onChange={(e) => {
+                  if (e.target.files![0].type.indexOf("image") == -1) {
+                    startAlert("上傳檔案格式錯誤，請重新選擇圖片上傳");
+                    return;
+                  }
                   setPortfolioMainImage(e.target.files![0]);
                 }}
               />

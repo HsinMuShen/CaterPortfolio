@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
+import { useSelector } from "react-redux";
 import {
   collection,
   DocumentData,
@@ -14,8 +15,9 @@ import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 
 import Pin from "./Pin";
-import { useSelector } from "react-redux";
+
 import { RootState } from "../../reducers";
+import useAlertCalling from "../../components/useAlertCalling";
 
 const Wrapper = styled.div`
   display: flex;
@@ -88,6 +90,7 @@ const Homepage = () => {
   const { homepageList } = useSelector(
     (state: RootState) => state.IsPreviewReducer
   );
+  const { startAlert } = useAlertCalling();
 
   const firestoreSearching = async (key: string) => {
     const postArr: DocumentData[] = [];
@@ -103,7 +106,12 @@ const Homepage = () => {
   const searchData = async () => {
     const nameArr = await firestoreSearching("name");
     const titleArr = await firestoreSearching("title");
-    setPortfolioArr([...nameArr, ...titleArr]);
+    console.log(nameArr, titleArr);
+    if (nameArr.length === 0 && titleArr.length === 0) {
+      startAlert("查無結果，請確保作者或作品名稱與輸入完全一致");
+    } else {
+      setPortfolioArr([...nameArr, ...titleArr]);
+    }
     searchText.current = "";
   };
 
