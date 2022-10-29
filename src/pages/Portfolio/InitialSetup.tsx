@@ -12,7 +12,7 @@ import {
 import { portfolioInitialSetup } from "../../action/PortfolioReducerAction";
 
 import firebase from "../../utilis/firebase";
-import InitialImg from "../../utilis/cater.png";
+import InitialImg from "../../images/cater.png";
 import useAlertCalling from "../../components/useAlertCalling";
 
 const Wrapper = styled.div`

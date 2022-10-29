@@ -6,7 +6,7 @@ import { isPreviewReducer } from "../../reducers/IsPreviewContent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
-import LargeLoading from "../LargeLoading";
+import LargeLoading from "../usefulComponents/LargeLoading";
 import firebase from "../firebase";
 import useAlertCalling from "../../components/useAlertCalling";
 

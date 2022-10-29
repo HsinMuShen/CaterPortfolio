@@ -32,14 +32,16 @@ import {
 import { WebsiteComponents } from "./websiteComponents";
 
 import firebase from "../../utilis/firebase";
-import Loading from "../../utilis/Loading";
-import PreviewBtn from "../../utilis/PreviewBtn";
+import Loading from "../../utilis/usefulComponents/Loading";
+import PreviewBtn from "../../utilis/usefulComponents/PreviewBtn";
 import AddWebsiteCom from "./AddWebsiteCom";
 import Delete from "../Resume/Delete";
-import PopUp from "../../utilis/PopUp";
-import QusetionMark, { introSteps } from "../../utilis/QusetionMark";
+import PopUp from "../../utilis/usefulComponents/PopUp";
+import QusetionMark, {
+  introSteps,
+} from "../../utilis/usefulComponents/QusetionMark";
 import WebsiteInitialSetup from "./WebsiteInitialSetup";
-import LargeLoading from "../../utilis/LargeLoading";
+import LargeLoading from "../../utilis/usefulComponents/LargeLoading";
 import { websiteChoice } from "./websiteComponents";
 import useAlertCalling from "../../components/useAlertCalling";
 import {

@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleQuestion } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch } from "react-redux";
 
-import { isPreviewFalse } from "../action/IsPreviewReducerAction";
+import { isPreviewFalse } from "../../action/IsPreviewReducerAction";
 
 const QusetionMarkWrapper = styled.div`
   position: fixed;

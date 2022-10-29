@@ -6,7 +6,7 @@ import styled from "styled-components";
 import firebase from "../firebase";
 import { websiteComContent } from "../../pages/Website/Website";
 import { RootState } from "../../reducers";
-import LargeLoading from "../LargeLoading";
+import LargeLoading from "../usefulComponents/LargeLoading";
 
 const ImageLabel = styled.label`
   border: 1px solid;

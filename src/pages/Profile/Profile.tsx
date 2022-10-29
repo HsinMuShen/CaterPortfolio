@@ -13,9 +13,11 @@ import { isPreviewProfile } from "../../action/IsPreviewReducerAction";
 import { UserReducer } from "../../reducers";
 
 import firebase from "../../utilis/firebase";
-import QusetionMark, { introSteps } from "../../utilis/QusetionMark";
+import QusetionMark, {
+  introSteps,
+} from "../../utilis/usefulComponents/QusetionMark";
 import MemberIntro from "./MemberIntro";
-import LargeLoading from "../../utilis/LargeLoading";
+import LargeLoading from "../../utilis/usefulComponents/LargeLoading";
 import FollowingArea from "../Following/FollowingArea";
 import useAlertCalling from "../../components/useAlertCalling";
 

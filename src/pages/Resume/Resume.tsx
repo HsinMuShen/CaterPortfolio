@@ -27,13 +27,15 @@ import {
 import { isPreviewTrue } from "../../action/IsPreviewReducerAction";
 
 import firebase from "../../utilis/firebase";
-import Loading from "../../utilis/Loading";
-import LargeLoading from "../../utilis/LargeLoading";
-import PreviewBtn from "../../utilis/PreviewBtn";
+import Loading from "../../utilis/usefulComponents/Loading";
+import LargeLoading from "../../utilis/usefulComponents/LargeLoading";
+import PreviewBtn from "../../utilis/usefulComponents/PreviewBtn";
 import Delete from "./Delete";
 import AddComArea from "./AddComArea";
-import SideBar from "../../utilis/SideBar";
-import QusetionMark, { introSteps } from "../../utilis/QusetionMark";
+import SideBar from "../../utilis/usefulComponents/SideBar";
+import QusetionMark, {
+  introSteps,
+} from "../../utilis/usefulComponents/QusetionMark";
 import { resumeChoice } from "./resumeComponents";
 import { ResumeComponents } from "./resumeComponents";
 import useAlertCalling from "../../components/useAlertCalling";

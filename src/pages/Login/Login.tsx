@@ -80,11 +80,12 @@ const Input = styled.input`
   }
 `;
 
-const SubmitBtn = styled.button`
+const SubmitBtn = styled.button<{ backgroundColor: string; color: string }>`
   width: 480px;
   height: 35px;
   margin: 0 auto 20px;
-  background-color: #ffffff;
+  color: ${(props) => props.color};
+  background-color: ${(props) => props.backgroundColor};
   border-radius: 5px;
   font-size: 16px;
 
@@ -238,12 +239,23 @@ const Login = () => {
           />
         </SingleInputArea>
       </InputArea>
-      {activeItem === "signin" ? (
-        <SubmitBtn onClick={SubmitWithTest}>使用測試帳號一鍵登入</SubmitBtn>
-      ) : null}
-      <SubmitBtn onClick={onSubmit}>
+
+      <SubmitBtn
+        backgroundColor={"#ffffff"}
+        color={"#000000"}
+        onClick={onSubmit}
+      >
         {activeItem === "register" ? "註冊" : "登入"}
       </SubmitBtn>
+      {activeItem === "signin" ? (
+        <SubmitBtn
+          backgroundColor={"#555555"}
+          color={"#ffffff"}
+          onClick={SubmitWithTest}
+        >
+          使用測試帳號一鍵登入
+        </SubmitBtn>
+      ) : null}
     </LoginArea>
   );
 };
