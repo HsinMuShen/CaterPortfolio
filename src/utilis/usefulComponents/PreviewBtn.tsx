@@ -3,12 +3,12 @@ import { useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen, faEye } from "@fortawesome/free-solid-svg-icons";
 
-import { EditToggleButton } from "./styledExtending";
+import { EditToggleButton } from "../styledExtending";
 import {
   isPreviewResume,
   isPreviewWebsite,
   isPreviewPortfolio,
-} from "../action/IsPreviewReducerAction";
+} from "../../action/IsPreviewReducerAction";
 
 const PreviewBtn = ({ isPreview, id }: { isPreview: boolean; id: string }) => {
   const dispatch = useDispatch();

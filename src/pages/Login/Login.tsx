@@ -10,7 +10,6 @@ import {
 import { RootState } from "../../reducers";
 import { useSelector, useDispatch } from "react-redux";
 import { initialSetUserData } from "../../action/UserReducerAction";
-import { setAlert } from "../../action/IsPreviewReducerAction";
 import { useNavigate } from "react-router-dom";
 
 import firebase from "../../utilis/firebase";
@@ -81,13 +80,14 @@ const Input = styled.input`
   }
 `;
 
-const SubmitBtn = styled.button`
+const SubmitBtn = styled.button<{ backgroundColor: string; color: string }>`
   width: 480px;
   height: 35px;
   margin: 0 auto 20px;
-  background-color: #ffffff;
+  color: ${(props) => props.color};
+  background-color: ${(props) => props.backgroundColor};
   border-radius: 5px;
-  font-size: 18px;
+  font-size: 16px;
 
   cursor: pointer;
   &:hover {
@@ -157,6 +157,18 @@ const Login = () => {
     }
   };
 
+  const SubmitWithTest = () => {
+    signInWithEmailAndPassword(auth, "michael@gmail.com", "asdfgh").then(
+      (userCredential) => {
+        const user = userCredential.user;
+        startAlert("成功登入!");
+        const tempData = { ...userData };
+        tempData.userID = user.uid;
+        navigate("/");
+      }
+    );
+  };
+
   useEffect(() => {
     dispatch(initialSetUserData("email", "michael@gmail.com"));
     dispatch(initialSetUserData("password", "asdfgh"));
@@ -200,7 +212,6 @@ const Login = () => {
           <Label>電子信箱</Label>
           <Input
             type="text"
-            defaultValue={"michael@gmail.com"}
             onChange={(e) => {
               dispatch(initialSetUserData("email", e.target.value));
             }}
@@ -216,7 +227,6 @@ const Login = () => {
           <Label>密碼</Label>
           <Input
             type="password"
-            defaultValue={"asdfgh"}
             onChange={(e) => {
               dispatch(initialSetUserData("password", e.target.value));
             }}
@@ -229,9 +239,23 @@ const Login = () => {
           />
         </SingleInputArea>
       </InputArea>
-      <SubmitBtn onClick={onSubmit}>
+
+      <SubmitBtn
+        backgroundColor={"#ffffff"}
+        color={"#000000"}
+        onClick={onSubmit}
+      >
         {activeItem === "register" ? "註冊" : "登入"}
       </SubmitBtn>
+      {activeItem === "signin" ? (
+        <SubmitBtn
+          backgroundColor={"#555555"}
+          color={"#ffffff"}
+          onClick={SubmitWithTest}
+        >
+          使用測試帳號一鍵登入
+        </SubmitBtn>
+      ) : null}
     </LoginArea>
   );
 };

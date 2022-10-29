@@ -7,7 +7,7 @@ export const resumeTemplate0 = [
     id: v4(),
     comName: "TextAndImg0",
     text: [
-      '<h2>潘提耘</h2><p></p><ul><li><p><span style="color: #000000">德國出生，在澳洲蒙納許大學計算機科學畢業，現定居於台灣。</span></p></li><li><p><span style="color: #000000">畢業後從事工程師，專案經理到工程師主管，有8年資訊軟體產業經驗。</span></p></li><li><p><span style="color: #000000">曾參與國際知名品牌專案，於韓國、日本、新加坡等地出差，與當地團隊合作進行推廣活動。</span></p></li></ul>',
+      '<h2>姓名</h2><p></p><ul><li><p><span style="color: #000000">關於您的簡短介紹</span></p></li><li><p><span style="color: #000000">畢業後從事工程師，專案經理到工程師主管，有8年資訊軟體產業經驗。</span></p></li><li><p><span style="color: #000000">曾參與國際知名品牌專案，於韓國、日本、新加坡等地出差，與當地團隊合作進行推廣活動。</span></p></li></ul>',
     ],
     image: [userImg],
   },
@@ -98,7 +98,7 @@ export const resumeTemplate1 = [
   {
     comName: "Text0",
     text: [
-      '<h2 style="text-align: center">詹喻銘 Jason</h2><p style="text-align: center"><span style="color: rgb(0, 0, 0)">前端工程師，寫出良好的程式，對自己負責，也可以稍稍推動世界的邁進。</span></p>',
+      '<h2 style="text-align: center">姓名</h2><p style="text-align: center"><span style="color: rgb(0, 0, 0)">關於您的簡短介紹</span></p>',
     ],
     id: v4(),
     image: [],

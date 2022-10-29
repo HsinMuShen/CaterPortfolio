@@ -1,6 +1,6 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
-import LogoImg from "../images/caterportfolio_logo.png";
+import LogoImg from "../../images/caterportfolio_logo.png";
 
 const spin = keyframes`{
 	100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); }

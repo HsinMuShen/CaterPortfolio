@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleQuestion } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch } from "react-redux";
 
-import { isPreviewFalse } from "../action/IsPreviewReducerAction";
+import { isPreviewFalse } from "../../action/IsPreviewReducerAction";
 
 const QusetionMarkWrapper = styled.div`
   position: fixed;
@@ -126,12 +126,12 @@ export const introSteps: {
       placement: "bottom",
     },
     {
-      content: "點擊CaterPortfolio! 查看所有作品集!",
+      content: "點擊所有作品集! 查看所有作品集!",
       target: "#allPortfolios",
       placement: "bottom",
     },
     {
-      content: "點擊All Resumes! 查看所有履歷!",
+      content: "點擊所有履歷! 查看所有履歷!",
       target: "#allResumes",
       placement: "bottom",
     },
@@ -159,12 +159,12 @@ export const introSteps: {
       placement: "bottom",
     },
     {
-      content: "點擊CaterPortfolio! 查看所有作品集!",
+      content: "點擊所有作品集! 查看所有作品集!",
       target: "#allPortfolios",
       placement: "bottom",
     },
     {
-      content: "點擊All Resumes! 查看所有履歷!",
+      content: "點擊所有履歷! 查看所有履歷!",
       target: "#allResumes",
       placement: "bottom",
     },

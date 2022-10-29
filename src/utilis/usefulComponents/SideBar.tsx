@@ -5,16 +5,16 @@ import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 
-import { portfolioReducer } from "../reducers/PortfolioContent";
-import { resumeReducer } from "../reducers/ResumeContent";
-import { RootState } from "../reducers";
-import { userLoading } from "../action/UserReducerAction";
-import { resumeLoading } from "../action/ResumeReducerAction";
-import { portfolioLoading } from "../action/PortfolioReducerAction";
-import { setAlert } from "../action/IsPreviewReducerAction";
+import { portfolioReducer } from "../../reducers/PortfolioContent";
+import { resumeReducer } from "../../reducers/ResumeContent";
+import { RootState } from "../../reducers";
+import { userLoading } from "../../action/UserReducerAction";
+import { resumeLoading } from "../../action/ResumeReducerAction";
+import { portfolioLoading } from "../../action/PortfolioReducerAction";
+import { setAlert } from "../../action/IsPreviewReducerAction";
 
-import firebase from "./firebase";
-import useAlertCalling from "../components/useAlertCalling";
+import firebase from "../firebase";
+import useAlertCalling from "../../components/useAlertCalling";
 
 const SideBarArea = styled.div`
   position: fixed;
